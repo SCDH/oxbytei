@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Author mode action for setting @xml:lang of the current attribute.
+  The action lets the user select one from the languages registered in the
+  teiHeader/profileDesc/langUsage
+  If this element does not exist, the action is not active.
+-->
+
+<!-- Note: The Language Icon was designed by Onur Mustak Cobanli and is distributed 
+  by http://www.languageicon.org 
+  under terms of a CC license with a Relax-Attribution term. -->
+
+<a:authorAction xmlns:a="http://www.oxygenxml.com/ns/author/external-action"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.oxygenxml.com/ns/author/external-action http://www.oxygenxml.com/ns/author/external-action/authorAction.xsd"
+  id="select.language">
+  <a:name>Change language</a:name>
+  <a:description>Select a language for the current element.</a:description>
+  <a:largeIconPath href="${framework}/images/lang-24.png"/>
+  <a:operations>
+    <a:operation id="ChangeAttributeOperation">
+      <a:xpathCondition>root(self::*)/descendant::teiHeader/profileDesc/langUsage</a:xpathCondition>
+      <a:arguments>
+        <a:argument name="name">lang</a:argument>
+        <a:argument name="namespace">http://www.w3.org/XML/1998/namespace</a:argument>
+        <a:argument name="value"><![CDATA[${ask('Select language', combobox, (${xpath_eval(concat(string-join(for $lang in //*:teiHeader/*:profileDesc/*:langUsage/*:language return concat("'", $lang/@ident, "':'", normalize-space($lang), "'"), ';'), ";'':''"))}), '${xpath_eval(@xml:lang)}')}]]></a:argument>
+      </a:arguments>
+    </a:operation>
+  </a:operations>
+  <a:accessKey/>
+</a:authorAction>
