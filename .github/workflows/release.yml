@@ -1,0 +1,50 @@
+name: Create release and update the descriptor file
+on:
+  push:
+    tags:
+      - 'v\.[0-9]+\.[0-9]+\.[0-9]+.*'
+
+jobs:
+  deploy:
+    runs-on: maven:3.6-jdk-11
+    concurrency:
+      group: ${{ github.workflow }}-${{ github.ref }}
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: run maven
+        run: mvn package
+
+      - name: create release
+        uses: actions/create-release@v1
+        id: create_release
+        with:
+          draft: false
+          prerelease: false
+          tag_name: ${{ github.ref }}
+          release_name: ${{ github.ref }}
+          body_path: changeLog.md
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: upload framework package to release
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: target/scdh-oxygen-extension-${{ github.ref_name }}-package.zip
+          asset_name: scdh-oxygen-extension-${{ github.ref_name }}-package.zip
+          asset_content_type: application/zip
+
+      - name: create directory for github pages
+        run: mkdir -p public
+
+      - name: copy descriptor file
+        run: cp target/generated-resources/xml/xslt/pom.xml public/descriptor.xml
+
+      - name: Deploy descriptor file on Github pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./public
