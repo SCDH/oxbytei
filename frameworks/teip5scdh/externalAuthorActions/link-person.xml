@@ -5,7 +5,8 @@
   id="link.person">
   <a:name>Identify Person</a:name>
   <a:description>Link person to norm file.</a:description>
-  <a:largeIconPath href="${framework}/images/lang-24.png"/>
+  <a:largeIconPath href="${framework}/images/person-24.png"/>
+  <a:smallIconPath href="${framework}/images/person-16.png"/>
   <a:operations>
     <a:operation id="SurroundWithFragmentOperation">
       <a:xpathCondition>root(self::*)//descendant::encodingDesc/listPrefixDef/prefixDef[@ident eq 'psn' or @type eq 'person']</a:xpathCondition>
