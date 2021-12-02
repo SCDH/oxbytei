@@ -3,7 +3,9 @@
 An &lt;oXygen/> extension for the edition of the works of Ibn Nubata
 al Misri.
 
-## Installation
+## Package ##
+
+### Installation ###
 
 The framework can be installed with &lt;oXygen/>'s installation and
 update mechanism. Therefore, the following URL has to be entered into
@@ -18,7 +20,7 @@ installation or it can be installed for hacking.
 There must be some [customization](#customization) in the edition's
 &lt;oXygen/> project.
 
-## Packaging
+### Packaging locally ###
 
 Packaging is done with [`maven`](https://maven.apache.org/).
 
@@ -26,11 +28,12 @@ Packaging is done with [`maven`](https://maven.apache.org/).
 mvn package
 ```
 	
-This will create a `scdh-oxygen-extension-<VERSION>-package.zip` in
-the `target` folder. This zip-File is the same as the one distributed
-under the above mentioned URL.
+This will create a file named
+`scdh-oxygen-extension-<VERSION>-package.zip` in the `target`
+folder. This zip-File is the same as the one distributed under the
+above mentioned URL.
 
-## Hacking / Development ##
+### Hacking / Development ###
 
 Installing the framework as an &lt;oXygen/> package will make it
 read-only. For hacking on it's code you can install it by registering
@@ -49,7 +52,6 @@ the path to the cloned repository in &lt;oXygen/>'s settings.
   
 - 3) Close and restart &lt;oXygen/>. The framework is now present as an
   extension to the default TEI P5 framework.
-
 
 ## Unit Tests ##
 
@@ -84,6 +86,25 @@ export SAXON_CP=~/.m2/repository/net/sf/saxon/Saxon-HE/9.9.1-6/Saxon-HE-9.9.1-6.
 ```
 
 The test result is in `test/xspec/xspec/*-review.html`.
+
+### Releasing ###
+
+Releases of installable packages will be created with github actions
+on tags with a name matching the pattern
+`v\.[0-9]+\.[0-9]+\.[0-9]+(-.*)?`,
+i.e. `v<MAJOR>.<MINOR>.<BUGFIX>[-<SUFFIX>]`. To produce a release:
+
+- first push the branch to be released
+- then tag it with the tag name matching the above pattern
+
+This will produce a release on [releases/tag/<TAG_NAME>](releases/tag)
+and update the [descriptor
+file](https://scdh.github.io/scdh-oxygen-framework/descriptor.xml).
+
+NOTE: The tag name **must equal** the version name in the
+[pom.xml](pom.xml)!
+
+
 
 ## Customization ##
 
