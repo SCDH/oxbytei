@@ -22,13 +22,15 @@ There must be some [customization](#customization) in the edition's
 
 Packaging is done with [`maven`](https://maven.apache.org/).
 
-	$ mvn package
+```{shell}
+mvn package
+```
 	
 This will create a `scdh-oxygen-extension-<VERSION>-package.zip` in
 the `target` folder. This zip-File is the same as the one distributed
 under the above mentioned URL.
 
-## Hacking
+## Hacking / Development ##
 
 Installing the framework as an &lt;oXygen/> package will make it
 read-only. For hacking on it's code you can install it by registering
@@ -49,14 +51,16 @@ the path to the cloned repository in &lt;oXygen/>'s settings.
   extension to the default TEI P5 framework.
 
 
-## Unit Tests
+## Unit Tests ##
 
 There are unit tests for the XSL transformations based on
 [`XSpec`](https://github.com/xspec/xspec) in `test/xspec`. The tests
 can easily be run with maven from the root directory of the
 repository:
 
-	mvn test
+```{shell}
+mvn test
+```
 
 Maven will install all required packages for running the tests,
 e.g. `XSpec` and `Saxon-HE`. A detailed test report can be viewed with
@@ -65,7 +69,9 @@ the browser in `target/xspec-reports/index.html`.
 The test suite or single tests can also be run from the root of this
 repository with
 
-	<path-to/xspec.sh> -catalog catalog.xml test/xspec/*.xspec
+```{shell}
+<path-to/xspec.sh> -catalog catalog.xml test/xspec/*.xspec
+```
 
 This requires `XSpec` and `Saxon-HE` and the [XML
 Resolver](https://mvnrepository.com/artifact/xml-resolver/xml-resolver)
@@ -73,7 +79,9 @@ installed. Provided that you've run maven before and maven caches its
 downloads under the `~/.m2/repository` folder you can set an
 environment variable as follows:
 
-	export SAXON_CP=~/.m2/repository/net/sf/saxon/Saxon-HE/9.9.1-6/Saxon-HE-9.9.1-6.jar:~/.m2/repository/xml-resolver/xml-resolver/1.2/xml-resolver-1.2.jar
+```{shell}
+export SAXON_CP=~/.m2/repository/net/sf/saxon/Saxon-HE/9.9.1-6/Saxon-HE-9.9.1-6.jar:~/.m2/repository/xml-resolver/xml-resolver/1.2/xml-resolver-1.2.jar
+```
 
 The test result is in `test/xspec/xspec/*-review.html`.
 
@@ -211,4 +219,3 @@ an example:
     direction: ltr !important;
 }
 ```
-
