@@ -22,6 +22,10 @@
 		    An &lt;oXygen/&gt; author framework extending TEI P5,
 		    developed at SCDH, Westfälische Wilhelms-Universität
 		    Münster.
+
+		    Visit the <a
+		    href="https://github.com/scdh/scdh-oxygen-framework/releases/tag/{/project/version}">release
+		    notes</a> to see what's new.
 		</xt:description>
 		<xt:license>
 		    <xsl:value-of select="unparsed-text('../LICENSE')"/>
