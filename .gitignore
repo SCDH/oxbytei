@@ -1,0 +1,5 @@
+*~
+
+# ignore build artifacts
+target
+test/xspec/xspec
