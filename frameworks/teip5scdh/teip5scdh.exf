@@ -26,6 +26,7 @@ from the contextual menu.
       <toolbar>
         <separator/>
         <addAction id="select.language"/>
+        <addAction id="link.person"/>
       </toolbar>
 
     </toolbars>
