@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>de.wwu.scdh.oxygen.extension</groupId>
+    <artifactId>scdh-oxygen-extension</artifactId>
+    <version>1.0.1</version>
+    
+    <name>scdh-oxygen-extension</name>
+    <url>https://github.com/scdh/scdh-oxygen-extension</url>
+
+    <properties>
+	<saxon.version>10.2</saxon.version>
+    </properties>
+
+    <build>
+	<plugins>
+
+	    <!-- run XSpec unit tests -->
+	    <plugin>
+		<groupId>io.xspec.maven</groupId>
+		<artifactId>xspec-maven-plugin</artifactId>
+		<configuration>
+                    <!--coverage>true</coverage-->
+		    <generateSurefireReport>true</generateSurefireReport>
+		    <testDir>test/xspec</testDir>
+		    <catalogFile>${project.basedir}/catalog.xml</catalogFile>
+		</configuration>
+		<executions>
+                    <execution>
+			<phase>test</phase>
+			<goals>
+                            <goal>run-xspec</goal>
+			</goals>
+                    </execution>
+		</executions>
+		<dependencies>
+		    <dependency>
+			<groupId>net.sf.saxon</groupId>
+			<artifactId>Saxon-HE</artifactId>
+			<version>${saxon.version}</version>
+		    </dependency>
+		</dependencies>
+            </plugin>
+
+	    <!-- make framework package -->
+	    <plugin>
+		<artifactId>maven-assembly-plugin</artifactId>
+		<version>2.4</version>
+		<executions>
+		    <execution>
+			<id>make-assembly</id>
+			<phase>package</phase>
+			<goals>
+			    <goal>single</goal>
+			</goals>
+			<configuration>
+			    <archiveBaseDirectory>${project.basedir}</archiveBaseDirectory>
+			    <descriptors>
+				<descriptor>assembly.xml</descriptor>
+			    </descriptors>
+			</configuration>
+		    </execution>
+		</executions>
+	    </plugin>
+
+	    <!-- make a package descriptor using information from this pom.xml -->
+	    <plugin>
+		<groupId>org.codehaus.mojo</groupId>
+		<artifactId>xml-maven-plugin</artifactId>
+		<executions>
+		    <execution>
+			<goals>
+			    <goal>transform</goal>
+			</goals>
+		    </execution>
+		</executions>
+		<configuration>
+		    <transformationSets>
+			<transformationSet>
+			    <dir>.</dir>
+			    <includes>
+				<include>pom.xml</include>
+			    </includes>
+			    <stylesheet>pages/descriptor.xsl</stylesheet>
+			</transformationSet>
+		    </transformationSets>
+		</configuration>
+		<dependencies>
+		    <dependency>
+			<groupId>net.sf.saxon</groupId>
+			<artifactId>Saxon-HE</artifactId>
+			<version>${saxon.version}</version>
+		    </dependency>
+		</dependencies>
+	    </plugin>
+	    
+	</plugins>
+    </build>
+
+</project>
