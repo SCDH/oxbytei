@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<a:authorAction xmlns:a="http://www.oxygenxml.com/ns/author/external-action"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.oxygenxml.com/ns/author/external-action http://www.oxygenxml.com/ns/author/external-action/authorAction.xsd"
+  id="link.person">
+  <a:name>Identify Person</a:name>
+  <a:description>Link person to norm file.</a:description>
+  <a:largeIconPath href="${framework}/images/person-24.png"/>
+  <a:smallIconPath href="${framework}/images/person-16.png"/>
+  <a:operations>
+    <a:operation id="ChangeAttributeOperation">
+      <a:xpathCondition>(self::persName | self::person) and root(self::*)//descendant::encodingDesc/listPrefixDef/prefixDef[matches(@ident, '^(psn|prs|prsn|pers|person)$') or @corresp eq 'person']</a:xpathCondition>
+      <a:arguments>
+        <a:argument name="name">ref</a:argument>
+        <!--a:argument name="namespace">http://www.tei-c.org/ns/1.0</a:argument-->
+        <a:argument name="value"><![CDATA[${ask('Select a Person', combobox, (${xpath_eval(let $prefixDef := //*:teiHeader/*:encodingDesc/*:listPrefixDef/*:prefixDef[matches(@ident, '^(psn|prs|prsn|pers|person)$') or @corresp eq 'person'] return concat("'':'';", string-join(for $pers in doc(tokenize($prefixDef/@replacementPattern, '#')[1])//*:person return concat("'", $prefixDef/@ident,':', $pers/@xml:id, "':'", normalize-space(string-join(($pers/persName, $pers/birth), ', *')), "'"), ';')))}), '${xpath_eval(@ref)}')}]]></a:argument>
+      </a:arguments>
+    </a:operation>
+    <a:operation id="SurroundWithFragmentOperation">
+      <a:xpathCondition>root(self::*)//descendant::encodingDesc/listPrefixDef/prefixDef[matches(@ident, '^(psn|prs|prsn|pers|person)$') or @corresp eq 'person']</a:xpathCondition>
+      <a:arguments>
+        <a:argument name="fragment"><![CDATA[<persName xmlns="http://www.tei-c.org/ns/1.0" ref="${ask('Select a Person', combobox, (${xpath_eval(let $prefixDef := //*:teiHeader/*:encodingDesc/*:listPrefixDef/*:prefixDef[matches(@ident, '^(psn|prs|prsn|pers|person)$') or @corresp eq 'person'] return concat("'':'';", string-join(for $pers in doc(tokenize($prefixDef/@replacementPattern, '#')[1])//*:person return concat("'", $prefixDef/@ident,':', $pers/@xml:id, "':'", normalize-space(string-join(($pers/persName, $pers/birth), ', *')), "'"), ';')))}), '${xpath_eval(@ref)}')}"></persName>]]></a:argument>
+      </a:arguments>
+    </a:operation>
+  </a:operations>
+  <a:accessKey/>
+</a:authorAction>

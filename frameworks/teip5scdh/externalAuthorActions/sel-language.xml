@@ -16,6 +16,7 @@
   <a:name>Change language</a:name>
   <a:description>Select a language for the current element.</a:description>
   <a:largeIconPath href="${framework}/images/lang-24.png"/>
+  <a:smallIconPath href="${framework}/images/lang-16.png"/>
   <a:operations>
     <a:operation id="ChangeAttributeOperation">
       <a:xpathCondition>root(self::*)/descendant::teiHeader/profileDesc/langUsage</a:xpathCondition>
