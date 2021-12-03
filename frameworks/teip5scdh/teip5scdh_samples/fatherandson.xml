@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-model href="http://www.tei-c.org/release/xml/tei/custom/schema/relaxng/tei_all.rng" type="application/xml" schematypens="http://relaxng.org/ns/structure/1.0"?>
+<?xml-model href="http://www.tei-c.org/release/xml/tei/custom/schema/relaxng/tei_all.rng" type="application/xml"
+	schematypens="http://purl.oclc.org/dsdl/schematron"?>
+<TEI xmlns="http://www.tei-c.org/ns/1.0">
+   <teiHeader>
+      <fileDesc>
+         <titleStmt>
+            <title>Sample TEI document</title>
+         </titleStmt>
+         <publicationStmt>
+            <p>Shipped as a sample with a framework</p>
+         </publicationStmt>
+         <sourceDesc>
+            <p>borne again</p>
+         </sourceDesc>
+      </fileDesc>
+      <encodingDesc>
+         <listPrefixDef>
+            <prefixDef matchPattern="([a-zA-Z0-9_-]+)" replacementPattern="personography.xml#$1"
+               ident="psn"/>
+         </listPrefixDef>
+      </encodingDesc>
+   </teiHeader>
+   <text>
+      <body>
+         <p><persName ref="psn:FCSavigny">Savigny</persName> comes from Saviniacum, an aboriginal
+            hamlet in France, and has come over Germany like the Roman Law, says his most famous
+               <persName ref="psn:JGrimm">son</persName>.</p>
+      </body>
+   </text>
+</TEI>
