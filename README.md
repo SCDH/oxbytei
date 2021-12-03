@@ -1,7 +1,21 @@
 # SCDH &lt;oXygen/> Extension #
 
-An &lt;oXygen/> extension for the edition of the works of Ibn Nubata
-al Misri.
+![release](https://github.com/scdh/scdh-oxygen-extension/actions/workflows/release.yml/badge.svg)
+![tests](https://github.com/scdh/scdh-oxygen-extension/actions/workflows/test-main.yml/badge.svg)
+
+An &lt;oXygen/> extension with some high-level functions that
+facilitate everyday work on TEI documents.
+
+- set `@xml:lang` by selecting a language registered in the header
+- set `@ref` of `<persName>` etc. by selecting a person from a locally
+  stored personography that is bound to a local URI scheme defined by
+  `<prefixDef>`
+
+
+There should be some [customization](#customization) in the edition's
+&lt;oXygen/> project.
+
+
 
 ## Package ##
 
@@ -16,9 +30,6 @@ new addons...".
 
 As an alternative, the framework can be packaged locally for
 installation or it can be installed for hacking.
-
-There must be some [customization](#customization) in the edition's
-&lt;oXygen/> project.
 
 ### Packaging locally ###
 
@@ -169,7 +180,50 @@ You can redirect to an CSS file by redirecting the frameworkfile
 <systemSuffix systemIdSuffix="css/font.css" uri="css/font.css"/>
 ```
 
-### Project specific bibliography ###
+### Personography ###
+
+If there is a `<prefixDef>` in the header, which defines a URI scheme
+on the protocol `psn`, `pers`, `prs`, `prsn` or `person`, an author
+mode action ![icon](frameworks/teip5scdh/images/person-24.png) for
+selecting a person from a personography is activated. For example, put
+this in the header:
+
+```{xml}
+...
+<encodingDesc>
+	...
+	<listPrefixDef>
+		<prefixDef
+			matchPattern="([a-zA-Z0-9_-]+)"
+			replacementPattern="persons.xml#$1"
+			ident="psn"/>
+	</listPrefixDef>
+	...
+</encodingDesc>
+```
+
+If the linked file `persons.xml` is present, then all the persones
+listed there are presented in a selection dialog and a fragment like
+this is created:
+
+```{xml}
+<persName ref="psn:BadraddinbalAttar">Badraddīn</persName>
+```
+
+I strongly encourage providing a personography in a local file as a
+broker to global norm data on the WWW, instead of linking to triple
+stores on the WWW directly from the TEI documents. See [this
+discussion](https://listserv.brown.edu/cgi-bin/wa?A2=ind1711&L=TEI-L&D=0&P=43750)
+on the TEI mailing list on the subject. I also encourage defining URI
+schemes via
+[`<prefixDef>`](https://www.tei-c.org/release/doc/tei-p5-doc/de/html/ref-listPrefixDef.html),
+instead of linking to external elements by IDs directly. The prefix
+definition serves as an abstraction layer, makes everything explicit,
+and thus enables us to write generic tools and actions like
+[![icon](frameworks/teip5scdh/images/person-24.png)](frameworks/teip5scdh/externalAuthorActions/link-person.xml).
+
+
+### Bibliography ###
 
 You can redirect to a TEI document containing the project's
 bibliography. It will be used for producing and resolving
