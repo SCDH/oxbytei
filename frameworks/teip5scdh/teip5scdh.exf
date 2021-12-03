@@ -34,14 +34,16 @@ from the contextual menu.
     <contextualMenu>
       <submenu name="Other actions">
         <addAction id="select.language"/>
+        <addAction id="link.person"/>
       </submenu>
     </contextualMenu>
 
-    <!--contentCompletion>
+    <contentCompletion>
       <authorActions>
-        <addAction id="insert.note" replacedElement="note" inCCWindow="true"/> 
+        <addAction id="select.language" inElementsView="true" inCCWindow="true"/>
+        <addAction id="link.person" inElementsView="true" inCCWindow="true"/>
       </authorActions>
-    </contentCompletion-->
+    </contentCompletion>
 
   </author>
 
