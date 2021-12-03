@@ -28,8 +28,13 @@ from the contextual menu.
         <addAction id="select.language"/>
         <addAction id="link.person"/>
       </toolbar>
-
     </toolbars>
+
+    <menu>
+      <separator/>
+      <addAction id="select.language"/>
+      <addAction id="link.person"/>
+    </menu>
 
     <contextualMenu>
       <submenu name="Other actions">
