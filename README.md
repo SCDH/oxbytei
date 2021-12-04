@@ -64,9 +64,9 @@ the path to the cloned repository in &lt;oXygen/>'s settings.
 - 3) Close and restart &lt;oXygen/>. The framework is now present as an
   extension to the default TEI P5 framework.
 
-## Unit Tests ##
+## Regression Tests ##
 
-There are unit tests for the XSL transformations based on
+There are regression tests for the XSL transformations based on
 [`XSpec`](https://github.com/xspec/xspec) in `test/xspec`. The tests
 can easily be run with maven from the root directory of the
 repository:
@@ -79,24 +79,10 @@ Maven will install all required packages for running the tests,
 e.g. `XSpec` and `Saxon-HE`. A detailed test report can be viewed with
 the browser in `target/xspec-reports/index.html`.
 
-The test suite or single tests can also be run from the root of this
-repository with
+Note, that the tests need intermediate files to be generated in mavens
+`generate-resources` phase. If you want to run the tests manually,
+have a look at the pom-file to see what's needed.
 
-```{shell}
-<path-to/xspec.sh> -catalog catalog.xml test/xspec/*.xspec
-```
-
-This requires `XSpec` and `Saxon-HE` and the [XML
-Resolver](https://mvnrepository.com/artifact/xml-resolver/xml-resolver)
-installed. Provided that you've run maven before and maven caches its
-downloads under the `~/.m2/repository` folder you can set an
-environment variable as follows:
-
-```{shell}
-export SAXON_CP=~/.m2/repository/net/sf/saxon/Saxon-HE/9.9.1-6/Saxon-HE-9.9.1-6.jar:~/.m2/repository/xml-resolver/xml-resolver/1.2/xml-resolver-1.2.jar
-```
-
-The test result is in `test/xspec/xspec/*-review.html`.
 
 ### Releasing ###
 
