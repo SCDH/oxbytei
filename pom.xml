@@ -125,7 +125,7 @@
 			    <parameters>
 				<parameter>
 				    <name>match-conditions</name>
-				    <value>prefixDef</value>
+				    <value>p</value>
 				</parameter>
 			    </parameters>
 			</transformationSet>
