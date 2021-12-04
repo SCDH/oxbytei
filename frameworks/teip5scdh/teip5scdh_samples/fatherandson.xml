@@ -26,7 +26,7 @@
       <body>
          <p><persName ref="psn:FCSavigny">Savigny</persName> comes from Saviniacum, an aboriginal
             hamlet in France, and has come over Germany like the Roman Law, says his most famous
-               <persName ref="psn:JGrimm">son</persName>.</p>
+               <person>son</person>.</p>
       </body>
    </text>
 </TEI>
