@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- make a testable xsl stylesheet with the xpath expressions in an external author action -->
+<!-- make a testable xsl stylesheet with the xpath expressions from an external author action -->
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
     xmlns:xs="http://www.w3.org/2001/XMLSchema"
     xmlns:axsl="http://www.w3.org/1999/XSL/TransformAlias"
@@ -35,7 +35,7 @@
     <xsl:template match="text()[matches(., '\$\{xpath_eval')]">
         <xsl:variable name="n" select="count(preceding::text()[matches(., '\$\{xpath_eval')]) + 1"/>
         <xsl:variable name="match-condition" select="
-                let $cond := tokenize($match-conditions, '\|\|')[$n]
+                let $cond := normalize-space(tokenize($match-conditions, '\|\|')[$n])
                 return
                     if ($cond ne '') then
                         $cond
