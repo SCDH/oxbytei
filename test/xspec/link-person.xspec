@@ -46,4 +46,14 @@
 	</x:expect>
 </x:scenario>
 
+    <x:scenario label="Testing with input from empty.xml">
+	<x:context
+	    href="../../target/generated-resources/xml/xslt/empty.xml"/>
+	<x:expect
+	    label="no actions triggered"
+	    test="t:tests">
+	    <t:tests/>
+	</x:expect>
+    </x:scenario>
+
 </x:description>
