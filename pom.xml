@@ -5,7 +5,7 @@
 
     <groupId>de.wwu.scdh.oxygen.extension</groupId>
     <artifactId>scdh-oxygen-extension</artifactId>
-    <version>1.0.1</version>
+    <version>1.0.2</version>
     
     <name>scdh-oxygen-extension</name>
     <url>https://github.com/scdh/scdh-oxygen-extension</url>
