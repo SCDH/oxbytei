@@ -19,7 +19,7 @@
   <a:smallIconPath href="${framework}/images/lang-16.png"/>
   <a:operations>
     <a:operation id="ChangeAttributeOperation">
-      <a:xpathCondition>root(self::*)/descendant::teiHeader/profileDesc/langUsage</a:xpathCondition>
+      <a:xpathCondition>/descendant::teiHeader/profileDesc/langUsage</a:xpathCondition>
       <a:arguments>
         <a:argument name="name">lang</a:argument>
         <a:argument name="namespace">http://www.w3.org/XML/1998/namespace</a:argument>
