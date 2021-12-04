@@ -24,9 +24,9 @@
 	    <t:case></t:case>
 	</x:expect>
 	<x:expect
-	    label="performed ChangeAttributeOperation on persName"
+	    label="performed ChangeAttributeOperation on element X"
 	    test="normalize-space(t:tests/t:test[@class-type eq 'ChangeAttributeOperation'][1]/@case)"
-	    select="'p'">
+	    select="'langUsage'">
 	</x:expect>
 
     	<x:expect
@@ -37,8 +37,7 @@
     </x:scenario>
 
     <x:scenario
-	label="Testing with input from empty.xml"
-	pending="we currently do not test the xpath conditions of an action">
+	label="Testing with input from empty.xml">
 	<x:context
 	    href="../../target/generated-resources/xml/xslt/empty.xml"/>
 	<x:expect

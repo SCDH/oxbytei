@@ -122,12 +122,6 @@
 				    <targetExtension>.test.xsl</targetExtension>
 				</fileMapper>
 			    </fileMappers>
-			    <parameters>
-				<parameter>
-				    <name>match-conditions</name>
-				    <value>p</value>
-				</parameter>
-			    </parameters>
 			</transformationSet>
 			<transformationSet>
 			    <!-- copy test cases to the same folder -->
