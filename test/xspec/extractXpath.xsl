@@ -11,9 +11,10 @@
     <xsl:output method="xml" indent="yes"/>
 
     <!-- A list of xpath expressions used as match conditions for the tests.
-        Separated by double pipe, i.e. '||'.
+        Separated by double pipe, i.e. '||'. If a position is empty, the
+        xpathCondition of the operation is used instead.
         Example value for link-person: 'persName|person||prefixDef' -->
-    <xsl:param name="match-conditions" as="xs:string" required="yes"/>
+    <xsl:param name="match-conditions" as="xs:string" select="''" required="no"/>
 
     <xsl:mode on-no-match="shallow-skip"/>
 
@@ -33,7 +34,13 @@
     <!-- extract the contents of ${xpath_eval(...)} -->
     <xsl:template match="text()[matches(., '\$\{xpath_eval')]">
         <xsl:variable name="n" select="count(preceding::text()[matches(., '\$\{xpath_eval')]) + 1"/>
-        <xsl:variable name="match-condition" select="tokenize($match-conditions, '\|\|')[$n]"/>
+        <xsl:variable name="match-condition" select="
+                let $cond := tokenize($match-conditions, '\|\|')[$n]
+                return
+                    if ($cond ne '') then
+                        $cond
+                    else
+                        ancestor::a:operation/a:xpathCondition"/>
         <axsl:template match="{$match-condition}">
             <test class-number="{$n}" class-type="{ancestor::a:operation/@id}"
                 class-match="{$match-condition}">
