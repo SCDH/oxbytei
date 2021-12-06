@@ -1,9 +1,12 @@
 # Change log #
 
+## v1.0.5 ##
+
+- fixed descriptor file
+
 ## v1.0.4 ##
 
 - renamed framework to oXbytei
-
 
 ## v1.0.3 ##
 
