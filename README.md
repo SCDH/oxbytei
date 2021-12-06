@@ -46,6 +46,8 @@ the form *Show addons from:* of the dialogue box from ***Help** ->
 
 [https://scdh.zivgitlabpages.uni-muenster.de/tei-processing/oxbytei/descriptor.xml](https://scdh.zivgitlabpages.uni-muenster.de/tei-processing/oxbytei/descriptor.xml)
 
+![Dialog "Install new addons"](images/install.png)
+
 
 As an alternative, the framework can be packaged locally for
 installation or it can be installed for hacking.
