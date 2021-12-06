@@ -18,6 +18,10 @@
 	    <includes>
 		<include>**/*</include>
 	    </includes>
+	    <excludes>
+		<exclude>**/*.xcf</exclude>
+		<exclude>**/mk-icons.sh</exclude>
+	    </excludes>
 	</fileSet>
     </fileSets>
     
