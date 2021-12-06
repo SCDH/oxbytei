@@ -173,8 +173,12 @@ this in the header:
 ```
 
 If the linked file `persons.xml` is present, then all the persones
-listed there are presented in a selection dialog and a fragment like
-this is created:
+found in `<listPerson>` elements are presented in a selection
+dialog. If the caret (pointer) is on a `<persName>` or `<person>`
+element, the `@ref` attribute is updated by your selection (and
+deleted if you choose the empty name). If the caret is not in such a
+context, an empty fragment or a surrounding fragment like this is
+created:
 
 ```{xml}
 <persName ref="psn:BadraddinbalAttar">Badraddīn</persName>
