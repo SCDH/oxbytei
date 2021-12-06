@@ -12,19 +12,21 @@
 	<xt:extensions 
 	    xsi:schemaLocation="http://www.oxygenxml.com/ns/extension http://www.oxygenxml.com/ns/extension/extensions.xsd">
 	    <xt:extension id="{/project/artifactId}">
-		<xt:location href="https://github.com/scdh/scdh-oxygen-framework/releases/tag/{/project/version}/{/project/artifactId}-{/project/version}-package.zip"/>
+		<!---xt:location href="https://github.com/scdh/oxbytei/releases/tag/{/project/version}/{/project/artifactId}-{/project/version}-package.zip"/-->
+		<xt:location href="https://scdh.zivgitlabpages.uni-muenster.de/tei-processing/oxbytei/{/project/artifactId}-{/project/version}-package.zip"/>
 		<xt:version><xsl:value-of select="/project/version"/></xt:version>
 		<xt:oxy_version>23+</xt:oxy_version>
 		<xt:type>framework</xt:type>
 		<xt:author>Christian Lück</xt:author>
-		<xt:name>TEI P5 - SCDH-Extension</xt:name>
+		<xt:name>oXbytei</xt:name>
 		<xt:description xmlns="http://www.w3.org/1999/xhtml">
 		    An &lt;oXygen/&gt; author framework extending TEI P5,
 		    developed at SCDH, Westfälische Wilhelms-Universität
-		    Münster.
+		    Münster. It is configured by the TEI's header and
+		    offers high level functions.
 
 		    Visit the <a
-		    href="https://github.com/scdh/scdh-oxygen-framework/releases/tag/{/project/version}">release
+		    href="https://github.com/scdh/oxbytei/releases/tag/{/project/version}">release
 		    notes</a> to see what's new.
 		</xt:description>
 		<xt:license>
