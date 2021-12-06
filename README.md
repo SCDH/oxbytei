@@ -18,10 +18,25 @@ documents.
   the header by
   [`<prefixDef>`](https://www.tei-c.org/release/doc/tei-p5-doc/de/html/ref-listPrefixDef.html)
 
+on the road map:
+
+- places
+- bibliography
+- (index)
+- metre of lyrics
+- critical apparatus
+
+
+Note: Yes, there have been some little assumptions that have poured
+into this framework and blur its generality, e.g. assumptions about
+sensible URI schemes for certain purposes, like `psn` or `pers` for
+persons. But these are endangered animals that will become extinct as
+soon as oXygen allows [parametrized
+frameworks](https://www.oxygenxml.com/forum/topic23764.html).
 
 See the section [Usage and Customization](#usage-and-customization)
 for how to write TEI and setup your project in order to make use of
-these functions.
+the framework's features.
 
 
 
