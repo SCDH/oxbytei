@@ -3,16 +3,16 @@
     xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>de.wwu.scdh.oxygen.extension</groupId>
-    <artifactId>scdh-oxygen-extension</artifactId>
+    <groupId>de.wwu.scdh.oxbytei</groupId>
+    <artifactId>oxbytei</artifactId>
     <version>1.0.3</version>
     
-    <name>scdh-oxygen-extension</name>
-    <url>https://github.com/scdh/scdh-oxygen-extension</url>
+    <name>oxbytei</name>
+    <url>https://github.com/scdh/oxbytei</url>
 
     <properties>
 	<saxon.version>9.9.1-6</saxon.version>
-	<framework.dir>${project.basedir}/frameworks/teip5scdh</framework.dir>
+	<framework.dir>${project.basedir}/frameworks/oxbytei</framework.dir>
 	<test.dir>${project.basedir}/test/xspec</test.dir>
 	<testing.xsl.dir>${project.build.directory}/generated-resources/xml/xslt/</testing.xsl.dir>
     </properties>
@@ -125,7 +125,7 @@
 			</transformationSet>
 			<transformationSet>
 			    <!-- copy test cases to the same folder -->
-			    <dir>${framework.dir}/teip5scdh_samples</dir>
+			    <dir>${framework.dir}/oxbytei_samples</dir>
 			    <includes>
 				<include>personography.xml</include>
 				<include>fatherandson.xml</include>

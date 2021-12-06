@@ -10,9 +10,9 @@ from the contextual menu.
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://www.oxygenxml.com/ns/framework/extend http://www.oxygenxml.com/ns/framework/extend/frameworkExtensionScript.xsd"
   base="TEI P5">
-  <name>SCDH oXygen extension</name>
-  <description>This extension offers frequently needed high-level functions for editing TEI P5 documents.</description>
-  <priority>High</priority>
+  <name>oXbytei</name>
+  <description>This framework for editing TEI is configured by the TEI header.</description>
+  <priority>Normal</priority>
 
   <author>
     <!-- 

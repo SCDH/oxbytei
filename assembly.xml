@@ -10,7 +10,7 @@
     
     <fileSets>
 	<fileSet>
-	    <directory>frameworks/teip5scdh</directory>
+	    <directory>frameworks/oxbytei</directory>
 	    <outputDirectory>/</outputDirectory>
 	    <includes>
 		<include>**/*</include>
