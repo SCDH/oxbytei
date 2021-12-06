@@ -1,5 +1,10 @@
 # Change log #
 
+## v1.0.4 ##
+
+- renamed framework to oXbytei
+
+
 ## v1.0.3 ##
 
 - added regression testing to sel.language author mode action
