@@ -12,7 +12,7 @@
 
     <properties>
 	<saxon.version>9.9.1-6</saxon.version>
-	<framework.dir>${project.basedir}/frameworks/teip5scdh</framework.dir>
+	<framework.dir>${project.basedir}/frameworks/oxbytei</framework.dir>
 	<test.dir>${project.basedir}/test/xspec</test.dir>
 	<testing.xsl.dir>${project.build.directory}/generated-resources/xml/xslt/</testing.xsl.dir>
     </properties>
@@ -125,7 +125,7 @@
 			</transformationSet>
 			<transformationSet>
 			    <!-- copy test cases to the same folder -->
-			    <dir>${framework.dir}/teip5scdh_samples</dir>
+			    <dir>${framework.dir}/oxbytei_samples</dir>
 			    <includes>
 				<include>personography.xml</include>
 				<include>fatherandson.xml</include>
