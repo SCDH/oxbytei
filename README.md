@@ -1,18 +1,25 @@
-# SCDH &lt;oXygen/> Extension #
+# oXbytei #
 
+<!--
 ![release](https://github.com/scdh/scdh-oxygen-extension/actions/workflows/release.yml/badge.svg)
 ![tests](https://github.com/scdh/scdh-oxygen-extension/actions/workflows/test-main.yml/badge.svg)
+-->
 
-An &lt;oXygen/> extension with some high-level functions that
-facilitate everyday work on TEI documents.
 
-- set `@xml:lang` by selecting a language registered in the header
+oXbytei [ɔx bʌtaj] (greco-english tongue and french ears) is an oXygen
+framework for editing TEI, that is configured by TEI's header. It
+offers high-level functions that facilitate everyday work on TEI
+documents.
+
+- set `@xml:lang` by selecting a language registered in the header by
+  [`langUsage`](https://www.tei-c.org/release/doc/tei-p5-doc/de/html/ref-langUsage.html)
 - set `@ref` of `<persName>` etc. by selecting a person from a locally
-  stored personography that is bound to a local URI scheme defined by
-  `<prefixDef>`
+  stored personography that is bound to a local URI scheme defined in
+  the header by
+  [`<prefixDef>`](https://www.tei-c.org/release/doc/tei-p5-doc/de/html/ref-listPrefixDef.html)
 
 
-There should be some [customization](#customization) in the edition's
+There should be some [customization](#customization) in your
 &lt;oXygen/> project.
 
 
@@ -21,17 +28,29 @@ There should be some [customization](#customization) in the edition's
 
 ### Installation ###
 
+It requires oXygen >= 23.1, because it makes use of an [extension
+script](https://www.oxygenxml.com/doc/versions/23.1/ug-editor/topics/framework-customization-script.html)
+for framework configuration. (You can generate an old-school
+dot-framework file with the *Compile Framework Extension script* as
+described in the
+[documentation](https://www.oxygenxml.com/doc/versions/23.1/ug-editor/topics/framework-customization-script.html).)
+
 The framework can be installed with &lt;oXygen/>'s installation and
 update mechanism. Therefore, the following URL has to be entered into
-the form "Show addons from:" of the dialogue box from "Help" -> "Install
-new addons...".
+the form *Show addons from:* of the dialogue box from ***Help** ->
+**Install new addons**...*.
 
-[https://scdh.github.io/scdh-oxygen-framework/descriptor.xml](https://scdh.github.io/scdh-oxygen-framework/descriptor.xml)
+<!--
+[https://scdh.github.io/oxbytei/descriptor.xml](https://scdh.github.io/oXbytei/descriptor.xml)
+-->
+
+[https://scdh.zivgitlabpages.uni-muenster.de/tei-processing/oXbytei/descriptor.xml](https://scdh.zivgitlabpages.uni-muenster.de/tei-processing/oXbytei/descriptor.xml)
+
 
 As an alternative, the framework can be packaged locally for
 installation or it can be installed for hacking.
 
-### Packaging locally ###
+#### Packaging locally ####
 
 Packaging is done with [`maven`](https://maven.apache.org/).
 
@@ -39,24 +58,23 @@ Packaging is done with [`maven`](https://maven.apache.org/).
 mvn package
 ```
 	
-This will create a file named
-`scdh-oxygen-extension-<VERSION>-package.zip` in the `target`
-folder. This zip-File is the same as the one distributed under the
-above mentioned URL.
+This will create a file named `oXbytei-<VERSION>-package.zip` in the
+`target` folder. This zip-File is the same as the one distributed
+under the above mentioned URL.
 
-### Hacking / Development ###
+#### Hacking / Development ####
 
 Installing the framework as an &lt;oXygen/> package will make it
 read-only. For hacking on it's code you can install it by registering
 the path to the cloned repository in &lt;oXygen/>'s settings.
 
 - 1) Clone this repository into a subfolder of an &lt;oXygen/>
-  project, e.g. `teip5scdh`. (It may also be sym-linked there.)
+  project, e.g. `oXbytei`. (It may also be sym-linked there.)
 
 - 2) Start &lt;oXygen/> and select `Options` -> `Preferences` from the
   menu. Expand `Document Type Association` on the left and select
   `Locations [P]` under it. Click `Add` to add a new additional
-  framework directory.  Enter `${pdu}/teip5scdh` as directory and click
+  framework directory.  Enter `${pdu}/oXbytei` as directory and click
   `OK`. (Note: `${pdu}` is an [editor
   variable](https://www.oxygenxml.com/doc/versions/22.1/ug-editor/topics/editor-variables.html)
   and points to the root folder of the current project.
@@ -64,9 +82,9 @@ the path to the cloned repository in &lt;oXygen/>'s settings.
 - 3) Close and restart &lt;oXygen/>. The framework is now present as an
   extension to the default TEI P5 framework.
 
-## Unit Tests ##
+### Regression Tests ###
 
-There are unit tests for the XSL transformations based on
+There are regression tests based on
 [`XSpec`](https://github.com/xspec/xspec) in `test/xspec`. The tests
 can easily be run with maven from the root directory of the
 repository:
@@ -79,24 +97,10 @@ Maven will install all required packages for running the tests,
 e.g. `XSpec` and `Saxon-HE`. A detailed test report can be viewed with
 the browser in `target/xspec-reports/index.html`.
 
-The test suite or single tests can also be run from the root of this
-repository with
+Note, that the tests need intermediate files to be generated in mavens
+`generate-resources` phase. If you want to run the tests using saxon,
+have a look at the pom-file to see what's needed.
 
-```{shell}
-<path-to/xspec.sh> -catalog catalog.xml test/xspec/*.xspec
-```
-
-This requires `XSpec` and `Saxon-HE` and the [XML
-Resolver](https://mvnrepository.com/artifact/xml-resolver/xml-resolver)
-installed. Provided that you've run maven before and maven caches its
-downloads under the `~/.m2/repository` folder you can set an
-environment variable as follows:
-
-```{shell}
-export SAXON_CP=~/.m2/repository/net/sf/saxon/Saxon-HE/9.9.1-6/Saxon-HE-9.9.1-6.jar:~/.m2/repository/xml-resolver/xml-resolver/1.2/xml-resolver-1.2.jar
-```
-
-The test result is in `test/xspec/xspec/*-review.html`.
 
 ### Releasing ###
 
@@ -117,74 +121,17 @@ NOTE: The tag name **must equal** the version name in the
 
 
 
-## Customization ##
-
-The framework can and should be adapted to your project's needs by
-customization. Customization includes:
-
-- redirect to a bibliography through an [XML
-  catalog](https://www.oxygenxml.com/doc/versions/23.1/ug-editor/topics/using-XML-Catalogs.html#using-XML-Catalogs)
-- redirect to a catalog of witnesses through an XML catalog 
-- redirect to local CSS with font definitions etc. through an XML
-  catalog
-- register the [XML
-  catalog](https://www.oxygenxml.com/doc/versions/23.1/ug-editor/topics/preferences-xml-catalog.html#preferences-xml-catalog),
-  e.g. put the catalog file into `resources/catalog.xml` and add
-  `${pdu}/resources/catalog.xml` to the list of catalogs for your
-  project (check "Project Options")
-- insert a taxonomy of named objects (plants, animals, etc.) into the
-  `<encodingDesc>` of each TEI documents header (by means of XInclude)
-- also insert a taxonomy of segment types in there
-
+## Usage and Customization ##
 
 Take a look at the folder
-[`frameworks/teip5scdh/samples`](frameworks/teip5scdh/samples) for
-sample resources, especially at the XML catalog. Without
-customization, the files from this folder are used.
-
-# Features and Usage #
-
-## Project specific files ##
-
-The framework does not make assumptions about your project's file
-names and paths. But for some functions, it needs access to central
-project files. An
-[XML-catalog](https://www.oxygenxml.com/doc/versions/23.1/ug-editor/topics/using-XML-Catalogs.html?hl=xml%2Ccatalog)
-can be used for redirecting from some dummy sample files, that ship
-with the framework, to your project files.
-
-You should add an XML-catalog to your project. If the catalog would
-e.g. live in `resources/catalog.xml` of your project, then you should
-[register](https://www.oxygenxml.com/doc/versions/23.1/ug-editor/topics/preferences-xml-catalog.html#preferences-xml-catalog)
-the catalog in `${pdu}/resources/catalog.xml` in &lt;oXygen>. Please,
-have a look at
-[`samples/catalog.xml`](framework/teip5scdh/samples/catalog.xml) for a
-sample catalog file.
-
-Please note: All the framework files are included in subdirectories of
-the framework `teip5scdh`. But when the framework is installed, the
-directory name changes to a combination of its name and version. So we
-cannot simply use paths like `teip5scdh/css/font.css` in the URI or
-system suffix, but have to use the less distinct path suffix
-`css/font.css`.
-
-### Project specific CSS ###
-
-You can redirect to an CSS file by redirecting the frameworkfile
-`css/font.css` as you need. Here's a catalog entry to redirect to
-`resources/css/font.css` in your project:
-
-```{xml}
-<!-- override CSS (font) definitions of framework -->
-<uriSuffix uriSuffix="css/font.css" uri="css/font.css"/>
-<systemSuffix systemIdSuffix="css/font.css" uri="css/font.css"/>
-```
+[`frameworks/oXbytei/oXbytei_samples`](frameworks/oXbytei/oXbytei_samples)
+for sample resources, especially at the XML catalog.
 
 ### Personography ###
 
 If there is a `<prefixDef>` in the header, which defines a URI scheme
 on the protocol `psn`, `pers`, `prs`, `prsn` or `person`, an author
-mode action ![icon](frameworks/teip5scdh/images/person-24.png) for
+mode action ![icon](frameworks/oXbytei/images/person-24.png) for
 selecting a person from a personography is activated. For example, put
 this in the header:
 
@@ -220,24 +167,10 @@ schemes via
 instead of linking to external elements by IDs directly. The prefix
 definition serves as an abstraction layer, makes everything explicit,
 and thus enables us to write generic tools and actions like
-[![icon](frameworks/teip5scdh/images/person-24.png)](frameworks/teip5scdh/externalAuthorActions/link-person.xml).
+[![icon](frameworks/oXbytei/images/person-24.png)](frameworks/oXbytei/externalAuthorActions/link-person.xml).
 
 
-### Bibliography ###
-
-You can redirect to a TEI document containing the project's
-bibliography. It will be used for producing and resolving
-bibliographic references with some functions of this framework. The
-framework ships with a dummy bibliography in
-`samples/biblio.xml`. Here's a catalog entry to redirect to
-`Literaturverzeichnis.xml` in your project's root directory:
-
-```{xml}
-<systemSuffix systemIdSuffix="samples/biblio.xml" uri="../Literaturverzeichnis.xml"/>
-<uriSuffix uriSuffix="samples/biblio.xml" uri="../Literaturverzeichnis.xml"/>
-```
-
-## Language and script direction ##
+### Language and script direction ###
 
 According to the [TEI
 guidelines](https://www.tei-c.org/release/doc/tei-p5-doc/de/html/WD.html#WDWM),
@@ -263,7 +196,7 @@ by selecting a language from the list of languages in the header.
 
 - `Change language` author mode action 
   - is available in the Toolbar:
-	![languageicon](frameworks/teip5scdh/images/lang-24.png) (Note:
+	![languageicon](frameworks/oXbytei/images/lang-24.png) (Note:
 	The icon was desigend by Onur Mustak Cobanli an is distributed on
 	[http://languageicon.org/](http://languageicon.org/) by under a CC
 	licence with Relax-Attribution term.)

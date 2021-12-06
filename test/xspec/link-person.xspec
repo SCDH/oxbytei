@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- Regression tests for link-person.xml -->
+
+<x:description
+    xmlns:x="http://www.jenitennison.com/xslt/xspec"
+    xmlns:ht="http://www.w3.org/1999/xhtml"
+    xmlns:t="http://test.it"
+    xmlns:tei="http://www.tei-c.org/ns/1.0"
+    xmlns:scdh="http://scdh.wwu.de/oxygen#ALEA"
+    stylesheet="../../target/generated-resources/xml/xslt/link-person.test.xsl">
+
+    <x:scenario label="Testing with input from fatherandson.xml">
+	<x:context
+	    href="../../target/generated-resources/xml/xslt/fatherandson.xml"/>
+	<x:expect
+	    label="persons present on ChangeAttributeOperation"
+	    test="t:tests/t:test[@class-type eq 'ChangeAttributeOperation'][1]/t:case[1]">
+	    <t:case>'':'';'psn:FCSavigny':'Friedrich Carl von Savigny , *1779';'psn:Puchta':'Georg Friedrich Puchta , *1798';'psn:JGrimm':'Jacob Grimm , *1785'</t:case>
+	</x:expect>
+	<x:expect
+	    label="existing value present on ChangeAttributeOperation"
+	    test="t:tests/t:test[@class-type eq 'ChangeAttributeOperation'][1]/t:case[2]">
+	    <t:case>psn:FCSavigny</t:case>
+	</x:expect>
+	<x:expect
+	    label="performed ChangeAttributeOperation on persName"
+	    test="normalize-space(t:tests/t:test[@class-type eq 'ChangeAttributeOperation'][1]/@case)"
+	    select="'persName'">
+	</x:expect>
+
+    	<x:expect
+	    label="persons present on SurroundWithFragmentOperation"
+	    test="t:tests/t:test[@class-type eq 'ChangeAttributeOperation'][1]/t:case[1]">
+	    <t:case>'':'';'psn:FCSavigny':'Friedrich Carl von Savigny , *1779';'psn:Puchta':'Georg Friedrich Puchta , *1798';'psn:JGrimm':'Jacob Grimm , *1785'</t:case>
+	</x:expect>
+	<x:expect
+	    label="no value present on SurroundWithFragmentOperation"
+	    test="t:tests/t:test[@class-type eq 'SurroundWithFragmentOperation'][1]/t:case[2]">
+	    <t:case></t:case>
+	</x:expect>
+	<x:expect
+	    label="performed ChangeAttributeOperation on persName"
+	    test="normalize-space(t:tests/t:test[@class-type eq 'SurroundWithFragmentOperation'][1]/@case)"
+	    select="'prefixDef'">
+	</x:expect>
+</x:scenario>
+
+    <x:scenario label="Testing with input from empty.xml">
+	<x:context
+	    href="../../target/generated-resources/xml/xslt/empty.xml"/>
+	<x:expect
+	    label="no actions triggered"
+	    test="t:tests">
+	    <t:tests/>
+	</x:expect>
+    </x:scenario>
+
+</x:description>
