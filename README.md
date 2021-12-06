@@ -27,14 +27,13 @@ these functions.
 
 ## Package ##
 
-### Installation ###
+### Requirements ###
 
-It requires oXygen >= 23.1, because it makes use of an [extension
+oXbytei requires oXygen >= 23.1, because it makes use of an [extension
 script](https://www.oxygenxml.com/doc/versions/23.1/ug-editor/topics/framework-customization-script.html)
-for framework configuration. (You can generate an old-school
-dot-framework file with the *Compile Framework Extension script* as
-described in the
-[documentation](https://www.oxygenxml.com/doc/versions/23.1/ug-editor/topics/framework-customization-script.html).)
+for framework configuration.
+
+### Installation ###
 
 The framework can be installed with &lt;oXygen/>'s installation and
 update mechanism. Therefore, the following URL has to be entered into
@@ -62,6 +61,12 @@ mvn package
 This will create a file named `oXbytei-<VERSION>-package.zip` in the
 `target` folder. This zip-File is the same as the one distributed
 under the above mentioned URL.
+
+In order to use oXbytei with older versions of oXygen, you can
+generate an old-school dot-framework file from the extension script
+using the *Compile Framework Extension script* as described in the
+[documentation](https://www.oxygenxml.com/doc/versions/23.1/ug-editor/topics/framework-customization-script.html)
+and then use local packaging.
 
 #### Hacking / Development ####
 
