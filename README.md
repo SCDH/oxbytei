@@ -19,21 +19,21 @@ documents.
   [`<prefixDef>`](https://www.tei-c.org/release/doc/tei-p5-doc/de/html/ref-listPrefixDef.html)
 
 
-There should be some [customization](#customization) in your
-&lt;oXygen/> project.
+See the section [Usage and Customization](#usage-and-customization)
+for how to write TEI and setup your project in order to make use of
+these functions.
 
 
 
 ## Package ##
 
-### Installation ###
+### Requirements ###
 
-It requires oXygen >= 23.1, because it makes use of an [extension
+oXbytei requires oXygen >= 23.1, because it makes use of an [extension
 script](https://www.oxygenxml.com/doc/versions/23.1/ug-editor/topics/framework-customization-script.html)
-for framework configuration. (You can generate an old-school
-dot-framework file with the *Compile Framework Extension script* as
-described in the
-[documentation](https://www.oxygenxml.com/doc/versions/23.1/ug-editor/topics/framework-customization-script.html).)
+for framework configuration.
+
+### Installation ###
 
 The framework can be installed with &lt;oXygen/>'s installation and
 update mechanism. Therefore, the following URL has to be entered into
@@ -41,10 +41,12 @@ the form *Show addons from:* of the dialogue box from ***Help** ->
 **Install new addons**...*.
 
 <!--
-[https://scdh.github.io/oxbytei/descriptor.xml](https://scdh.github.io/oXbytei/descriptor.xml)
+[https://scdh.github.io/oxbytei/descriptor.xml](https://scdh.github.io/oxbytei/descriptor.xml)
 -->
 
-[https://scdh.zivgitlabpages.uni-muenster.de/tei-processing/oXbytei/descriptor.xml](https://scdh.zivgitlabpages.uni-muenster.de/tei-processing/oXbytei/descriptor.xml)
+[https://scdh.zivgitlabpages.uni-muenster.de/tei-processing/oxbytei/descriptor.xml](https://scdh.zivgitlabpages.uni-muenster.de/tei-processing/oxbytei/descriptor.xml)
+
+![Dialog "Install new addons"](images/install.png)
 
 
 As an alternative, the framework can be packaged locally for
@@ -62,6 +64,12 @@ This will create a file named `oXbytei-<VERSION>-package.zip` in the
 `target` folder. This zip-File is the same as the one distributed
 under the above mentioned URL.
 
+In order to use oXbytei with older versions of oXygen, you can
+generate an old-school dot-framework file from the extension script
+using the *Compile Framework Extension script* as described in the
+[documentation](https://www.oxygenxml.com/doc/versions/23.1/ug-editor/topics/framework-customization-script.html)
+and then use local packaging.
+
 #### Hacking / Development ####
 
 Installing the framework as an &lt;oXygen/> package will make it
@@ -74,7 +82,7 @@ the path to the cloned repository in &lt;oXygen/>'s settings.
 - 2) Start &lt;oXygen/> and select `Options` -> `Preferences` from the
   menu. Expand `Document Type Association` on the left and select
   `Locations [P]` under it. Click `Add` to add a new additional
-  framework directory.  Enter `${pdu}/oXbytei` as directory and click
+  framework directory.  Enter `${pdu}/oxbytei` as directory and click
   `OK`. (Note: `${pdu}` is an [editor
   variable](https://www.oxygenxml.com/doc/versions/22.1/ug-editor/topics/editor-variables.html)
   and points to the root folder of the current project.
@@ -124,14 +132,14 @@ NOTE: The tag name **must equal** the version name in the
 ## Usage and Customization ##
 
 Take a look at the folder
-[`frameworks/oXbytei/oXbytei_samples`](frameworks/oXbytei/oXbytei_samples)
+[`frameworks/oxbytei/oxbytei_samples`](frameworks/oxbytei/oxbytei_samples)
 for sample resources, especially at the XML catalog.
 
 ### Personography ###
 
 If there is a `<prefixDef>` in the header, which defines a URI scheme
 on the protocol `psn`, `pers`, `prs`, `prsn` or `person`, an author
-mode action ![icon](frameworks/oXbytei/images/person-24.png) for
+mode action ![icon](frameworks/oxbytei/images/person-24.png) for
 selecting a person from a personography is activated. For example, put
 this in the header:
 
@@ -167,7 +175,7 @@ schemes via
 instead of linking to external elements by IDs directly. The prefix
 definition serves as an abstraction layer, makes everything explicit,
 and thus enables us to write generic tools and actions like
-[![icon](frameworks/oXbytei/images/person-24.png)](frameworks/oXbytei/externalAuthorActions/link-person.xml).
+[![icon](frameworks/oxbytei/images/person-24.png)](frameworks/oxbytei/externalAuthorActions/link-person.xml).
 
 
 ### Language and script direction ###
@@ -196,7 +204,7 @@ by selecting a language from the list of languages in the header.
 
 - `Change language` author mode action 
   - is available in the Toolbar:
-	![languageicon](frameworks/oXbytei/images/lang-24.png) (Note:
+	![languageicon](frameworks/oxbytei/images/lang-24.png) (Note:
 	The icon was desigend by Onur Mustak Cobanli an is distributed on
 	[http://languageicon.org/](http://languageicon.org/) by under a CC
 	licence with Relax-Attribution term.)

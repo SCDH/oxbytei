@@ -5,7 +5,7 @@
 
     <groupId>de.wwu.scdh.oxbytei</groupId>
     <artifactId>oxbytei</artifactId>
-    <version>1.0.4</version>
+    <version>1.0.6</version>
     
     <name>oxbytei</name>
     <url>https://github.com/scdh/oxbytei</url>
@@ -125,7 +125,7 @@
 			</transformationSet>
 			<transformationSet>
 			    <!-- copy test cases to the same folder -->
-			    <dir>${framework.dir}/oxbytei_samples</dir>
+			    <dir>${framework.dir}/samples</dir>
 			    <includes>
 				<include>personography.xml</include>
 				<include>fatherandson.xml</include>

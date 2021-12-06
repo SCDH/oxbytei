@@ -15,7 +15,7 @@
 		<!---xt:location href="https://github.com/scdh/oxbytei/releases/tag/{/project/version}/{/project/artifactId}-{/project/version}-package.zip"/-->
 		<xt:location href="https://scdh.zivgitlabpages.uni-muenster.de/tei-processing/oxbytei/{/project/artifactId}-{/project/version}-package.zip"/>
 		<xt:version><xsl:value-of select="/project/version"/></xt:version>
-		<xt:oxy_version>23+</xt:oxy_version>
+		<xt:oxy_version>23.1+</xt:oxy_version>
 		<xt:type>framework</xt:type>
 		<xt:author>Christian Lück</xt:author>
 		<xt:name>oXbytei</xt:name>
@@ -25,9 +25,9 @@
 		    Münster. It is configured by the TEI's header and
 		    offers high level functions.
 
-		    Visit the <a
-		    href="https://github.com/scdh/oxbytei/releases/tag/{/project/version}">release
-		    notes</a> to see what's new.
+		    Visit
+		    https://github.com/scdh/oxbytei/releases/tag/{/project/version}
+		    to see what's new.
 		</xt:description>
 		<xt:license>
 		    <xsl:value-of select="unparsed-text('../LICENSE')"/>
