@@ -132,7 +132,7 @@ NOTE: The tag name **must equal** the version name in the
 ## Usage and Customization ##
 
 Take a look at the folder
-[`frameworks/oxbytei/oxbytei_samples`](frameworks/oxbytei/oxbytei_samples)
+[`frameworks/oxbytei/samples`](frameworks/oxbytei/samples)
 for sample resources, especially at the XML catalog.
 
 ### Personography ###
