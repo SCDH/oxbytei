@@ -3,12 +3,12 @@
     xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>de.wwu.scdh.oxygen.extension</groupId>
-    <artifactId>scdh-oxygen-extension</artifactId>
+    <groupId>de.wwu.scdh.oxbytei</groupId>
+    <artifactId>oxbytei</artifactId>
     <version>1.0.3</version>
     
-    <name>scdh-oxygen-extension</name>
-    <url>https://github.com/scdh/scdh-oxygen-extension</url>
+    <name>oxbytei</name>
+    <url>https://github.com/scdh/oxbytei</url>
 
     <properties>
 	<saxon.version>9.9.1-6</saxon.version>
