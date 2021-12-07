@@ -27,7 +27,7 @@ on the road map:
 - critical apparatus
 
 
-Note: Yes, there have been some little assumptions that have poured
+Note: Yes, there are some little assumptions that have poured
 into this framework and blur its generality, e.g. assumptions about
 sensible URI schemes for certain purposes, like `psn` or `pers` for
 persons. But these are endangered animals that will become extinct as
