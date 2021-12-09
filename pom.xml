@@ -36,6 +36,11 @@
     </dependencies>
 
     <build>
+
+	<!-- We want a jar file without version number, because that's
+	     easier to pack into the framework zip. -->
+	<finalName>${artifactId}</finalName>
+
 	<plugins>
 
 	    <!-- run XSpec regression tests -->
