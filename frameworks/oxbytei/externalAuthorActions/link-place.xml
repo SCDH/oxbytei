@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<a:authorAction xmlns:a="http://www.oxygenxml.com/ns/author/external-action"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.oxygenxml.com/ns/author/external-action http://www.oxygenxml.com/ns/author/external-action/authorAction.xsd"
+  id="link.place">
+  <a:name>Identify Place</a:name>
+  <a:description>Link place to norm file.</a:description>
+  <a:operations>
+    <a:operation id="de.wwu.scdh.oxbytei.PrefixURIChangeAttributeOperation">
+      <a:xpathCondition>self::placeName and /descendant::listPrefixDef/prefixDef[matches(@ident, '^(pl|plc|plac)')]</a:xpathCondition>
+      <a:arguments>
+        <a:argument name="attribute">ref</a:argument>
+        <a:argument name="prefix">plc</a:argument>
+        <a:argument name="prefixLocalVariable">oxbyteiPlacePrefix</a:argument>
+        <a:argument name="location">self::placeName</a:argument>
+      </a:arguments>
+    </a:operation>
+  </a:operations>
+  <a:accessKey/>
+</a:authorAction>
