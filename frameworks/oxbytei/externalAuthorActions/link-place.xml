@@ -15,6 +15,13 @@
         <a:argument name="location">self::placeName</a:argument>
       </a:arguments>
     </a:operation>
+    <a:operation id="ExecuteMultipleActionsOperation">
+      <a:xpathCondition>/descendant::listPrefixDef/prefixDef[matches(@ident, '^(pl|plc|plac)')]</a:xpathCondition>
+      <a:arguments>
+        <!-- This is a RECURSIVE operation! -->
+        <a:argument name="actionIDs">markup.place, link.place</a:argument>
+      </a:arguments>
+    </a:operation>
   </a:operations>
   <a:accessKey/>
 </a:authorAction>
