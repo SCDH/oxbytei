@@ -10,6 +10,7 @@ import ro.sync.ecss.extensions.api.node.AuthorElement;
 import ro.sync.ecss.extensions.api.node.AuthorNode;
 
 import de.wwu.scdh.oxbytei.commons.OperationArgumentValidator;
+import de.wwu.scdh.oxbytei.commons.PrefixDef;
 
 import javax.swing.text.BadLocationException;
 
@@ -87,7 +88,34 @@ public class PrefixURIChangeAttributeOperation
 	String attributeName = OperationArgumentValidator.validateStringArgument(ARGUMENT_ATTRIBUTE, args);
 	String prefix = OperationArgumentValidator.validateStringArgument(ARGUMENT_PREFIX, args);
 	String location = OperationArgumentValidator.validateStringArgument(ARGUMENT_LOCATION, args);
+
 	//String prefixLocal = OperationArgumentValidator.validateStringArgument(ARGUMENT_PREFIX_LOCAL, args);
+
+	// Get prefixDef elements from current document
+	AuthorNode[] prefixNodes;
+	String xpathToPrefixDef = "//*:prefixDef[matches(@ident, '" + prefix + "')]";
+	try {
+	    prefixNodes = authorAccess.getDocumentController().findNodesByXPath(xpathToPrefixDef, true, true, true);
+	}
+	catch (AuthorOperationException e) {
+	    // this may be thrown by findNodesByXPath
+	    throw new AuthorOperationException("prefixDef with @ident='" + prefix + "not found\n\n" + e);
+	}
+
+	System.err.println(xpathToPrefixDef);
+	System.err.println(prefixNodes.length);
+
+	// store the prefixDef elements into a PrefixDef array
+	PrefixDef[] prefixDefs = new PrefixDef[prefixNodes.length];
+	int i;
+	for (i = 0; i < prefixNodes.length; i++) {
+	    prefixDefs[i] = new PrefixDef((AuthorElement)prefixNodes[i]);
+	    System.err.println("prefixDef: "
+			       + prefixDefs[i].getIdent() + " "
+			       + prefixDefs[i].getReplacementPattern() + " "
+			       + prefixDefs[i].getMatchPattern() + "\n");
+	}
+
 
 	String xpathFromSelection = "self::*";
 
