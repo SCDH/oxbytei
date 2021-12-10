@@ -70,24 +70,9 @@ public class SelectionItemsXMLReader {
 
     private void getInputStream() throws DocumentReaderException {
 	try {
-	    // Wenn es sich um eine URL mit Authentifizierung handelt, ..
-	    if (this.url.indexOf('@')>-1) {
-		// .. werden die Verbindungsdaten gelesen ..
-		String authString = this.url.substring(this.url.indexOf("://")+3, this.url.indexOf('@'));
-		String webPage = this.url.substring(0, this.url.indexOf("://")+3)+this.url.substring(this.url.indexOf('@')+1);
-		byte[] authEncBytes = Base64.encodeBase64(authString.getBytes());
-		String authStringEnc = new String(authEncBytes);
-
-		// .. und eine Verbindung mit Login geöffnet.
-		URL url = new URL(webPage);
-		URLConnection urlConnection = url.openConnection();
-		urlConnection.setRequestProperty("Authorization", "Basic " + authStringEnc);
-		this.inputStream = urlConnection.getInputStream();
-	    } else {
-		// Im anderen Fall wird direkt eine Verbindung geöffnet.
-		URL url = new URL(this.url);
-		URLConnection urlConnection = url.openConnection();
-		this.inputStream = urlConnection.getInputStream();
+	    URL url = new URL(this.url);
+	    URLConnection urlConnection = url.openConnection();
+	    this.inputStream = urlConnection.getInputStream();
 	    }
 	} catch (MalformedURLException e) {
 	    throw new DocumentReaderException(e);
@@ -151,7 +136,7 @@ public class SelectionItemsXMLReader {
 	    // Die Resultate werden ausgelesen..
 	    //Object result = expr.evaluate(indexDoc, XPathConstants.NODESET);
 	    Object result = xpath.evaluate(this.selectionXPath, indexDoc, XPathConstants.NODESET);
-	    itemNodes = (NodeList) result;
+	    this.itemNodes = (NodeList) result;
 	} catch (ParserConfigurationException e) {
 	    throw new DocumentReaderException(e);
 	} catch (SAXException e) {
