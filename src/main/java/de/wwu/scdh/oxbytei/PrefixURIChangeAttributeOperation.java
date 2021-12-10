@@ -86,24 +86,37 @@ public class PrefixURIChangeAttributeOperation
 	// Validate arguments
 	String attributeName = OperationArgumentValidator.validateStringArgument(ARGUMENT_ATTRIBUTE, args);
 	String prefix = OperationArgumentValidator.validateStringArgument(ARGUMENT_PREFIX, args);
+	String location = OperationArgumentValidator.validateStringArgument(ARGUMENT_LOCATION, args);
 	//String prefixLocal = OperationArgumentValidator.validateStringArgument(ARGUMENT_PREFIX_LOCAL, args);
 
 	String xpathFromSelection = "self::*";
 
-	String selectedId = "some";
+	String selectedId = "somewhere_out_there";
 	
 
 	if (!(selectedId == "")) {
 	    try {
 		int selStart = authorAccess.getEditorAccess().getSelectionStart();
 		AuthorNode selNode = authorAccess.getDocumentController().getNodeAtOffset(selStart);
-		AuthorElement selElement = (AuthorElement) (authorAccess.getDocumentController().findNodesByXPath((String) xpathFromSelection, selNode, false, true, true, false))[0];
+		AuthorElement selElement = (AuthorElement) (authorAccess.getDocumentController().findNodesByXPath((String) location, selNode, false, true, true, false))[0];
 		
 		String newAttributeVal = prefix + ":" + selectedId;
 		authorAccess.getDocumentController().setAttribute(attributeName,
 								  new AttrValue(newAttributeVal),
 								  selElement);
-	    } catch (BadLocationException e) {} // ???
+	    }
+	    catch (BadLocationException e) {
+		// ???
+	    }
+	    catch (IndexOutOfBoundsException e) {
+		// This occurs, when the XPath of the 'location'
+		// argument does not return an elemnt. Then the
+		// accessing the first element of the array returned
+		// by findNodesByXPath, [0], fails.
+		throw new AuthorOperationException("An error occured\n"
+						   + "Please check the XPath expression given as `location`!\n\n"
+						   + e);
+	    }
 	};
     }
     
