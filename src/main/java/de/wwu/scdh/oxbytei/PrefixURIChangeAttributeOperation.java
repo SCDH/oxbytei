@@ -6,6 +6,10 @@
  */
 package de.wwu.scdh.oxbytei;
 
+import java.io.InputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.net.MalformedURLException;
 import java.awt.Frame;
 import javax.swing.text.BadLocationException;
 
@@ -23,8 +27,10 @@ import org.bbaw.telota.ediarum.InsertRegisterDialog;
 
 import de.wwu.scdh.teilsp.exceptions.DocumentReaderException;
 import de.wwu.scdh.teilsp.completion.PrefixDef;
+import de.wwu.scdh.teilsp.completion.LabelledEntry;
 import de.wwu.scdh.teilsp.completion.SelectionItemsXMLReader;
 import de.wwu.scdh.oxbytei.commons.OperationArgumentValidator;
+import de.wwu.scdh.oxbytei.commons.OpenFileOrURL;
 
 
 public class PrefixURIChangeAttributeOperation
@@ -200,7 +206,7 @@ public class PrefixURIChangeAttributeOperation
 	// store the prefixDef elements into a PrefixDef array
 	final int l = prefixNodes.length;
 	PrefixDef[] prefixDefs = new PrefixDef[l];
-	SelectionItemsXMLReader[] items = new SelectionItemsXMLReader[l];
+	LabelledEntry[][] items = new LabelledEntry[l][];
 	int total = 0; // counter for total number of selection items
 	for (i = 0; i < l; i++) {
 	    prefixDefs[i] = new PrefixDef((AuthorElement)prefixNodes[i]);
@@ -209,23 +215,38 @@ public class PrefixURIChangeAttributeOperation
 			       + prefixDefs[i].getReplacementPattern() + " "
 			       + prefixDefs[i].getMatchPattern() + "\n");
 	    try {
-		items[i] = new SelectionItemsXMLReader(prefixDefs[i], selection, key, label, namespace);
-		total += items[i].getLength();
+		InputStream input = new OpenFileOrURL(prefixDefs[i], authorAccess).open();
+		items[i] = new SelectionItemsXMLReader(prefixDefs[i], input, selection, key, label, namespace).getEntries();
+		total += items[i].length;
 	    } catch (DocumentReaderException e) {
+		throw new AuthorOperationException("Failed to read from URI given in "
+						   + prefixDefs[i].getReplacementPattern()
+						   + "\n\n" + e);
+	    } catch (FileNotFoundException e) {
+		throw new AuthorOperationException("Failed to read from URI given in "
+						   + prefixDefs[i].getReplacementPattern()
+						   + "\n\n" + e);
+	    } catch (SecurityException e) {
+		throw new AuthorOperationException("Failed to read from URI given in "
+						   + prefixDefs[i].getReplacementPattern()
+						   + "\n\n" + e);
+	    } catch (IOException e) {
 		throw new AuthorOperationException("Failed to read from URI given in "
 						   + prefixDefs[i].getReplacementPattern()
 						   + "\n\n" + e);
 	    }
 	}
 
+	System.err.println("total: " + total);
+
 	// get all keys and labels into one array
 	String[] keys = new String[total];
 	String[] labels = new String[total];
 	k = 0; // counts to total
 	for (i = 0; i < l; i++) {
-	    for (j = 0; j < items[j].getLength(); j++) {
-		keys[k] = items[i].getEntries()[j].getKey();
-		labels[k] = items[i].getEntries()[j].getLabel();
+	    for (j = 0; j < items[i].length; j++) {
+		keys[k] = items[i][j].getKey();
+		labels[k] = items[i][j].getLabel();
 		k++;
 	    }
 	}
