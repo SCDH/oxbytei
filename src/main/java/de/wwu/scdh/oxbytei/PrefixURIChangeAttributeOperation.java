@@ -16,7 +16,7 @@ import ro.sync.ecss.extensions.api.node.AuthorElement;
 import ro.sync.ecss.extensions.api.node.AuthorNode;
 
 import de.wwu.scdh.oxbytei.commons.OperationArgumentValidator;
-import de.wwu.scdh.oxbytei.commons.PrefixDef;
+import de.wwu.scdh.teilsp.completion.PrefixDef;
 
 import javax.swing.text.BadLocationException;
 
