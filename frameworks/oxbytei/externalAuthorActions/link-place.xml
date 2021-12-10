@@ -10,7 +10,7 @@
       <a:xpathCondition>self::placeName and /descendant::listPrefixDef/prefixDef[matches(@ident, '^(pl|plc|plac)')]</a:xpathCondition>
       <a:arguments>
         <a:argument name="attribute">ref</a:argument>
-        <a:argument name="prefix">plc</a:argument>
+        <a:argument name="prefix">(plc|plc|plac)</a:argument>
         <a:argument name="prefixLocalVariable">oxbyteiPlacePrefix</a:argument>
         <a:argument name="location">self::placeName</a:argument>
       </a:arguments>
