@@ -6,9 +6,10 @@ images/*.xcf
 .classpath
 .project
 .settings
+.factorypath
 
 # symlink to jar file for development
-frameworks/oxbytei/oxbytei.jar
+frameworks/oxbytei/*.jar
 
 # ignore build artifacts
 target
