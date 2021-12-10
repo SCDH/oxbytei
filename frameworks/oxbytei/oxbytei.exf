@@ -51,6 +51,8 @@ from the contextual menu.
       <authorActions>
         <addAction id="select.language" inElementsView="true" inCCWindow="true"/>
         <addAction id="link.person" inElementsView="true" inCCWindow="true"/>
+        <!-- testing -->
+        <addAction id="link.place" inElementsView="true" inCCWindow="true"/>
       </authorActions>
     </contentCompletion>
 
