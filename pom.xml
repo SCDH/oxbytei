@@ -33,11 +33,18 @@
 	    <artifactId>oxygen</artifactId>
 	    <version>24.0.0.0</version>
 	</dependency>
-	<!-- https://mvnrepository.com/artifact/commons-codec/commons-codec -->
+	<!-- https://mvnrepository.com/artifact/com.googlecode.maven-download-plugin/download-maven-plugin -->
 	<dependency>
-	    <groupId>commons-codec</groupId>
-	    <artifactId>commons-codec</artifactId>
-	    <version>1.15</version>
+	    <groupId>com.googlecode.maven-download-plugin</groupId>
+	    <artifactId>download-maven-plugin</artifactId>
+	    <version>1.6.7</version>
+	</dependency>
+	<dependency>
+	    <groupId>org.bbaw.telota.ediarum</groupId>
+	    <artifactId>ediarum</artifactId>
+	    <version>3.1.0</version>
+	    <scope>system</scope>
+	    <systemPath>${project.build.directory}/ediarum.jar</systemPath>
 	</dependency>
     </dependencies>
 
@@ -48,6 +55,28 @@
 	<finalName>${artifactId}</finalName>
 
 	<plugins>
+
+	    <!-- download ediarum.jar -->
+	    <plugin>
+		<groupId>com.googlecode.maven-download-plugin</groupId>
+		<artifactId>download-maven-plugin</artifactId>
+		<version>1.6.7</version>
+		<executions>
+		    <execution>
+			<id>install-ediarum.jar</id>
+			<phase>generate-sources</phase>
+			<goals>
+			    <goal>wget</goal>
+			</goals>
+			<configuration>
+			    <url>https://github.com/ediarum/ediarum.JAR/blob/master/dist/ediarum.jar?raw=true</url>
+			    <outputDirectory>${project.build.directory}</outputDirectory>
+			    <outputFileName>ediarum.jar</outputFileName>
+			</configuration>
+		    </execution>
+		</executions>
+	    </plugin>
+
 
 	    <!-- run XSpec regression tests -->
 	    <plugin>
