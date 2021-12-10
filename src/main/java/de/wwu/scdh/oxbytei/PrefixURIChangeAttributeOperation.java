@@ -17,51 +17,58 @@ import javax.swing.text.BadLocationException;
 public class PrefixURIChangeAttributeOperation
     implements AuthorOperation {
 
-    private static final String ARGUMENT_ATTRIBUTE = "attribute";
-
-    private static final String ARGUMENT_PREFIX = "prefix";
-
-    private static final String ARGUMENT_PREFIX_LOCAL = "prefixLocalVariable";
-
-    private static final String ARGUMENT_LOCATION = "location";
-
-    private static final String ARGUMENT_LOCATION_LOCAL = "locationLocalVariable";
-
-    private static final String ARGUMENT_SELECTION = "selection";
-
-    private static final String ARGUMENT_SELECTION_LOCAL = "selectionLocalVariable";
-
-    private static final ArgumentDescriptor[] ARGUMENTS = new ArgumentDescriptor[] {
-	new ArgumentDescriptor(ARGUMENT_ATTRIBUTE,
+    private static final ArgumentDescriptor ARGUMENT_ATTRIBUTE =
+	new ArgumentDescriptor("attribute",
 			       ArgumentDescriptor.TYPE_STRING,
-			       "The attribute which the link goes into."),
-	new ArgumentDescriptor(ARGUMENT_PREFIX,
+			       "The attribute which the link goes into.");
+
+    private static final ArgumentDescriptor ARGUMENT_PREFIX =
+	new ArgumentDescriptor("prefix",
 			       ArgumentDescriptor.TYPE_STRING,
 			       "The prefix of the URI scheme given in prefixDef/@ident."
 			       + " This may be a regular expression, following the XPath flavour, e.g. ^(plc|place)."
-			       + " It must be present in your TEI document."),
-	new ArgumentDescriptor(ARGUMENT_PREFIX_LOCAL,
+			       + " It must be present in your TEI document.");
+
+    private static final ArgumentDescriptor ARGUMENT_PREFIX_LOCAL =
+	new ArgumentDescriptor("prefixLocalVariable",
 			       ArgumentDescriptor.TYPE_STRING,
 			       "The name of the editor variable for overwriting the 'prefix' argument."
-			       + " Default: 'oxbytei.uri.<PREFIX>.prefix'."),
-	new ArgumentDescriptor(ARGUMENT_LOCATION,
+			       + " Default: 'oxbytei.uri.<PREFIX>.prefix'.");
+
+    private static final ArgumentDescriptor ARGUMENT_LOCATION =
+	new ArgumentDescriptor("location",
 			       ArgumentDescriptor.TYPE_XPATH_EXPRESSION,
 			       "An XPath 2.0 locating the element on which the link is to be stored."
 			       + " Defaults to the current element context.",
-			       "self::*"),
-	new ArgumentDescriptor(ARGUMENT_LOCATION_LOCAL,
+			       "self::*");
+
+    private static final ArgumentDescriptor ARGUMENT_LOCATION_LOCAL =
+	new ArgumentDescriptor("locationLocalVariable",
 			       ArgumentDescriptor.TYPE_STRING,
 			       "The name of the editor variable for overwriting the 'location' argument."
-			       + " Default: 'oxbytei.uri.<PREFIX>.location'."),
-	new ArgumentDescriptor(ARGUMENT_SELECTION,
+			       + " Default: 'oxbytei.uri.<PREFIX>.location'.");
+
+    private static final ArgumentDescriptor ARGUMENT_SELECTION =
+	new ArgumentDescriptor("selection",
 			       ArgumentDescriptor.TYPE_XPATH_EXPRESSION,
 			       "The XPath expression to use for generating the labels of selection values."
 			       + " This should regard the structure of the referred TEI document.",
-			       "self::*"),
-	new ArgumentDescriptor(ARGUMENT_SELECTION_LOCAL,
+			       "self::*");
+
+    private static final ArgumentDescriptor ARGUMENT_SELECTION_LOCAL =
+	new ArgumentDescriptor("selectionLocalVariable",
 			       ArgumentDescriptor.TYPE_STRING,
 			       "The name of the editor variable for overwriting the 'selection' argument."
-			       + " Default: 'oxbytei.uri.<PREFIX>.selection'.")
+			       + " Default: 'oxbytei.uri.<PREFIX>.selection'.");
+
+    private static final ArgumentDescriptor[] ARGUMENTS = new ArgumentDescriptor[] {
+	ARGUMENT_ATTRIBUTE,
+	ARGUMENT_PREFIX,
+	ARGUMENT_PREFIX_LOCAL,
+	ARGUMENT_LOCATION,
+	ARGUMENT_LOCATION_LOCAL,
+	ARGUMENT_SELECTION,
+	ARGUMENT_SELECTION_LOCAL
     };
 
     /**
@@ -86,9 +93,9 @@ public class PrefixURIChangeAttributeOperation
 	throws AuthorOperationException, IllegalArgumentException {
 
 	// Validate arguments
-	String attributeName = OperationArgumentValidator.validateStringArgument(ARGUMENT_ATTRIBUTE, args);
-	String prefix = OperationArgumentValidator.validateStringArgument(ARGUMENT_PREFIX, args);
-	String location = OperationArgumentValidator.validateStringArgument(ARGUMENT_LOCATION, args);
+	String attributeName = OperationArgumentValidator.validateStringArgument(ARGUMENT_ATTRIBUTE.getName(), args);
+	String prefix = OperationArgumentValidator.validateStringArgument(ARGUMENT_PREFIX.getName(), args);
+	String location = OperationArgumentValidator.validateStringArgument(ARGUMENT_LOCATION.getName(), args);
 
 	//String prefixLocal = OperationArgumentValidator.validateStringArgument(ARGUMENT_PREFIX_LOCAL, args);
 
