@@ -32,11 +32,15 @@ public class SelectionItemsXMLReader {
 
     private LabelledEntry[] entries;
 
+    private String prefix;
+
     private String url;
 
     private String selectionXPath;
 
     private String labelXPath;
+
+    private String keyXPath;
 
     private String namespaceDecl;
 
@@ -44,18 +48,19 @@ public class SelectionItemsXMLReader {
 
     private NodeList itemNodes;
 
-    public SelectionItemsXMLReader(PrefixDef prefixDef, String selection, String label, String namespaces)
+    public SelectionItemsXMLReader(PrefixDef prefixDef, String selection, String key, String label, String namespaces)
 	throws DocumentReaderException {
 
 	try {
 	    // FIXME: make conform TEI's abstract definition
 	    this.url = prefixDef.getReplacementPattern().split("#\\$")[0];
-
+	    this.prefix = prefixDef.getIdent() + ":";
 	} catch (Exception e) {
 	    throw new DocumentReaderException(e);
 	}
 
 	this.selectionXPath = selection;
+	this.keyXPath = key;
 	this.labelXPath = label;
 	this.namespaceDecl = namespaces;
 
@@ -65,15 +70,18 @@ public class SelectionItemsXMLReader {
     }
 
     public LabelledEntry[] getEntries() {
-	return entries;
+	return this.entries;
+    }
+
+    public int getLength() {
+	return this.entries.length;
     }
 
     private void getInputStream() throws DocumentReaderException {
 	try {
-	    URL url = new URL(this.url);
-	    URLConnection urlConnection = url.openConnection();
+	    URL theURL = new URL(this.url);
+	    URLConnection urlConnection = theURL.openConnection();
 	    this.inputStream = urlConnection.getInputStream();
-	    }
 	} catch (MalformedURLException e) {
 	    throw new DocumentReaderException(e);
 	} catch (IOException e) {
@@ -149,6 +157,146 @@ public class SelectionItemsXMLReader {
     }
 
     private void read() throws DocumentReaderException {
+	this.entries = new LabelledEntry[this.itemNodes.getLength()];
 
+	String label, key;
+	XPath xpath = XPathFactory.newInstance().newXPath();
+	try {
+	    // Für jeden Knoten ..
+	    for (int i=0; i < this.itemNodes.getLength(); i++) {
+		Element currentElement = (Element) this.itemNodes.item(i);
+		// .. wird der Eintrag konstruiert.
+		label = "";
+		String currentEintrag = this.labelXPath;
+		// Falls im Ausdruck der Hinweis "$XPATH{..}" vorkommt, ..
+		int k = currentEintrag.indexOf("$XPATH{");
+		while (k>=0) {
+		    // .. wird der String davor als Text eingefügt, ..
+		    label += currentEintrag.substring(0, k);
+		    currentEintrag = currentEintrag.substring(k);
+		    int l = currentEintrag.indexOf("}");
+		    // .. und der Ausdruck selbst ausgewertet:
+		    String xpathExpression = currentEintrag.substring("$XPATH{".length(), l);
+		    // Jedes Glied kann entweder als Attribut, ..
+		    if (xpathExpression.startsWith("@")) {
+			String attributeName = xpathExpression.substring(1);
+			label += currentElement.getAttribute(attributeName);
+		    }
+		    // .. als nachkommendes Element ..
+		    if (xpathExpression.startsWith("//")) {
+			// .. (was direkt gelesen werden kann und schnell geht, ..
+			String elementName = xpathExpression.substring(2);
+			if (elementName.contains(":")) {
+			    elementName = elementName.substring(elementName.indexOf(":")+1);
+			}
+			if (currentElement.getElementsByTagName(elementName).getLength()>0){
+			    label += currentElement.getElementsByTagName(elementName).item(0).getTextContent();
+			} else {
+			    // .. oder welches über eine X-Path-Abfrage gelesen werden kann und lange dauert), ..
+			    XPathExpression queryExpr = xpath.compile("."+xpathExpression);
+			    NodeList elementNodes = (NodeList) queryExpr.evaluate(this.itemNodes.item(i), XPathConstants.NODESET);
+			    if (elementNodes.getLength()>0 && elementNodes.item(0).getNodeType() == Node.ELEMENT_NODE){
+				label += elementNodes.item(0).getTextContent();
+			    }
+			}
+			// .. als direktes Kindelement (was schnell geht) ..
+		    } else if (xpathExpression.startsWith("/")) {
+			String elementName = xpathExpression.substring(1);
+			if (elementName.contains(":")) {
+			    elementName = elementName.substring(elementName.indexOf(":")+1);
+			}
+			if (currentElement.getElementsByTagName(elementName).getLength()>0){
+			    label += currentElement.getElementsByTagName(elementName).item(0).getTextContent();
+			}
+		    }
+		    // .. oder als X-Path-Ausdruck (was sehr lange dauert) verstanden werden.
+		    if (xpathExpression.startsWith(".")) {
+			XPathExpression queryExpr = xpath.compile(xpathExpression);
+			System.out.println(xpathExpression);
+			NodeList elementNodes = (NodeList) queryExpr.evaluate(this.itemNodes.item(i), XPathConstants.NODESET);
+			System.out.println(":"+elementNodes.item(0).getTextContent()+":");
+			if (elementNodes.getLength()>0 && elementNodes.item(0).getNodeType() == Node.ELEMENT_NODE){
+			    label += elementNodes.item(0).getTextContent();
+			}
+		    }
+		    // Für X-Path-Ausdrücke mit Funktionen:
+		    if (xpathExpression.startsWith("#")) {
+			XPathExpression queryExpr = xpath.compile(xpathExpression.substring(1));
+			System.out.println(xpathExpression);
+			String elementString = (String) queryExpr.evaluate(this.itemNodes.item(i), XPathConstants.STRING);
+			System.out.println(":"+elementString+":");
+			label += elementString;
+		    }					// Der übrige Ausdruck wird danach ausgewertet.
+		    currentEintrag = currentEintrag.substring(l+1);
+		    k = currentEintrag.indexOf("$XPATH{");
+		};
+		// Falls "$XPATH[..]" nicht mehr auftaucht, wird der Rest angehängt.
+		label += currentEintrag;
+
+		// Genauso wird die ID konstruiert.
+		key = "";
+		String currentID = this.keyXPath;
+		// Falls im Ausdruck der Hinweis "$XPATH{..}" vorkommt, ..
+		k = currentID.indexOf("$XPATH{");
+		while (k>=0) {
+		    // .. wird der String davor als Text eingefügt, ..
+		    key += currentID.substring(0, k);
+		    currentID = currentID.substring(k);
+		    int l = currentID.indexOf("}");
+		    // .. und der Ausdruck selbst ausgewertet:
+		    String xpathExpression = currentID.substring("$XPATH{".length(), l);
+		    // Jedes Glied kann entweder als Attribut, ..
+		    if (xpathExpression.startsWith("@")) {
+			String attributeName = xpathExpression.substring(1);
+			key += currentElement.getAttribute(attributeName);
+		    }
+		    // .. als nachkommendes Element ..
+		    if (xpathExpression.startsWith("//")) {
+			// .. (was direkt gelesen werden kann und schnell geht, ..
+			String elementName = xpathExpression.substring(2);
+			if (elementName.contains(":")) {
+			    elementName = elementName.substring(elementName.indexOf(":")+1);
+			}
+			if (currentElement.getElementsByTagName(elementName).getLength()>0){
+			    key += currentElement.getElementsByTagName(elementName).item(0).getTextContent();
+			} else {
+			    // .. oder welches über eine X-Path-Abfrage gelesen werden kann und lange dauert), ..
+			    XPathExpression queryExpr = xpath.compile("."+xpathExpression);
+			    NodeList elementNodes = (NodeList) queryExpr.evaluate(this.itemNodes.item(i), XPathConstants.NODESET);
+			    if (elementNodes.getLength()>0 && elementNodes.item(0).getNodeType() == Node.ELEMENT_NODE){
+				key += elementNodes.item(0).getTextContent();
+			    }
+			}
+			// .. als direktes Kindelement (was schnell geht) ..
+		    } else if (xpathExpression.startsWith("/")) {
+			String elementName = xpathExpression.substring(1);
+			if (elementName.contains(":")) {
+			    elementName = elementName.substring(elementName.indexOf(":")+1);
+			}
+			if (currentElement.getElementsByTagName(elementName).getLength()>0){
+			    key += currentElement.getElementsByTagName(elementName).item(0).getTextContent();
+			}
+		    }
+		    // .. oder als X-Path-Ausdruck (was sehr lange dauert) verstanden werden.
+		    if (xpathExpression.startsWith(".")) {
+			XPathExpression queryExpr = xpath.compile(xpathExpression);
+			NodeList elementNodes = (NodeList) queryExpr.evaluate(this.itemNodes.item(i), XPathConstants.NODESET);
+			if (elementNodes.getLength()>0 && elementNodes.item(0).getNodeType() == Node.ELEMENT_NODE){
+			    key += elementNodes.item(0).getTextContent();
+			}
+		    }
+		    // Der übrige Ausdruck wird danach ausgewertet.
+		    currentID = currentID.substring(l+1);
+		    k = currentID.indexOf("$XPATH{");
+		};
+		// Falls "$XPATH[..]" nicht mehr auftaucht, wird der Rest angehängt.
+		key += currentID;
+		key = this.prefix + key;
+
+		this.entries[i] = new LabelledEntry(key, label);
+	    };
+	} catch (XPathExpressionException e) {
+	    e.printStackTrace();
+	}
     }
 }
