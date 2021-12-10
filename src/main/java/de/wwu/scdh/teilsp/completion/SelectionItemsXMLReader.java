@@ -2,6 +2,7 @@ package de.wwu.scdh.teilsp.completion;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.FileInputStream;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.Iterator;
@@ -46,25 +47,22 @@ public class SelectionItemsXMLReader {
 
     private InputStream inputStream;
 
+    private boolean needsClose;
+
     private NodeList itemNodes;
 
-    public SelectionItemsXMLReader(PrefixDef prefixDef, String selection, String key, String label, String namespaces)
+    public SelectionItemsXMLReader(PrefixDef prefixDef, InputStream inStream,
+				   String selection, String key, String label, String namespaces)
 	throws DocumentReaderException {
 
-	try {
-	    // FIXME: make conform TEI's abstract definition
-	    this.url = prefixDef.getReplacementPattern().split("#\\$")[0];
-	    this.prefix = prefixDef.getIdent() + ":";
-	} catch (Exception e) {
-	    throw new DocumentReaderException(e);
-	}
+	this.prefix = prefixDef.getIdent() + ":";
 
 	this.selectionXPath = selection;
 	this.keyXPath = key;
 	this.labelXPath = label;
 	this.namespaceDecl = namespaces;
 
-	this.getInputStream();
+	this.inputStream = inStream;
 	this.read();
 	this.getItemNodes();
     }
@@ -78,12 +76,16 @@ public class SelectionItemsXMLReader {
     }
 
     private void getInputStream() throws DocumentReaderException {
+	this.needsClose = false;
 	try {
-	    URL theURL = new URL(this.url);
-	    URLConnection urlConnection = theURL.openConnection();
-	    this.inputStream = urlConnection.getInputStream();
-	} catch (MalformedURLException e) {
-	    throw new DocumentReaderException(e);
+	    try {
+		URL theURL = new URL(this.url);
+		URLConnection urlConnection = theURL.openConnection();
+		this.inputStream = urlConnection.getInputStream();
+	    } catch (MalformedURLException e) {
+		this.inputStream = new FileInputStream(this.url);
+		this.needsClose = true;
+	    }
 	} catch (IOException e) {
 	    throw new DocumentReaderException(e);
 	}
@@ -158,6 +160,8 @@ public class SelectionItemsXMLReader {
 
     private void read() throws DocumentReaderException {
 	this.entries = new LabelledEntry[this.itemNodes.getLength()];
+
+	System.err.println("Length: " + this.itemNodes.getLength());
 
 	String label, key;
 	XPath xpath = XPathFactory.newInstance().newXPath();
