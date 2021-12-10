@@ -26,28 +26,40 @@ public class PrefixURIChangeAttributeOperation
 
     private static final String ARGUMENT_LOCATION_LOCAL = "locationLocalVariable";
 
+    private static final String ARGUMENT_SELECTION = "selection";
+
+    private static final String ARGUMENT_SELECTION_LOCAL = "selectionLocalVariable";
+
     private static final ArgumentDescriptor[] ARGUMENTS = new ArgumentDescriptor[] {
 	new ArgumentDescriptor(ARGUMENT_ATTRIBUTE,
 			       ArgumentDescriptor.TYPE_STRING,
 			       "The attribute which the link goes into."),
 	new ArgumentDescriptor(ARGUMENT_PREFIX,
 			       ArgumentDescriptor.TYPE_STRING,
-			       "The prefix of the URI scheme, given in prefixDef/@ident."
+			       "The prefix of the URI scheme given in prefixDef/@ident."
 			       + "This must be present in your TEI document."),
 	new ArgumentDescriptor(ARGUMENT_PREFIX_LOCAL,
 			       ArgumentDescriptor.TYPE_STRING,
-			       "The name of the editor varibale that, if present,"
-			       + " overwrites the prefix given in '"
-			       + ARGUMENT_PREFIX
-			       + "'. It must be present in your TEI document."),
+			       "The name of the editor variable for overwriting the 'prefix' argument."
+			       + "Default: 'oxbytei.uri.<PREFIX>.prefix'."),
 	new ArgumentDescriptor(ARGUMENT_LOCATION,
-			       ArgumentDescriptor.TYPE_SCRIPT,
-			       "The Xpath expression to use for generating the labels of selection values."
-			       + "This should regard the structure of the referred TEI document."),
+			       ArgumentDescriptor.TYPE_XPATH_EXPRESSION,
+			       "An XPath locating the element on which the link is to be stored."
+			       + "Defaults to the current element context.",
+			       "self::*"),
 	new ArgumentDescriptor(ARGUMENT_LOCATION_LOCAL,
-			       ArgumentDescriptor.TYPE_SCRIPT,
-			       "The Xpath expression to use for generating the labels of selection values."
-			       + "This should regard the structure of the referred TEI document.")
+			       ArgumentDescriptor.TYPE_STRING,
+			       "The name of the editor variable for overwriting the 'location' argument."
+			       + "Default: 'oxbytei.uri.<PREFIX>.location'."),
+	new ArgumentDescriptor(ARGUMENT_SELECTION,
+			       ArgumentDescriptor.TYPE_XPATH_EXPRESSION,
+			       "The XPath expression to use for generating the labels of selection values."
+			       + "This should regard the structure of the referred TEI document.",
+			       "self::*"),
+	new ArgumentDescriptor(ARGUMENT_SELECTION_LOCAL,
+			       ArgumentDescriptor.TYPE_STRING,
+			       "The name of the editor variable for overwriting the 'selection' argument."
+			       + "Default: 'oxbytei.uri.<PREFIX>.selection'.")
     };
 
     /**
