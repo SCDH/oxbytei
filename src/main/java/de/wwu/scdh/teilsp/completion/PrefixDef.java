@@ -1,4 +1,4 @@
-package de.wwu.scdh.oxbytei.commons;
+package de.wwu.scdh.teilsp.completion;
 
 import ro.sync.ecss.extensions.api.node.AttrValue;
 import ro.sync.ecss.extensions.api.node.AuthorElement;
@@ -47,4 +47,5 @@ public class PrefixDef {
     public String getIdent() {
 	return ident;
     }
+
 }
