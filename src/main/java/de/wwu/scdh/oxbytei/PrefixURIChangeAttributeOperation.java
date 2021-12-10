@@ -100,7 +100,7 @@ public class PrefixURIChangeAttributeOperation
 	}
 	catch (AuthorOperationException e) {
 	    // this may be thrown by findNodesByXPath
-	    throw new AuthorOperationException("prefixDef with @ident='" + prefix + "not found\n\n" + e);
+	    throw new AuthorOperationException("prefixDef with @ident='" + prefix + "' not found\n\n" + e);
 	}
 
 	System.err.println(xpathToPrefixDef);
