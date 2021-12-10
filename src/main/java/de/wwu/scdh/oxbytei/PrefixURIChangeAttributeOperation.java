@@ -1,3 +1,9 @@
+/**
+ * PrefixURIChangeAttributeOperation - is a class for setting an
+ * attribute value with a selection from the values defined in a
+ * target given in a <prefixDef> element.
+ *
+ */
 package de.wwu.scdh.oxbytei;
 
 import ro.sync.ecss.extensions.api.ArgumentDescriptor;
@@ -32,7 +38,7 @@ public class PrefixURIChangeAttributeOperation
     private static final ArgumentDescriptor ARGUMENT_PREFIX_LOCAL =
 	new ArgumentDescriptor("prefixLocalVariable",
 			       ArgumentDescriptor.TYPE_STRING,
-			       "The name of the editor variable for overwriting the 'prefix' argument."
+			       "Optioal: The name of the editor variable for overwriting the 'prefix' argument."
 			       + " Default: 'oxbytei.uri.<PREFIX>.prefix'.");
 
     private static final ArgumentDescriptor ARGUMENT_LOCATION =
@@ -45,7 +51,7 @@ public class PrefixURIChangeAttributeOperation
     private static final ArgumentDescriptor ARGUMENT_LOCATION_LOCAL =
 	new ArgumentDescriptor("locationLocalVariable",
 			       ArgumentDescriptor.TYPE_STRING,
-			       "The name of the editor variable for overwriting the 'location' argument."
+			       "Optional: The name of the editor variable for overwriting the 'location' argument."
 			       + " Default: 'oxbytei.uri.<PREFIX>.location'.");
 
     private static final ArgumentDescriptor ARGUMENT_SELECTION =
@@ -58,9 +64,12 @@ public class PrefixURIChangeAttributeOperation
     private static final ArgumentDescriptor ARGUMENT_SELECTION_LOCAL =
 	new ArgumentDescriptor("selectionLocalVariable",
 			       ArgumentDescriptor.TYPE_STRING,
-			       "The name of the editor variable for overwriting the 'selection' argument."
+			       "Optional: The name of the editor variable for overwriting the 'selection' argument."
 			       + " Default: 'oxbytei.uri.<PREFIX>.selection'.");
 
+    /**
+     * The array of arguments, this author operation takes.
+     */
     private static final ArgumentDescriptor[] ARGUMENTS = new ArgumentDescriptor[] {
 	ARGUMENT_ATTRIBUTE,
 	ARGUMENT_PREFIX,
