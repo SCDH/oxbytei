@@ -6,6 +6,10 @@
  */
 package de.wwu.scdh.oxbytei;
 
+import java.awt.Frame;
+import javax.swing.text.BadLocationException;
+
+import ro.sync.ecss.extensions.api.AuthorConstants;
 import ro.sync.ecss.extensions.api.ArgumentDescriptor;
 import ro.sync.ecss.extensions.api.ArgumentsMap;
 import ro.sync.ecss.extensions.api.AuthorAccess;
@@ -15,10 +19,13 @@ import ro.sync.ecss.extensions.api.node.AttrValue;
 import ro.sync.ecss.extensions.api.node.AuthorElement;
 import ro.sync.ecss.extensions.api.node.AuthorNode;
 
-import de.wwu.scdh.oxbytei.commons.OperationArgumentValidator;
-import de.wwu.scdh.teilsp.completion.PrefixDef;
+import org.bbaw.telota.ediarum.InsertRegisterDialog;
 
-import javax.swing.text.BadLocationException;
+import de.wwu.scdh.teilsp.exceptions.DocumentReaderException;
+import de.wwu.scdh.teilsp.completion.PrefixDef;
+import de.wwu.scdh.teilsp.completion.SelectionItemsXMLReader;
+import de.wwu.scdh.oxbytei.commons.OperationArgumentValidator;
+
 
 public class PrefixURIChangeAttributeOperation
     implements AuthorOperation {
@@ -57,8 +64,8 @@ public class PrefixURIChangeAttributeOperation
     private static final ArgumentDescriptor ARGUMENT_SELECTION =
 	new ArgumentDescriptor("selection",
 			       ArgumentDescriptor.TYPE_XPATH_EXPRESSION,
-			       "The XPath expression to use for generating the labels of selection values."
-			       + " This should regard the structure of the referred TEI document.",
+			       "The XPath expression to use for finding selection values."
+			       + " This should regard the structure of the referred XML document.",
 			       "self::*");
 
     private static final ArgumentDescriptor ARGUMENT_SELECTION_LOCAL =
@@ -66,6 +73,59 @@ public class PrefixURIChangeAttributeOperation
 			       ArgumentDescriptor.TYPE_STRING,
 			       "Optional: The name of the editor variable for overwriting the 'selection' argument."
 			       + " Default: 'oxbytei.uri.<PREFIX>.selection'.");
+
+    private static final ArgumentDescriptor ARGUMENT_KEY =
+	new ArgumentDescriptor("key",
+			       ArgumentDescriptor.TYPE_XPATH_EXPRESSION,
+			       "The XPath expression to use for generating key values of the selection items."
+			       + " This should regard the structure of the referred XML document."
+			       + " Default: @xml:id",
+			       "@xml:id");
+
+    private static final ArgumentDescriptor ARGUMENT_KEY_LOCAL =
+	new ArgumentDescriptor("keyLocalVariable",
+			       ArgumentDescriptor.TYPE_STRING,
+			       "Optional: The name of the editor variable for overwriting the 'key' argument."
+			       + " Default: 'oxbytei.uri.<PREFIX>.key'.");
+
+    private static final ArgumentDescriptor ARGUMENT_LABEL =
+	new ArgumentDescriptor("label",
+			       ArgumentDescriptor.TYPE_XPATH_EXPRESSION,
+			       "The XPath expression to use for generating the labels of the selection items."
+			       + " This should regard the structure of the referred XML document.",
+			       "self::*");
+
+    private static final ArgumentDescriptor ARGUMENT_LABEL_LOCAL =
+	new ArgumentDescriptor("labelLocalVariable",
+			       ArgumentDescriptor.TYPE_STRING,
+			       "Optional: The name of the editor variable for overwriting the 'label' argument."
+			       + " Default: 'oxbytei.uri.<PREFIX>.label'.");
+
+    private static final ArgumentDescriptor ARGUMENT_NAMESPACE =
+	new ArgumentDescriptor("namespace",
+			       ArgumentDescriptor.TYPE_XPATH_EXPRESSION,
+			       "A space-separated list of prefix:namespace-name tuples for use in the XPath expressions for accessing the target documents."
+			       + " This should regard the structure of the referred XML document.",
+			       "self::*");
+
+    private static final ArgumentDescriptor ARGUMENT_NAMESPACE_LOCAL =
+	new ArgumentDescriptor("namespaceLocalVariable",
+			       ArgumentDescriptor.TYPE_STRING,
+			       "Optional: The name of the editor variable for overwriting the 'namespace' argument."
+			       + " Default: 'oxbytei.uri.<PREFIX>.namespace'.");
+
+    private static final String[] ARGUMENT_MULTIPLE_ALLOWED_VALUES = new String[] {
+	AuthorConstants.ARG_VALUE_FALSE,
+	AuthorConstants.ARG_VALUE_TRUE
+    };
+    
+    private static final ArgumentDescriptor ARGUMENT_MULTIPLE =
+	new ArgumentDescriptor("multiple",
+			       ArgumentDescriptor.TYPE_XPATH_EXPRESSION,
+			       "Whether or not multiple selections are allowed."
+			       + " Defaults to false.",
+			       ARGUMENT_MULTIPLE_ALLOWED_VALUES,
+			       AuthorConstants.ARG_VALUE_FALSE);
 
     /**
      * The array of arguments, this author operation takes.
@@ -77,7 +137,14 @@ public class PrefixURIChangeAttributeOperation
 	ARGUMENT_LOCATION,
 	ARGUMENT_LOCATION_LOCAL,
 	ARGUMENT_SELECTION,
-	ARGUMENT_SELECTION_LOCAL
+	ARGUMENT_SELECTION_LOCAL,
+	ARGUMENT_KEY,
+	ARGUMENT_KEY_LOCAL,
+	ARGUMENT_LABEL,
+	ARGUMENT_LABEL_LOCAL,
+	ARGUMENT_NAMESPACE,
+	ARGUMENT_NAMESPACE_LOCAL,
+	ARGUMENT_MULTIPLE
     };
 
     /**
@@ -105,6 +172,12 @@ public class PrefixURIChangeAttributeOperation
 	String attributeName = OperationArgumentValidator.validateStringArgument(ARGUMENT_ATTRIBUTE.getName(), args);
 	String prefix = OperationArgumentValidator.validateStringArgument(ARGUMENT_PREFIX.getName(), args);
 	String location = OperationArgumentValidator.validateStringArgument(ARGUMENT_LOCATION.getName(), args);
+	String selection = OperationArgumentValidator.validateStringArgument(ARGUMENT_SELECTION.getName(), args);
+	String key = OperationArgumentValidator.validateStringArgument(ARGUMENT_KEY.getName(), args);
+	String label = OperationArgumentValidator.validateStringArgument(ARGUMENT_LABEL.getName(), args);
+	String namespace = OperationArgumentValidator.validateStringArgument(ARGUMENT_NAMESPACE.getName(), args);
+	String multiple = OperationArgumentValidator.validateStringArgument(ARGUMENT_MULTIPLE.getName(), args);
+
 
 	//String prefixLocal = OperationArgumentValidator.validateStringArgument(ARGUMENT_PREFIX_LOCAL, args);
 
@@ -122,30 +195,57 @@ public class PrefixURIChangeAttributeOperation
 	System.err.println(xpathToPrefixDef);
 	System.err.println(prefixNodes.length);
 
+	int i, j, k;
+
 	// store the prefixDef elements into a PrefixDef array
-	PrefixDef[] prefixDefs = new PrefixDef[prefixNodes.length];
-	int i;
-	for (i = 0; i < prefixNodes.length; i++) {
+	final int l = prefixNodes.length;
+	PrefixDef[] prefixDefs = new PrefixDef[l];
+	SelectionItemsXMLReader[] items = new SelectionItemsXMLReader[l];
+	int total = 0; // counter for total number of selection items
+	for (i = 0; i < l; i++) {
 	    prefixDefs[i] = new PrefixDef((AuthorElement)prefixNodes[i]);
 	    System.err.println("prefixDef: "
 			       + prefixDefs[i].getIdent() + " "
 			       + prefixDefs[i].getReplacementPattern() + " "
 			       + prefixDefs[i].getMatchPattern() + "\n");
+	    try {
+		items[i] = new SelectionItemsXMLReader(prefixDefs[i], selection, key, label, namespace);
+		total += items[i].getLength();
+	    } catch (DocumentReaderException e) {
+		throw new AuthorOperationException("Failed to read from URI given in "
+						   + prefixDefs[i].getReplacementPattern()
+						   + "\n\n" + e);
+	    }
 	}
 
+	// get all keys and labels into one array
+	String[] keys = new String[total];
+	String[] labels = new String[total];
+	k = 0; // counts to total
+	for (i = 0; i < l; i++) {
+	    for (j = 0; j < items[j].getLength(); j++) {
+		keys[k] = items[i].getEntries()[j].getKey();
+		labels[k] = items[i].getEntries()[j].getLabel();
+		k++;
+	    }
+	}
 
-	String xpathFromSelection = "self::*";
-
-	String selectedId = "somewhere_out_there";
+	// Ask the user for selection
+	InsertRegisterDialog dialog =
+	    new InsertRegisterDialog((Frame) authorAccess.getWorkspaceAccess().getParentFrame(),
+				     labels,
+				     keys,
+				     ((String) multiple).equals(AuthorConstants.ARG_VALUE_TRUE));
+	String selectedId = dialog.getSelectedID(); //"somewhere_out_there";
 	
-
-	if (!(selectedId == "")) {
+	// put the selected URI into the attribute value
+	if (!(selectedId.isEmpty())) {
 	    try {
 		int selStart = authorAccess.getEditorAccess().getSelectionStart();
 		AuthorNode selNode = authorAccess.getDocumentController().getNodeAtOffset(selStart);
 		AuthorElement selElement = (AuthorElement) (authorAccess.getDocumentController().findNodesByXPath((String) location, selNode, false, true, true, false))[0];
 		
-		String newAttributeVal = prefix + ":" + selectedId;
+		String newAttributeVal = selectedId;
 		authorAccess.getDocumentController().setAttribute(attributeName,
 								  new AttrValue(newAttributeVal),
 								  selElement);
