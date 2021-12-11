@@ -13,6 +13,10 @@
         <a:argument name="prefix">(plc|plc|plac)</a:argument>
         <a:argument name="prefixLocalVariable">oxbyteiPlacePrefix</a:argument>
         <a:argument name="location">self::placeName</a:argument>
+        <a:argument name="selection">//t:text//t:place</a:argument>
+        <a:argument name="key">$XPATH{@xml:id}</a:argument>
+        <a:argument name="label">$XPATH{@xml:id}</a:argument>
+        <a:argument name="namespace">t:http://www.tei-c.org/ns/1.0</a:argument>
       </a:arguments>
     </a:operation>
     <a:operation id="ExecuteMultipleActionsOperation">
