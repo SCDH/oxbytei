@@ -11,6 +11,9 @@
     <url>https://github.com/scdh/oxbytei</url>
 
     <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven.compiler.source>11</maven.compiler.source>
+        <maven.compiler.target>11</maven.compiler.target>
 	<saxon.version>9.9.1-6</saxon.version>
 	<framework.dir>${project.basedir}/frameworks/oxbytei</framework.dir>
 	<test.dir>${project.basedir}/test/xspec</test.dir>
@@ -46,6 +49,18 @@
 	    <scope>system</scope>
 	    <systemPath>${project.build.directory}/ediarum.jar</systemPath>
 	</dependency>
+	<dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-api</artifactId>
+            <version>5.7.2</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-engine</artifactId>
+            <version>5.7.2</version>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
 
     <build>
@@ -55,6 +70,16 @@
 	<finalName>${artifactId}</finalName>
 
 	<plugins>
+
+	    <!-- configure test reporter for JUnit 5 -->
+            <plugin>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>2.22.2</version>
+            </plugin>
+            <plugin>
+                <artifactId>maven-failsafe-plugin</artifactId>
+                <version>2.22.2</version>
+            </plugin>
 
 	    <!-- download ediarum.jar -->
 	    <plugin>
