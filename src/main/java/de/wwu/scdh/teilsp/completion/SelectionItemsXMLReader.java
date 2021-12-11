@@ -65,12 +65,25 @@ public class SelectionItemsXMLReader {
 	this.read();
     }
 
+    /**
+     * return the parsed labelled entries
+     */
     public LabelledEntry[] getEntries() {
 	return this.entries;
     }
 
+    /**
+     * get count of parsed labelled entries
+     */
     public int getLength() {
 	return this.entries.length;
+    }
+
+    /**
+     * get count of found nodes for making the selection
+     */
+    public int nodesCount() {
+	return this.itemNodes.getLength();
     }
 
     private void getInputStream() throws DocumentReaderException {
