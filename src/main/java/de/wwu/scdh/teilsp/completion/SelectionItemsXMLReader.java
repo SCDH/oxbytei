@@ -117,6 +117,7 @@ public class SelectionItemsXMLReader {
 	    for (int i=0; i<namespaceSplit.length; i++) {
 		String currentNamespace = namespaceSplit[i];
 		int k = currentNamespace.indexOf(":");
+		// FIXME: this fails if namespaces is the empty string, see tests
 		namespaces[i][0] = currentNamespace.substring(0, k);
 		namespaces[i][1] = currentNamespace.substring(k+1);
 	    }
