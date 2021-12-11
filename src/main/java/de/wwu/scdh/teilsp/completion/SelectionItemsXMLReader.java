@@ -47,8 +47,6 @@ public class SelectionItemsXMLReader {
 
     private InputStream inputStream;
 
-    private boolean needsClose;
-
     private NodeList itemNodes;
 
     public SelectionItemsXMLReader(PrefixDef prefixDef, InputStream inStream,
@@ -76,7 +74,6 @@ public class SelectionItemsXMLReader {
     }
 
     private void getInputStream() throws DocumentReaderException {
-	this.needsClose = false;
 	try {
 	    try {
 		URL theURL = new URL(this.url);
@@ -84,7 +81,6 @@ public class SelectionItemsXMLReader {
 		this.inputStream = urlConnection.getInputStream();
 	    } catch (MalformedURLException e) {
 		this.inputStream = new FileInputStream(this.url);
-		this.needsClose = true;
 	    }
 	} catch (IOException e) {
 	    throw new DocumentReaderException(e);
