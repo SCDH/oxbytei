@@ -61,8 +61,8 @@ public class SelectionItemsXMLReader {
 	this.namespaceDecl = namespaces;
 
 	this.inputStream = inStream;
-	this.read();
 	this.getItemNodes();
+	this.read();
     }
 
     public LabelledEntry[] getEntries() {
