@@ -36,15 +36,44 @@ public class SelectionItemsXMLReaderTest {
     }
 
     @Test
-    @DisplayName("Test with teigraphy.xml")
-    void testRegistry()
+    @DisplayName("Test keys with teigraphy.xml")
+    void testRegistryKeys()
 	throws FileNotFoundException, IOException, DocumentReaderException {
 	FileInputStream input = new FileInputStream(teigraphy);
 	System.out.println(input);
 	PrefixDef prefix = new PrefixDef("([a-zA-Z0-9_-]+)", "teigraphy.xml#$1", "psn");
 	reader = new SelectionItemsXMLReader(prefix, input,
-					     "//t:person", "@xml:id", "*", "t:http://www.tei-c.org/ns/1.0");
+					     "//t:person",
+					     "$XPATH{@xml:id}",
+					     "$XPATH{'const'}",
+					     "t:http://www.tei-c.org/ns/1.0");
 	assertEquals(3, reader.nodesCount());
+	assertEquals(3, reader.getLength());
+	LabelledEntry[] entries = reader.getEntries();
+	assertEquals(3, entries.length);
+	assertEquals("psn:FCSavigny", entries[0].getKey());
+	assertEquals("psn:Puchta", entries[1].getKey());
+	assertEquals("psn:JGrimm", entries[2].getKey());
+	input.close();
+    }
+
+    @Test
+    @DisplayName("Test labels with teigraphy.xml")
+    void testRegistryLabels()
+	throws FileNotFoundException, IOException, DocumentReaderException {
+	FileInputStream input = new FileInputStream(teigraphy);
+	System.out.println(input);
+	PrefixDef prefix = new PrefixDef("([a-zA-Z0-9_-]+)", "teigraphy.xml#$1", "psn");
+	reader = new SelectionItemsXMLReader(prefix, input,
+					     "//t:person",
+					     "$XPATH{@xml:id}",
+					     "$XPATH{normalize-space(t:persName)}",
+					     "t:http://www.tei-c.org/ns/1.0");
+	assertEquals(3, reader.nodesCount());
+	assertEquals(3, reader.getLength());
+	LabelledEntry[] entries = reader.getEntries();
+	assertEquals(3, entries.length);
+	assertEquals("Friedrich Carl von Savigny ", entries[0].getLabel());
 	input.close();
     }
 
