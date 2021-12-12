@@ -27,6 +27,7 @@ import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
 import de.wwu.scdh.teilsp.exceptions.DocumentReaderException;
+import de.wwu.scdh.teilsp.xml.NamespaceContextImpl;
 
 
 public class SelectionItemsXMLReader {
@@ -43,7 +44,7 @@ public class SelectionItemsXMLReader {
 
     private String keyXPath;
 
-    private String namespaceDecl;
+    private NamespaceContext namespaceDecl;
 
     private InputStream inputStream;
 
@@ -58,7 +59,7 @@ public class SelectionItemsXMLReader {
 	this.selectionXPath = selection;
 	this.keyXPath = key;
 	this.labelXPath = label;
-	this.namespaceDecl = namespaces;
+	this.namespaceDecl = new NamespaceContextImpl(namespaces);
 
 	this.inputStream = inStream;
 	this.getItemNodes();
@@ -102,59 +103,17 @@ public class SelectionItemsXMLReader {
 
     private void getItemNodes() throws DocumentReaderException {
 	try {
-	    // Das neue Dokument wird vorbereitet.
+	    // prepare dom builder
 	    DocumentBuilderFactory domFactory = DocumentBuilderFactory.newInstance();
 	    domFactory.setNamespaceAware(true);
 	    DocumentBuilder builder = domFactory.newDocumentBuilder();
-	    // Dann wird die Datei gelesen.
+	    // parse the input document
 	    InputSource inputSource = new InputSource(this.inputStream);
 	    Document indexDoc = builder.parse(inputSource);
-	    // Die xPath-Routinen werden vorbereitet.
+	    // prepare the XPath query
 	    XPath xpath = XPathFactory.newInstance().newXPath();
-	    // Für Namespaces:
-	    String[] namespaceSplit = namespaceDecl.split(" ");
-	    String[][] namespaces = new String[namespaceSplit.length][2];
-	    for (int i=0; i<namespaceSplit.length; i++) {
-		String currentNamespace = namespaceSplit[i];
-		int k = currentNamespace.indexOf(":");
-		// FIXME: this fails if namespaces is the empty string, see tests
-		namespaces[i][0] = currentNamespace.substring(0, k);
-		namespaces[i][1] = currentNamespace.substring(k+1);
-	    }
-	    final String[][] namespacesfinal = namespaces;
-	    //			final PrefixResolver resolver = new PrefixResolverDefault(indexDoc);
-	    NamespaceContext ctx = new NamespaceContext() {
-
-		    @Override
-		    public String getNamespaceURI(String prefix) {
-			//					return resolver.getNamespaceForPrefix(prefix);
-			String uri = null;
-			for (int i=0; i<namespacesfinal.length; i++) {
-			    if (prefix.equals(namespacesfinal[i][0])) {
-				uri = namespacesfinal[i][1];
-			    }
-			}
-			return uri;
-		    }
-
-		    @Override
-		    public String getPrefix(String namespaceURI) {
-			// TODO Auto-generated method stub
-			return null;
-		    }
-
-		    @Override
-		    public Iterator getPrefixes(String namespaceURI) {
-			// TODO Auto-generated method stub
-			return null;
-		    }
-		};
-	    xpath.setNamespaceContext(ctx);
-	    // Das XPath-Query wird definiert.
-	    //XPathExpression expr = xpath.compile(node);
-
-	    // Die Resultate werden ausgelesen..
-	    //Object result = expr.evaluate(indexDoc, XPathConstants.NODESET);
+	    xpath.setNamespaceContext(this.namespaceDecl);
+	    // run the XPath query
 	    Object result = xpath.evaluate(this.selectionXPath, indexDoc, XPathConstants.NODESET);
 	    this.itemNodes = (NodeList) result;
 	} catch (ParserConfigurationException e) {
