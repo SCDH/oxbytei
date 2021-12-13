@@ -21,6 +21,7 @@ public class SelectionItemsXMLReaderTest {
     String resources;
     FileInputStream teigraphy;
     String teigraphyNs;
+    String prefix;
 
     @BeforeEach
     void setup()
@@ -29,6 +30,7 @@ public class SelectionItemsXMLReaderTest {
 	String teigraphyPath = Paths.get("src", "test", "resources", "teigraphy.xml").toFile().getAbsolutePath();
 	teigraphy = new FileInputStream(teigraphyPath);
 	teigraphyNs = "t:http://www.tei-c.org/ns/1.0 xml:http://www.w3.org/XML/1998/namespace";
+	prefix = "psn:";
     }
 
     @AfterEach
@@ -46,7 +48,6 @@ public class SelectionItemsXMLReaderTest {
     @DisplayName("Test keys with teigraphy.xml")
     void testRegistryKeys()
 	throws DocumentReaderException {
-	PrefixDef prefix = new PrefixDef("([a-zA-Z0-9_-]+)", "teigraphy.xml#$1", "psn");
 	reader = new SelectionItemsXMLReader(prefix, teigraphy,
 					     "//t:person",
 					     "@xml:id",
@@ -67,7 +68,6 @@ public class SelectionItemsXMLReaderTest {
     @DisplayName("Test labels with teigraphy.xml")
     void testRegistryLabels()
 	throws DocumentReaderException {
-	PrefixDef prefix = new PrefixDef("([a-zA-Z0-9_-]+)", "teigraphy.xml#$1", "psn");
 	reader = new SelectionItemsXMLReader(prefix, teigraphy,
 					     "//t:person",
 					     "@xml:id",
@@ -86,7 +86,6 @@ public class SelectionItemsXMLReaderTest {
     @DisplayName("Test with teigraphy.xml xpath with arbitrary namespace *. This does not work!")
     void testRegistryArbitraryNamespace()
 	throws DocumentReaderException {
-	PrefixDef prefix = new PrefixDef("([a-zA-Z0-9_-]+)", "teigraphy.xml#$1", "psn");
 	assertThrows(DocumentReaderException.class,
 		     () -> new SelectionItemsXMLReader(prefix, teigraphy, "//*:person", "@xml:id", "*", ""));
     }
@@ -96,7 +95,6 @@ public class SelectionItemsXMLReaderTest {
     // This does not work with NamespaceContext
     void testRegistryDefaultNamespace()
 	throws DocumentReaderException {
-	PrefixDef prefix = new PrefixDef("([a-zA-Z0-9_-]+)", "teigraphy.xml#$1", "psn");
 	reader = new SelectionItemsXMLReader(prefix, teigraphy,
 					     "//person", "@xml:id", "*", "http://www.tei-c.org/ns/1.0");
 	assertEquals(0, reader.nodesCount());

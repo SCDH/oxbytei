@@ -46,12 +46,16 @@ public class SelectionItemsXMLReader {
 
     private NodeList itemNodes;
 
-    public SelectionItemsXMLReader(PrefixDef prefixDef, InputStream inStream,
+    public SelectionItemsXMLReader(String prefixDef, InputStream inStream,
 				   String selection, String key, String label,
 				   String namespaces)
 	throws DocumentReaderException {
 
-	this.prefix = prefixDef.getIdent() + ":";
+	if (prefixDef == null) {
+	    this.prefix = "";
+	} else {
+	    this.prefix = prefixDef;
+	}
 
 	this.selectionXPath = selection;
 	this.keyXPath = key;

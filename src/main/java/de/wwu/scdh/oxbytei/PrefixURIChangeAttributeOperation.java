@@ -216,7 +216,7 @@ public class PrefixURIChangeAttributeOperation
 			       + prefixDefs[i].getMatchPattern() + "\n");
 	    try {
 		InputStream input = new OpenFileOrURL(prefixDefs[i], authorAccess).open();
-		items[i] = new SelectionItemsXMLReader(prefixDefs[i], input, selection, key, label, namespace).getEntries();
+		items[i] = new SelectionItemsXMLReader(prefixDefs[i].getIdent(), input, selection, key, label, namespace).getEntries();
 		total += items[i].length;
 	    } catch (DocumentReaderException e) {
 		throw new AuthorOperationException("Failed to read from URI given in "
