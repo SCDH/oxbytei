@@ -5,6 +5,12 @@
 ![tests](https://github.com/scdh/scdh-oxygen-extension/actions/workflows/test-main.yml/badge.svg)
 -->
 
+## tl;dr ##
+
+Install from [https://scdh.zivgitlabpages.uni-muenster.de/tei-processing/oxbytei/descriptor.xml](https://scdh.zivgitlabpages.uni-muenster.de/tei-processing/oxbytei/descriptor.xml).
+
+
+## An oXygen framework configured by TEI ##
 
 oXbytei [ɔx bʌtaj] (greco-english tongue and french ears) is an oXygen
 framework for editing TEI, that is configured by TEI's header. It
@@ -17,11 +23,29 @@ documents.
   stored personography that is bound to a local URI scheme defined in
   the header by
   [`<prefixDef>`](https://www.tei-c.org/release/doc/tei-p5-doc/de/html/ref-listPrefixDef.html)
+- set `@ref` of `<placeName>` etc. by selecting a person from a locally
+  stored personography that is bound to a local URI scheme defined in
+  the header by
+  [`<prefixDef>`](https://www.tei-c.org/release/doc/tei-p5-doc/de/html/ref-listPrefixDef.html)
 
+on the road map:
+
+- bibliography
+- (index)
+- metre of lyrics
+- critical apparatus
+
+
+Note: Yes, there are some little assumptions that have poured
+into this framework and blur its generality, e.g. assumptions about
+sensible URI schemes for certain purposes, like `psn` or `pers` for
+persons. But these are endangered animals that will become extinct as
+soon as oXygen allows [parametrized
+frameworks](https://www.oxygenxml.com/forum/topic23764.html).
 
 See the section [Usage and Customization](#usage-and-customization)
 for how to write TEI and setup your project in order to make use of
-these functions.
+the framework's features.
 
 
 
@@ -132,7 +156,7 @@ NOTE: The tag name **must equal** the version name in the
 ## Usage and Customization ##
 
 Take a look at the folder
-[`frameworks/oxbytei/oxbytei_samples`](frameworks/oxbytei/oxbytei_samples)
+[`frameworks/oxbytei/samples`](frameworks/oxbytei/samples)
 for sample resources, especially at the XML catalog.
 
 ### Personography ###
@@ -158,8 +182,12 @@ this in the header:
 ```
 
 If the linked file `persons.xml` is present, then all the persones
-listed there are presented in a selection dialog and a fragment like
-this is created:
+found in `<listPerson>` elements are presented in a selection
+dialog. If the caret (pointer) is on a `<persName>` or `<person>`
+element, the `@ref` attribute is updated by your selection (and
+deleted if you choose the empty name). If the caret is not in such a
+context, an empty fragment or a surrounding fragment like this is
+created:
 
 ```{xml}
 <persName ref="psn:BadraddinbalAttar">Badraddīn</persName>
