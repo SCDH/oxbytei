@@ -14,6 +14,11 @@ from the contextual menu.
   <description>This framework for editing TEI is configured by the TEI header.</description>
   <priority>Normal</priority>
 
+  <classpath>
+    <addEntry path="${framework}/ediarum.jar"/>
+    <addEntry path="${framework}/oxbytei.jar"/>
+  </classpath>
+
   <author>
     <!-- 
       Author Actions are loaded from these directories:
@@ -27,6 +32,7 @@ from the contextual menu.
         <separator/>
         <addAction id="select.language"/>
         <addAction id="link.person"/>
+        <addAction id="link.place"/>
       </toolbar>
     </toolbars>
 
@@ -34,12 +40,14 @@ from the contextual menu.
       <separator/>
       <addAction id="select.language"/>
       <addAction id="link.person"/>
+      <addAction id="link.place"/>
     </menu>
 
     <contextualMenu>
       <submenu name="Other actions">
         <addAction id="select.language"/>
         <addAction id="link.person"/>
+        <addAction id="link.place"/>
       </submenu>
     </contextualMenu>
 
@@ -47,6 +55,7 @@ from the contextual menu.
       <authorActions>
         <addAction id="select.language" inElementsView="true" inCCWindow="true"/>
         <addAction id="link.person" inElementsView="true" inCCWindow="true"/>
+        <addAction id="link.place" inElementsView="true" inCCWindow="true"/>
       </authorActions>
     </contentCompletion>
 
