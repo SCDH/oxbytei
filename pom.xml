@@ -146,6 +146,7 @@
 			    <goal>single</goal>
 			</goals>
 			<configuration>
+			    <finalName>${artifactId}-${version}</finalName>
 			    <archiveBaseDirectory>${project.basedir}</archiveBaseDirectory>
 			    <descriptors>
 				<descriptor>assembly.xml</descriptor>
