@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-model href="http://www.tei-c.org/release/xml/tei/custom/schema/relaxng/tei_all.rng" type="application/xml" schematypens="http://relaxng.org/ns/structure/1.0"?>
+<?xml-model href="http://www.tei-c.org/release/xml/tei/custom/schema/relaxng/tei_all.rng" type="application/xml"
+	schematypens="http://purl.oclc.org/dsdl/schematron"?>
+<TEI xmlns="http://www.tei-c.org/ns/1.0">
+   <teiHeader>
+      <fileDesc>
+         <titleStmt>
+            <title>Sample Personography</title>
+         </titleStmt>
+         <publicationStmt>
+            <p>Published as sample data along with a framework</p>
+         </publicationStmt>
+         <sourceDesc>
+            <p>born digital</p>
+         </sourceDesc>
+      </fileDesc>
+      <encodingDesc>
+         <listPrefixDef>
+            <prefixDef matchPattern="([0-9]+)" replacementPattern="https://d-nb.info/gnd/$1"
+               ident="gnd"/>
+            <prefixDef matchPattern="([0-9]+)"
+               replacementPattern="https://www.deutsche-digitale-bibliothek.de/person/gnd/$1"
+               ident="ddb"/>
+         </listPrefixDef>
+      </encodingDesc>
+   </teiHeader>
+   <text>
+      <body>
+         <listPerson>
+            <person xml:id="FCSavigny">
+               <persName>
+                  <forename>Friedrich Carl</forename>
+                  <nameLink>von</nameLink>
+                  <surname>Savigny</surname>
+               </persName>
+               <birth when="1779">1779</birth>
+               <death when="1861">1861</death>
+               <idno type="URI">ddb:118605909</idno>
+               <idno type="URI">gnd:128804459</idno>
+            </person>
+            <person xml:id="Puchta">
+               <persName>
+                  <forename>Georg Friedrich</forename>
+                  <surname>Puchta</surname>
+               </persName>
+               <birth when="1798">1798</birth>
+               <death when="1846">1846</death>
+               <idno type="URI">ddb:118596969</idno>
+               <idno type="URI">gnd:118596969</idno>
+            </person>
+            <person xml:id="JGrimm">
+               <persName>
+                  <forename>Jacob</forename>
+                  <surname>Grimm</surname>
+               </persName>
+               <birth when="1785">1785</birth>
+               <death when="1863">1863</death>
+               <idno type="URI">ddb:118542257</idno>
+               <idno type="URI">gnd:118542257</idno>
+            </person>
+         </listPerson>
+      </body>
+   </text>
+</TEI>

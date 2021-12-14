@@ -254,3 +254,35 @@ an example:
     direction: ltr !important;
 }
 ```
+
+# License #
+
+Copyright (c) 2021 Christian Lück
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see
+[http://www.gnu.org/licenses/](http://www.gnu.org/licenses/).
+
+
+## Included Software and other Material ##
+
+The included ![languageicon](frameworks/oxbytei/images/lang-24.png)
+icon was desigend by Onur Mustak Cobanli an is distributed on
+[http://languageicon.org/](http://languageicon.org/) by under a CC
+licence with Relax-Attribution term.
+
+The framework packetized for installation ships with a copy of
+[ediarum.JAR](https://github.com/ediarum/ediarum.JAR), which is
+distributed under the terms of the GPL v3, written by Martin Fechner
+and copyrighted by the Berlin-Brandenburg Academy of Sciences and
+Humanities.
