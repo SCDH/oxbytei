@@ -1,4 +1,4 @@
-package de.wwu.scdh.teilsp.completion;
+package de.wwu.scdh.teilsp.extensions;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -24,9 +24,10 @@ import org.xml.sax.SAXException;
 
 import de.wwu.scdh.teilsp.exceptions.DocumentReaderException;
 import de.wwu.scdh.teilsp.xml.NamespaceContextImpl;
+import de.wwu.scdh.teilsp.services.extensions.LabelledEntry;
 
 
-public class SelectionItemsXMLReader {
+public class LabelledEntriesFromXMLReader {
 
     private LabelledEntry[] entries;
 
@@ -46,12 +47,16 @@ public class SelectionItemsXMLReader {
 
     private NodeList itemNodes;
 
-    public SelectionItemsXMLReader(PrefixDef prefixDef, InputStream inStream,
-				   String selection, String key, String label,
-				   String namespaces)
+    public LabelledEntriesFromXMLReader(String prefixDef, InputStream inStream,
+					String selection, String key, String label,
+					String namespaces)
 	throws DocumentReaderException {
 
-	this.prefix = prefixDef.getIdent() + ":";
+	if (prefixDef == null) {
+	    this.prefix = "";
+	} else {
+	    this.prefix = prefixDef;
+	}
 
 	this.selectionXPath = selection;
 	this.keyXPath = key;

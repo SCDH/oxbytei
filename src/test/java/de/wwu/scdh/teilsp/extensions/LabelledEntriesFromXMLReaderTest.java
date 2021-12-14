@@ -1,4 +1,4 @@
-package de.wwu.scdh.teilsp.completion;
+package de.wwu.scdh.teilsp.extensions;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
@@ -12,15 +12,17 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 
 import de.wwu.scdh.teilsp.exceptions.DocumentReaderException;
+import de.wwu.scdh.teilsp.services.extensions.LabelledEntry;
 
 
-public class SelectionItemsXMLReaderTest {
+public class LabelledEntriesFromXMLReaderTest {
 
-    SelectionItemsXMLReader reader;
+    LabelledEntriesFromXMLReader reader;
 
     String resources;
     FileInputStream teigraphy;
     String teigraphyNs;
+    String prefix;
 
     @BeforeEach
     void setup()
@@ -29,6 +31,7 @@ public class SelectionItemsXMLReaderTest {
 	String teigraphyPath = Paths.get("src", "test", "resources", "teigraphy.xml").toFile().getAbsolutePath();
 	teigraphy = new FileInputStream(teigraphyPath);
 	teigraphyNs = "t:http://www.tei-c.org/ns/1.0 xml:http://www.w3.org/XML/1998/namespace";
+	prefix = "psn:";
     }
 
     @AfterEach
@@ -46,8 +49,7 @@ public class SelectionItemsXMLReaderTest {
     @DisplayName("Test keys with teigraphy.xml")
     void testRegistryKeys()
 	throws DocumentReaderException {
-	PrefixDef prefix = new PrefixDef("([a-zA-Z0-9_-]+)", "teigraphy.xml#$1", "psn");
-	reader = new SelectionItemsXMLReader(prefix, teigraphy,
+	reader = new LabelledEntriesFromXMLReader(prefix, teigraphy,
 					     "//t:person",
 					     "@xml:id",
 					     "'const'",
@@ -67,8 +69,7 @@ public class SelectionItemsXMLReaderTest {
     @DisplayName("Test labels with teigraphy.xml")
     void testRegistryLabels()
 	throws DocumentReaderException {
-	PrefixDef prefix = new PrefixDef("([a-zA-Z0-9_-]+)", "teigraphy.xml#$1", "psn");
-	reader = new SelectionItemsXMLReader(prefix, teigraphy,
+	reader = new LabelledEntriesFromXMLReader(prefix, teigraphy,
 					     "//t:person",
 					     "@xml:id",
 					     "normalize-space(t:persName)",
@@ -86,9 +87,8 @@ public class SelectionItemsXMLReaderTest {
     @DisplayName("Test with teigraphy.xml xpath with arbitrary namespace *. This does not work!")
     void testRegistryArbitraryNamespace()
 	throws DocumentReaderException {
-	PrefixDef prefix = new PrefixDef("([a-zA-Z0-9_-]+)", "teigraphy.xml#$1", "psn");
 	assertThrows(DocumentReaderException.class,
-		     () -> new SelectionItemsXMLReader(prefix, teigraphy, "//*:person", "@xml:id", "*", ""));
+		     () -> new LabelledEntriesFromXMLReader(prefix, teigraphy, "//*:person", "@xml:id", "*", ""));
     }
 
     @Test
@@ -96,8 +96,7 @@ public class SelectionItemsXMLReaderTest {
     // This does not work with NamespaceContext
     void testRegistryDefaultNamespace()
 	throws DocumentReaderException {
-	PrefixDef prefix = new PrefixDef("([a-zA-Z0-9_-]+)", "teigraphy.xml#$1", "psn");
-	reader = new SelectionItemsXMLReader(prefix, teigraphy,
+	reader = new LabelledEntriesFromXMLReader(prefix, teigraphy,
 					     "//person", "@xml:id", "*", "http://www.tei-c.org/ns/1.0");
 	assertEquals(0, reader.nodesCount());
     }
