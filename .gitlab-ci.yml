@@ -12,6 +12,7 @@ cache:
 .verify: &verify
   stage: test
   script:
+    - 'mvn $MAVEN_CLI_OPTS generate-sources'
     - 'mvn $MAVEN_CLI_OPTS verify'
   except:
     - master
@@ -24,6 +25,7 @@ verify:jdk11:
 # see https://gitlab.com/help/user/packages/maven_repository/index.md#creating-maven-packages-with-gitlab-cicd-using-maven
 deploy:jdk11:
   script:
+    - 'mvn generate-sources -s ci_settings.xml'
     - 'mvn verify -s ci_settings.xml'
   artifacts:
     paths:

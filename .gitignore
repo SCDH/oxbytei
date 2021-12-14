@@ -1,5 +1,16 @@
 *~
 
+images/*.xcf
+
+# java related
+.classpath
+.project
+.settings
+.factorypath
+
+# symlink to jar file for development
+frameworks/oxbytei/*.jar
+
 # ignore build artifacts
 target
 test/xspec/xspec

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<a:authorAction xmlns:a="http://www.oxygenxml.com/ns/author/external-action"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.oxygenxml.com/ns/author/external-action http://www.oxygenxml.com/ns/author/external-action/authorAction.xsd"
+  id="link.place">
+  <a:name>Identify Place</a:name>
+  <a:description>Link place to norm file.</a:description>
+  <a:largeIconPath href="${framework}/images/pin-24.png"/>
+  <a:smallIconPath href="${framework}/images/pin-16.png"/>
+  <a:operations>
+    <a:operation id="de.wwu.scdh.oxbytei.PrefixURIChangeAttributeOperation">
+      <a:xpathCondition>self::placeName and /descendant::listPrefixDef/prefixDef[matches(@ident, '^(pl|plc|plac)')]</a:xpathCondition>
+      <a:arguments>
+        <a:argument name="attribute">ref</a:argument>
+        <a:argument name="prefix">(plc|plc|plac)</a:argument>
+        <a:argument name="prefixLocalVariable">oxbyteiPlacePrefix</a:argument>
+        <a:argument name="location">self::placeName</a:argument>
+        <a:argument name="provider">de.wwu.scdh.teilsp.extensions.LabelledEntriesFromXML</a:argument>
+        <a:argument name="providerArguments">selection=//t:text//t:place key=@xml:id label="normalize-space(t:placeName)" namespaces="t:http://www.tei-c.org/ns/1.0 xml:http://www.w3.org/XML/1998/namespace"</a:argument>
+      </a:arguments>
+    </a:operation>
+    <a:operation id="ExecuteMultipleActionsOperation">
+      <a:xpathCondition>/descendant::listPrefixDef/prefixDef[matches(@ident, '^(pl|plc|plac)')]</a:xpathCondition>
+      <a:arguments>
+        <!-- This is a RECURSIVE operation! -->
+        <a:argument name="actionIDs">markup.place, link.place</a:argument>
+      </a:arguments>
+    </a:operation>
+  </a:operations>
+  <a:accessKey/>
+</a:authorAction>

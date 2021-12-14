@@ -23,6 +23,14 @@
 		<exclude>**/mk-icons.sh</exclude>
 	    </excludes>
 	</fileSet>
+	<fileSet>
+	    <directory>${project.build.directory}</directory>
+	    <outputDirectory>/</outputDirectory>
+	    <includes>
+		<include>${artifactId}.jar</include>
+		<include>ediarum.jar</include>
+	    </includes>
+	</fileSet>
     </fileSets>
     
 </assembly>
