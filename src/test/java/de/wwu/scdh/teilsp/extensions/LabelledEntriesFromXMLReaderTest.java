@@ -1,4 +1,4 @@
-package de.wwu.scdh.teilsp.completion;
+package de.wwu.scdh.teilsp.extensions;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
@@ -12,11 +12,12 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 
 import de.wwu.scdh.teilsp.exceptions.DocumentReaderException;
+import de.wwu.scdh.teilsp.services.extensions.LabelledEntry;
 
 
-public class SelectionItemsXMLReaderTest {
+public class LabelledEntriesFromXMLReaderTest {
 
-    SelectionItemsXMLReader reader;
+    LabelledEntriesFromXMLReader reader;
 
     String resources;
     FileInputStream teigraphy;
@@ -48,7 +49,7 @@ public class SelectionItemsXMLReaderTest {
     @DisplayName("Test keys with teigraphy.xml")
     void testRegistryKeys()
 	throws DocumentReaderException {
-	reader = new SelectionItemsXMLReader(prefix, teigraphy,
+	reader = new LabelledEntriesFromXMLReader(prefix, teigraphy,
 					     "//t:person",
 					     "@xml:id",
 					     "'const'",
@@ -68,7 +69,7 @@ public class SelectionItemsXMLReaderTest {
     @DisplayName("Test labels with teigraphy.xml")
     void testRegistryLabels()
 	throws DocumentReaderException {
-	reader = new SelectionItemsXMLReader(prefix, teigraphy,
+	reader = new LabelledEntriesFromXMLReader(prefix, teigraphy,
 					     "//t:person",
 					     "@xml:id",
 					     "normalize-space(t:persName)",
@@ -87,7 +88,7 @@ public class SelectionItemsXMLReaderTest {
     void testRegistryArbitraryNamespace()
 	throws DocumentReaderException {
 	assertThrows(DocumentReaderException.class,
-		     () -> new SelectionItemsXMLReader(prefix, teigraphy, "//*:person", "@xml:id", "*", ""));
+		     () -> new LabelledEntriesFromXMLReader(prefix, teigraphy, "//*:person", "@xml:id", "*", ""));
     }
 
     @Test
@@ -95,7 +96,7 @@ public class SelectionItemsXMLReaderTest {
     // This does not work with NamespaceContext
     void testRegistryDefaultNamespace()
 	throws DocumentReaderException {
-	reader = new SelectionItemsXMLReader(prefix, teigraphy,
+	reader = new LabelledEntriesFromXMLReader(prefix, teigraphy,
 					     "//person", "@xml:id", "*", "http://www.tei-c.org/ns/1.0");
 	assertEquals(0, reader.nodesCount());
     }

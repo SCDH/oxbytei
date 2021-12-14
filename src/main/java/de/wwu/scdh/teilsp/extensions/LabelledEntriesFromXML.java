@@ -11,11 +11,10 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.util.Arrays;
 
-import de.wwu.scdh.teilsp.completion.SelectionItemsXMLReader;
 
 import de.wwu.scdh.teilsp.services.extensions.ILabelledEntriesProvider;
 import de.wwu.scdh.teilsp.services.extensions.ExtensionException;
-import de.wwu.scdh.teilsp.completion.LabelledEntry;
+import de.wwu.scdh.teilsp.services.extensions.LabelledEntry;
 import de.wwu.scdh.teilsp.exceptions.DocumentReaderException;
 
 
@@ -65,11 +64,11 @@ public class LabelledEntriesFromXML
 	ArrayList<LabelledEntry> entries = null;
 
 	try {
-	    SelectionItemsXMLReader reader =
-		new SelectionItemsXMLReader(args.get("prefix"),
-					    inputStream,
-					    selection, key, label,
-					    args.get("namespaces"));
+	    LabelledEntriesFromXMLReader reader =
+		new LabelledEntriesFromXMLReader(args.get("prefix"),
+						 inputStream,
+						 selection, key, label,
+						 args.get("namespaces"));
 	    entries = new ArrayList<LabelledEntry>(Arrays.asList(reader.getEntries()));
 	} catch (DocumentReaderException e) {
 	    try { inputStream.close(); } catch (IOException err) {}

@@ -27,12 +27,12 @@ import ro.sync.ecss.extensions.api.node.AuthorNode;
 
 import org.bbaw.telota.ediarum.InsertRegisterDialog;
 
+import de.wwu.scdh.teilsp.services.extensions.LabelledEntry;
 import de.wwu.scdh.teilsp.services.extensions.LabelledEntries;
 import de.wwu.scdh.teilsp.services.extensions.ArgumentsExtractor;
 import de.wwu.scdh.teilsp.services.extensions.ExtensionException;
 import de.wwu.scdh.teilsp.exceptions.ProviderNotFoundException;
 import de.wwu.scdh.teilsp.completion.PrefixDef;
-import de.wwu.scdh.teilsp.completion.LabelledEntry;
 import de.wwu.scdh.oxbytei.commons.OperationArgumentValidator;
 import de.wwu.scdh.oxbytei.commons.Resolver;
 
@@ -248,7 +248,7 @@ public class PrefixURIChangeAttributeOperation
 		// enrich arguments with data found in prefixDef
 		enrichedArgs = new HashMap<String, String>(parsedArgs);
 		enrichedArgs.put("uri", Resolver.resolve(authorAccess, prefixDefs[i]));
-		enrichedArgs.put("prefix", prefixDefs[i].getIdent());
+		enrichedArgs.put("prefix", prefixDefs[i].getIdent() + ":");
 		// get the provider and call getLabelledEntries() on it
 		items.addAll(LabelledEntries.provider(provider).getLabelledEntries(enrichedArgs));
 	    } catch (ProviderNotFoundException e) {

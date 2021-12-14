@@ -3,8 +3,6 @@ package de.wwu.scdh.teilsp.services.extensions;
 import java.util.List;
 import java.util.Map;
 
-import de.wwu.scdh.teilsp.completion.LabelledEntry;
-
 
 public interface ILabelledEntriesProvider {
 

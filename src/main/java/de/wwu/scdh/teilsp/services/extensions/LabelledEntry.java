@@ -3,7 +3,7 @@
  * an external file.
  *
  */
-package de.wwu.scdh.teilsp.completion;
+package de.wwu.scdh.teilsp.services.extensions;
 
 public class LabelledEntry {
     private final String label;
