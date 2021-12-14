@@ -5,6 +5,12 @@
 ![tests](https://github.com/scdh/scdh-oxygen-extension/actions/workflows/test-main.yml/badge.svg)
 -->
 
+## tl;dr ##
+
+Install from [https://scdh.zivgitlabpages.uni-muenster.de/tei-processing/oxbytei/descriptor.xml](https://scdh.zivgitlabpages.uni-muenster.de/tei-processing/oxbytei/descriptor.xml).
+
+
+## An oXygen framework configured by TEI ##
 
 oXbytei [ɔx bʌtaj] (greco-english tongue and french ears) is an oXygen
 framework for editing TEI, that is configured by TEI's header. It
@@ -17,10 +23,13 @@ documents.
   stored personography that is bound to a local URI scheme defined in
   the header by
   [`<prefixDef>`](https://www.tei-c.org/release/doc/tei-p5-doc/de/html/ref-listPrefixDef.html)
+- set `@ref` of `<placeName>` etc. by selecting a person from a locally
+  stored personography that is bound to a local URI scheme defined in
+  the header by
+  [`<prefixDef>`](https://www.tei-c.org/release/doc/tei-p5-doc/de/html/ref-listPrefixDef.html)
 
 on the road map:
 
-- places
 - bibliography
 - (index)
 - metre of lyrics
