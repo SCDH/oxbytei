@@ -15,12 +15,59 @@ import java.util.Arrays;
 import de.wwu.scdh.teilsp.services.extensions.ILabelledEntriesProvider;
 import de.wwu.scdh.teilsp.services.extensions.ExtensionException;
 import de.wwu.scdh.teilsp.services.extensions.LabelledEntry;
+import de.wwu.scdh.teilsp.services.extensions.ArgumentDescriptor;
 import de.wwu.scdh.teilsp.exceptions.DocumentReaderException;
 
 
 public class LabelledEntriesFromXML
     implements ILabelledEntriesProvider {
 
+    private static final ArgumentDescriptor ARGUMENT_SELECTION =
+	new ArgumentDescriptor("selection",
+			       ArgumentDescriptor.TYPE_XPATH_EXPRESSION,
+			       "The XPath expression to use for finding selection values."
+			       + " This should regard the structure of the referred XML document.",
+			       "//*[@xml:id]");
+
+    private static final ArgumentDescriptor ARGUMENT_KEY =
+	new ArgumentDescriptor("key",
+			       ArgumentDescriptor.TYPE_XPATH_EXPRESSION,
+			       "The XPath expression to use for generating key values of the selection items."
+			       + " This should regard the structure of the referred XML document."
+			       + " Default: @xml:id",
+			       "@xml:id");
+
+    private static final ArgumentDescriptor ARGUMENT_LABEL =
+	new ArgumentDescriptor("label",
+			       ArgumentDescriptor.TYPE_XPATH_EXPRESSION,
+			       "The XPath expression to use for generating the labels of the selection items."
+			       + " This should regard the structure of the referred XML document.",
+			       "self::*");
+
+    private static final ArgumentDescriptor ARGUMENT_NAMESPACE =
+	new ArgumentDescriptor("namespace",
+			       ArgumentDescriptor.TYPE_XPATH_EXPRESSION,
+			       "A space-separated list of prefix:namespace-name tuples for use in the XPath expressions for accessing the target documents."
+			       + " This should regard the structure of the referred XML document.",
+			       "t:http://www.tei-c.org/ns/1.0 xml:http://www.w3.org/XML/1998/namespace");
+
+    /**
+     * The array of arguments, this author operation takes.
+     */
+    private static final ArgumentDescriptor[] ARGUMENTS = new ArgumentDescriptor[] {
+	ARGUMENT_SELECTION,
+	ARGUMENT_KEY,
+	ARGUMENT_LABEL,
+	ARGUMENT_NAMESPACE
+	};
+
+    /**
+     * 
+     */
+    public ArgumentDescriptor[] getArguments() {
+	return ARGUMENTS;
+    }
+    
     public ArrayList<LabelledEntry> getLabelledEntries(Map<String, String> args)
 	throws ExtensionException {
 
