@@ -25,6 +25,26 @@ class ArgumentsExtractorTest {
     }
 
     @Test
+    public void testRealWorld() throws Exception {
+	Map<String, String> args = ArgumentsExtractor.arguments("selection=//t:text//t:place key=@xml:id label=\"normalize-space(descendant-or-self::t:persName)\" namespaces=\"t:http://www.tei-c.org/ns/1.0 xml:http://www.w3.org/XML/1998/namespace\"");
+	assertEquals(4, args.size());
+	assertEquals("//t:text//t:place", args.get("selection"));
+	assertEquals("@xml:id", args.get("key"));
+	assertEquals("normalize-space(descendant-or-self::t:persName)", args.get("label"));
+	assertEquals("t:http://www.tei-c.org/ns/1.0 xml:http://www.w3.org/XML/1998/namespace", args.get("namespaces"));
+    }
+
+    @Test
+    public void testRealWorldWhitespace() throws Exception {
+	Map<String, String> args = ArgumentsExtractor.arguments(" \n\n\t selection=//t:text//t:place \nkey=@xml:id\n    label=\"normalize-space(descendant-or-self::t:persName)\"\n\tnamespaces=\"t:http://www.tei-c.org/ns/1.0 xml:http://www.w3.org/XML/1998/namespace\"\t\n");
+	assertEquals(4, args.size());
+	assertEquals("//t:text//t:place", args.get("selection"));
+	assertEquals("@xml:id", args.get("key"));
+	assertEquals("normalize-space(descendant-or-self::t:persName)", args.get("label"));
+	assertEquals("t:http://www.tei-c.org/ns/1.0 xml:http://www.w3.org/XML/1998/namespace", args.get("namespaces"));
+    }
+
+    @Test
     public void testFalseNoValue() throws Exception {
 	assertThrows(Exception.class,
 		     () -> {ArgumentsExtractor.arguments("namespace");});

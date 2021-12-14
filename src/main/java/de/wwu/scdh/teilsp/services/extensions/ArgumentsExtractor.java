@@ -22,7 +22,7 @@ public class ArgumentsExtractor {
 	    return args;
 	}
 
-	String[] pairs = argumentsString.split("\\s(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)", -1);
+	String[] pairs = argumentsString.trim().split("\\s+(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)", -1);
 	int i;
 	String[] pair = new String[2];
 	int l;
