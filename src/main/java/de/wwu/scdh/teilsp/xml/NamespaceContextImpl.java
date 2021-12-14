@@ -49,7 +49,7 @@ public class NamespaceContextImpl implements NamespaceContext {
     public String getPrefix(String namespaceURI) {
 	String prefix = null;
 	if (namespaces == null) {
-	    System.out.println("NULL");
+	    //System.err.println("NULL");
 	    return prefix;
 	} else {
 	    int i;
