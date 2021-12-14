@@ -32,6 +32,7 @@ from the contextual menu.
         <separator/>
         <addAction id="select.language"/>
         <addAction id="link.person"/>
+        <addAction id="link.place"/>
       </toolbar>
     </toolbars>
 
@@ -39,12 +40,14 @@ from the contextual menu.
       <separator/>
       <addAction id="select.language"/>
       <addAction id="link.person"/>
+      <addAction id="link.place"/>
     </menu>
 
     <contextualMenu>
       <submenu name="Other actions">
         <addAction id="select.language"/>
         <addAction id="link.person"/>
+        <addAction id="link.place"/>
       </submenu>
     </contextualMenu>
 
@@ -52,7 +55,6 @@ from the contextual menu.
       <authorActions>
         <addAction id="select.language" inElementsView="true" inCCWindow="true"/>
         <addAction id="link.person" inElementsView="true" inCCWindow="true"/>
-        <!-- testing -->
         <addAction id="link.place" inElementsView="true" inCCWindow="true"/>
       </authorActions>
     </contentCompletion>
