@@ -96,60 +96,6 @@ public class PrefixURIChangeAttributeOperation
 			       ARGUMENT_MULTIPLE_ALLOWED_VALUES,
 			       AuthorConstants.ARG_VALUE_FALSE);
 
-    // DEPRECATED:
-    private static final ArgumentDescriptor ARGUMENT_SELECTION =
-	new ArgumentDescriptor("selection",
-			       ArgumentDescriptor.TYPE_XPATH_EXPRESSION,
-			       "The XPath expression to use for finding selection values."
-			       + " This should regard the structure of the referred XML document.",
-			       "self::*");
-
-    private static final ArgumentDescriptor ARGUMENT_SELECTION_LOCAL =
-	new ArgumentDescriptor("selectionLocalVariable",
-			       ArgumentDescriptor.TYPE_STRING,
-			       "Optional: The name of the editor variable for overwriting the 'selection' argument."
-			       + " Default: 'oxbytei.uri.<PREFIX>.selection'.");
-
-    private static final ArgumentDescriptor ARGUMENT_KEY =
-	new ArgumentDescriptor("key",
-			       ArgumentDescriptor.TYPE_XPATH_EXPRESSION,
-			       "The XPath expression to use for generating key values of the selection items."
-			       + " This should regard the structure of the referred XML document."
-			       + " Default: @xml:id",
-			       "@xml:id");
-
-    private static final ArgumentDescriptor ARGUMENT_KEY_LOCAL =
-	new ArgumentDescriptor("keyLocalVariable",
-			       ArgumentDescriptor.TYPE_STRING,
-			       "Optional: The name of the editor variable for overwriting the 'key' argument."
-			       + " Default: 'oxbytei.uri.<PREFIX>.key'.");
-
-    private static final ArgumentDescriptor ARGUMENT_LABEL =
-	new ArgumentDescriptor("label",
-			       ArgumentDescriptor.TYPE_XPATH_EXPRESSION,
-			       "The XPath expression to use for generating the labels of the selection items."
-			       + " This should regard the structure of the referred XML document.",
-			       "self::*");
-
-    private static final ArgumentDescriptor ARGUMENT_LABEL_LOCAL =
-	new ArgumentDescriptor("labelLocalVariable",
-			       ArgumentDescriptor.TYPE_STRING,
-			       "Optional: The name of the editor variable for overwriting the 'label' argument."
-			       + " Default: 'oxbytei.uri.<PREFIX>.label'.");
-
-    private static final ArgumentDescriptor ARGUMENT_NAMESPACE =
-	new ArgumentDescriptor("namespace",
-			       ArgumentDescriptor.TYPE_XPATH_EXPRESSION,
-			       "A space-separated list of prefix:namespace-name tuples for use in the XPath expressions for accessing the target documents."
-			       + " This should regard the structure of the referred XML document.",
-			       "self::*");
-
-    private static final ArgumentDescriptor ARGUMENT_NAMESPACE_LOCAL =
-	new ArgumentDescriptor("namespaceLocalVariable",
-			       ArgumentDescriptor.TYPE_STRING,
-			       "Optional: The name of the editor variable for overwriting the 'namespace' argument."
-			       + " Default: 'oxbytei.uri.<PREFIX>.namespace'.");
-
     /**
      * The array of arguments, this author operation takes.
      */
@@ -161,16 +107,7 @@ public class PrefixURIChangeAttributeOperation
 	ARGUMENT_LOCATION_LOCAL,
 	ARGUMENT_PROVIDER,
 	ARGUMENT_PROVIDER_ARGUMENTS,
-	ARGUMENT_MULTIPLE,
-	// DEPRECATED
-	ARGUMENT_SELECTION,
-	ARGUMENT_SELECTION_LOCAL,
-	ARGUMENT_KEY,
-	ARGUMENT_KEY_LOCAL,
-	ARGUMENT_LABEL,
-	ARGUMENT_LABEL_LOCAL,
-	ARGUMENT_NAMESPACE,
-	ARGUMENT_NAMESPACE_LOCAL
+	ARGUMENT_MULTIPLE
     };
 
     /**
@@ -201,13 +138,6 @@ public class PrefixURIChangeAttributeOperation
 	String provider = OperationArgumentValidator.validateStringArgument(ARGUMENT_PROVIDER.getName(), args);
 	String providerArgs = OperationArgumentValidator.validateStringArgument(ARGUMENT_PROVIDER_ARGUMENTS.getName(), args);
 	String multiple = OperationArgumentValidator.validateStringArgument(ARGUMENT_MULTIPLE.getName(), args);
-
-	// DEPRECATED:
-	// String selection = OperationArgumentValidator.validateStringArgument(ARGUMENT_SELECTION.getName(), args);
-	// String key = OperationArgumentValidator.validateStringArgument(ARGUMENT_KEY.getName(), args);
-	// String label = OperationArgumentValidator.validateStringArgument(ARGUMENT_LABEL.getName(), args);
-	// String namespace = OperationArgumentValidator.validateStringArgument(ARGUMENT_NAMESPACE.getName(), args);
-
 
 	//String prefixLocal = OperationArgumentValidator.validateStringArgument(ARGUMENT_PREFIX_LOCAL, args);
 
