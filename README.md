@@ -157,7 +157,7 @@ NOTE: The tag name **must equal** the version name in the
 
 ## de.wwu.scdh.teilsp ##
 
-The Java classes are split into to namespaces. `de.wwu.scdh.teilsp`
+The Java classes are split into two namespaces. `de.wwu.scdh.teilsp`
 contains code which is not specific to the oXygen editor. It's
 intended to be the germ of a TEI [LSP](https://langserver.org/)
 implementation based on Lemminx and will be sourced out to it's own
@@ -167,10 +167,11 @@ It includes the plugin mechanism.
 
 ## Plugins ##
 
-oXbytei makes use of Javas SPI to load plugins. There is a plugin
+oXbytei makes use of Java's SPI for loading plugins. There is a plugin
 interface for providers of pairs of keys and labels, e.g. global
 identifiers and readable names of persons documented in a norm data
-repository.
+repository. They are used in the functions for linking persons, places
+etc.
 
 Existing plugins:
 - `de.wwu.scdh.teilsp.extensions.LabelledEntriesFromXML`: read from an
