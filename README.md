@@ -28,6 +28,8 @@ documents.
   the header by
   [`<prefixDef>`](https://www.tei-c.org/release/doc/tei-p5-doc/de/html/ref-listPrefixDef.html)
 
+Read more in the [**usage notes**](docs/README.md).
+
 on the road map:
 
 - bibliography
