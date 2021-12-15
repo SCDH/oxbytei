@@ -30,6 +30,7 @@ elements in the local file, while there's only one in the central file.
     xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://www.tei-c.org/ns/1.0"
     exclude-result-prefixes="xs" xpath-default-namespace="http://www.tei-c.org/ns/1.0" version="3.0">
 
+    <!-- All we need are some identity transformations: -->
     <xsl:mode on-no-match="shallow-copy"/>
     <xsl:mode name="update" on-no-match="shallow-copy"/>
     <xsl:mode name="local" on-no-match="shallow-copy"/>
@@ -60,6 +61,7 @@ elements in the local file, while there's only one in the central file.
         <xsl:apply-templates select="$updated" mode="remove-tags"/>
     </xsl:template>
 
+    <!-- rule matching tagged elements -->
     <xsl:template match="*[matches(@source, '^local\*?')]" mode="update">
         <xsl:param name="local-header" as="node()" tunnel="yes"/>
         <xsl:variable name="tag" as="xs:string" select="@source"/>
