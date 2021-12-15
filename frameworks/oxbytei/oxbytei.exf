@@ -19,11 +19,10 @@ from the contextual menu.
     <addEntry path="${framework}/oxbytei.jar"/>
   </classpath>
 
-  <!--
   <transformationScenarios>
-    <addScenarios href="${framework}/xsl/updateHeader.scenario.xml"/>
+    <!-- FIXME: add ${framework}/ after oXygen bug-fix -->
+    <addScenarios href="xsl/updateHeader.scenario.xml"/>
   </transformationScenarios>
-  -->
 
   <author>
     <!-- 
