@@ -84,9 +84,10 @@ installation or it can be installed for hacking.
 Packaging is done with [`maven`](https://maven.apache.org/).
 
 ```{shell}
+mvn generate-sources
 mvn package
 ```
-	
+
 This will create a file named `oXbytei-<VERSION>-package.zip` in the
 `target` folder. This zip-File is the same as the one distributed
 under the above mentioned URL.
@@ -119,7 +120,7 @@ the path to the cloned repository in &lt;oXygen/>'s settings.
 
 ### Regression Tests ###
 
-There are regression tests based on
+Besides Java unit tests there are regression tests based on
 [`XSpec`](https://github.com/xspec/xspec) in `test/xspec`. The tests
 can easily be run with maven from the root directory of the
 repository:
@@ -154,6 +155,26 @@ file](https://scdh.github.io/scdh-oxygen-framework/descriptor.xml).
 NOTE: The tag name **must equal** the version name in the
 [pom.xml](pom.xml)!
 
+## de.wwu.scdh.teilsp ##
+
+The Java classes are split into to namespaces. `de.wwu.scdh.teilsp`
+contains code which is not specific to the oXygen editor. It's
+intended to be the germ of a TEI [LSP](https://langserver.org/)
+implementation based on Lemminx and will be sourced out to it's own
+repository in the future.
+
+It includes the plugin mechanism.
+
+## Plugins ##
+
+oXbytei makes use of Javas SPI to load plugins. There is a plugin
+interface for providers of pairs of keys and labels, e.g. global
+identifiers and readable names of persons documented in a norm data
+repository.
+
+Existing plugins:
+- `de.wwu.scdh.teilsp.extensions.LabelledEntriesFromXML`: read from an
+  XML file
 
 # License #
 
