@@ -158,7 +158,7 @@ are relieved from the burden to keep all the headers up to date.
 The XSL script calculats XPath expressions like
 `fileDesc[1]/titleStmt[1]/title[1]` for accessing the corresponding
 element in the other file's header. With the starred tag `local*`, the
-trailing \[[0-9]+\]$` of this XPath is removed.
+trailing `\[[0-9]+\]$` of this XPath is removed.
 
 This said, it's clear why the following header tagging leads to a
 growing number of `<title>` elements in the local document:

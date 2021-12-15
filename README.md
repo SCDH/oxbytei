@@ -23,12 +23,13 @@ documents.
   stored personography that is bound to a local URI scheme defined in
   the header by
   [`<prefixDef>`](https://www.tei-c.org/release/doc/tei-p5-doc/de/html/ref-listPrefixDef.html)
-- set `@ref` of `<placeName>` etc. by selecting a person from a locally
-  stored personography that is bound to a local URI scheme defined in
+- set `@ref` of `<placeName>` etc. by selecting a place from a locally
+  stored geography that is bound to a local URI scheme defined in
   the header by
   [`<prefixDef>`](https://www.tei-c.org/release/doc/tei-p5-doc/de/html/ref-listPrefixDef.html)
+- update the header by pulling in information from the project's central header file
 
-Read more in the [**usage notes**](docs/README.md).
+Read more in the [**Usage Notes**](docs/README.md).
 
 on the road map:
 
