@@ -6,7 +6,7 @@
    <teiHeader>
       <fileDesc>
          <titleStmt>
-            <title>Sample TEI document</title>
+            <title source="local">Sample TEI document</title>
          </titleStmt>
          <publicationStmt>
             <p>Shipped as a sample with a framework</p>
