@@ -170,7 +170,7 @@ growing number of `<title>` elements in the local document:
 </titleStmt>
 ```
 
-So, Leave away the star.
+So, leave away the star.
 
 TODO: Should there be more complex tagging added? Or should there be
 feature added to reproduce subtrees in the local document, for which
