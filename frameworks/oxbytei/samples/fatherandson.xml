@@ -6,12 +6,12 @@
    <teiHeader>
       <fileDesc>
          <titleStmt>
-            <title>Sample TEI document</title>
+            <title source="local*">Sample TEI document</title>
          </titleStmt>
          <publicationStmt>
             <p>Shipped as a sample with a framework</p>
          </publicationStmt>
-         <sourceDesc>
+         <sourceDesc source="local">
             <p>borne again</p>
          </sourceDesc>
       </fileDesc>
@@ -32,6 +32,10 @@
                ident="place"/>
          </listPrefixDef>
       </encodingDesc>
+      <xenoData/>
+      <revisionDesc source="local">
+         <change/>
+      </revisionDesc>
    </teiHeader>
    <text>
       <body>

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-model href="http://www.tei-c.org/release/xml/tei/custom/schema/relaxng/tei_all.rng" type="application/xml" schematypens="http://relaxng.org/ns/structure/1.0"?>
+<?xml-model href="http://www.tei-c.org/release/xml/tei/custom/schema/relaxng/tei_all.rng" type="application/xml"
+	schematypens="http://purl.oclc.org/dsdl/schematron"?>
+<TEI xmlns="http://www.tei-c.org/ns/1.0">
+  <teiHeader>
+      <fileDesc>
+         <titleStmt>
+            <title>Stable</title>
+            <title type="subtitle">Really stable</title>
+            <author>me</author>
+         </titleStmt>
+         <publicationStmt>
+            <p>Publication Information to be Updated</p>
+         </publicationStmt>
+         <sourceDesc>
+            <listWit>
+               <witness xml:id="A"/>
+               <witness xml:id="B"/>
+            </listWit>
+         </sourceDesc>
+      </fileDesc>
+     <revisionDesc>
+        <change who="me" when="2021-12-23">Anything done</change>
+     </revisionDesc>
+  </teiHeader>
+  <text>
+      <body>
+         <p>Some text here.</p>
+      </body>
+  </text>
+</TEI>
