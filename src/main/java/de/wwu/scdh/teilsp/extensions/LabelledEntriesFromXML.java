@@ -22,6 +22,11 @@ import de.wwu.scdh.teilsp.exceptions.DocumentReaderException;
 public class LabelledEntriesFromXML
     implements ILabelledEntriesProvider {
 
+    private static final ArgumentDescriptor ARGUMENT_URI =
+	new ArgumentDescriptor("uri",
+			       ArgumentDescriptor.TYPE_STRING,
+			       "The URI pointing to the referatory.");
+
     private static final ArgumentDescriptor ARGUMENT_SELECTION =
 	new ArgumentDescriptor("selection",
 			       ArgumentDescriptor.TYPE_XPATH_EXPRESSION,
@@ -55,6 +60,7 @@ public class LabelledEntriesFromXML
      * The array of arguments, this author operation takes.
      */
     private static final ArgumentDescriptor[] ARGUMENTS = new ArgumentDescriptor[] {
+	ARGUMENT_URI,
 	ARGUMENT_SELECTION,
 	ARGUMENT_KEY,
 	ARGUMENT_LABEL,
