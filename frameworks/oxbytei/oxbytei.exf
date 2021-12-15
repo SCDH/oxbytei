@@ -19,6 +19,12 @@ from the contextual menu.
     <addEntry path="${framework}/oxbytei.jar"/>
   </classpath>
 
+  <!--
+  <transformationScenarios>
+    <addScenarios href="${framework}/xsl/updateHeader.scenario.xml"/>
+  </transformationScenarios>
+  -->
+
   <author>
     <!-- 
       Author Actions are loaded from these directories:
