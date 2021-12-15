@@ -1,5 +1,10 @@
 # Change log #
 
+## v1.2.0 ##
+
+- added transformation scenario for updating the header by merging in
+  information from a central header file
+
 ## v1.1.0 ##
 
 - Changed the license to GPL v3
