@@ -170,7 +170,11 @@ growing number of `<title>` elements in the local document:
 </titleStmt>
 ```
 
-TODO: Add more complex tagging.
+So, Leave away the star.
+
+TODO: Should there be more complex tagging added? Or should there be
+feature added to reproduce subtrees in the local document, for which
+are no corresponding elements in the central header?
 
 TODO: Caculate a hash of the central header add put in into an
 attribute.
