@@ -1,21 +1,18 @@
 # XSL Transformation for Updating the Header #
 
 Your TEI documents' headers may contain the same pieces of information
-again and again. To keep all this redundant information up to date,
+again and again. Keeping all this redundant information up to date
 can be very tedious.
 
-There are different approaches, to handle the redundancy: 1) linking
-the redundant pieces to locations in a project's central header file
-using `XInclude`, 2) transforming the header. The first approach has
-the downside of a compilation need before providing the TEI documents
-to outside world. Moreover, it's only well suited for including
-biggers pieces; but including redundant smaller pieces soon gets as
-tedious as keeping them directly in the header.
+There is a transformation scenario called **oXbytei :: update header**
+for this purpose. But it needs a prepared central header file like the
+one described below.
 
-Transforming the header is way more promising. But how? Merging
-redundant pieces from a central header file would be cool!
-
-Think of this central header file. Note the `@source` attributes!
+As an example, have a look at the following central header file. Note
+the `@source` attributes!  `@source="local"` means, that the local
+version of the elment and its subtree is to be
+preserved. `@source="local*"` means that all siblings with the same
+element element name from the local header are to be preserved.
 
 ```{xml}
 <TEI xmlns="http://www.tei-c.org/ns/1.0" xml:lang="en">
@@ -156,6 +153,42 @@ TEI documents (except the central header file).
 So you can just keep the redundant information in a central file and
 are relieved from the burden to keep all the headers up to date.
 
-(Note: It would be possible to tag the elements in the local file, but
-then, we would have all these misused `@source` attributes in the
-documents that we want to ship to the outside world.)
+## How it works ##
+
+The XSL script calculats XPath expressions like
+`fileDesc[1]/titleStmt[1]/title[1]` for accessing the corresponding
+element in the other file's header. With the starred tag `local*`, the
+trailing \[[0-9]+\]$` of this XPath is removed.
+
+This said, it's clear why the following header tagging leads to a
+growing number of `<title>` elements in the local document:
+
+```{xml}
+<titleStmt>
+	<title type="maintitle">Kritische Schriften</title>
+	<title type="subtitle" source="local*">Kritik der Urteilskraft</title>
+</titleStmt>
+```
+
+So, leave away the star.
+
+TODO: Should there be more complex tagging added? Or should there be
+feature added to reproduce subtrees in the local document, for which
+are no corresponding elements in the central header?
+
+TODO: Caculate a hash of the central header add put in into an
+attribute.
+
+## Further Notes ##
+
+It would be possible to tag the elements in the local file, but then,
+we would have all these misused `@source` attributes in the documents
+that we want to ship to the outside world.
+
+There are different approaches, to handle the redundancy: 1) linking
+the redundant pieces to locations in a project's central header file
+using `XInclude`, 2) transforming the header. The first approach has
+the downside of a compilation need before shipping the TEI documents
+to outside world. Moreover, it's only well suited for including
+biggers pieces. But including redundant smaller pieces soon gets as
+tedious as keeping them directly in the header.
