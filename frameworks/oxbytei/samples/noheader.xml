@@ -14,9 +14,15 @@
             <p>Publication Information to be Updated</p>
          </publicationStmt>
          <sourceDesc>
-            <p>Information about the source is still missing</p>
+            <listWit>
+               <witness xml:id="A"/>
+               <witness xml:id="B"/>
+            </listWit>
          </sourceDesc>
       </fileDesc>
+     <revisionDesc>
+        <change who="me" when="2021-12-23">Anything done</change>
+     </revisionDesc>
   </teiHeader>
   <text>
       <body>
