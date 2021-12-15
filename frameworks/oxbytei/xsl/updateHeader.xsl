@@ -95,7 +95,22 @@ elements in the local file, while there's only one in the central file.
             </xsl:evaluate>
         </xsl:variable>
         <!-- 3. apply templates from 'local' mode -->
-        <xsl:apply-templates select="$local-node" mode="local"/>
+        <!-- To get the spaces right, we copy the whitespace node infront of this node
+            between the nodes that come from the local file. -->
+        <xsl:apply-templates select="$local-node[1]" mode="local"/>
+        <xsl:apply-templates select="$local-node[position() > 1]" mode="local-space">
+            <!-- This expression get the directly preceding whitespace node, if present. -->
+            <xsl:with-param name="space" as="text()*"
+                select="preceding-sibling::node()[1][self::text() and normalize-space(self::text()) eq '']"
+            />
+        </xsl:apply-templates>
+    </xsl:template>
+
+    <!-- template for printing space before the node -->
+    <xsl:template match="*" mode="local-space">
+        <xsl:param name="space" as="text()*"/>
+        <xsl:value-of select="$space"/>
+        <xsl:apply-templates select="." mode="local"/>
     </xsl:template>
 
     <!-- delete tags encoded in @source -->
