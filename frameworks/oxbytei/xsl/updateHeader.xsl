@@ -61,19 +61,23 @@ elements in the local file, while there's only one in the central file.
 
     <xsl:template match="*[matches(@source, '^local\*?')]" mode="update">
         <xsl:param name="local-header" as="node()" tunnel="yes"/>
-        <xsl:variable name="tag" select="@source"/>
+        <xsl:variable name="tag" as="xs:string" select="@source"/>
         <!-- We want to access the local header at the corresponding location.
             Therefore we need to get the xpath (from root or here: from the teiHeader element)
             to the current element. Then we can select the local node by evaluating the path and
             apply another set of templates on it. -->
         <!-- 1. get the path in the form fileDesc[1]/titleStmt[1]/title[2] -->
-        <xsl:variable name="path-all" select="
+        <xsl:variable name="path-all" as="xs:string" select="
                 string-join(
                 for $node in ancestor-or-self::*[ancestor::teiHeader]
                 return
                     concat(name($node), '[', count(preceding-sibling::*[name() eq name($node)]) + 1, ']'),
                 '/')"/>
-        <xsl:variable name="path" select="if ($tag eq 'local*') then replace($path-all, '\[[0-9]+\]$', '') else $path-all"/>
+        <xsl:variable name="path" as="xs:string" select="
+                if ($tag eq 'local*') then
+                    replace($path-all, '\[[0-9]+\]$', '')
+                else
+                    $path-all"/>
         <xsl:if test="$debug">
             <xsl:message>
                 <xsl:text>Replacing </xsl:text>
