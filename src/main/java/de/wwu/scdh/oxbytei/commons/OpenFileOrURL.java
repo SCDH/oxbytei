@@ -11,7 +11,7 @@ import java.net.URLConnection;
 import ro.sync.ecss.extensions.api.AuthorAccess;
 import ro.sync.exml.workspace.api.editor.WSEditorBase;
 
-import de.wwu.scdh.teilsp.completion.PrefixDef;
+import de.wwu.scdh.teilsp.tei.PrefixDef;
 import de.wwu.scdh.teilsp.exceptions.DocumentReaderException;
 
 public class OpenFileOrURL {
