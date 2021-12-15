@@ -24,6 +24,7 @@ import ro.sync.ecss.extensions.api.AuthorOperationException;
 import ro.sync.ecss.extensions.api.node.AttrValue;
 import ro.sync.ecss.extensions.api.node.AuthorElement;
 import ro.sync.ecss.extensions.api.node.AuthorNode;
+import ro.sync.exml.workspace.api.util.UtilAccess;
 
 import org.bbaw.telota.ediarum.InsertRegisterDialog;
 
@@ -140,6 +141,13 @@ public class PrefixURIChangeAttributeOperation
 	String multiple = OperationArgumentValidator.validateStringArgument(ARGUMENT_MULTIPLE.getName(), args);
 
 	//String prefixLocal = OperationArgumentValidator.validateStringArgument(ARGUMENT_PREFIX_LOCAL, args);
+
+	UtilAccess utilAccess;
+	utilAccess = authorAccess.getUtilAccess();
+	//utilAccess.addCustomEditorVariablesResolver(null);
+
+	String myvar = utilAccess.expandEditorVariables("${myvar}", null);
+	System.err.println("editor variable: " + myvar);
 
 	// Get prefixDef elements from current document
 	AuthorNode[] prefixNodes;
