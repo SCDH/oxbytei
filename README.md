@@ -23,10 +23,13 @@ documents.
   stored personography that is bound to a local URI scheme defined in
   the header by
   [`<prefixDef>`](https://www.tei-c.org/release/doc/tei-p5-doc/de/html/ref-listPrefixDef.html)
-- set `@ref` of `<placeName>` etc. by selecting a person from a locally
-  stored personography that is bound to a local URI scheme defined in
+- set `@ref` of `<placeName>` etc. by selecting a place from a locally
+  stored geography that is bound to a local URI scheme defined in
   the header by
   [`<prefixDef>`](https://www.tei-c.org/release/doc/tei-p5-doc/de/html/ref-listPrefixDef.html)
+- update the header by pulling in information from the project's central header file
+
+Read more in the [**Usage Notes**](docs/README.md).
 
 on the road map:
 
@@ -81,9 +84,10 @@ installation or it can be installed for hacking.
 Packaging is done with [`maven`](https://maven.apache.org/).
 
 ```{shell}
+mvn generate-sources
 mvn package
 ```
-	
+
 This will create a file named `oXbytei-<VERSION>-package.zip` in the
 `target` folder. This zip-File is the same as the one distributed
 under the above mentioned URL.
@@ -116,7 +120,7 @@ the path to the cloned repository in &lt;oXygen/>'s settings.
 
 ### Regression Tests ###
 
-There are regression tests based on
+Besides Java unit tests there are regression tests based on
 [`XSpec`](https://github.com/xspec/xspec) in `test/xspec`. The tests
 can easily be run with maven from the root directory of the
 repository:
@@ -151,118 +155,27 @@ file](https://scdh.github.io/scdh-oxygen-framework/descriptor.xml).
 NOTE: The tag name **must equal** the version name in the
 [pom.xml](pom.xml)!
 
+## de.wwu.scdh.teilsp ##
 
+The Java classes are split into two namespaces. `de.wwu.scdh.teilsp`
+contains code which is not specific to the oXygen editor. It's
+intended to be the germ of a TEI [LSP](https://langserver.org/)
+implementation based on Lemminx and will be sourced out to it's own
+repository in the future.
 
-## Usage and Customization ##
+It includes the plugin mechanism.
 
-Take a look at the folder
-[`frameworks/oxbytei/samples`](frameworks/oxbytei/samples)
-for sample resources, especially at the XML catalog.
+## Plugins ##
 
-### Personography ###
+oXbytei makes use of Java's SPI for loading plugins. There is a plugin
+interface for providers of pairs of keys and labels, e.g. global
+identifiers and readable names of persons documented in a norm data
+repository. They are used in the functions for linking persons, places
+etc.
 
-If there is a `<prefixDef>` in the header, which defines a URI scheme
-on the protocol `psn`, `pers`, `prs`, `prsn` or `person`, an author
-mode action ![icon](frameworks/oxbytei/images/person-24.png) for
-selecting a person from a personography is activated. For example, put
-this in the header:
-
-```{xml}
-...
-<encodingDesc>
-	...
-	<listPrefixDef>
-		<prefixDef
-			matchPattern="([a-zA-Z0-9_-]+)"
-			replacementPattern="persons.xml#$1"
-			ident="psn"/>
-	</listPrefixDef>
-	...
-</encodingDesc>
-```
-
-If the linked file `persons.xml` is present, then all the persones
-found in `<listPerson>` elements are presented in a selection
-dialog. If the caret (pointer) is on a `<persName>` or `<person>`
-element, the `@ref` attribute is updated by your selection (and
-deleted if you choose the empty name). If the caret is not in such a
-context, an empty fragment or a surrounding fragment like this is
-created:
-
-```{xml}
-<persName ref="psn:BadraddinbalAttar">Badraddīn</persName>
-```
-
-I strongly encourage providing a personography in a local file as a
-broker to global norm data on the WWW, instead of linking to triple
-stores on the WWW directly from the TEI documents. See [this
-discussion](https://listserv.brown.edu/cgi-bin/wa?A2=ind1711&L=TEI-L&D=0&P=43750)
-on the TEI mailing list on the subject. I also encourage defining URI
-schemes via
-[`<prefixDef>`](https://www.tei-c.org/release/doc/tei-p5-doc/de/html/ref-listPrefixDef.html),
-instead of linking to external elements by IDs directly. The prefix
-definition serves as an abstraction layer, makes everything explicit,
-and thus enables us to write generic tools and actions like
-[![icon](frameworks/oxbytei/images/person-24.png)](frameworks/oxbytei/externalAuthorActions/link-person.xml).
-
-
-### Language and script direction ###
-
-According to the [TEI
-guidelines](https://www.tei-c.org/release/doc/tei-p5-doc/de/html/WD.html#WDWM),
-the writing direction of a script should be encoded by the `@xml:lang`
-attribute. Moreover, the languages, that used in a TEI encoded
-document, should be listed in `teiHeader/profileDesc/langUsage`.
-
-Here is an example header:
-
-```{xml}
-  <profileDesc xml:id="profileDesc">
-	 <langUsage xml:id="langUsage">
-		<language ident="ar">Arabisch</language>
-		<language ident="ar-DE">Arabisch in Umschrift nach Brockelmann/Wehr</language>
-		<language ident="de">Deutsch</language>
-		<language ident="en">English</language>
-	 </langUsage>
-  </profileDesc>
-```
-
-The framework offers a functions for setting the `@xml:lang` attribute
-by selecting a language from the list of languages in the header.
-
-- `Change language` author mode action 
-  - is available in the Toolbar:
-	![languageicon](frameworks/oxbytei/images/lang-24.png) (Note:
-	The icon was desigend by Onur Mustak Cobanli an is distributed on
-	[http://languageicon.org/](http://languageicon.org/) by under a CC
-	licence with Relax-Attribution term.)
-  - is available through content completion (Return)
-  - is available in the `TEI P5` menu
-- content completion is active in text mode
-
-In order to get nice rendering in author mode, you should provide CSS
-for the used languages through the project specific CSS file. Here is
-an example:
-
-```{css}
-@namespace xml "http://www.w3.org/XML/1998/namespace";
-
-[xml|lang="ar"] {
-    direction: rtl !important;
-}
-
-[xml|lang="de"] {
-    direction: ltr !important;
-}
-
-[xml|lang="en"] {
-    direction: ltr !important;
-}
-
-[xml|lang="ar-DE"] {
-    direction: ltr !important;
-}
-```
+Existing plugins:
+- `de.wwu.scdh.teilsp.extensions.LabelledEntriesFromXML`: read from an
+  XML file
 
 # License #
 
