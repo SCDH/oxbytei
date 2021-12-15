@@ -37,18 +37,16 @@ elements in the local file, while there's only one in the central file.
 
     <xsl:param name="headerfile" as="xs:string" required="yes"/>
 
-    <xsl:param name="headerXPath" as="xs:string" select="'/TEI/teiHeader'" required="no"/>
-
-    <xsl:param name="local-source-keyword" as="xs:string" select="'local'" required="no"/>
+    <xsl:param name="headerXPath" as="xs:string" select="'//teiHeader'" required="no"/>
 
     <xsl:param name="debug" as="xs:boolean" select="true()" required="no"/>
 
-    <xsl:variable name="header" as="node()" select="doc($headerfile)//teiHeader"/>
-    <!--
-        <xsl:evaluate xpath="concat('doc(', $headerfile, ')', $headerXPath)" as="node()"
-            context-item="."/>
+    <xsl:variable name="header" as="node()*">
+        <xsl:evaluate expand-text="yes" xpath="concat('doc($file)', $headerXPath)" as="node()*"
+            context-item=".">
+            <xsl:with-param name="file" select="$headerfile"/>
+        </xsl:evaluate>
     </xsl:variable>
-    -->
 
     <xsl:template match="teiHeader">
         <xsl:variable name="updated" as="node()">
