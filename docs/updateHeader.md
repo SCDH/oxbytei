@@ -4,16 +4,9 @@ Your TEI documents' headers may contain the same pieces of information
 again and again. To keep all this redundant information up to date,
 can be very tedious.
 
-There are different approaches, to handle the redundancy: 1) linking
-the redundant pieces to locations in a project's central header file
-using `XInclude`, 2) transforming the header. The first approach has
-the downside of a compilation need before providing the TEI documents
-to outside world. Moreover, it's only well suited for including
-biggers pieces; but including redundant smaller pieces soon gets as
-tedious as keeping them directly in the header.
-
-Transforming the header is way more promising. But how? Merging
-redundant pieces from a central header file would be cool!
+There is a transformation scenario called **oXbytei :: update header**
+for this purpose. But it needs an prepared central header like the one
+described below.
 
 Think of this central header file. Note the `@source` attributes!
 
@@ -159,3 +152,11 @@ are relieved from the burden to keep all the headers up to date.
 (Note: It would be possible to tag the elements in the local file, but
 then, we would have all these misused `@source` attributes in the
 documents that we want to ship to the outside world.)
+
+There are different approaches, to handle the redundancy: 1) linking
+the redundant pieces to locations in a project's central header file
+using `XInclude`, 2) transforming the header. The first approach has
+the downside of a compilation need before shipping the TEI documents
+to outside world. Moreover, it's only well suited for including
+biggers pieces. But including redundant smaller pieces soon gets as
+tedious as keeping them directly in the header.
