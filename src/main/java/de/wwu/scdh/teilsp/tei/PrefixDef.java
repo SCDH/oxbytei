@@ -1,4 +1,8 @@
-package de.wwu.scdh.teilsp.completion;
+/**
+ * PrefixDef - a class to gather, access and process information from
+ * TEI's <prefixDef> element.
+ */
+package de.wwu.scdh.teilsp.tei;
 
 import ro.sync.ecss.extensions.api.node.AttrValue;
 import ro.sync.ecss.extensions.api.node.AuthorElement;

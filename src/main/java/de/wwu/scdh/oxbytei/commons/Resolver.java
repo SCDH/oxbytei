@@ -6,7 +6,7 @@ import java.net.URL;
 import ro.sync.ecss.extensions.api.AuthorAccess;
 import ro.sync.exml.workspace.api.editor.WSEditorBase;
 
-import de.wwu.scdh.teilsp.completion.PrefixDef;
+import de.wwu.scdh.teilsp.tei.PrefixDef;
 
 public class Resolver {
 

@@ -33,7 +33,7 @@ import de.wwu.scdh.teilsp.services.extensions.LabelledEntries;
 import de.wwu.scdh.teilsp.services.extensions.ArgumentsExtractor;
 import de.wwu.scdh.teilsp.services.extensions.ExtensionException;
 import de.wwu.scdh.teilsp.exceptions.ProviderNotFoundException;
-import de.wwu.scdh.teilsp.completion.PrefixDef;
+import de.wwu.scdh.teilsp.tei.PrefixDef;
 import de.wwu.scdh.oxbytei.commons.OperationArgumentValidator;
 import de.wwu.scdh.oxbytei.commons.Resolver;
 
