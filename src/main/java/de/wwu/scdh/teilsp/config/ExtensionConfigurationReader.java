@@ -27,8 +27,8 @@ public class ExtensionConfigurationReader {
     public static final String pluginsXPath = "/c:configuration/c:plugins/c:plugin";
     public static final String classNameXPath = "c:class";
     public static final String typeXPath = "c:type";
-    public static final String conditionXPath = "//c:conditions/c:condition";
-    public static final String argumentXPath = "//c:arguments/c:argument";
+    public static final String conditionXPath = "descendant::c:conditions/c:condition";
+    public static final String argumentXPath = "descendant::c:arguments/c:argument";
     
     public static final NamespaceContext namespace =
 	new NamespaceContextImpl("c:http://wwu.de/scdh/teilsp/config/");
@@ -51,8 +51,7 @@ public class ExtensionConfigurationReader {
 		String typeName = (String) xpath.compile(typeXPath).evaluate(plugin, XPathConstants.STRING);
 		
 		extension = new ExtensionConfiguration(className, typeName,
-						       getArguments(plugin, xpath),
-						       getConditions(plugin, xpath));
+						       getSpecifications(plugin, xpath));
 		config.add(extension);
 	    }
 	} catch (XPathExpressionException e) {
@@ -62,6 +61,24 @@ public class ExtensionConfigurationReader {
 	// }
 	
 	return config;
+    }
+
+    private static List<ArgumentsConditionsPair> getSpecifications(Element specsNode, XPath xpath)
+	throws ConfigurationException {
+	List<ArgumentsConditionsPair> spec = new ArrayList<ArgumentsConditionsPair>();
+	try {
+	    NodeList nodes = (NodeList) xpath.compile("descendant::c:configuration").evaluate(specsNode, XPathConstants.NODESET);
+	    for (int i = 0; i < nodes.getLength(); i++) {
+		Element specNode = (Element) nodes.item(i);
+		ArgumentsConditionsPair pair = 
+		    new ArgumentsConditionsPair(getConditions(specNode, xpath),
+						getArguments(specNode, xpath));
+		spec.add(pair);
+	    }
+	} catch (XPathExpressionException e) {
+	    throw new ConfigurationException(e);
+	}
+	return spec;
     }
 
     private static Map<String, String> getConditions(Element conditionsNode, XPath xpath)

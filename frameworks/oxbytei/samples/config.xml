@@ -3,11 +3,11 @@
     <plugins>
         <plugin>
             <class>de.wwu.scdh.teilsp.extensions.LabelledEntriesFromXML</class>
-            <type>prefixDefItemsProvider</type>
+            <type>de.wwu.scdh.teilsp.services.extensions.ILabelledEntriesProvider</type>
             <configurations>
                 <configuration>
                     <conditions>
-                        <condition domain="ident">^(psn|prs|pers|person)</condition>
+                        <condition domain="context">//teiHeader//prefixDef[matches(@ident, '^(psn|prs|pers|person)')]</condition>
                         <condition domain="context">self::persName</condition>
                         <condition domain="priority">10</condition>
                     </conditions>
@@ -20,7 +20,7 @@
                 </configuration>
                 <configuration>
                     <conditions>
-                        <condition domain="ident">^(pl|plc|place)</condition>
+                        <condition domain="context">//teiHeader//prefixDef[matches(@ident, '^(pl|plc|place)')]</condition>
                         <condition domain="context">self::placeName</condition>
                         <condition domain="priority">10</condition>
                     </conditions>
