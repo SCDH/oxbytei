@@ -5,14 +5,14 @@ again and again. Keeping all this redundant information up to date
 can be very tedious.
 
 There is a transformation scenario called **oXbytei :: update header**
-for this purpose. But it needs a prepared central header file like the
+for this purpose. It needs a prepared central header file like the
 one described below.
 
 As an example, have a look at the following central header file. Note
 the `@source` attributes!  `@source="local"` means, that the local
 version of the elment and its subtree is to be
 preserved. `@source="local*"` means that all siblings with the same
-element element name from the local header are to be preserved.
+element name from the local header are to be preserved.
 
 ```{xml}
 <TEI xmlns="http://www.tei-c.org/ns/1.0" xml:lang="en">
