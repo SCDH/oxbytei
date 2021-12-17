@@ -7,15 +7,11 @@
 package de.wwu.scdh.oxbytei;
 
 import java.net.MalformedURLException;
-import java.net.URL;
-import java.net.URISyntaxException;
 import java.awt.Frame;
 import javax.swing.text.BadLocationException;
 import java.util.Map;
-import java.util.HashMap;
 import java.util.List;
 import java.util.ArrayList;
-import java.util.Iterator;
 import javax.xml.transform.URIResolver;
 import javax.xml.transform.TransformerException;
 
@@ -30,16 +26,13 @@ import ro.sync.ecss.extensions.api.node.AttrValue;
 import ro.sync.ecss.extensions.api.node.AuthorElement;
 import ro.sync.ecss.extensions.api.node.AuthorNode;
 import ro.sync.exml.workspace.api.util.UtilAccess;
-import ro.sync.exml.workspace.api.util.XMLUtilAccess;
 
 import org.bbaw.telota.ediarum.InsertRegisterDialog;
 
 import de.wwu.scdh.teilsp.services.extensions.ILabelledEntriesProvider;
 import de.wwu.scdh.teilsp.services.extensions.LabelledEntry;
 import de.wwu.scdh.teilsp.services.extensions.LabelledEntries;
-import de.wwu.scdh.teilsp.services.extensions.ArgumentsExtractor;
 import de.wwu.scdh.teilsp.services.extensions.ExtensionException;
-import de.wwu.scdh.teilsp.exceptions.ProviderNotFoundException;
 import de.wwu.scdh.teilsp.tei.PrefixDef;
 import de.wwu.scdh.teilsp.config.ArgumentsConditionsPair;
 import de.wwu.scdh.teilsp.config.ExtensionConfiguration;
