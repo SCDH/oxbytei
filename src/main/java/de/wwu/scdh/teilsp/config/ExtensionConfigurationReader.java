@@ -2,6 +2,7 @@ package de.wwu.scdh.teilsp.config;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URL;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Map;
@@ -32,7 +33,21 @@ public class ExtensionConfigurationReader {
     
     public static final NamespaceContext namespace =
 	new NamespaceContextImpl("c:http://wwu.de/scdh/teilsp/config/");
-    
+
+    public static List<ExtensionConfiguration> getExtensionsConfiguration(String configURL)
+	throws ConfigurationException {
+	try {
+	    InputStream input = new URL(configURL).openStream();
+	    List<ExtensionConfiguration> config = getExtensionsConfiguration(input);
+	    input.close();
+	    return config;
+	} catch (IOException e) {
+	    throw new ConfigurationException("Error opening config from '"
+					     + configURL
+					     + "'. File not found");
+	}
+    }
+
     public static List<ExtensionConfiguration> getExtensionsConfiguration(InputStream input)
 	throws ConfigurationException {
 	List<ExtensionConfiguration> config = new ArrayList<ExtensionConfiguration>();
