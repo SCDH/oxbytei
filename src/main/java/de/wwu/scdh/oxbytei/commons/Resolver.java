@@ -7,7 +7,7 @@ import java.nio.file.Paths;
 import javax.xml.transform.TransformerException;
 
 import ro.sync.ecss.extensions.api.AuthorAccess;
-import ro.sync.exml.workspace.api.editor.WSEditorBase;
+
 
 import de.wwu.scdh.teilsp.tei.PrefixDef;
 
@@ -21,20 +21,6 @@ public class Resolver {
 	String directory = Paths.get(cfu.toURI()).getParent().toString();
 	return directory;
     }
-    
-    // public static String resolveOFF(AuthorAccess authorAccess, String link)
-    // 	throws MalformedURLException, NullPointerException, URISyntaxException {
-    // 	if (link.startsWith("/") || link.startsWith("~/")) {
-    // 	    // we have an absolute file path
-    // 	    return "file:" + link;
-    // 	} else if (link.matches("^[a-zA-Z]+[a-zA-Z0-9_-]*:.*")) {
-    // 	    // we have some kind of URI
-    // 	    return link;
-    // 	} else {
-    // 	    // file relative to the currently edited document
-    // 	    return cfdu(authorAccess) + link;
-    // 	}
-    // }
 
     public static String resolve(AuthorAccess authorAccess, String reference)
 	throws MalformedURLException, TransformerException {
