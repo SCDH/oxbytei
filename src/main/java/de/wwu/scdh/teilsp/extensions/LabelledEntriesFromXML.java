@@ -23,9 +23,14 @@ public class LabelledEntriesFromXML
     implements ILabelledEntriesProvider {
 
     private static final ArgumentDescriptor ARGUMENT_URI =
-	new ArgumentDescriptor("uri",
+	new ArgumentDescriptor("systeID",
 			       ArgumentDescriptor.TYPE_STRING,
 			       "The URI pointing to the referatory.");
+
+    private static final ArgumentDescriptor ARGUMENT_PREFIX =
+	new ArgumentDescriptor("prefix",
+			       ArgumentDescriptor.TYPE_STRING,
+			       "The prefix of the URI scheme given in prefixDef/@ident.");
 
     private static final ArgumentDescriptor ARGUMENT_SELECTION =
 	new ArgumentDescriptor("selection",
@@ -61,6 +66,7 @@ public class LabelledEntriesFromXML
      */
     private static final ArgumentDescriptor[] ARGUMENTS = new ArgumentDescriptor[] {
 	ARGUMENT_URI,
+	ARGUMENT_PREFIX,
 	ARGUMENT_SELECTION,
 	ARGUMENT_KEY,
 	ARGUMENT_LABEL,
