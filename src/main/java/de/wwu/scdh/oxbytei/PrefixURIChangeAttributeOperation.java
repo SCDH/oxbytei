@@ -57,43 +57,12 @@ public class PrefixURIChangeAttributeOperation
 			       ArgumentDescriptor.TYPE_STRING,
 			       "The attribute which the link goes into.");
 
-    private static final ArgumentDescriptor ARGUMENT_PREFIX =
-	new ArgumentDescriptor("prefix",
-			       ArgumentDescriptor.TYPE_STRING,
-			       "The prefix of the URI scheme given in prefixDef/@ident."
-			       + " This may be a regular expression, following the XPath flavour, e.g. ^(plc|place)."
-			       + " It must be present in your TEI document.");
-
-    private static final ArgumentDescriptor ARGUMENT_PREFIX_LOCAL =
-	new ArgumentDescriptor("prefixLocalVariable",
-			       ArgumentDescriptor.TYPE_STRING,
-			       "Optioal: The name of the editor variable for overwriting the 'prefix' argument."
-			       + " Default: 'oxbytei.uri.<PREFIX>.prefix'.");
-
     private static final ArgumentDescriptor ARGUMENT_LOCATION =
 	new ArgumentDescriptor("location",
 			       ArgumentDescriptor.TYPE_XPATH_EXPRESSION,
 			       "An XPath 2.0 locating the element on which the link is to be stored."
 			       + " Defaults to the current element context.",
 			       "self::*");
-
-    private static final ArgumentDescriptor ARGUMENT_LOCATION_LOCAL =
-	new ArgumentDescriptor("locationLocalVariable",
-			       ArgumentDescriptor.TYPE_STRING,
-			       "Optional: The name of the editor variable for overwriting the 'location' argument."
-			       + " Default: 'oxbytei.uri.<PREFIX>.location'.");
-
-    private static final ArgumentDescriptor ARGUMENT_PROVIDER =
-	new ArgumentDescriptor("provider",
-			       ArgumentDescriptor.TYPE_STRING,
-			       "The full qualified (dotted) name of the provider class.",
-			       "de.wwu.scdh.teilsp.extensions.LabelledEntriesFromXML");
-
-    private static final ArgumentDescriptor ARGUMENT_PROVIDER_ARGUMENTS =
-	new ArgumentDescriptor("providerArguments",
-			       ArgumentDescriptor.TYPE_STRING,
-			       "Arguments for the provider.");
-
 
     private static final String[] ARGUMENT_MULTIPLE_ALLOWED_VALUES = new String[] {
 	AuthorConstants.ARG_VALUE_FALSE,
@@ -113,12 +82,7 @@ public class PrefixURIChangeAttributeOperation
      */
     private static final ArgumentDescriptor[] ARGUMENTS = new ArgumentDescriptor[] {
 	ARGUMENT_ATTRIBUTE,
-	ARGUMENT_PREFIX,
-	ARGUMENT_PREFIX_LOCAL,
 	ARGUMENT_LOCATION,
-	ARGUMENT_LOCATION_LOCAL,
-	ARGUMENT_PROVIDER,
-	ARGUMENT_PROVIDER_ARGUMENTS,
 	ARGUMENT_MULTIPLE
     };
 
@@ -145,13 +109,8 @@ public class PrefixURIChangeAttributeOperation
 
 	// Validate arguments
 	final String attributeName = OperationArgumentValidator.validateStringArgument(ARGUMENT_ATTRIBUTE.getName(), args);
-	final String prefix = OperationArgumentValidator.validateStringArgument(ARGUMENT_PREFIX.getName(), args);
 	final String location = OperationArgumentValidator.validateStringArgument(ARGUMENT_LOCATION.getName(), args);
-	//final String provider = OperationArgumentValidator.validateStringArgument(ARGUMENT_PROVIDER.getName(), args);
-	//final String providerArgs = OperationArgumentValidator.validateStringArgument(ARGUMENT_PROVIDER_ARGUMENTS.getName(), args);
 	final String multiple = OperationArgumentValidator.validateStringArgument(ARGUMENT_MULTIPLE.getName(), args);
-
-	//String prefixLocal = OperationArgumentValidator.validateStringArgument(ARGUMENT_PREFIX_LOCAL, args);
 
 	// Load plugins
 	List<ILabelledEntriesProvider> entriesProviders = LabelledEntries.providers();
