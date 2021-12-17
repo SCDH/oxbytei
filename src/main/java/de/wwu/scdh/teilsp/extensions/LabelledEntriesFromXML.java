@@ -87,16 +87,11 @@ public class LabelledEntriesFromXML
             URLConnection urlConnection = theURL.openConnection();
             inputStream = urlConnection.getInputStream();
         } catch (MalformedURLException e) {
-        } catch (IOException e) {
+	    throw new ExtensionException("URL not found: " + uriString + "\n\n" + e);
+	} catch (IOException e) {
+	    throw new ExtensionException("URL not found: " + uriString + "\n\n" + e);
         }
-        try {
-            inputStream = new FileInputStream(uriString);
-        } catch (FileNotFoundException e) {
-	    throw new ExtensionException("URL or file not found: " + uriString);
-        } catch (SecurityException e) {
-	    throw new ExtensionException(e);
-        }
-	// we now have a uri
+	// we now have an input stream
 
 	String selection = args.get("selection");
 	if (selection == null) {
