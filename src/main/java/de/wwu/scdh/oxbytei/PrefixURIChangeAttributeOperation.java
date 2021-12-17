@@ -147,8 +147,8 @@ public class PrefixURIChangeAttributeOperation
 	final String attributeName = OperationArgumentValidator.validateStringArgument(ARGUMENT_ATTRIBUTE.getName(), args);
 	final String prefix = OperationArgumentValidator.validateStringArgument(ARGUMENT_PREFIX.getName(), args);
 	final String location = OperationArgumentValidator.validateStringArgument(ARGUMENT_LOCATION.getName(), args);
-	final String provider = OperationArgumentValidator.validateStringArgument(ARGUMENT_PROVIDER.getName(), args);
-	final String providerArgs = OperationArgumentValidator.validateStringArgument(ARGUMENT_PROVIDER_ARGUMENTS.getName(), args);
+	//final String provider = OperationArgumentValidator.validateStringArgument(ARGUMENT_PROVIDER.getName(), args);
+	//final String providerArgs = OperationArgumentValidator.validateStringArgument(ARGUMENT_PROVIDER_ARGUMENTS.getName(), args);
 	final String multiple = OperationArgumentValidator.validateStringArgument(ARGUMENT_MULTIPLE.getName(), args);
 
 	//String prefixLocal = OperationArgumentValidator.validateStringArgument(ARGUMENT_PREFIX_LOCAL, args);
@@ -231,12 +231,12 @@ public class PrefixURIChangeAttributeOperation
 				AuthorNode[] prefixDefNodes = document.findNodesByXPath(spec.getArguments().get("prefix"), false, false, false);
 				for (m = 0; m < prefixDefNodes.length; m++) {
 				    // parse the prefixDef element to a java type and append a configured provider
-				    //PrefixDef prefixDef = new PrefixDef((AuthorElement) prefixDefNodes[m]);
-				    PrefixDef prefixDef = new PrefixDef("albern", "albern", "withig");
+				    PrefixDef prefixDef = new PrefixDef((AuthorElement) prefixDefNodes[m]);
 				    Map<String, String> arguments = spec.getArguments();
 
-				    // FIXME
-				    //arguments.put("systemId", resolver.resolve("", null).getSystemId());
+				    // FIXME: get plugin for extracting link from replacement pattern
+				    arguments.put("systemID", Resolver.resolve(authorAccess, prefixDef));
+				    arguments.put("prefix", prefixDef.getIdent() + ":");
 				    configuredEntriesProviders.add(new ConfiguredEntriesProvider(entriesProvider, arguments, prefixDef));
 				}
 				if (prefixDefNodes.length == 0) {
@@ -255,97 +255,145 @@ public class PrefixURIChangeAttributeOperation
 							       + configFile
 							       + "\n\n"
 							       + e);
-			}//  catch (TransformerException e) {
-			//     throw new AuthorOperationException("Error reading target location given in prefixDef\n\n"
-			// 				       + err);
-			// }
+			} catch (TransformerException e) {
+			    throw new AuthorOperationException("Error in syntax of the location given in prefixDef\n\n"
+							       + err);
+			} catch (MalformedURLException e) {
+			    throw new AuthorOperationException("Malformed URL in the location given in prefixDef\n\n"
+							       + err);
+			}
 		    }
 		}
 	    }
 	}
-	System.err.println("Configured plugins found: " + configuredEntriesProviders.size());
+	System.err.println("Configured plugins: " + configuredEntriesProviders.size());
 
-	// FIXME: the user dialogue from ediarum we currently use
+	// FIXME
+	//
+	// the user dialogue from ediarum we currently use
 	// takes two static string arrays: keys and values
-	
+	//
+	// so we call the plugins here. But they should be called from
+	// UI code in order to allow updates.
 
-	
-	// Get prefixDef elements from current document
-	AuthorNode[] prefixNodes;
-	String xpathToPrefixDef = "//*:prefixDef[matches(@ident, '" + prefix + "')]";
-	try {
-	    prefixNodes = authorAccess.getDocumentController().findNodesByXPath(xpathToPrefixDef, true, true, true);
-	}
-	catch (AuthorOperationException e) {
-	    // this may be thrown by findNodesByXPath
-	    throw new AuthorOperationException("prefixDef with @ident='" + prefix + "' not found\n\n" + e);
-	}
 
-	System.err.println(xpathToPrefixDef);
-	System.err.println(prefixNodes.length);
-
-	// we need a copy enriched by the parameters from prefixDef
-	Map<String, String> parsedArgs, enrichedArgs;
-	try {
-	    parsedArgs = ArgumentsExtractor.arguments(providerArgs);
-	} catch (Exception e) {
-	    throw new IllegalArgumentException("Invalid argument 'providerArguments'\n\n" + e);
-	}
-	
-	// store the prefixDef elements into a PrefixDef array
-	final int l = prefixNodes.length;
-	PrefixDef[] prefixDefs = new PrefixDef[l];
-	List<LabelledEntry> items = new ArrayList<LabelledEntry>();
-	for (i = 0; i < l; i++) {
-	    prefixDefs[i] = new PrefixDef((AuthorElement)prefixNodes[i]);
-	    System.err.println("prefixDef: "
-			       + prefixDefs[i].getIdent() + " "
-			       + prefixDefs[i].getReplacementPattern() + " "
-			       + prefixDefs[i].getMatchPattern() + "\n");
-	    try {
-		// enrich arguments with data found in prefixDef
-		enrichedArgs = new HashMap<String, String>(parsedArgs);
-		enrichedArgs.put("uri", Resolver.resolve(authorAccess, prefixDefs[i]));
-		enrichedArgs.put("prefix", prefixDefs[i].getIdent() + ":");
-		// get the provider and call getLabelledEntries() on it
-		items.addAll(LabelledEntries.provider(provider).getLabelledEntries(enrichedArgs));
-	    } catch (ProviderNotFoundException e) {
-		throw new AuthorOperationException("Plugin not found: " + provider + "\n\n" + e);
-	    } catch (ExtensionException e) {
-		throw new AuthorOperationException("Error while reading from URI given in "
-						   + prefixDefs[i].getReplacementPattern()
-						   + "\nCaused by plugin " + provider
-						   + "\n\n" + e);
-	    } catch (MalformedURLException e) {
-		throw new AuthorOperationException("Malformed URL " + e);
-	    } catch (TransformerException e) {
-		throw new AuthorOperationException("Error reading referenced file\n\n" + e);
-	    }//  catch (URISyntaxException e) {
-	    // 	throw new AuthorOperationException("Error reading referenced file\n\n" + e);
-	    // }
-	}
-
-	int total = items.size();
-
-	// get keys and labels into separate string arrays, which are
-	// needed for the dialog.
-	Iterator<LabelledEntry> iter = items.iterator();
-	String[] keys = new String[total];
-	String[] labels = new String[total];
-	j = 0;
+	List<String> keys = new ArrayList<String>();
+	List<String> labels = new ArrayList<String>();
 	LabelledEntry entry;
-	while (iter.hasNext()) {
-	    entry = iter.next();
-	    keys[j] = entry.getKey();
-	    labels[j] = entry.getLabel();
-	    j++;
+	k = 0;
+	for (i = 0; i < configuredEntriesProviders.size(); i++) {
+	    ConfiguredEntriesProvider configuredEntriesProvider = configuredEntriesProviders.get(i);
+	    ILabelledEntriesProvider provider = configuredEntriesProvider.provider;
+	    try {
+		List<LabelledEntry> entries = provider.getLabelledEntries(configuredEntriesProvider.arguments);
+		for (j = 0; j < entries.size(); j++) {
+		    entry = entries.get(j);
+		    keys.add(entry.getKey());
+		    labels.add(entry.getLabel());
+		    k++;
+		}
+	    } catch (ExtensionException e) {
+		String report = "";
+		for (Map.Entry<String, String> argument : configuredEntriesProvider.arguments.entrySet()) {
+		    report += argument.getKey() + " = " + argument.getValue() + "\n";
+		}
+		throw new AuthorOperationException("Error reading entries\n\n"
+						   + report + "\n\n" + e);
+	    }
+
+	    String report = "";
+	    for (Map.Entry<String, String> argument : configuredEntriesProvider.arguments.entrySet()) {
+		report += argument.getKey() + " = " + argument.getValue() + "\n";
+	    }
+	    System.err.println("Config of " + provider.getClass().getCanonicalName() + "\n" + report);
+	    
 	}
+	String[] keysArray = new String[k];
+	String[] labelsArray = new String[k];
+	for (i = 0; i < k; i++) {
+	    keysArray[i] = keys.get(i);
+	    labelsArray[i] = labels.get(i);
+	}
+	System.err.println("Items: " + k);
+	
+
+	
+	// // Get prefixDef elements from current document
+	// AuthorNode[] prefixNodes;
+	// String xpathToPrefixDef = "//*:prefixDef[matches(@ident, '" + prefix + "')]";
+	// try {
+	//     prefixNodes = authorAccess.getDocumentController().findNodesByXPath(xpathToPrefixDef, true, true, true);
+	// }
+	// catch (AuthorOperationException e) {
+	//     // this may be thrown by findNodesByXPath
+	//     throw new AuthorOperationException("prefixDef with @ident='" + prefix + "' not found\n\n" + e);
+	// }
+
+	// System.err.println(xpathToPrefixDef);
+	// System.err.println(prefixNodes.length);
+
+	// // we need a copy enriched by the parameters from prefixDef
+	// Map<String, String> parsedArgs, enrichedArgs;
+	// try {
+	//     parsedArgs = ArgumentsExtractor.arguments(providerArgs);
+	// } catch (Exception e) {
+	//     throw new IllegalArgumentException("Invalid argument 'providerArguments'\n\n" + e);
+	// }
+	
+	// // store the prefixDef elements into a PrefixDef array
+	// int l = prefixNodes.length;
+	// PrefixDef[] prefixDefs = new PrefixDef[l];
+	// List<LabelledEntry> items = new ArrayList<LabelledEntry>();
+	// for (i = 0; i < l; i++) {
+	//     prefixDefs[i] = new PrefixDef((AuthorElement)prefixNodes[i]);
+	//     System.err.println("prefixDef: "
+	// 		       + prefixDefs[i].getIdent() + " "
+	// 		       + prefixDefs[i].getReplacementPattern() + " "
+	// 		       + prefixDefs[i].getMatchPattern() + "\n");
+	//     try {
+	// 	// enrich arguments with data found in prefixDef
+	// 	enrichedArgs = new HashMap<String, String>(parsedArgs);
+	// 	enrichedArgs.put("uri", Resolver.resolve(authorAccess, prefixDefs[i]));
+	// 	enrichedArgs.put("prefix", prefixDefs[i].getIdent() + ":");
+	// 	// get the provider and call getLabelledEntries() on it
+	// 	items.addAll(LabelledEntries.provider(provider).getLabelledEntries(enrichedArgs));
+	//     } catch (ProviderNotFoundException e) {
+	// 	throw new AuthorOperationException("Plugin not found: " + provider + "\n\n" + e);
+	//     } catch (ExtensionException e) {
+	// 	throw new AuthorOperationException("Error while reading from URI given in "
+	// 					   + prefixDefs[i].getReplacementPattern()
+	// 					   + "\nCaused by plugin " + provider
+	// 					   + "\n\n" + e);
+	//     } catch (MalformedURLException e) {
+	// 	throw new AuthorOperationException("Malformed URL " + e);
+	//     } catch (TransformerException e) {
+	// 	throw new AuthorOperationException("Error reading referenced file\n\n" + e);
+	//     }//  catch (URISyntaxException e) {
+	//     // 	throw new AuthorOperationException("Error reading referenced file\n\n" + e);
+	//     // }
+	// }
+
+	// int total = items.size();
+
+	// // get keys and labels into separate string arrays, which are
+	// // needed for the dialog.
+	// Iterator<LabelledEntry> iter = items.iterator();
+	// String[] keys = new String[total];
+	// String[] labels = new String[total];
+	// j = 0;
+	// LabelledEntry entry;
+	// while (iter.hasNext()) {
+	//     entry = iter.next();
+	//     keys[j] = entry.getKey();
+	//     labels[j] = entry.getLabel();
+	//     j++;
+	// }
 
 	// Ask the user for selection
 	InsertRegisterDialog dialog =
 	    new InsertRegisterDialog((Frame) authorAccess.getWorkspaceAccess().getParentFrame(),
-				     labels,
-				     keys,
+				     labelsArray,
+				     keysArray,
 				     ((String) multiple).equals(AuthorConstants.ARG_VALUE_TRUE));
 	String selectedId = dialog.getSelectedID(); //"somewhere_out_there";
 	
