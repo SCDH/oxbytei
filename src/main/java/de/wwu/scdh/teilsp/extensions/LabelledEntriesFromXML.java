@@ -78,7 +78,7 @@ public class LabelledEntriesFromXML
 	throws ExtensionException {
 
 	InputStream inputStream;
-	String uriString = args.get("uri");
+	String uriString = args.get("systemID");
 	if (uriString == null) {
 	    throw new ExtensionException("Argument 'uri' is required");
 	}
