@@ -7,6 +7,8 @@
 package de.wwu.scdh.oxbytei;
 
 import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URISyntaxException;
 import java.awt.Frame;
 import javax.swing.text.BadLocationException;
 import java.util.Map;
@@ -14,8 +16,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Iterator;
+import javax.xml.transform.URIResolver;
+import javax.xml.transform.TransformerException;
 
 import ro.sync.ecss.extensions.api.AuthorConstants;
+import ro.sync.ecss.extensions.api.AuthorDocumentController;
 import ro.sync.ecss.extensions.api.ArgumentDescriptor;
 import ro.sync.ecss.extensions.api.ArgumentsMap;
 import ro.sync.ecss.extensions.api.AuthorAccess;
@@ -25,15 +30,21 @@ import ro.sync.ecss.extensions.api.node.AttrValue;
 import ro.sync.ecss.extensions.api.node.AuthorElement;
 import ro.sync.ecss.extensions.api.node.AuthorNode;
 import ro.sync.exml.workspace.api.util.UtilAccess;
+import ro.sync.exml.workspace.api.util.XMLUtilAccess;
 
 import org.bbaw.telota.ediarum.InsertRegisterDialog;
 
+import de.wwu.scdh.teilsp.services.extensions.ILabelledEntriesProvider;
 import de.wwu.scdh.teilsp.services.extensions.LabelledEntry;
 import de.wwu.scdh.teilsp.services.extensions.LabelledEntries;
 import de.wwu.scdh.teilsp.services.extensions.ArgumentsExtractor;
 import de.wwu.scdh.teilsp.services.extensions.ExtensionException;
 import de.wwu.scdh.teilsp.exceptions.ProviderNotFoundException;
 import de.wwu.scdh.teilsp.tei.PrefixDef;
+import de.wwu.scdh.teilsp.config.ArgumentsConditionsPair;
+import de.wwu.scdh.teilsp.config.ExtensionConfiguration;
+import de.wwu.scdh.teilsp.config.ExtensionConfigurationReader;
+import de.wwu.scdh.teilsp.exceptions.ConfigurationException;
 import de.wwu.scdh.oxbytei.commons.OperationArgumentValidator;
 import de.wwu.scdh.oxbytei.commons.Resolver;
 
@@ -129,26 +140,136 @@ public class PrefixURIChangeAttributeOperation
     /**
      * @see ro.sync.ecss.extensions.api.AuthorOperation#doOperation()
      */
-    public void doOperation(AuthorAccess authorAccess, ArgumentsMap args)
+    public void doOperation(final AuthorAccess authorAccess, final ArgumentsMap args)
 	throws AuthorOperationException, IllegalArgumentException {
 
 	// Validate arguments
-	String attributeName = OperationArgumentValidator.validateStringArgument(ARGUMENT_ATTRIBUTE.getName(), args);
-	String prefix = OperationArgumentValidator.validateStringArgument(ARGUMENT_PREFIX.getName(), args);
-	String location = OperationArgumentValidator.validateStringArgument(ARGUMENT_LOCATION.getName(), args);
-	String provider = OperationArgumentValidator.validateStringArgument(ARGUMENT_PROVIDER.getName(), args);
-	String providerArgs = OperationArgumentValidator.validateStringArgument(ARGUMENT_PROVIDER_ARGUMENTS.getName(), args);
-	String multiple = OperationArgumentValidator.validateStringArgument(ARGUMENT_MULTIPLE.getName(), args);
+	final String attributeName = OperationArgumentValidator.validateStringArgument(ARGUMENT_ATTRIBUTE.getName(), args);
+	final String prefix = OperationArgumentValidator.validateStringArgument(ARGUMENT_PREFIX.getName(), args);
+	final String location = OperationArgumentValidator.validateStringArgument(ARGUMENT_LOCATION.getName(), args);
+	final String provider = OperationArgumentValidator.validateStringArgument(ARGUMENT_PROVIDER.getName(), args);
+	final String providerArgs = OperationArgumentValidator.validateStringArgument(ARGUMENT_PROVIDER_ARGUMENTS.getName(), args);
+	final String multiple = OperationArgumentValidator.validateStringArgument(ARGUMENT_MULTIPLE.getName(), args);
 
 	//String prefixLocal = OperationArgumentValidator.validateStringArgument(ARGUMENT_PREFIX_LOCAL, args);
 
-	UtilAccess utilAccess;
-	utilAccess = authorAccess.getUtilAccess();
-	//utilAccess.addCustomEditorVariablesResolver(null);
+	// Load plugins
+	List<ILabelledEntriesProvider> entriesProviders = LabelledEntries.providers();
 
-	String myvar = utilAccess.expandEditorVariables("${myvar}", null);
-	System.err.println("editor variable: " + myvar);
+	// get access to utilities
+	UtilAccess utilAccess = authorAccess.getUtilAccess();
 
+	// get the uri resolver used by oxygen
+	URIResolver resolver = authorAccess.getXMLUtilAccess().getURIResolver();
+
+	// get the URL of the configuration file
+	String defaultConfigFile = utilAccess.expandEditorVariables(OxbyteiConstants.DEFAULT_CONFIG_FILE, null);
+	String configFile = defaultConfigFile;
+	try {
+	    // use resolver with xml catalogs
+	    configFile = resolver.resolve(defaultConfigFile, null).getSystemId();
+	} catch (TransformerException e) {}
+
+	System.err.println("loading config from " + configFile);
+
+	// read the plugin configuration from the config file
+	List<ExtensionConfiguration> extensionsConfiguration = new ArrayList<ExtensionConfiguration>();
+	try {
+	    extensionsConfiguration = ExtensionConfigurationReader.getExtensionsConfiguration(configFile);
+	} catch (ConfigurationException e) {
+	    throw new AuthorOperationException("Error reading config from '"
+					       + configFile +
+					       "'\n\nDetails:\n"
+					       + e);
+	}
+
+	// we need some iteration variables
+	int i, j, k, m;
+
+	// a nested class to keep track of configured plugins
+	class ConfiguredEntriesProvider {
+	    public ILabelledEntriesProvider provider;
+	    public Map<String, String> arguments;
+	    public PrefixDef prefixDef;
+	    public ConfiguredEntriesProvider(ILabelledEntriesProvider p, Map<String, String> args, PrefixDef prefix) {
+		provider = p;
+		arguments = args;
+		prefixDef = prefix;
+	    }
+	}
+	List<ConfiguredEntriesProvider> configuredEntriesProviders = new ArrayList<ConfiguredEntriesProvider>();
+
+	// get plugins configured for current editing context
+	ExtensionConfiguration config;
+	AuthorDocumentController document = authorAccess.getDocumentController();
+	System.err.println("plugin configurations: " + extensionsConfiguration.size());
+	// iterate over extension (plugin) configurations from config file
+	for (i = 0; i < extensionsConfiguration.size(); i++) {
+	    config = extensionsConfiguration.get(i);
+	    // iteratre over loaded plugins
+	    for (j = 0; j < entriesProviders.size(); j++) {
+		ILabelledEntriesProvider entriesProvider = (ILabelledEntriesProvider) entriesProviders.get(j);
+		// check if the configuration is for this provider
+		if (entriesProvider.getClass().getCanonicalName().equals(config.getClassName())) {
+		    // check all specifications of this provider
+		    for (k = 0; k < config.getSpecification().size(); k++) {
+			ArgumentsConditionsPair spec = config.getSpecification().get(k);
+			// prepare an error message we might throw multiple times
+			String err = "Error running XPath configured as 'context' condition for "
+			    + config.getClassName()
+			    + " in config file "
+			    + configFile
+			    + "\n"
+			    + spec.getConditions().get("context");
+			// check condition defined in 'context' matches the current edition context
+			try {
+			    // run xpath configured as context on the current editing context
+			    Object[] context = document.evaluateXPath(spec.getConditions().get("context"), false, true, true);
+			    //System.err.println(context[0].toString());
+			    if (context.length == 1 && context[0].toString().equals("true")) {
+				// get all the prefixDef elements for this provider
+				AuthorNode[] prefixDefNodes = document.findNodesByXPath(spec.getArguments().get("prefix"), false, false, false);
+				for (m = 0; m < prefixDefNodes.length; m++) {
+				    // parse the prefixDef element to a java type and append a configured provider
+				    //PrefixDef prefixDef = new PrefixDef((AuthorElement) prefixDefNodes[m]);
+				    PrefixDef prefixDef = new PrefixDef("albern", "albern", "withig");
+				    Map<String, String> arguments = spec.getArguments();
+
+				    // FIXME
+				    //arguments.put("systemId", resolver.resolve("", null).getSystemId());
+				    configuredEntriesProviders.add(new ConfiguredEntriesProvider(entriesProvider, arguments, prefixDef));
+				}
+				if (prefixDefNodes.length == 0) {
+				    System.err.println(err + "\nNo prefixDef found");
+				}
+			    }
+			} catch (AuthorOperationException e) {
+			    // we do not throw an exception here, but
+			    // print an error message
+			    System.err.println(err);
+			} catch (IndexOutOfBoundsException e) {
+			    // dito
+			    System.err.println(err + "\nExpression should return a boolean value");
+			} catch (NullPointerException e) {
+			    throw new AuthorOperationException("Configuration error in "
+							       + configFile
+							       + "\n\n"
+							       + e);
+			}//  catch (TransformerException e) {
+			//     throw new AuthorOperationException("Error reading target location given in prefixDef\n\n"
+			// 				       + err);
+			// }
+		    }
+		}
+	    }
+	}
+	System.err.println("Configured plugins found: " + configuredEntriesProviders.size());
+
+	// FIXME: the user dialogue from ediarum we currently use
+	// takes two static string arrays: keys and values
+	
+
+	
 	// Get prefixDef elements from current document
 	AuthorNode[] prefixNodes;
 	String xpathToPrefixDef = "//*:prefixDef[matches(@ident, '" + prefix + "')]";
@@ -175,7 +296,6 @@ public class PrefixURIChangeAttributeOperation
 	final int l = prefixNodes.length;
 	PrefixDef[] prefixDefs = new PrefixDef[l];
 	List<LabelledEntry> items = new ArrayList<LabelledEntry>();
-	int i;
 	for (i = 0; i < l; i++) {
 	    prefixDefs[i] = new PrefixDef((AuthorElement)prefixNodes[i]);
 	    System.err.println("prefixDef: "
@@ -198,8 +318,11 @@ public class PrefixURIChangeAttributeOperation
 						   + "\n\n" + e);
 	    } catch (MalformedURLException e) {
 		throw new AuthorOperationException("Malformed URL " + e);
-	    }
-		    
+	    } catch (TransformerException e) {
+		throw new AuthorOperationException("Error reading referenced file\n\n" + e);
+	    }//  catch (URISyntaxException e) {
+	    // 	throw new AuthorOperationException("Error reading referenced file\n\n" + e);
+	    // }
 	}
 
 	int total = items.size();
@@ -209,7 +332,7 @@ public class PrefixURIChangeAttributeOperation
 	Iterator<LabelledEntry> iter = items.iterator();
 	String[] keys = new String[total];
 	String[] labels = new String[total];
-	int j = 0;
+	j = 0;
 	LabelledEntry entry;
 	while (iter.hasNext()) {
 	    entry = iter.next();
