@@ -170,7 +170,7 @@ public class PrefixURIChangeAttributeOperation
 	    configFile = resolver.resolve(defaultConfigFile, null).getSystemId();
 	} catch (TransformerException e) {}
 
-	System.err.println("loading config from " + configFile);
+	//System.err.println("loading config from " + configFile);
 
 	// read the plugin configuration from the config file
 	List<ExtensionConfiguration> extensionsConfiguration = new ArrayList<ExtensionConfiguration>();
@@ -202,7 +202,7 @@ public class PrefixURIChangeAttributeOperation
 	// get plugins configured for current editing context
 	ExtensionConfiguration config;
 	AuthorDocumentController document = authorAccess.getDocumentController();
-	System.err.println("plugin configurations: " + extensionsConfiguration.size());
+	//System.err.println("plugin configurations: " + extensionsConfiguration.size());
 	// iterate over extension (plugin) configurations from config file
 	for (i = 0; i < extensionsConfiguration.size(); i++) {
 	    config = extensionsConfiguration.get(i);
@@ -301,11 +301,11 @@ public class PrefixURIChangeAttributeOperation
 						   + report + "\n\n" + e);
 	    }
 
-	    String report = "";
-	    for (Map.Entry<String, String> argument : configuredEntriesProvider.arguments.entrySet()) {
-		report += argument.getKey() + " = " + argument.getValue() + "\n";
-	    }
-	    System.err.println("Config of " + provider.getClass().getCanonicalName() + "\n" + report);
+	    // String report = "";
+	    // for (Map.Entry<String, String> argument : configuredEntriesProvider.arguments.entrySet()) {
+	    // 	report += argument.getKey() + " = " + argument.getValue() + "\n";
+	    // }
+	    // System.err.println("Config of " + provider.getClass().getCanonicalName() + "\n" + report);
 	    
 	}
 	String[] keysArray = new String[k];
@@ -314,7 +314,7 @@ public class PrefixURIChangeAttributeOperation
 	    keysArray[i] = keys.get(i);
 	    labelsArray[i] = labels.get(i);
 	}
-	System.err.println("Items: " + k);
+	//System.err.println("Items: " + k);
 	
 
 	
