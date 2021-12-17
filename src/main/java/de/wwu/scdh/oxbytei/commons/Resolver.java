@@ -1,7 +1,10 @@
 package de.wwu.scdh.oxbytei.commons;
 
 import java.net.MalformedURLException;
+import java.net.URISyntaxException;
 import java.net.URL;
+import java.nio.file.Paths;
+import javax.xml.transform.TransformerException;
 
 import ro.sync.ecss.extensions.api.AuthorAccess;
 import ro.sync.exml.workspace.api.editor.WSEditorBase;
@@ -11,23 +14,16 @@ import de.wwu.scdh.teilsp.tei.PrefixDef;
 public class Resolver {
 
     public static String cfdu(AuthorAccess authorAccess)
-	throws MalformedURLException, NullPointerException {
+	throws MalformedURLException, URISyntaxException {
 	// get current file url from author access
 	URL cfu = authorAccess.getEditorAccess().getEditorLocation();
-	// delete file from current file url
-	System.err.println("cfu: " + cfu.toString());
-	String path = cfu.getPath();
-	String[] parts = path.split("/");
-	path = "";
-	int i;
-	for (i = 0; i < parts.length - 1; i++) {
-	    path += parts[i] + "/";
-	}
-	return path;
+	// strip the file name
+	String directory = Paths.get(cfu.toURI()).getParent().toString();
+	return directory;
     }
     
-    public static String resolve(AuthorAccess authorAccess, String link)
-	throws MalformedURLException, NullPointerException {
+    public static String resolveOFF(AuthorAccess authorAccess, String link)
+	throws MalformedURLException, NullPointerException, URISyntaxException {
 	if (link.startsWith("/") || link.startsWith("~/")) {
 	    // we have an absolute file path 
 	    return "file:" + link;
@@ -40,11 +36,21 @@ public class Resolver {
 	}
     }
 
-    public static String resolve(AuthorAccess authorAccess, PrefixDef prefixDef)
-	throws MalformedURLException, NullPointerException {
-	// FIXME: make conform TEI's abstract definition
-	String link = prefixDef.getReplacementPattern().split("#\\$")[0];
-	return resolve(authorAccess, link);
+    public static String resolve(AuthorAccess authorAccess, String reference)
+	throws MalformedURLException, TransformerException, URISyntaxException {
+	return authorAccess.getXMLUtilAccess().getURIResolver().resolve(reference, cfdu(authorAccess)).getSystemId();
     }
 
+    public static String resolve(AuthorAccess authorAccess, PrefixDef prefixDef)
+	throws MalformedURLException, NullPointerException, TransformerException, URISyntaxException {
+	return resolve(authorAccess, extractReference(prefixDef));
+    }
+
+    public static String extractReference(PrefixDef prefixDef)
+	throws NullPointerException {
+	// FIXME: make conform TEI's abstract definition and replace
+	// with pluging
+	return prefixDef.getReplacementPattern().split("#\\$")[0];
+    }
+    
 }
