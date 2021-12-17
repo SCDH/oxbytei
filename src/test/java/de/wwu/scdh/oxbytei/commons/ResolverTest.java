@@ -12,7 +12,7 @@ import javax.xml.transform.TransformerException;
 public class ResolverTest {
 
     @Test
-    @Disabled("")
+    @Disabled("not working any more since we use the transformer resolver")
     public void testAbsoluteLink()
 	throws MalformedURLException, NullPointerException, TransformerException, URISyntaxException {
 	assertEquals("file:/here/we/go", Resolver.resolve(null, "/here/we/go"));
@@ -20,7 +20,7 @@ public class ResolverTest {
     }
 
     @Test
-    @Disabled("")
+    @Disabled("not working any more since we use the transformer resolver")
     public void testURI()
 	throws MalformedURLException, NullPointerException, TransformerException, URISyntaxException {
 	assertEquals("file:/here/we/go", Resolver.resolve(null, "file:/here/we/go"));
