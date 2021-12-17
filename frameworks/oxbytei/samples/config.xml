@@ -7,8 +7,7 @@
             <configurations>
                 <configuration>
                     <conditions>
-                        <condition domain="context">//teiHeader//prefixDef[matches(@ident, '^(psn|prs|pers|person)')]</condition>
-                        <condition domain="context">self::persName</condition>
+                        <condition domain="context">self::persName and //teiHeader//prefixDef[matches(@ident, '^(psn|prs|pers|person)')]</condition>
                         <condition domain="priority">10</condition>
                     </conditions>
                     <arguments>
@@ -20,8 +19,7 @@
                 </configuration>
                 <configuration>
                     <conditions>
-                        <condition domain="context">//teiHeader//prefixDef[matches(@ident, '^(pl|plc|place)')]</condition>
-                        <condition domain="context">self::placeName</condition>
+                        <condition domain="context">self::placeName and //teiHeader//prefixDef[matches(@ident, '^(pl|plc|place)')]</condition>
                         <condition domain="priority">10</condition>
                     </conditions>
                     <arguments>
