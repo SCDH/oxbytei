@@ -8,28 +8,30 @@
 package de.wwu.scdh.oxbytei;
 
 import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.Map;
 import java.util.List;
 import java.util.ArrayList;
 import javax.xml.transform.URIResolver;
 import javax.xml.transform.TransformerException;
 
+import org.xml.sax.EntityResolver;
+
 import ro.sync.ecss.extensions.api.AuthorDocumentController;
 import ro.sync.ecss.extensions.api.AuthorAccess;
 import ro.sync.ecss.extensions.api.AuthorOperationException;
 import ro.sync.ecss.extensions.api.node.AuthorElement;
 import ro.sync.ecss.extensions.api.node.AuthorNode;
-import ro.sync.exml.workspace.api.util.UtilAccess;
 
 import de.wwu.scdh.teilsp.services.extensions.ILabelledEntriesProvider;
 import de.wwu.scdh.teilsp.services.extensions.LabelledEntries;
+import de.wwu.scdh.teilsp.services.extensions.ExtensionException;
 import de.wwu.scdh.teilsp.tei.PrefixDef;
 import de.wwu.scdh.teilsp.config.ArgumentsConditionsPair;
 import de.wwu.scdh.teilsp.config.ExtensionConfiguration;
 import de.wwu.scdh.teilsp.config.ExtensionConfigurationReader;
 import de.wwu.scdh.teilsp.exceptions.ConfigurationException;
 import de.wwu.scdh.oxbytei.commons.Resolver;
-import de.wwu.scdh.oxbytei.commons.ConfiguredEntriesProvider;
 
 
 public abstract class AbstractPrefixURIOperation {
@@ -39,20 +41,20 @@ public abstract class AbstractPrefixURIOperation {
      * and configure them based on config file and <prefixDef>
      * elements in the currently edited file.
      */
-    public static List<ConfiguredEntriesProvider> getConfiguredProviders(AuthorAccess authorAccess)
+    public static List<ILabelledEntriesProvider> getConfiguredProviders(AuthorAccess authorAccess)
 	throws AuthorOperationException {
 
 	// Load providers
 	List<ILabelledEntriesProvider> entriesProviders = LabelledEntries.providers();
 
-	// get access to utilities
-	UtilAccess utilAccess = authorAccess.getUtilAccess();
-
-	// get the uri resolver used by oxygen
+	// get the uri resolver, entity resolver used by oxygen and editing context
 	URIResolver resolver = authorAccess.getXMLUtilAccess().getURIResolver();
+	EntityResolver entityResolver = authorAccess.getXMLUtilAccess().getEntityResolver();
+	URL currentFileURL = authorAccess.getEditorAccess().getEditorLocation();
 
 	// get the URL of the configuration file
-	String defaultConfigFile = utilAccess.expandEditorVariables(OxbyteiConstants.DEFAULT_CONFIG_FILE, null);
+	String defaultConfigFile =
+	    authorAccess.getUtilAccess().expandEditorVariables(OxbyteiConstants.DEFAULT_CONFIG_FILE, null);
 	String configFile = defaultConfigFile;
 	try {
 	    // use resolver with xml catalogs
@@ -78,14 +80,14 @@ public abstract class AbstractPrefixURIOperation {
 	// get plugins configured for current editing context
 	ExtensionConfiguration config;
 	AuthorDocumentController document = authorAccess.getDocumentController();
-	List<ConfiguredEntriesProvider> configuredEntriesProviders = new ArrayList<ConfiguredEntriesProvider>();
+	List<ILabelledEntriesProvider> configuredEntriesProviders = new ArrayList<ILabelledEntriesProvider>();
 	//System.err.println("plugin configurations: " + extensionsConfiguration.size());
 	// iterate over extension (plugin) configurations from config file
 	for (i = 0; i < extensionsConfiguration.size(); i++) {
 	    config = extensionsConfiguration.get(i);
 	    // iteratre over loaded plugins
 	    for (j = 0; j < entriesProviders.size(); j++) {
-		ILabelledEntriesProvider entriesProvider = (ILabelledEntriesProvider) entriesProviders.get(j);
+		ILabelledEntriesProvider entriesProvider = entriesProviders.get(j);
 		// check if the configuration is for this provider
 		if (entriesProvider.getClass().getCanonicalName().equals(config.getClassName())) {
 		    // check all specifications of this provider
@@ -114,7 +116,13 @@ public abstract class AbstractPrefixURIOperation {
 				    // FIXME: get plugin for extracting link from replacement pattern
 				    arguments.put("systemID", Resolver.resolve(authorAccess, prefixDef));
 				    arguments.put("prefix", prefixDef.getIdent() + ":");
-				    configuredEntriesProviders.add(new ConfiguredEntriesProvider(entriesProvider, arguments, prefixDef));
+				    // we make a new instance of the
+				    // provider, because we do not
+				    // want to configure the same
+				    // several times.
+				    ILabelledEntriesProvider p = entriesProvider.getClass().newInstance();
+				    p.init(arguments, resolver, entityResolver, currentFileURL);
+				    configuredEntriesProviders.add(p);
 				}
 				if (prefixDefNodes.length == 0) {
 				    System.err.println(err + "\nNo prefixDef found");
@@ -138,6 +146,21 @@ public abstract class AbstractPrefixURIOperation {
 			} catch (MalformedURLException e) {
 			    throw new AuthorOperationException("Malformed URL in the location given in prefixDef\n\n"
 							       + err);
+			} catch (InstantiationException e) {
+			    throw new AuthorOperationException("Error loading plugin "
+							       + entriesProvider.getClass().getCanonicalName()
+							       + "\n\n"
+							       + e);
+			} catch (IllegalAccessException e) {
+			    throw new AuthorOperationException("Error loading plugin "
+							       + entriesProvider.getClass().getCanonicalName()
+							       + "\n\n"
+							       + e);
+			} catch (ExtensionException e) {
+			    throw new AuthorOperationException("Error initializing plugin "
+							       + entriesProvider.getClass().getCanonicalName()
+							       + "\n\n"
+							       + e);
 			}
 		    }
 		}
