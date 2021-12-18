@@ -1,6 +1,7 @@
 /**
- * PrefixURIChangeAttributeOperation - is a class for setting an
- * attribute value with a selection from the values defined in a
+ * {@link AbstractPrefixURIOperation} - is an abstract base class for
+ * building selection dialogs with options from registered
+ * {@link ILabelledEntriesProvider} and from the values defined in a
  * target given in a <prefixDef> element.
  *
  */
@@ -39,7 +40,11 @@ import de.wwu.scdh.oxbytei.commons.ConfiguredEntriesProvider;
 
 public abstract class AbstractPrefixURIOperation {
 
-
+    /**
+     * Get the plugins registered for {@link ILabelledEntriesProvider}
+     * and configure them based on config file and <prefixDef>
+     * elements in the currently edited file.
+     */
     public static List<ConfiguredEntriesProvider> getConfiguredProviders(AuthorAccess authorAccess)
 	throws AuthorOperationException {
 
@@ -161,7 +166,7 @@ public abstract class AbstractPrefixURIOperation {
 	// UI code in order to allow updates.
 
 	// we need some iteration variables
-	int i, j, k, m;
+	int i, j, k;
 
 	List<String> keys = new ArrayList<String>();
 	List<String> labels = new ArrayList<String>();
@@ -169,9 +174,9 @@ public abstract class AbstractPrefixURIOperation {
 	k = 0;
 	for (i = 0; i < configuredEntriesProviders.size(); i++) {
 	    ConfiguredEntriesProvider configuredEntriesProvider = configuredEntriesProviders.get(i);
-	    ILabelledEntriesProvider provider = configuredEntriesProvider.provider;
+	    ILabelledEntriesProvider provider = configuredEntriesProvider.getProvider();
 	    try {
-		List<LabelledEntry> entries = provider.getLabelledEntries(configuredEntriesProvider.arguments);
+		List<LabelledEntry> entries = provider.getLabelledEntries(configuredEntriesProvider.getArguments());
 		for (j = 0; j < entries.size(); j++) {
 		    entry = entries.get(j);
 		    keys.add(entry.getKey());
@@ -180,7 +185,7 @@ public abstract class AbstractPrefixURIOperation {
 		}
 	    } catch (ExtensionException e) {
 		String report = "";
-		for (Map.Entry<String, String> argument : configuredEntriesProvider.arguments.entrySet()) {
+		for (Map.Entry<String, String> argument : configuredEntriesProvider.getArguments().entrySet()) {
 		    report += argument.getKey() + " = " + argument.getValue() + "\n";
 		}
 		throw new AuthorOperationException("Error reading entries\n\n"
