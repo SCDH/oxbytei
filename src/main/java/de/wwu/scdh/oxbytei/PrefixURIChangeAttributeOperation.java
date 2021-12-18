@@ -56,13 +56,19 @@ public class PrefixURIChangeAttributeOperation
 			       ARGUMENT_MULTIPLE_ALLOWED_VALUES,
 			       AuthorConstants.ARG_VALUE_FALSE);
 
+    private static final ArgumentDescriptor ARGUMENT_MESSAGE =
+	new ArgumentDescriptor("message",
+			       ArgumentDescriptor.TYPE_STRING,
+			       "The message in the user dialog.");
+
     /**
      * The array of arguments, this author operation takes.
      */
     private static final ArgumentDescriptor[] ARGUMENTS = new ArgumentDescriptor[] {
 	ARGUMENT_ATTRIBUTE,
 	ARGUMENT_LOCATION,
-	ARGUMENT_MULTIPLE
+	ARGUMENT_MULTIPLE,
+	ARGUMENT_MESSAGE
     };
 
     /**
@@ -90,8 +96,7 @@ public class PrefixURIChangeAttributeOperation
 	final String attributeName = OperationArgumentValidator.validateStringArgument(ARGUMENT_ATTRIBUTE.getName(), args);
 	final String location = OperationArgumentValidator.validateStringArgument(ARGUMENT_LOCATION.getName(), args);
 	final String multiple = OperationArgumentValidator.validateStringArgument(ARGUMENT_MULTIPLE.getName(), args);
-
-	String title = ""; // FIXME: read von arguments
+	final String message = OperationArgumentValidator.validateStringArgument(ARGUMENT_MESSAGE.getName(), args);
 
 	// put the selected URI into the attribute value
 	try {
@@ -113,7 +118,7 @@ public class PrefixURIChangeAttributeOperation
 
 	    // do user interaction
 	    ISelectionDialog dialog = new OxygenSelectionDialog(); // FIXME: make pluggable
-	    dialog.init(authorAccess, title, (String) multiple, currentId, getConfiguredProviders(authorAccess));
+	    dialog.init(authorAccess, message, multiple, currentId, getConfiguredProviders(authorAccess));
 	    String selectedId = dialog.doUserInteraction();
 
 	    // set attribute

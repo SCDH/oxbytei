@@ -13,6 +13,7 @@
       <a:arguments>
         <a:argument name="attribute">ref</a:argument>
         <a:argument name="location">self::placeName</a:argument>
+        <a:argument name="message">Choose a place</a:argument>
       </a:arguments>
     </a:operation>
     <a:operation id="ExecuteMultipleActionsOperation">
