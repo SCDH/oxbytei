@@ -8,10 +8,13 @@ package de.wwu.scdh.oxbytei;
 
 import javax.swing.text.BadLocationException;
 
+import org.w3c.dom.Attr;
+
 import ro.sync.ecss.extensions.api.AuthorConstants;
 import ro.sync.ecss.extensions.api.ArgumentDescriptor;
 import ro.sync.ecss.extensions.api.ArgumentsMap;
 import ro.sync.ecss.extensions.api.AuthorAccess;
+import ro.sync.ecss.extensions.api.AuthorDocumentController;
 import ro.sync.ecss.extensions.api.AuthorOperation;
 import ro.sync.ecss.extensions.api.AuthorOperationException;
 import ro.sync.ecss.extensions.api.node.AttrValue;
@@ -88,38 +91,53 @@ public class PrefixURIChangeAttributeOperation
 	final String location = OperationArgumentValidator.validateStringArgument(ARGUMENT_LOCATION.getName(), args);
 	final String multiple = OperationArgumentValidator.validateStringArgument(ARGUMENT_MULTIPLE.getName(), args);
 
-	String currentId = ""; // FIXME: get by xpath
 	String title = ""; // FIXME: read von arguments
 
-	ISelectionDialog dialog = new OxygenSelectionDialog(); // FIXME: make pluggable
-	dialog.init(authorAccess, title, (String) multiple, currentId, getConfiguredProviders(authorAccess));
-	String selectedId = dialog.doUserInteraction();
-	
 	// put the selected URI into the attribute value
-	if (!(selectedId.isEmpty())) {
-	    try {
-		int selStart = authorAccess.getEditorAccess().getSelectionStart();
-		AuthorNode selNode = authorAccess.getDocumentController().getNodeAtOffset(selStart);
-		AuthorElement selElement = (AuthorElement) (authorAccess.getDocumentController().findNodesByXPath((String) location, selNode, false, true, true, false))[0];
-		
-		String newAttributeVal = selectedId;
-		authorAccess.getDocumentController().setAttribute(attributeName,
-								  new AttrValue(newAttributeVal),
-								  selElement);
+	try {
+	    // get location and current attribute value
+	    int selStart = authorAccess.getEditorAccess().getSelectionStart();
+	    AuthorDocumentController doc = authorAccess.getDocumentController();
+	    AuthorNode selectionContext = doc.getNodeAtOffset(selStart);
+	    AuthorNode locationNode =
+		(AuthorElement) (doc.findNodesByXPath((String) location, selectionContext, false, true, true, false))[0];
+	    AuthorElement locationElement = (AuthorElement) locationNode;
+	    Object[] attrNodes =
+		doc.evaluateXPath("@" + attributeName, locationNode, false, false, false, false);
+	    String currentId = "";
+	    boolean attributePresent = false;
+	    if (attrNodes.length > 0) {
+		currentId = ((Attr) attrNodes[0]).getValue();
+		attributePresent = true;
 	    }
-	    catch (BadLocationException e) {
-		// ???
+
+	    // do user interaction
+	    ISelectionDialog dialog = new OxygenSelectionDialog(); // FIXME: make pluggable
+	    dialog.init(authorAccess, title, (String) multiple, currentId, getConfiguredProviders(authorAccess));
+	    String selectedId = dialog.doUserInteraction();
+
+	    // set attribute
+	    if (!(selectedId.isEmpty())) {
+		doc.setAttribute(attributeName,
+				 new AttrValue(selectedId),
+				 locationElement);
+	    } else {
+		// remove attribute
+		doc.removeAttribute(attributeName, locationElement);
 	    }
-	    catch (IndexOutOfBoundsException e) {
-		// This occurs, when the XPath of the 'location'
-		// argument does not return an elemnt. Then the
-		// accessing the first element of the array returned
-		// by findNodesByXPath, [0], fails.
-		throw new AuthorOperationException("An error occured\n"
-						   + "Please check the XPath expression given as `location`!\n\n"
-						   + e);
-	    }
-	};
+	}
+	catch (BadLocationException e) {
+	    // ???
+	}
+	catch (IndexOutOfBoundsException e) {
+	    // This occurs, when the XPath of the 'location'
+	    // argument does not return an elemnt. Then the
+	    // accessing the first element of the array returned
+	    // by findNodesByXPath, [0], fails.
+	    throw new AuthorOperationException("An error occured\n"
+					       + "Please check the XPath expression given as `location`!\n\n"
+					       + e);
+	}
     }
     
 }
