@@ -12,11 +12,8 @@
       <a:xpathCondition>self::placeName and /descendant::listPrefixDef/prefixDef[matches(@ident, '^(pl|plc|plac)')]</a:xpathCondition>
       <a:arguments>
         <a:argument name="attribute">ref</a:argument>
-        <a:argument name="prefix">(plc|plc|plac)</a:argument>
-        <a:argument name="prefixLocalVariable">oxbyteiPlacePrefix</a:argument>
         <a:argument name="location">self::placeName</a:argument>
-        <a:argument name="provider">de.wwu.scdh.teilsp.extensions.LabelledEntriesFromXML</a:argument>
-        <a:argument name="providerArguments">selection=//t:text//t:place key=@xml:id label="normalize-space(t:placeName)" namespaces="t:http://www.tei-c.org/ns/1.0 xml:http://www.w3.org/XML/1998/namespace"</a:argument>
+        <a:argument name="message">Choose a place</a:argument>
       </a:arguments>
     </a:operation>
     <a:operation id="ExecuteMultipleActionsOperation">

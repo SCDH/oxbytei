@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<grammar xmlns="http://relaxng.org/ns/structure/1.0"
+    xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
+    datatypeLibrary="http://www.w3.org/2001/XMLSchema-datatypes"
+    ns="http://wwu.de/scdh/teilsp/config/">
+    <start>
+        <element name="configuration">
+            <element name="plugins">
+                <zeroOrMore>
+                    <ref name="plugin"/>
+                </zeroOrMore>
+            </element>
+        </element>
+    </start>
+
+    <define name="plugin">
+        <element name="plugin">
+            <interleave>
+                <element name="class">
+                    <text/>
+                </element>
+                <element name="type">
+                    <text/>
+                </element>
+                <ref name="configurations"/>
+            </interleave>
+        </element>
+    </define>
+
+    <define name="configurations">
+        <element name="configurations">
+            <zeroOrMore>
+                <element name="configuration">
+                    <interleave>
+                        <ref name="conditions"/>
+                        <ref name="arguments"/>
+                    </interleave>
+                </element>
+            </zeroOrMore>
+        </element>
+    </define>
+
+    <define name="arguments">
+        <element name="arguments">
+            <zeroOrMore>
+                <element name="argument">
+                    <attribute name="name">
+                        <text/>
+                    </attribute>
+                    <text/>
+                </element>
+            </zeroOrMore>
+        </element>
+    </define>
+
+    <define name="conditions">
+        <element name="conditions">
+            <zeroOrMore>
+                <element name="condition">
+                    <attribute name="domain">
+                        <text/>
+                    </attribute>
+                    <text/>
+                </element>
+            </zeroOrMore>
+        </element>
+    </define>
+
+</grammar>
