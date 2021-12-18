@@ -9,6 +9,7 @@ package de.wwu.scdh.oxbytei;
 
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.List;
 import java.util.ArrayList;
@@ -111,9 +112,10 @@ public abstract class AbstractPrefixURIOperation {
 				for (m = 0; m < prefixDefNodes.length; m++) {
 				    // parse the prefixDef element to a java type and append a configured provider
 				    PrefixDef prefixDef = new PrefixDef((AuthorElement) prefixDefNodes[m]);
-				    Map<String, String> arguments = spec.getArguments();
-
-				    // FIXME: get plugin for extracting link from replacement pattern
+				    //System.err.println("prefixDef@ident " + prefixDef.getIdent());
+				    // we need a new instance of the map, because we set some values of it
+				    Map<String, String> arguments = new HashMap<String, String>(spec.getArguments());
+				    // TODO: get plugin for extracting link from replacement pattern
 				    arguments.put("systemID", Resolver.resolve(authorAccess, prefixDef));
 				    arguments.put("prefix", prefixDef.getIdent() + ":");
 				    // we make a new instance of the
@@ -166,7 +168,10 @@ public abstract class AbstractPrefixURIOperation {
 		}
 	    }
 	}
-	System.err.println("Configured plugins: " + configuredEntriesProviders.size());
+	// System.err.println("Configured plugins: " + configuredEntriesProviders.size());
+	// for (ILabelledEntriesProvider p : configuredEntriesProviders) {
+	//     System.err.println(p.toString() + p.getArguments().toString() + p.getArguments().get("prefix"));
+	// }
 	return configuredEntriesProviders;
     }
 
