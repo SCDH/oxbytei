@@ -67,7 +67,7 @@
 
 	<!-- We want a jar file without version number, because that's
 	     easier to pack into the framework zip. -->
-	<finalName>${artifactId}</finalName>
+	<finalName>${project.artifactId}</finalName>
 
 	<plugins>
 
@@ -111,6 +111,7 @@
 	    <plugin>
 		<groupId>io.xspec.maven</groupId>
 		<artifactId>xspec-maven-plugin</artifactId>
+		<version>2.0.0</version>
 		<configuration>
                     <!--coverage>true</coverage-->
 		    <generateSurefireReport>true</generateSurefireReport>
@@ -146,7 +147,7 @@
 			    <goal>single</goal>
 			</goals>
 			<configuration>
-			    <finalName>${artifactId}-${version}</finalName>
+			    <finalName>${project.artifactId}-${project.version}</finalName>
 			    <archiveBaseDirectory>${project.basedir}</archiveBaseDirectory>
 			    <descriptors>
 				<descriptor>assembly.xml</descriptor>
@@ -159,6 +160,7 @@
 	    <plugin>
 		<groupId>org.codehaus.mojo</groupId>
 		<artifactId>xml-maven-plugin</artifactId>
+		<version>1.0.2</version>
 		<executions>
 		    <execution>
 			<goals>
