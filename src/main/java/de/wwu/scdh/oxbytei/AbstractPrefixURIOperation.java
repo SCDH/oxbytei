@@ -153,8 +153,11 @@ public abstract class AbstractPrefixURIOperation {
 	return configuredEntriesProviders;
     }
 
-    
-    public static String doUserInteraction(AuthorAccess authorAccess, String multiple, List<ConfiguredEntriesProvider> configuredEntriesProviders)
+    /**
+     * Do the user interaction part.
+     *
+     */
+    public static String doUserInteraction(AuthorAccess authorAccess, String multiple, String currentValue, List<ConfiguredEntriesProvider> configuredEntriesProviders)
 	throws AuthorOperationException {
 	
 	// FIXME

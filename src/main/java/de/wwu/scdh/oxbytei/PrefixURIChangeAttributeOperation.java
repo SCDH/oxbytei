@@ -85,7 +85,9 @@ public class PrefixURIChangeAttributeOperation
 	final String location = OperationArgumentValidator.validateStringArgument(ARGUMENT_LOCATION.getName(), args);
 	final String multiple = OperationArgumentValidator.validateStringArgument(ARGUMENT_MULTIPLE.getName(), args);
 
-	String selectedId = doUserInteraction(authorAccess, (String) multiple, getConfiguredProviders(authorAccess));
+	String currentId = ""; // FIXME: get by xpath
+
+	String selectedId = doUserInteraction(authorAccess, (String) multiple, currentId, getConfiguredProviders(authorAccess));
 	
 	// put the selected URI into the attribute value
 	if (!(selectedId.isEmpty())) {
