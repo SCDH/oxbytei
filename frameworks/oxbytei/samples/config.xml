@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration xmlns="http://wwu.de/scdh/teilsp/config/">
+    <plugins>
+        <plugin>
+            <class>de.wwu.scdh.teilsp.extensions.LabelledEntriesFromXML</class>
+            <type>de.wwu.scdh.teilsp.services.extensions.ILabelledEntriesProvider</type>
+            <configurations>
+                <configuration>
+                    <conditions>
+                        <condition domain="context">self::persName and //teiHeader//prefixDef[matches(@ident, '^(psn|prs|pers|person)')]</condition>
+                        <condition domain="priority">10</condition>
+                    </conditions>
+                    <arguments>
+                        <argument name="prefix">//teiHeader//prefixDef[matches(@ident, '^(psn|prs|pers|person)')]</argument>
+                        <argument name="selection">//text/descendant::t:person[@xml:id]</argument>
+                        <argument name="key">@xml:id</argument>
+                        <argument name="label">normalize-space(concat(t:persName, ', *', t:birth)</argument>
+                        <argument name="namespaces">t:http://www.tei-c.org/ns/1.0 xml:http://www.w3.org/XML/1998/namespace</argument>
+                    </arguments>
+                </configuration>
+                <configuration>
+                    <conditions>
+                        <condition domain="context">self::placeName and //teiHeader//prefixDef[matches(@ident, '^(pl|plc|place)')]</condition>
+                        <condition domain="priority">10</condition>
+                    </conditions>
+                    <arguments>
+                        <argument name="prefix">//teiHeader//prefixDef[matches(@ident, '^(pl|plc|place)')]</argument>
+                        <argument name="selection">//t:text/descendant::t:place[@xml:id]</argument>
+                        <argument name="key">@xml:id</argument>
+                        <argument name="label">normalize-space(t:placeName)</argument>
+                        <argument name="namespaces">t:http://www.tei-c.org/ns/1.0 xml:http://www.w3.org/XML/1998/namespace</argument>
+                    </arguments>
+                </configuration>
+            </configurations>
+        </plugin>
+    </plugins>
+</configuration>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<script xmlns="http://www.oxygenxml.com/ns/framework/extend"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.oxygenxml.com/ns/framework/extend http://www.oxygenxml.com/ns/framework/extend/frameworkExtensionScript.xsd">
+  <name>TEI Language Server Configuration</name>
+  <description>A small framework to assist during the configuration of oXbytei.</description>
+  <priority>Normal</priority>
+  <associationRules>
+    <addRule namespace="http://wwu.de/scdh/teilsp/config/" />
+  </associationRules>
+
+  <validationScenarios>
+    <addScenarios href="schema/validate.scenarios"/>
+    <defaultScenarios>
+      <name>TEI Language Server Configuration</name>
+    </defaultScenarios>
+  </validationScenarios>
+
+</script>
