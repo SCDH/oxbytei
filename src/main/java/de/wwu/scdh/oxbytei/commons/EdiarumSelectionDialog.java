@@ -25,16 +25,19 @@ public class EdiarumSelectionDialog
     implements ISelectionDialog {
 
     AuthorAccess authorAccess;
+    String title;
     String multiple;
     String currentValue;
     List<ConfiguredEntriesProvider>configuredEntriesProviders;
 
 
     public void init(AuthorAccess access,
+		     String tit,
 		     String multi,
 		     String currentVal,
 		     List<ConfiguredEntriesProvider> configured) {
 	authorAccess = access;
+	title = tit;
 	multiple = multi;
 	currentValue = currentVal;
 	configuredEntriesProviders = configured;

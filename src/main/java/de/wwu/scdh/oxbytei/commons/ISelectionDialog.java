@@ -9,6 +9,7 @@ import ro.sync.ecss.extensions.api.AuthorOperationException;
 public interface ISelectionDialog {
 
     public void init(AuthorAccess access,
+		     String title,
 		     String multi,
 		     String currentVal,
 		     List<ConfiguredEntriesProvider> configured);

@@ -88,9 +88,10 @@ public class PrefixURIChangeAttributeOperation
 	final String multiple = OperationArgumentValidator.validateStringArgument(ARGUMENT_MULTIPLE.getName(), args);
 
 	String currentId = ""; // FIXME: get by xpath
+	String title = ""; // FIXME: read von arguments
 
 	ISelectionDialog dialog = new EdiarumSelectionDialog(); // FIXME: make pluggable
-	dialog.init(authorAccess, (String) multiple, currentId, getConfiguredProviders(authorAccess));
+	dialog.init(authorAccess, title, (String) multiple, currentId, getConfiguredProviders(authorAccess));
 	String selectedId = dialog.doUserInteraction();
 	
 	// put the selected URI into the attribute value
