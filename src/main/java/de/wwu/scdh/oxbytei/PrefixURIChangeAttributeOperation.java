@@ -19,6 +19,8 @@ import ro.sync.ecss.extensions.api.node.AuthorElement;
 import ro.sync.ecss.extensions.api.node.AuthorNode;
 
 import de.wwu.scdh.oxbytei.commons.OperationArgumentValidator;
+import de.wwu.scdh.oxbytei.commons.ISelectionDialog;
+import de.wwu.scdh.oxbytei.commons.EdiarumSelectionDialog;
 
 
 public class PrefixURIChangeAttributeOperation
@@ -87,7 +89,9 @@ public class PrefixURIChangeAttributeOperation
 
 	String currentId = ""; // FIXME: get by xpath
 
-	String selectedId = doUserInteraction(authorAccess, (String) multiple, currentId, getConfiguredProviders(authorAccess));
+	ISelectionDialog dialog = new EdiarumSelectionDialog(); // FIXME: make pluggable
+	dialog.init(authorAccess, (String) multiple, currentId, getConfiguredProviders(authorAccess));
+	String selectedId = dialog.doUserInteraction();
 	
 	// put the selected URI into the attribute value
 	if (!(selectedId.isEmpty())) {
