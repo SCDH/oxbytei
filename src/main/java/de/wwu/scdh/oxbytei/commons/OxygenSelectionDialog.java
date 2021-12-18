@@ -87,6 +87,12 @@ public class OxygenSelectionDialog
 	//AskDescriptor("combobox", title, keys, labels, currentValue);
 	String ask = "${ask('" + title + "', combobox, (" + pairs + "), '" + currentValue + "')}";
 	String selectedId = authorAccess.getUtilAccess().expandEditorVariables(ask, null, true);
+	// When "Cancel" is pressed in the dialog, the unexpanded
+	// string is returned. In this case we set the selection to
+	// the empty string.
+	if (selectedId.startsWith("${ask(")) {
+	    selectedId = "";
+	}
 	return selectedId;
     }
 
