@@ -21,6 +21,7 @@ import ro.sync.ecss.extensions.api.node.AuthorNode;
 import de.wwu.scdh.oxbytei.commons.OperationArgumentValidator;
 import de.wwu.scdh.oxbytei.commons.ISelectionDialog;
 import de.wwu.scdh.oxbytei.commons.EdiarumSelectionDialog;
+import de.wwu.scdh.oxbytei.commons.OxygenSelectionDialog;
 
 
 public class PrefixURIChangeAttributeOperation
@@ -90,7 +91,7 @@ public class PrefixURIChangeAttributeOperation
 	String currentId = ""; // FIXME: get by xpath
 	String title = ""; // FIXME: read von arguments
 
-	ISelectionDialog dialog = new EdiarumSelectionDialog(); // FIXME: make pluggable
+	ISelectionDialog dialog = new OxygenSelectionDialog(); // FIXME: make pluggable
 	dialog.init(authorAccess, title, (String) multiple, currentId, getConfiguredProviders(authorAccess));
 	String selectedId = dialog.doUserInteraction();
 	
