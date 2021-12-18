@@ -23,19 +23,19 @@ public class OxygenSelectionDialog
     String title;
     String multiple;
     String currentValue;
-    List<ConfiguredEntriesProvider>configuredEntriesProviders;
+    List<ILabelledEntriesProvider> providers;
 
 
     public void init(AuthorAccess access,
 		     String tit,
 		     String multi,
 		     String currentVal,
-		     List<ConfiguredEntriesProvider> configured) {
+		     List<ILabelledEntriesProvider> configured) {
 	authorAccess = access;
 	title = tit;
 	multiple = multi;
 	currentValue = currentVal;
-	configuredEntriesProviders = configured;
+	providers = configured;
     }
 
     /**
@@ -45,7 +45,7 @@ public class OxygenSelectionDialog
     public String doUserInteraction()
 	throws AuthorOperationException {
 
-	// FIXME
+	// TODO
 	//
 	// the user dialogue from oxygen does not allow updates on
 	// user input, but is rather static.
@@ -55,11 +55,11 @@ public class OxygenSelectionDialog
 
 	LabelledEntry entry;
 	String pairs = "";
-	for (i = 0; i < configuredEntriesProviders.size(); i++) {
-	    ConfiguredEntriesProvider configuredEntriesProvider = configuredEntriesProviders.get(i);
-	    ILabelledEntriesProvider provider = configuredEntriesProvider.getProvider();
+	for (i = 0; i < providers.size(); i++) {
+	    ILabelledEntriesProvider provider = providers.get(i);
 	    try {
-		List<LabelledEntry> entries = provider.getLabelledEntries(configuredEntriesProvider.getArguments());
+		// TODO: We just pass the empty string here.
+		List<LabelledEntry> entries = provider.getLabelledEntries("");
 		for (j = 0; j < entries.size(); j++) {
 		    entry = entries.get(j);
 		    if (pairs != "") {
@@ -69,7 +69,7 @@ public class OxygenSelectionDialog
 		}
 	    } catch (ExtensionException e) {
 		String report = "";
-		for (Map.Entry<String, String> argument : configuredEntriesProvider.getArguments().entrySet()) {
+		for (Map.Entry<String, String> argument : provider.getArguments().entrySet()) {
 		    report += argument.getKey() + " = " + argument.getValue() + "\n";
 		}
 		throw new AuthorOperationException("Error reading entries\n\n"

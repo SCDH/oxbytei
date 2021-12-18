@@ -4,13 +4,13 @@ import java.util.ArrayList;
 import java.util.Map;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.Arrays;
+import javax.xml.transform.URIResolver;
 
+import org.xml.sax.EntityResolver;
 
 import de.wwu.scdh.teilsp.services.extensions.ILabelledEntriesProvider;
 import de.wwu.scdh.teilsp.services.extensions.ExtensionException;
@@ -21,6 +21,10 @@ import de.wwu.scdh.teilsp.exceptions.DocumentReaderException;
 
 public class LabelledEntriesFromXML
     implements ILabelledEntriesProvider {
+
+    private ArrayList<LabelledEntry> entries;
+
+    private Map<String, String> arguments;
 
     private static final ArgumentDescriptor ARGUMENT_URI =
 	new ArgumentDescriptor("systeID",
@@ -76,11 +80,14 @@ public class LabelledEntriesFromXML
     /**
      * 
      */
-    public ArgumentDescriptor[] getArguments() {
+    public ArgumentDescriptor[] getArgumentDescriptor() {
 	return ARGUMENTS;
     }
-    
-    public ArrayList<LabelledEntry> getLabelledEntries(Map<String, String> args)
+
+    public void init(Map<String, String> args,
+		     URIResolver uriResolver,
+		     EntityResolver entityResolver,
+		     URL systemId)
 	throws ExtensionException {
 
 	InputStream inputStream;
@@ -114,8 +121,9 @@ public class LabelledEntriesFromXML
 	    try { inputStream.close(); } catch (IOException e) {}
 	    throw new ExtensionException("Argument 'label' is required");
 	}
+	arguments = args;
 
-	ArrayList<LabelledEntry> entries = null;
+	//entries = new ArrayList<LabelledEntry>();
 
 	try {
 	    LabelledEntriesFromXMLReader reader =
@@ -133,7 +141,15 @@ public class LabelledEntriesFromXML
 	    inputStream.close();
 	} catch (IOException e) {}
 
+    }
+
+    public ArrayList<LabelledEntry> getLabelledEntries(String userInput)
+	throws ExtensionException {
 	return entries;
+    }
+
+    public Map<String, String> getArguments() {
+	return arguments;
     }
 
 }

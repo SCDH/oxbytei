@@ -38,5 +38,11 @@ public interface ILabelledEntriesProvider {
      * @return             an ordered sequence of labelled entries
      */
     List<LabelledEntry> getLabelledEntries(String userInput) throws ExtensionException;
+
+    /**
+     * Return arguments. This might be informative for debugging and
+     * error messages.
+     */
+    Map<String, String> getArguments();
     
 }

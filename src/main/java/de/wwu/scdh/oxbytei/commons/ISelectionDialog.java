@@ -5,6 +5,7 @@ import java.util.List;
 import ro.sync.ecss.extensions.api.AuthorAccess;
 import ro.sync.ecss.extensions.api.AuthorOperationException;
 
+import de.wwu.scdh.teilsp.services.extensions.ILabelledEntriesProvider;
 
 public interface ISelectionDialog {
 
@@ -12,7 +13,7 @@ public interface ISelectionDialog {
 		     String title,
 		     String multi,
 		     String currentVal,
-		     List<ConfiguredEntriesProvider> configured);
+		     List<ILabelledEntriesProvider> configured);
 
     public String doUserInteraction() throws AuthorOperationException;
 

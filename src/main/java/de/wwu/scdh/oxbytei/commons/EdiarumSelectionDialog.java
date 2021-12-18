@@ -28,19 +28,19 @@ public class EdiarumSelectionDialog
     String title;
     String multiple;
     String currentValue;
-    List<ConfiguredEntriesProvider>configuredEntriesProviders;
+    List<ILabelledEntriesProvider> providers;
 
 
     public void init(AuthorAccess access,
 		     String tit,
 		     String multi,
 		     String currentVal,
-		     List<ConfiguredEntriesProvider> configured) {
+		     List<ILabelledEntriesProvider> configured) {
 	authorAccess = access;
 	title = tit;
 	multiple = multi;
 	currentValue = currentVal;
-	configuredEntriesProviders = configured;
+	providers = configured;
     }
 
     /**
@@ -50,7 +50,7 @@ public class EdiarumSelectionDialog
     public String doUserInteraction()
 	throws AuthorOperationException {
 
-	// FIXME
+	// TODO
 	//
 	// the user dialogue from ediarum we currently use
 	// takes two static string arrays: keys and values
@@ -65,11 +65,11 @@ public class EdiarumSelectionDialog
 	List<String> labels = new ArrayList<String>();
 	LabelledEntry entry;
 	k = 0;
-	for (i = 0; i < configuredEntriesProviders.size(); i++) {
-	    ConfiguredEntriesProvider configuredEntriesProvider = configuredEntriesProviders.get(i);
-	    ILabelledEntriesProvider provider = configuredEntriesProvider.getProvider();
+	for (i = 0; i < providers.size(); i++) {
+	    ILabelledEntriesProvider provider = providers.get(i);
 	    try {
-		List<LabelledEntry> entries = provider.getLabelledEntries(configuredEntriesProvider.getArguments());
+		// TODO: We just pass the empty string here.
+		List<LabelledEntry> entries = provider.getLabelledEntries("");
 		for (j = 0; j < entries.size(); j++) {
 		    entry = entries.get(j);
 		    keys.add(entry.getKey());
@@ -78,7 +78,7 @@ public class EdiarumSelectionDialog
 		}
 	    } catch (ExtensionException e) {
 		String report = "";
-		for (Map.Entry<String, String> argument : configuredEntriesProvider.getArguments().entrySet()) {
+		for (Map.Entry<String, String> argument : provider.getArguments().entrySet()) {
 		    report += argument.getKey() + " = " + argument.getValue() + "\n";
 		}
 		throw new AuthorOperationException("Error reading entries\n\n"
