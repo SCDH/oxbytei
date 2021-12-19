@@ -6,11 +6,7 @@
  */
 package de.wwu.scdh.oxbytei;
 
-import java.util.List;
-import java.util.Arrays;
 import javax.swing.text.BadLocationException;
-
-import org.w3c.dom.Attr;
 
 import ro.sync.ecss.extensions.api.AuthorConstants;
 import ro.sync.ecss.extensions.api.ArgumentDescriptor;
@@ -19,25 +15,16 @@ import ro.sync.ecss.extensions.api.AuthorAccess;
 import ro.sync.ecss.extensions.api.AuthorDocumentController;
 import ro.sync.ecss.extensions.api.AuthorOperation;
 import ro.sync.ecss.extensions.api.AuthorOperationException;
-import ro.sync.ecss.extensions.api.node.AttrValue;
 import ro.sync.ecss.extensions.api.node.AuthorElement;
 import ro.sync.ecss.extensions.api.node.AuthorNode;
 
 import de.wwu.scdh.oxbytei.commons.OperationArgumentValidator;
-import de.wwu.scdh.oxbytei.commons.ISelectionDialog;
-import de.wwu.scdh.teilsp.services.extensions.ILabelledEntriesProvider;
+import de.wwu.scdh.oxbytei.AbstractOperation;
 
 
 public class PrefixURIChangeAttributeOperation
-    extends AbstractPrefixURIOperation
+    extends AbstractOperation
     implements AuthorOperation {
-
-    private String attributeName;
-    private boolean multiple;
-    private String message;
-    private String dialog;
-    private AuthorAccess authorAccess;
-    private AuthorNode locationNode;
 
     private static final ArgumentDescriptor ARGUMENT_ATTRIBUTE =
 	new ArgumentDescriptor("attribute",
@@ -97,8 +84,7 @@ public class PrefixURIChangeAttributeOperation
      * @see ro.sync.ecss.extensions.api.AuthorOperation#getDescription()
      */
     public String getDescription() {
-	// FIXME
-	return "FIXME";
+	return "Set an attribute by presenting the user a selection generated from <prefixDef> in the current file context and from configuration.";
     }
     
     /**
@@ -118,13 +104,17 @@ public class PrefixURIChangeAttributeOperation
 
 	authorAccess = auAccess;
 
-	int selStart = authorAccess.getEditorAccess().getSelectionStart();
+	int selStart = auAccess.getEditorAccess().getSelectionStart();
 	try {
-	    // get location
-	    AuthorDocumentController doc = authorAccess.getDocumentController();
+	    // get location, which must be set for subsequent method calls
+	    AuthorDocumentController doc = auAccess.getDocumentController();
 	    AuthorNode selectionContext = doc.getNodeAtOffset(selStart);
 	    locationNode =
 		(AuthorElement) (doc.findNodesByXPath((String) location, selectionContext, false, true, true, false))[0];
+
+	    // set up the providers from prefix definitions
+	    setupProvidersFromPrefixDef();
+
 	    // call setAttribute() to open user dialog and set the attribute
 	    setAttribute();
 	} catch (BadLocationException e) {
@@ -142,85 +132,4 @@ public class PrefixURIChangeAttributeOperation
 
     }
 
-    /**
-     * Set the attribute given by {@link attributeName} on the
-     * {@link locationNode} node in a user dialogue.
-     */
-    private void setAttribute()	throws AuthorOperationException {
-
-	// get current attribute value
-	AuthorDocumentController doc = authorAccess.getDocumentController();
-	Object[] attrNodes =
-	    doc.evaluateXPath("@" + attributeName, locationNode, false, false, false, false);
-	String currentString = "";
-	boolean attributePresent = false;
-	if (attrNodes.length > 0) {
-	    currentString = ((Attr) attrNodes[0]).getValue();
-	    attributePresent = true;
-	}
-
-	// split current values by space
-	List<String> current = Arrays.asList(currentString.split("\\s+"));
-
-	// get initialized providers
-	List<ILabelledEntriesProvider> providers = getProvidersFromPrefixDef(authorAccess);
-
-	List<String> selected = null;
-
-	// do user interaction
-	try {
-	    // get user dialog from configuration
-	    ISelectionDialog dialogView;
-	    Class dialogClass = Class.forName(dialog);
-	    if (ISelectionDialog.class.isAssignableFrom(dialogClass)) {
-		dialogView = (ISelectionDialog) dialogClass.newInstance();
-		dialogView.init(authorAccess, message, multiple, current, providers);
-		selected = dialogView.doUserInteraction();
-	    } else {
-		throw new AuthorOperationException("Configuration ERROR: ISelectionDialog not implemented by "
-						   + dialog);
-	    }
-
-	} catch (ClassNotFoundException e) {
-	    throw new AuthorOperationException("Error loading user dialog class "
-					       + dialog + "\n\n" + e);
-	} catch (InstantiationException e) {
-	    throw new AuthorOperationException("Error instantiating user dialog class "
-					       + dialog + "\n\n" + e);
-	} catch (IllegalAccessException e) {
-	    throw new AuthorOperationException("Error accessing user dialog class "
-					       + dialog + "\n\n" + e);
-	}
-
-	// // TODO: dialog make pluggable
-	// ISelectionDialog dialog = new OxygenSelectionDialog();
-	// //ISelectionDialog dialog = new EdiarumSelectionDialog();
-	// dialog.init(authorAccess, message, multiple, current, providers);
-	// List<String> selected = dialog.doUserInteraction();
-
-	// set the attribute value, if not null returned form
-	// doUserInteraction(), because null means cancellation
-	if (selected != null) {
-	    // make the new value
-	    String newValue = "";
-	    for (int i = 0; i < selected.size(); i++) {
-		if (i > 0) {
-		    // add separator
-		    newValue += " ";
-		}
-		newValue += selected.get(i);
-	    }
-	    // get the element
-	    AuthorElement locationElement = (AuthorElement) locationNode;
-	    // set attribute if not empty string
-	    if (!(newValue.isEmpty())) {
-		AttrValue val = new AttrValue(newValue);
-		doc.setAttribute(attributeName, val, locationElement);
-	    } else {
-		// remove attribute if empty string
-		doc.removeAttribute(attributeName, locationElement);
-	    }
-	}
-    }
-    
 }
