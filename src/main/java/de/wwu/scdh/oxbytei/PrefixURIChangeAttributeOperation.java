@@ -6,6 +6,7 @@
  */
 package de.wwu.scdh.oxbytei;
 
+import java.util.List;
 import javax.swing.text.BadLocationException;
 
 import org.w3c.dom.Attr;
@@ -25,11 +26,19 @@ import de.wwu.scdh.oxbytei.commons.OperationArgumentValidator;
 import de.wwu.scdh.oxbytei.commons.ISelectionDialog;
 import de.wwu.scdh.oxbytei.commons.EdiarumSelectionDialog;
 import de.wwu.scdh.oxbytei.commons.OxygenSelectionDialog;
+import de.wwu.scdh.teilsp.services.extensions.ILabelledEntriesProvider;
 
 
 public class PrefixURIChangeAttributeOperation
     extends AbstractPrefixURIOperation
     implements AuthorOperation {
+
+
+    private String attributeName;
+    private String multiple;
+    private String message;
+    private AuthorAccess authorAccess;
+    private AuthorNode locationNode;
 
     private static final ArgumentDescriptor ARGUMENT_ATTRIBUTE =
 	new ArgumentDescriptor("attribute",
@@ -89,55 +98,30 @@ public class PrefixURIChangeAttributeOperation
     /**
      * @see ro.sync.ecss.extensions.api.AuthorOperation#doOperation()
      */
-    public void doOperation(final AuthorAccess authorAccess, final ArgumentsMap args)
+    public void doOperation(AuthorAccess auAccess, ArgumentsMap args)
 	throws AuthorOperationException, IllegalArgumentException {
 
 	// Validate arguments
-	final String attributeName = OperationArgumentValidator.validateStringArgument(ARGUMENT_ATTRIBUTE.getName(), args);
-	final String location = OperationArgumentValidator.validateStringArgument(ARGUMENT_LOCATION.getName(), args);
-	final String multiple = OperationArgumentValidator.validateStringArgument(ARGUMENT_MULTIPLE.getName(), args);
-	final String message = OperationArgumentValidator.validateStringArgument(ARGUMENT_MESSAGE.getName(), args);
+	attributeName = OperationArgumentValidator.validateStringArgument(ARGUMENT_ATTRIBUTE.getName(), args);
+	String location = OperationArgumentValidator.validateStringArgument(ARGUMENT_LOCATION.getName(), args);
+	multiple = OperationArgumentValidator.validateStringArgument(ARGUMENT_MULTIPLE.getName(), args);
+	message = OperationArgumentValidator.validateStringArgument(ARGUMENT_MESSAGE.getName(), args);
 
-	// put the selected URI into the attribute value
+	authorAccess = auAccess;
+
+	int selStart = authorAccess.getEditorAccess().getSelectionStart();
 	try {
-	    // get location and current attribute value
-	    int selStart = authorAccess.getEditorAccess().getSelectionStart();
+	    // get location
 	    AuthorDocumentController doc = authorAccess.getDocumentController();
 	    AuthorNode selectionContext = doc.getNodeAtOffset(selStart);
-	    AuthorNode locationNode =
+	    locationNode =
 		(AuthorElement) (doc.findNodesByXPath((String) location, selectionContext, false, true, true, false))[0];
-	    AuthorElement locationElement = (AuthorElement) locationNode;
-	    Object[] attrNodes =
-		doc.evaluateXPath("@" + attributeName, locationNode, false, false, false, false);
-	    String currentId = "";
-	    boolean attributePresent = false;
-	    if (attrNodes.length > 0) {
-		currentId = ((Attr) attrNodes[0]).getValue();
-		attributePresent = true;
-	    }
-
-	    // do user interaction
-	    ISelectionDialog dialog = new OxygenSelectionDialog(); // FIXME: make pluggable
-	    dialog.init(authorAccess, message, multiple, currentId, getConfiguredProviders(authorAccess));
-	    String selectedId = dialog.doUserInteraction();
-
-	    // null returned form doUserInteraction means cancellation
-	    if (selectedId != null) {
-		// set attribute if not empty string
-		if (!(selectedId.isEmpty())) {
-		    doc.setAttribute(attributeName,
-				     new AttrValue(selectedId),
-				     locationElement);
-		} else {
-		    // remove attribute if empty string
-		    doc.removeAttribute(attributeName, locationElement);
-		}
-	    }
-	}
-	catch (BadLocationException e) {
-	    // ???
-	}
-	catch (IndexOutOfBoundsException e) {
+	    // call setAttribute() to open user dialog and set the attribute
+	    setAttribute();
+	} catch (BadLocationException e) {
+	    // This can occur on getNodeAtOffset()
+	    System.err.println("Error: At bad editor location. Offset " + selStart);
+	} catch (IndexOutOfBoundsException e) {
 	    // This occurs, when the XPath of the 'location'
 	    // argument does not return an elemnt. Then the
 	    // accessing the first element of the array returned
@@ -145,6 +129,47 @@ public class PrefixURIChangeAttributeOperation
 	    throw new AuthorOperationException("An error occured\n"
 					       + "Please check the XPath expression given as `location`!\n\n"
 					       + e);
+	}
+
+    }
+
+    /**
+     * Set the attribute given by {@link attributeName} on the
+     * {@link locationNode} node.
+     */
+    private void setAttribute()	throws AuthorOperationException {
+
+	// get current attribute value
+	AuthorDocumentController doc = authorAccess.getDocumentController();
+	Object[] attrNodes =
+	    doc.evaluateXPath("@" + attributeName, locationNode, false, false, false, false);
+	String currentId = "";
+	boolean attributePresent = false;
+	if (attrNodes.length > 0) {
+	    currentId = ((Attr) attrNodes[0]).getValue();
+	    attributePresent = true;
+	}
+
+	// get initialized providers
+	List<ILabelledEntriesProvider> providers = getConfiguredProviders(authorAccess);
+
+	// do user interaction
+	ISelectionDialog dialog = new OxygenSelectionDialog(); // TODO: make pluggable
+	dialog.init(authorAccess, message, multiple, currentId, providers);
+	String selectedId = dialog.doUserInteraction();
+
+	// set the attribute value
+	// null returned form doUserInteraction means cancellation
+	if (selectedId != null) {
+	    AuthorElement locationElement = (AuthorElement) locationNode;
+	    // set attribute if not empty string
+	    if (!(selectedId.isEmpty())) {
+		AttrValue val = new AttrValue(selectedId);
+		doc.setAttribute(attributeName, val, locationElement);
+	    } else {
+		// remove attribute if empty string
+		doc.removeAttribute(attributeName, locationElement);
+	    }
 	}
     }
     
