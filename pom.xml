@@ -5,7 +5,7 @@
 
     <groupId>de.wwu.scdh.oxbytei</groupId>
     <artifactId>oxbytei</artifactId>
-    <version>1.2.0</version>
+    <version>0.3.0</version>
     
     <name>oxbytei</name>
     <url>https://github.com/scdh/oxbytei</url>
@@ -177,27 +177,6 @@
 				<include>pom.xml</include>
 			    </includes>
 			    <stylesheet>pages/descriptor.xsl</stylesheet>
-			</transformationSet>
-			<!-- make tests from XPath expressions in external author actions -->
-			<transformationSet>
-			    <!-- link.person -->
-			    <dir>${framework.dir}/externalAuthorActions</dir>
-			    <includes>
-				<include>link-person.xml</include>
-			    </includes>
-			    <stylesheet>${test.dir}/extractXpath.xsl</stylesheet>
-			    <fileMappers>
-				<fileMapper
-				    implementation="org.codehaus.plexus.components.io.filemappers.FileExtensionMapper">
-				    <targetExtension>.test.xsl</targetExtension>
-				</fileMapper>
-			    </fileMappers>
-			    <parameters>
-				<parameter>
-				    <name>match-conditions</name>
-				    <value>persName|person||prefixDef</value>
-				</parameter>
-			    </parameters>
 			</transformationSet>
 			<transformationSet>
 			    <!-- sel.language -->

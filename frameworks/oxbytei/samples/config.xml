@@ -12,9 +12,9 @@
                     </conditions>
                     <arguments>
                         <argument name="prefix">//teiHeader//prefixDef[matches(@ident, '^(psn|prs|pers|person)')]</argument>
-                        <argument name="selection">//text/descendant::t:person[@xml:id]</argument>
+                        <argument name="selection">//t:text/descendant::t:person[@xml:id]</argument>
                         <argument name="key">@xml:id</argument>
-                        <argument name="label">normalize-space(concat(t:persName, ', *', t:birth)</argument>
+                        <argument name="label">normalize-space(concat(t:persName, ', *', t:birth))</argument>
                         <argument name="namespaces">t:http://www.tei-c.org/ns/1.0 xml:http://www.w3.org/XML/1998/namespace</argument>
                     </arguments>
                 </configuration>
