@@ -84,8 +84,7 @@ public class PrefixURIChangeAttributeOperation
      * @see ro.sync.ecss.extensions.api.AuthorOperation#getDescription()
      */
     public String getDescription() {
-	// FIXME
-	return "FIXME";
+	return "Set an attribute by presenting the user a selection generated from <prefixDef> in the current file context and from configuration.";
     }
     
     /**
