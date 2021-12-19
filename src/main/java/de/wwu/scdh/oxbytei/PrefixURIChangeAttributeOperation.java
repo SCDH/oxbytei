@@ -8,8 +8,6 @@ package de.wwu.scdh.oxbytei;
 
 import javax.swing.text.BadLocationException;
 
-import org.w3c.dom.Attr;
-
 import ro.sync.ecss.extensions.api.AuthorConstants;
 import ro.sync.ecss.extensions.api.ArgumentDescriptor;
 import ro.sync.ecss.extensions.api.ArgumentsMap;
@@ -17,18 +15,15 @@ import ro.sync.ecss.extensions.api.AuthorAccess;
 import ro.sync.ecss.extensions.api.AuthorDocumentController;
 import ro.sync.ecss.extensions.api.AuthorOperation;
 import ro.sync.ecss.extensions.api.AuthorOperationException;
-import ro.sync.ecss.extensions.api.node.AttrValue;
 import ro.sync.ecss.extensions.api.node.AuthorElement;
 import ro.sync.ecss.extensions.api.node.AuthorNode;
 
 import de.wwu.scdh.oxbytei.commons.OperationArgumentValidator;
-import de.wwu.scdh.oxbytei.commons.ISelectionDialog;
-import de.wwu.scdh.oxbytei.commons.EdiarumSelectionDialog;
-import de.wwu.scdh.oxbytei.commons.OxygenSelectionDialog;
+import de.wwu.scdh.oxbytei.AbstractOperation;
 
 
 public class PrefixURIChangeAttributeOperation
-    extends AbstractPrefixURIOperation
+    extends AbstractOperation
     implements AuthorOperation {
 
     private static final ArgumentDescriptor ARGUMENT_ATTRIBUTE =
@@ -50,7 +45,7 @@ public class PrefixURIChangeAttributeOperation
 
     private static final ArgumentDescriptor ARGUMENT_MULTIPLE =
 	new ArgumentDescriptor("multiple",
-			       ArgumentDescriptor.TYPE_XPATH_EXPRESSION,
+			       ArgumentDescriptor.TYPE_CONSTANT_LIST,
 			       "Whether or not multiple selections are allowed."
 			       + " Defaults to false.",
 			       ARGUMENT_MULTIPLE_ALLOWED_VALUES,
@@ -61,6 +56,12 @@ public class PrefixURIChangeAttributeOperation
 			       ArgumentDescriptor.TYPE_STRING,
 			       "The message in the user dialog.");
 
+    private static final ArgumentDescriptor ARGUMENT_DIALOG =
+	new ArgumentDescriptor("dialog",
+			       ArgumentDescriptor.TYPE_STRING,
+			       "The user dialogue used for this operation.",
+			       "de.wwu.scdh.oxbytei.commons.OxygenSelectionDialog");
+
     /**
      * The array of arguments, this author operation takes.
      */
@@ -68,7 +69,8 @@ public class PrefixURIChangeAttributeOperation
 	ARGUMENT_ATTRIBUTE,
 	ARGUMENT_LOCATION,
 	ARGUMENT_MULTIPLE,
-	ARGUMENT_MESSAGE
+	ARGUMENT_MESSAGE,
+	ARGUMENT_DIALOG
     };
 
     /**
@@ -82,59 +84,43 @@ public class PrefixURIChangeAttributeOperation
      * @see ro.sync.ecss.extensions.api.AuthorOperation#getDescription()
      */
     public String getDescription() {
-	// FIXME
-	return "FIXME";
+	return "Set an attribute by presenting the user a selection generated from <prefixDef> in the current file context and from configuration.";
     }
     
     /**
      * @see ro.sync.ecss.extensions.api.AuthorOperation#doOperation()
      */
-    public void doOperation(final AuthorAccess authorAccess, final ArgumentsMap args)
+    public void doOperation(AuthorAccess auAccess, ArgumentsMap args)
 	throws AuthorOperationException, IllegalArgumentException {
 
 	// Validate arguments
-	final String attributeName = OperationArgumentValidator.validateStringArgument(ARGUMENT_ATTRIBUTE.getName(), args);
-	final String location = OperationArgumentValidator.validateStringArgument(ARGUMENT_LOCATION.getName(), args);
-	final String multiple = OperationArgumentValidator.validateStringArgument(ARGUMENT_MULTIPLE.getName(), args);
-	final String message = OperationArgumentValidator.validateStringArgument(ARGUMENT_MESSAGE.getName(), args);
+	attributeName = OperationArgumentValidator.validateStringArgument(ARGUMENT_ATTRIBUTE.getName(), args);
+	String location = OperationArgumentValidator.validateStringArgument(ARGUMENT_LOCATION.getName(), args);
+	String multipleString = OperationArgumentValidator.validateStringArgument(ARGUMENT_MULTIPLE.getName(), args);
+	message = OperationArgumentValidator.validateStringArgument(ARGUMENT_MESSAGE.getName(), args);
+	dialog = OperationArgumentValidator.validateStringArgument(ARGUMENT_DIALOG.getName(), args);
 
-	// put the selected URI into the attribute value
+	multiple = multipleString.equals(AuthorConstants.ARG_VALUE_TRUE);
+
+	authorAccess = auAccess;
+
+	int selStart = auAccess.getEditorAccess().getSelectionStart();
 	try {
-	    // get location and current attribute value
-	    int selStart = authorAccess.getEditorAccess().getSelectionStart();
-	    AuthorDocumentController doc = authorAccess.getDocumentController();
+	    // get location, which must be set for subsequent method calls
+	    AuthorDocumentController doc = auAccess.getDocumentController();
 	    AuthorNode selectionContext = doc.getNodeAtOffset(selStart);
-	    AuthorNode locationNode =
+	    locationNode =
 		(AuthorElement) (doc.findNodesByXPath((String) location, selectionContext, false, true, true, false))[0];
-	    AuthorElement locationElement = (AuthorElement) locationNode;
-	    Object[] attrNodes =
-		doc.evaluateXPath("@" + attributeName, locationNode, false, false, false, false);
-	    String currentId = "";
-	    boolean attributePresent = false;
-	    if (attrNodes.length > 0) {
-		currentId = ((Attr) attrNodes[0]).getValue();
-		attributePresent = true;
-	    }
 
-	    // do user interaction
-	    ISelectionDialog dialog = new OxygenSelectionDialog(); // FIXME: make pluggable
-	    dialog.init(authorAccess, message, multiple, currentId, getConfiguredProviders(authorAccess));
-	    String selectedId = dialog.doUserInteraction();
+	    // set up the providers from prefix definitions
+	    setupProvidersFromPrefixDef();
 
-	    // set attribute
-	    if (!(selectedId.isEmpty())) {
-		doc.setAttribute(attributeName,
-				 new AttrValue(selectedId),
-				 locationElement);
-	    } else {
-		// remove attribute
-		doc.removeAttribute(attributeName, locationElement);
-	    }
-	}
-	catch (BadLocationException e) {
-	    // ???
-	}
-	catch (IndexOutOfBoundsException e) {
+	    // call setAttribute() to open user dialog and set the attribute
+	    setAttribute();
+	} catch (BadLocationException e) {
+	    // This can occur on getNodeAtOffset()
+	    System.err.println("Error: At bad editor location. Offset " + selStart);
+	} catch (IndexOutOfBoundsException e) {
 	    // This occurs, when the XPath of the 'location'
 	    // argument does not return an elemnt. Then the
 	    // accessing the first element of the array returned
@@ -143,6 +129,7 @@ public class PrefixURIChangeAttributeOperation
 					       + "Please check the XPath expression given as `location`!\n\n"
 					       + e);
 	}
+
     }
-    
+
 }
