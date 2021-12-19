@@ -1,8 +1,11 @@
 /**
- * {@link AbstractPrefixURIOperation} - is an abstract base class for
- * building selection dialogs with options from registered
- * {@link ILabelledEntriesProvider} and from the values defined in a
- * target given in a <prefixDef> element.
+ * {@link AbstractOperation} is an abstract base class for building
+ * author mode operations.
+ *
+ * It offers a methods for presenting the user a selection dialog with
+ * options from {@link ILabelledEntriesProvider} plugins.  And methods
+ * to setup such provider plugins from the values defined in a target
+ * given in a <prefixDef> element.
  *
  */
 package de.wwu.scdh.oxbytei;
@@ -41,13 +44,41 @@ import de.wwu.scdh.oxbytei.commons.ISelectionDialog;
 
 public abstract class AbstractOperation {
 
+    /**
+     * Attribute name to be set by {@link setAttribute}
+     */
     protected String attributeName;
+
+    /**
+     * Whether or not the selection dialog allows multiple selects.
+     */
     protected boolean multiple;
+
+    /**
+     * Title message presented to the user in the selection dialog.
+     */
     protected String message;
+
+    /**
+     * Canonical class name of the selection dialog.
+     */
     protected String dialog;
+
+    /**
+     * {@link AuthorAccess} passed in from the author mode operation.
+     */
     protected AuthorAccess authorAccess;
+
+    /**
+     * The node, which to operate on, i.e. which to set the attribute on.
+     */
     protected AuthorNode locationNode;
-    protected List<ILabelledEntriesProvider> providers;
+
+    /**
+     * Plugins setup by {@link setupProvidersFromPrefixDef()} and
+     * used by {@link setAttribute()}.
+     */
+    private List<ILabelledEntriesProvider> providers;
     
     /**
      * Get the plugins registered for {@link ILabelledEntriesProvider}
