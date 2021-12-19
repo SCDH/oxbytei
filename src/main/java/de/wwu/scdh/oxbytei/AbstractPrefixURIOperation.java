@@ -42,7 +42,7 @@ public abstract class AbstractPrefixURIOperation {
      * and configure them based on config file and <prefixDef>
      * elements in the currently edited file.
      */
-    public static List<ILabelledEntriesProvider> getConfiguredProviders(AuthorAccess authorAccess)
+    public static List<ILabelledEntriesProvider> getProvidersFromPrefixDef(AuthorAccess authorAccess)
 	throws AuthorOperationException {
 
 	// Load providers

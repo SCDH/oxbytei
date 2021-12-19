@@ -151,7 +151,7 @@ public class PrefixURIChangeAttributeOperation
 	}
 
 	// get initialized providers
-	List<ILabelledEntriesProvider> providers = getConfiguredProviders(authorAccess);
+	List<ILabelledEntriesProvider> providers = getProvidersFromPrefixDef(authorAccess);
 
 	// do user interaction
 	ISelectionDialog dialog = new OxygenSelectionDialog(); // TODO: make pluggable
