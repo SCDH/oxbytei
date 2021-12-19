@@ -6,7 +6,6 @@
  */
 package de.wwu.scdh.oxbytei;
 
-import java.util.List;
 import javax.swing.text.BadLocationException;
 
 import ro.sync.ecss.extensions.api.AuthorConstants;
@@ -105,15 +104,17 @@ public class PrefixURIChangeAttributeOperation
 
 	authorAccess = auAccess;
 
-	int selStart = authorAccess.getEditorAccess().getSelectionStart();
+	int selStart = auAccess.getEditorAccess().getSelectionStart();
 	try {
-	    // get location
-	    AuthorDocumentController doc = authorAccess.getDocumentController();
+	    // get location, which must be set for subsequent method calls
+	    AuthorDocumentController doc = auAccess.getDocumentController();
 	    AuthorNode selectionContext = doc.getNodeAtOffset(selStart);
 	    locationNode =
 		(AuthorElement) (doc.findNodesByXPath((String) location, selectionContext, false, true, true, false))[0];
+
 	    // set up the providers from prefix definitions
 	    setupProvidersFromPrefixDef();
+
 	    // call setAttribute() to open user dialog and set the attribute
 	    setAttribute();
 	} catch (BadLocationException e) {
