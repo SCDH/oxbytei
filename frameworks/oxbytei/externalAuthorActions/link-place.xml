@@ -14,6 +14,7 @@
         <a:argument name="attribute">ref</a:argument>
         <a:argument name="location">self::placeName</a:argument>
         <a:argument name="message">Choose a place</a:argument>
+        <a:argument name="dialog">de.wwu.scdh.oxbytei.commons.OxygenSelectionDialog</a:argument>
       </a:arguments>
     </a:operation>
     <a:operation id="ExecuteMultipleActionsOperation">

@@ -25,8 +25,6 @@ import ro.sync.ecss.extensions.api.node.AuthorNode;
 
 import de.wwu.scdh.oxbytei.commons.OperationArgumentValidator;
 import de.wwu.scdh.oxbytei.commons.ISelectionDialog;
-import de.wwu.scdh.oxbytei.commons.EdiarumSelectionDialog;
-import de.wwu.scdh.oxbytei.commons.OxygenSelectionDialog;
 import de.wwu.scdh.teilsp.services.extensions.ILabelledEntriesProvider;
 
 
@@ -34,10 +32,10 @@ public class PrefixURIChangeAttributeOperation
     extends AbstractPrefixURIOperation
     implements AuthorOperation {
 
-
     private String attributeName;
     private boolean multiple;
     private String message;
+    private String dialog;
     private AuthorAccess authorAccess;
     private AuthorNode locationNode;
 
@@ -71,6 +69,12 @@ public class PrefixURIChangeAttributeOperation
 			       ArgumentDescriptor.TYPE_STRING,
 			       "The message in the user dialog.");
 
+    private static final ArgumentDescriptor ARGUMENT_DIALOG =
+	new ArgumentDescriptor("dialog",
+			       ArgumentDescriptor.TYPE_STRING,
+			       "The user dialogue used for this operation.",
+			       "de.wwu.scdh.oxbytei.commons.OxygenSelectionDialog");
+
     /**
      * The array of arguments, this author operation takes.
      */
@@ -78,7 +82,8 @@ public class PrefixURIChangeAttributeOperation
 	ARGUMENT_ATTRIBUTE,
 	ARGUMENT_LOCATION,
 	ARGUMENT_MULTIPLE,
-	ARGUMENT_MESSAGE
+	ARGUMENT_MESSAGE,
+	ARGUMENT_DIALOG
     };
 
     /**
@@ -107,6 +112,7 @@ public class PrefixURIChangeAttributeOperation
 	String location = OperationArgumentValidator.validateStringArgument(ARGUMENT_LOCATION.getName(), args);
 	String multipleString = OperationArgumentValidator.validateStringArgument(ARGUMENT_MULTIPLE.getName(), args);
 	message = OperationArgumentValidator.validateStringArgument(ARGUMENT_MESSAGE.getName(), args);
+	dialog = OperationArgumentValidator.validateStringArgument(ARGUMENT_DIALOG.getName(), args);
 
 	multiple = multipleString.equals(AuthorConstants.ARG_VALUE_TRUE);
 
@@ -138,7 +144,7 @@ public class PrefixURIChangeAttributeOperation
 
     /**
      * Set the attribute given by {@link attributeName} on the
-     * {@link locationNode} node.
+     * {@link locationNode} node in a user dialogue.
      */
     private void setAttribute()	throws AuthorOperationException {
 
@@ -154,17 +160,43 @@ public class PrefixURIChangeAttributeOperation
 	}
 
 	// split current values by space
-	List<String> current = Arrays.asList(currentString.split("\s+"));
+	List<String> current = Arrays.asList(currentString.split("\\s+"));
 
 	// get initialized providers
 	List<ILabelledEntriesProvider> providers = getProvidersFromPrefixDef(authorAccess);
 
+	List<String> selected = null;
+
 	// do user interaction
-	// TODO: dialog make pluggable
-	ISelectionDialog dialog = new OxygenSelectionDialog();
-	//ISelectionDialog dialog = new EdiarumSelectionDialog();
-	dialog.init(authorAccess, message, multiple, current, providers);
-	List<String> selected = dialog.doUserInteraction();
+	try {
+	    // get user dialog from configuration
+	    ISelectionDialog dialogView;
+	    Class dialogClass = Class.forName(dialog);
+	    if (ISelectionDialog.class.isAssignableFrom(dialogClass)) {
+		dialogView = (ISelectionDialog) dialogClass.newInstance();
+		dialogView.init(authorAccess, message, multiple, current, providers);
+		selected = dialogView.doUserInteraction();
+	    } else {
+		throw new AuthorOperationException("Configuration ERROR: ISelectionDialog not implemented by "
+						   + dialog);
+	    }
+
+	} catch (ClassNotFoundException e) {
+	    throw new AuthorOperationException("Error loading user dialog class "
+					       + dialog + "\n\n" + e);
+	} catch (InstantiationException e) {
+	    throw new AuthorOperationException("Error instantiating user dialog class "
+					       + dialog + "\n\n" + e);
+	} catch (IllegalAccessException e) {
+	    throw new AuthorOperationException("Error accessing user dialog class "
+					       + dialog + "\n\n" + e);
+	}
+
+	// // TODO: dialog make pluggable
+	// ISelectionDialog dialog = new OxygenSelectionDialog();
+	// //ISelectionDialog dialog = new EdiarumSelectionDialog();
+	// dialog.init(authorAccess, message, multiple, current, providers);
+	// List<String> selected = dialog.doUserInteraction();
 
 	// set the attribute value, if not null returned form
 	// doUserInteraction(), because null means cancellation
