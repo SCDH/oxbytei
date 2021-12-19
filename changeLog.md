@@ -1,5 +1,16 @@
 # Change log #
 
+## v0.3.1
+
+- made selection dialogue configurable through author mode action xml
+- changed API for selection dialogs to handle multiple selection
+- reflected these changes in the wrappers around the oxygen dialog and
+  the ediarum dialog
+- discovered bugs in these dialogs and documented them in the wrappers
+- moved reusable code to abstract base class AbstractOperation
+  - saw some problems with protected fields of this base class
+  - Should abstract base classed be used to share state?
+
 ## v0.3.0
 
 - generate selections from `<prefixDef>` through configurable Java
