@@ -42,7 +42,7 @@ import de.wwu.scdh.oxbytei.commons.Resolver;
 import de.wwu.scdh.oxbytei.commons.ISelectionDialog;
 
 
-public abstract class AbstractOperation {
+abstract class AbstractOperation {
 
     /**
      * Attribute name to be set by {@link setAttribute}

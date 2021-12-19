@@ -19,6 +19,7 @@ import ro.sync.ecss.extensions.api.node.AuthorElement;
 import ro.sync.ecss.extensions.api.node.AuthorNode;
 
 import de.wwu.scdh.oxbytei.commons.OperationArgumentValidator;
+import de.wwu.scdh.oxbytei.AbstractOperation;
 
 
 public class PrefixURIChangeAttributeOperation
