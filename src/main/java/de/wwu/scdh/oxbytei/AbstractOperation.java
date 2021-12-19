@@ -9,6 +9,7 @@ package de.wwu.scdh.oxbytei;
 
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.List;
@@ -16,6 +17,7 @@ import java.util.ArrayList;
 import javax.xml.transform.URIResolver;
 import javax.xml.transform.TransformerException;
 
+import org.w3c.dom.Attr;
 import org.xml.sax.EntityResolver;
 
 import ro.sync.ecss.extensions.api.AuthorDocumentController;
@@ -23,6 +25,7 @@ import ro.sync.ecss.extensions.api.AuthorAccess;
 import ro.sync.ecss.extensions.api.AuthorOperationException;
 import ro.sync.ecss.extensions.api.node.AuthorElement;
 import ro.sync.ecss.extensions.api.node.AuthorNode;
+import ro.sync.ecss.extensions.api.node.AttrValue;
 
 import de.wwu.scdh.teilsp.services.extensions.ILabelledEntriesProvider;
 import de.wwu.scdh.teilsp.services.extensions.LabelledEntries;
@@ -33,16 +36,25 @@ import de.wwu.scdh.teilsp.config.ExtensionConfiguration;
 import de.wwu.scdh.teilsp.config.ExtensionConfigurationReader;
 import de.wwu.scdh.teilsp.exceptions.ConfigurationException;
 import de.wwu.scdh.oxbytei.commons.Resolver;
+import de.wwu.scdh.oxbytei.commons.ISelectionDialog;
 
 
-public abstract class AbstractPrefixURIOperation {
+public abstract class AbstractOperation {
 
+    protected String attributeName;
+    protected boolean multiple;
+    protected String message;
+    protected String dialog;
+    protected AuthorAccess authorAccess;
+    protected AuthorNode locationNode;
+    protected List<ILabelledEntriesProvider> providers;
+    
     /**
      * Get the plugins registered for {@link ILabelledEntriesProvider}
      * and configure them based on config file and <prefixDef>
      * elements in the currently edited file.
      */
-    public static List<ILabelledEntriesProvider> getProvidersFromPrefixDef(AuthorAccess authorAccess)
+    protected void setupProvidersFromPrefixDef()
 	throws AuthorOperationException {
 
 	// Load providers
@@ -172,7 +184,85 @@ public abstract class AbstractPrefixURIOperation {
 	// for (ILabelledEntriesProvider p : configuredEntriesProviders) {
 	//     System.err.println(p.toString() + p.getArguments().toString() + p.getArguments().get("prefix"));
 	// }
-	return configuredEntriesProviders;
+	this.providers = configuredEntriesProviders;
     }
 
+    /**
+     * Set the attribute given by {@link attributeName} on the
+     * {@link locationNode} node in a user dialogue.
+     */
+    protected void setAttribute() throws AuthorOperationException {
+
+	// get current attribute value
+	AuthorDocumentController doc = authorAccess.getDocumentController();
+	Object[] attrNodes =
+	    doc.evaluateXPath("@" + attributeName, locationNode, false, false, false, false);
+	String currentString = "";
+	boolean attributePresent = false;
+	if (attrNodes.length > 0) {
+	    currentString = ((Attr) attrNodes[0]).getValue();
+	    attributePresent = true;
+	}
+
+	// split current values by space
+	List<String> current = Arrays.asList(currentString.split("\\s+"));
+
+	List<String> selected = null;
+
+	// do user interaction
+	try {
+	    // get user dialog from configuration
+	    ISelectionDialog dialogView;
+	    Class dialogClass = Class.forName(dialog);
+	    if (ISelectionDialog.class.isAssignableFrom(dialogClass)) {
+		dialogView = (ISelectionDialog) dialogClass.newInstance();
+		dialogView.init(authorAccess, message, multiple, current, providers);
+		selected = dialogView.doUserInteraction();
+	    } else {
+		throw new AuthorOperationException("Configuration ERROR: ISelectionDialog not implemented by "
+						   + dialog);
+	    }
+
+	} catch (ClassNotFoundException e) {
+	    throw new AuthorOperationException("Error loading user dialog class "
+					       + dialog + "\n\n" + e);
+	} catch (InstantiationException e) {
+	    throw new AuthorOperationException("Error instantiating user dialog class "
+					       + dialog + "\n\n" + e);
+	} catch (IllegalAccessException e) {
+	    throw new AuthorOperationException("Error accessing user dialog class "
+					       + dialog + "\n\n" + e);
+	}
+
+	// // TODO: dialog make pluggable
+	// ISelectionDialog dialog = new OxygenSelectionDialog();
+	// //ISelectionDialog dialog = new EdiarumSelectionDialog();
+	// dialog.init(authorAccess, message, multiple, current, providers);
+	// List<String> selected = dialog.doUserInteraction();
+
+	// set the attribute value, if not null returned form
+	// doUserInteraction(), because null means cancellation
+	if (selected != null) {
+	    // make the new value
+	    String newValue = "";
+	    for (int i = 0; i < selected.size(); i++) {
+		if (i > 0) {
+		    // add separator
+		    newValue += " ";
+		}
+		newValue += selected.get(i);
+	    }
+	    // get the element
+	    AuthorElement locationElement = (AuthorElement) locationNode;
+	    // set attribute if not empty string
+	    if (!(newValue.isEmpty())) {
+		AttrValue val = new AttrValue(newValue);
+		doc.setAttribute(attributeName, val, locationElement);
+	    } else {
+		// remove attribute if empty string
+		doc.removeAttribute(attributeName, locationElement);
+	    }
+	}
+    }
+    
 }
