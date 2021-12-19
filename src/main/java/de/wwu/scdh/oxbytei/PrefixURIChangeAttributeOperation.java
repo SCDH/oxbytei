@@ -35,7 +35,7 @@ public class PrefixURIChangeAttributeOperation
 
 
     private String attributeName;
-    private String multiple;
+    private boolean multiple;
     private String message;
     private AuthorAccess authorAccess;
     private AuthorNode locationNode;
@@ -59,7 +59,7 @@ public class PrefixURIChangeAttributeOperation
 
     private static final ArgumentDescriptor ARGUMENT_MULTIPLE =
 	new ArgumentDescriptor("multiple",
-			       ArgumentDescriptor.TYPE_XPATH_EXPRESSION,
+			       ArgumentDescriptor.TYPE_CONSTANT_LIST,
 			       "Whether or not multiple selections are allowed."
 			       + " Defaults to false.",
 			       ARGUMENT_MULTIPLE_ALLOWED_VALUES,
@@ -104,8 +104,10 @@ public class PrefixURIChangeAttributeOperation
 	// Validate arguments
 	attributeName = OperationArgumentValidator.validateStringArgument(ARGUMENT_ATTRIBUTE.getName(), args);
 	String location = OperationArgumentValidator.validateStringArgument(ARGUMENT_LOCATION.getName(), args);
-	multiple = OperationArgumentValidator.validateStringArgument(ARGUMENT_MULTIPLE.getName(), args);
+	String multipleString = OperationArgumentValidator.validateStringArgument(ARGUMENT_MULTIPLE.getName(), args);
 	message = OperationArgumentValidator.validateStringArgument(ARGUMENT_MESSAGE.getName(), args);
+
+	multiple = multipleString.equals(AuthorConstants.ARG_VALUE_TRUE);
 
 	authorAccess = auAccess;
 

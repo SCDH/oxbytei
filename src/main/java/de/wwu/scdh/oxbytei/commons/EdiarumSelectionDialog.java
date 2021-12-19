@@ -26,14 +26,14 @@ public class EdiarumSelectionDialog
 
     AuthorAccess authorAccess;
     String title;
-    String multiple;
+    boolean multiple;
     String currentValue;
     List<ILabelledEntriesProvider> providers;
 
 
     public void init(AuthorAccess access,
 		     String tit,
-		     String multi,
+		     boolean multi,
 		     String currentVal,
 		     List<ILabelledEntriesProvider> configured) {
 	authorAccess = access;
@@ -106,7 +106,7 @@ public class EdiarumSelectionDialog
 	    new InsertRegisterDialog((Frame) authorAccess.getWorkspaceAccess().getParentFrame(),
 				     labelsArray,
 				     keysArray,
-				     multiple.equals(AuthorConstants.ARG_VALUE_TRUE));
+				     multiple);
 	String selectedId = dialog.getSelectedID(); //"somewhere_out_there";
 
 	return selectedId;

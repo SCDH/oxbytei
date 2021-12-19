@@ -21,14 +21,14 @@ public class OxygenSelectionDialog
 
     AuthorAccess authorAccess;
     String title;
-    String multiple;
+    boolean multiple;
     String currentValue;
     List<ILabelledEntriesProvider> providers;
 
 
     public void init(AuthorAccess access,
 		     String tit,
-		     String multi,
+		     boolean multi,
 		     String currentVal,
 		     List<ILabelledEntriesProvider> configured)
     throws AuthorOperationException {

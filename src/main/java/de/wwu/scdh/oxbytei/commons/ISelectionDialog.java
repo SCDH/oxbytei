@@ -27,7 +27,7 @@ public interface ISelectionDialog {
      */
     public void init(AuthorAccess access,
 		     String title,
-		     String multi,
+		     boolean multi,
 		     String currentVal,
 		     List<ILabelledEntriesProvider> configured)
 	throws AuthorOperationException;
