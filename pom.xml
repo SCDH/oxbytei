@@ -5,7 +5,7 @@
 
     <groupId>de.wwu.scdh.oxbytei</groupId>
     <artifactId>oxbytei</artifactId>
-    <version>1.2.0</version>
+    <version>0.3.0</version>
     
     <name>oxbytei</name>
     <url>https://github.com/scdh/oxbytei</url>

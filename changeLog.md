@@ -1,11 +1,24 @@
 # Change log #
 
-## v1.2.0 ##
+## v0.3.0
+
+- generate selections from `<prefixDef>` through configurable Java
+  plugins
+- we can now put everything but the activation context into a
+  configuration file. So we do not need no hardcoding of assumptions
+  into frameworks any more.
+- use oXygen's `${ask(...)}` user dialog from within Java
+- Actions based on new Java actions:
+  - link.person
+  - link.place
+
+
+## v0.2.0 ##
 
 - added transformation scenario for updating the header by merging in
   information from a central header file
 
-## v1.1.0 ##
+## v0.1.0 ##
 
 - Changed the license to GPL v3
   - Because it is more satisfing to write *free* software than writing
@@ -29,7 +42,7 @@
 	- stop at adding `@ref` attribute in context of `placeName`
 	- start with surrounding a selection
 
-## v1.0.6 ##
+## v0.0.6 ##
 
 - fixed the assembled package: The root directory does not contain the
   Version number any more, now.
@@ -37,24 +50,24 @@
     simple.
   - This allows us to rename the samples directory.
 
-## v1.0.5 ##
+## v0.0.5 ##
 
 - fixed descriptor file
 
-## v1.0.4 ##
+## v0.0.4 ##
 
 - renamed framework to oXbytei
 
-## v1.0.3 ##
+## v0.0.3 ##
 
 - added regression testing to sel.language author mode action
 
-## v1.0.2 ##
+## v0.0.2 ##
 
 - added regression testing for complicated XPath expressions contained
   in author mode actions
 
-## v1.0.1 ##
+## v0.0.1 ##
 
 - New author mode action for setting `@xml:lang` from the set of
   languages registered in the header
