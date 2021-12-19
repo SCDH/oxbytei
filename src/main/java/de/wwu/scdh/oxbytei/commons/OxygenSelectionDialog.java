@@ -2,6 +2,9 @@
  * {@link AbstractPrefixURIOperation} - is a wrapper around the
  * selection user dialog of oXygen's {@code ${ask('...', combobox, ...)}.}
  * It does not offer multiple selection.
+ *
+ * Bug: If the label of two selection items equal, then the value of
+ * the duplicates is inaccessible. This is an oXygen bug.
  */
 package de.wwu.scdh.oxbytei.commons;
 
