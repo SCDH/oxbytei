@@ -1,7 +1,12 @@
 /**
  * {@link AbstractPrefixURIOperation} - is a wrapper around the
- * selection user dialog from ediarum.JAR. It has the downside, that
- * no current value is displayed!
+ * selection user dialog from ediarum.JAR.
+ *
+ * Downside/Bugs: 1) no current value is displayed; 2) {@code null} is
+ * not returned on cancellation (It's not possible to distinguish
+ * between zero selections and cancellation.)
+ *
+ * Cool features: multiple selection possible (Does it really work?)
  */
 package de.wwu.scdh.oxbytei.commons;
 
@@ -9,8 +14,8 @@ import java.awt.Frame;
 import java.util.Map;
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Arrays;
 
-import ro.sync.ecss.extensions.api.AuthorConstants;
 import ro.sync.ecss.extensions.api.AuthorAccess;
 import ro.sync.ecss.extensions.api.AuthorOperationException;
 
@@ -27,14 +32,14 @@ public class EdiarumSelectionDialog
     AuthorAccess authorAccess;
     String title;
     boolean multiple;
-    String currentValue;
+    List<String> currentValue;
     List<ILabelledEntriesProvider> providers;
 
 
     public void init(AuthorAccess access,
 		     String tit,
 		     boolean multi,
-		     String currentVal,
+		     List<String> currentVal,
 		     List<ILabelledEntriesProvider> configured) {
 	authorAccess = access;
 	title = tit;
@@ -47,7 +52,7 @@ public class EdiarumSelectionDialog
      * Do the user interaction part.
      *
      */
-    public String doUserInteraction()
+    public List<String> doUserInteraction()
 	throws AuthorOperationException {
 
 	// TODO
@@ -106,10 +111,17 @@ public class EdiarumSelectionDialog
 	    new InsertRegisterDialog((Frame) authorAccess.getWorkspaceAccess().getParentFrame(),
 				     labelsArray,
 				     keysArray,
-				     multiple);
-	String selectedId = dialog.getSelectedID(); //"somewhere_out_there";
+					multiple);
 
-	return selectedId;
+	// get selected value. Right on multiple?
+	List<String> result;
+	if (multiple) {
+	    result = Arrays.asList(dialog.getSelectedIDs());
+	} else {
+	    result = new ArrayList<String>();
+	    result.add(dialog.getSelectedID());
+	}
+	return result;
     }
 
 }

@@ -7,6 +7,7 @@ package de.wwu.scdh.oxbytei.commons;
 
 import java.util.Map;
 import java.util.List;
+import java.util.ArrayList;
 
 import ro.sync.ecss.extensions.api.AuthorAccess;
 import ro.sync.ecss.extensions.api.AuthorOperationException;
@@ -22,14 +23,14 @@ public class OxygenSelectionDialog
     AuthorAccess authorAccess;
     String title;
     boolean multiple;
-    String currentValue;
+    List<String> currentValue;
     List<ILabelledEntriesProvider> providers;
 
 
     public void init(AuthorAccess access,
 		     String tit,
 		     boolean multi,
-		     String currentVal,
+		     List<String> currentVal,
 		     List<ILabelledEntriesProvider> configured)
     throws AuthorOperationException {
 	authorAccess = access;
@@ -43,7 +44,7 @@ public class OxygenSelectionDialog
      * Do the user interaction part.
      *
      */
-    public String doUserInteraction()
+    public List<String> doUserInteraction()
 	throws AuthorOperationException {
 
 	// TODO
@@ -84,17 +85,28 @@ public class OxygenSelectionDialog
 	    // System.err.println("Config of " + provider.getClass().getCanonicalName() + "\n" + report);
 
 	}
+
+	// get first of current values
+	String current = "";
+	if (currentValue != null) {
+	    if (currentValue.size() > 0) {
+		current = currentValue.get(0);
+	    }
+	}
 	
 	//AskDescriptor("combobox", title, keys, labels, currentValue);
-	String ask = "${ask('" + title + "', combobox, (" + pairs + "), '" + currentValue + "')}";
+	String ask = "${ask('" + title + "', combobox, (" + pairs + "), '" + current + "')}";
 	String selectedId = authorAccess.getUtilAccess().expandEditorVariables(ask, null, true);
 	// When "Cancel" is pressed in the dialog, the unexpanded
 	// string is returned. In this case we set the selection to
 	// the empty string.
 	if (selectedId.startsWith("${ask(")) {
-	    selectedId = null;
+	    return null;
+	} else {
+	    List<String> result = new ArrayList<String>();
+	    result.add(selectedId);
+	    return result;
 	}
-	return selectedId;
     }
 
 }

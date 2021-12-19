@@ -21,14 +21,14 @@ public interface ISelectionDialog {
      *
      * @param access access to the oXygen editor
      * @param multi {@code true} indicates that multiple selection
-     * may should be offered to the user
+     * should be offered to the user
      * @param currentVal current value
      * @param configured a list of initialized {@link ILabelledEntriesProvider}s
      */
     public void init(AuthorAccess access,
 		     String title,
 		     boolean multi,
-		     String currentVal,
+		     List<String> currentVal,
 		     List<ILabelledEntriesProvider> configured)
 	throws AuthorOperationException;
 
@@ -37,9 +37,9 @@ public interface ISelectionDialog {
      * selected by the user. {@code null} should be returned in case
      * of cancellation by the user.
      *
-     * @return The key of the item selected by the user. It must
+     * @return The keys of the items selected by the user. It must
      * return {@code null} in case of cancellation by the user.
      */
-    public String doUserInteraction() throws AuthorOperationException;
+    public List<String> doUserInteraction() throws AuthorOperationException;
 
 }

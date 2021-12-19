@@ -7,6 +7,7 @@
 package de.wwu.scdh.oxbytei;
 
 import java.util.List;
+import java.util.Arrays;
 import javax.swing.text.BadLocationException;
 
 import org.w3c.dom.Attr;
@@ -145,28 +146,43 @@ public class PrefixURIChangeAttributeOperation
 	AuthorDocumentController doc = authorAccess.getDocumentController();
 	Object[] attrNodes =
 	    doc.evaluateXPath("@" + attributeName, locationNode, false, false, false, false);
-	String currentId = "";
+	String currentString = "";
 	boolean attributePresent = false;
 	if (attrNodes.length > 0) {
-	    currentId = ((Attr) attrNodes[0]).getValue();
+	    currentString = ((Attr) attrNodes[0]).getValue();
 	    attributePresent = true;
 	}
+
+	// split current values by space
+	List<String> current = Arrays.asList(currentString.split("\s+"));
 
 	// get initialized providers
 	List<ILabelledEntriesProvider> providers = getProvidersFromPrefixDef(authorAccess);
 
 	// do user interaction
-	ISelectionDialog dialog = new OxygenSelectionDialog(); // TODO: make pluggable
-	dialog.init(authorAccess, message, multiple, currentId, providers);
-	String selectedId = dialog.doUserInteraction();
+	// TODO: dialog make pluggable
+	ISelectionDialog dialog = new OxygenSelectionDialog();
+	//ISelectionDialog dialog = new EdiarumSelectionDialog();
+	dialog.init(authorAccess, message, multiple, current, providers);
+	List<String> selected = dialog.doUserInteraction();
 
-	// set the attribute value
-	// null returned form doUserInteraction means cancellation
-	if (selectedId != null) {
+	// set the attribute value, if not null returned form
+	// doUserInteraction(), because null means cancellation
+	if (selected != null) {
+	    // make the new value
+	    String newValue = "";
+	    for (int i = 0; i < selected.size(); i++) {
+		if (i > 0) {
+		    // add separator
+		    newValue += " ";
+		}
+		newValue += selected.get(i);
+	    }
+	    // get the element
 	    AuthorElement locationElement = (AuthorElement) locationNode;
 	    // set attribute if not empty string
-	    if (!(selectedId.isEmpty())) {
-		AttrValue val = new AttrValue(selectedId);
+	    if (!(newValue.isEmpty())) {
+		AttrValue val = new AttrValue(newValue);
 		doc.setAttribute(attributeName, val, locationElement);
 	    } else {
 		// remove attribute if empty string
