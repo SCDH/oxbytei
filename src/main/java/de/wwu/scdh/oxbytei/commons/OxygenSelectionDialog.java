@@ -1,7 +1,7 @@
 /**
  * {@link AbstractPrefixURIOperation} - is a wrapper around the
- * selection user dialog from ediarum.JAR. It has the downside, that
- * no current value is displayed!
+ * selection user dialog of oXygen's {@code ${ask('...', combobox, ...)}.}
+ * It does not offer multiple selection.
  */
 package de.wwu.scdh.oxbytei.commons;
 
@@ -30,7 +30,8 @@ public class OxygenSelectionDialog
 		     String tit,
 		     String multi,
 		     String currentVal,
-		     List<ILabelledEntriesProvider> configured) {
+		     List<ILabelledEntriesProvider> configured)
+    throws AuthorOperationException {
 	authorAccess = access;
 	title = tit;
 	multiple = multi;
@@ -91,7 +92,7 @@ public class OxygenSelectionDialog
 	// string is returned. In this case we set the selection to
 	// the empty string.
 	if (selectedId.startsWith("${ask(")) {
-	    selectedId = "";
+	    selectedId = null;
 	}
 	return selectedId;
     }
