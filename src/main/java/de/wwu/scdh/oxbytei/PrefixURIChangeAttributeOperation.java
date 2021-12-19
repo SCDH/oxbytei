@@ -121,14 +121,17 @@ public class PrefixURIChangeAttributeOperation
 	    dialog.init(authorAccess, message, multiple, currentId, getConfiguredProviders(authorAccess));
 	    String selectedId = dialog.doUserInteraction();
 
-	    // set attribute
-	    if (!(selectedId.isEmpty())) {
-		doc.setAttribute(attributeName,
-				 new AttrValue(selectedId),
-				 locationElement);
-	    } else {
-		// remove attribute
-		doc.removeAttribute(attributeName, locationElement);
+	    // null returned form doUserInteraction means cancellation
+	    if (selectedId != null) {
+		// set attribute if not empty string
+		if (!(selectedId.isEmpty())) {
+		    doc.setAttribute(attributeName,
+				     new AttrValue(selectedId),
+				     locationElement);
+		} else {
+		    // remove attribute if empty string
+		    doc.removeAttribute(attributeName, locationElement);
+		}
 	    }
 	}
 	catch (BadLocationException e) {
