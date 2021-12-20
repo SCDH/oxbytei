@@ -10,6 +10,6 @@ public class OxbyteiConstants {
     /**
      * URL of the default plugin configuration
      */
-    public static final String DEFAULT_CONFIG_FILE = "${framework}/samples/config.xml";
+    public static final String DEFAULT_CONFIG_FILE = "${framework}/config/default.xml";
 
 }
