@@ -151,7 +151,8 @@ abstract class AbstractOperation {
 			    //System.err.println(context[0].toString());
 			    if (context.length == 1 && context[0].toString().equals("true")) {
 				// get all the prefixDef elements for this provider
-				AuthorNode[] prefixDefNodes = document.findNodesByXPath(spec.getArguments().get("prefix"), false, false, false);
+				AuthorNode[] prefixDefNodes =
+				    document.findNodesByXPath(spec.getConditions().get("prefix"), false, false, false);
 				for (m = 0; m < prefixDefNodes.length; m++) {
 				    // parse the prefixDef element to a java type and append a configured provider
 				    PrefixDef prefixDef = new PrefixDef((AuthorElement) prefixDefNodes[m]);

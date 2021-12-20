@@ -9,9 +9,9 @@
                     <conditions>
                         <condition domain="context">self::persName and //teiHeader//prefixDef[matches(@ident, '^(psn|prs|pers|person)')]</condition>
                         <condition domain="priority">10</condition>
+                        <condition domain="prefix">//teiHeader//prefixDef[matches(@ident, '^(psn|prs|pers|person)')]</condition>
                     </conditions>
                     <arguments>
-                        <argument name="prefix">//teiHeader//prefixDef[matches(@ident, '^(psn|prs|pers|person)')]</argument>
                         <argument name="selection">//t:text/descendant::t:person[@xml:id]</argument>
                         <argument name="key">@xml:id</argument>
                         <argument name="label">normalize-space(concat(t:persName, ', *', t:birth))</argument>
@@ -22,9 +22,9 @@
                     <conditions>
                         <condition domain="context">self::placeName and //teiHeader//prefixDef[matches(@ident, '^(pl|plc|place)')]</condition>
                         <condition domain="priority">10</condition>
+                        <condition domain="prefix">//teiHeader//prefixDef[matches(@ident, '^(pl|plc|place)')]</condition>
                     </conditions>
                     <arguments>
-                        <argument name="prefix">//teiHeader//prefixDef[matches(@ident, '^(pl|plc|place)')]</argument>
                         <argument name="selection">//t:text/descendant::t:place[@xml:id]</argument>
                         <argument name="key">@xml:id</argument>
                         <argument name="label">normalize-space(t:placeName)</argument>
