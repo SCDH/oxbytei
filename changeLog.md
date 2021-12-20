@@ -1,5 +1,19 @@
 # Change log #
 
+## v0.3.2
+
+- send debugging message to stderr and to an exception window when no
+  labelled items are found for the action. It prints the used
+  providers and the arguments, they are configured with
+- plugin config
+  - moved default config file from `samples` to `config` folder
+  - moved XPath for getting `<prefixDef>` from arguments section to
+    conditions section, because it's not an argument of the plugin,
+    but evaluated by the editor
+- removed the matching of @ident of `<prefixDef>` from the activation
+  XPath in the author mode action, because these made to much
+  assumptions
+
 ## v0.3.1
 
 - made selection dialogue configurable through author mode action xml
