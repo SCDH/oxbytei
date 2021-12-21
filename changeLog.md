@@ -1,5 +1,11 @@
 # Change log #
 
+## v0.4.0
+
+- added a schema manager filter that suggests attribute values
+  according to labelled entries from plugins in text mode
+- added an attribute condition in the config file
+
 ## v0.3.2
 
 - send debugging message to stderr and to an exception window when no
