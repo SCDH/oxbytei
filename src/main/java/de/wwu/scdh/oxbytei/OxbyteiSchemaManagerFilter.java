@@ -1,13 +1,11 @@
 package de.wwu.scdh.oxbytei;
 
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.HashMap;
 import javax.xml.transform.URIResolver;
-import javax.xml.transform.TransformerException;
 
 import org.xml.sax.EntityResolver;
 
@@ -26,12 +24,10 @@ import de.wwu.scdh.teilsp.services.extensions.ILabelledEntriesProvider;
 import de.wwu.scdh.teilsp.services.extensions.LabelledEntries;
 import de.wwu.scdh.teilsp.services.extensions.LabelledEntry;
 import de.wwu.scdh.teilsp.services.extensions.ExtensionException;
-import de.wwu.scdh.teilsp.tei.PrefixDef;
 import de.wwu.scdh.teilsp.config.ArgumentsConditionsPair;
 import de.wwu.scdh.teilsp.config.ExtensionConfiguration;
 import de.wwu.scdh.teilsp.config.ExtensionConfigurationReader;
 import de.wwu.scdh.teilsp.exceptions.ConfigurationException;
-import de.wwu.scdh.oxbytei.commons.Resolver;
 
 
 public class OxbyteiSchemaManagerFilter
@@ -93,7 +89,7 @@ public class OxbyteiSchemaManagerFilter
 	}
 
 	// we need some iteration variables
-	int i, j, k, m;
+	int i, j, k;
 
 	// get plugins configured for current editing context
 	ExtensionConfiguration config;
@@ -126,48 +122,24 @@ public class OxbyteiSchemaManagerFilter
 			    log(xpath, INFO);
 			    List<Object> contxt = context.executeXPath(xpath, namespaces, false);
 			    log("This plugin matches: " + contxt.size(), INFO);
-			    if (contxt.size() > 0
-				//&& contxt.get(0).equals("true")
-				&& attributeName.equals(spec.getConditions().get("attribute"))) {
-				// get all the prefixDef elements for this provider
-				xpath = spec.getConditions().get("prefix") + "/@ident";
-				List<String> ident = context.executeXPath(xpath, namespaces);
-				xpath = spec.getConditions().get("prefix") + "/@replacementPattern";
-				List<String> rp = context.executeXPath(xpath, namespaces);
-				xpath = spec.getConditions().get("prefix") + "/@matchPattern";
-				List<String> mp = context.executeXPath(xpath, namespaces);
-				int prefixCount = Integer.min(ident.size(), Integer.min(rp.size(), mp.size()));
-				for (m = 0; m < prefixCount; m++) {
-				    // parse the prefixDef element to a java type and append a configured provider
-				    PrefixDef prefixDef = new PrefixDef(mp.get(m), rp.get(m), ident.get(m));
-				    log("prefixDef@ident " + prefixDef.getIdent(), INFO);
-				    // we need a new instance of the map, because we set some values of it
-				    Map<String, String> arguments = new HashMap<String, String>(spec.getArguments());
-				    // TODO: get plugin for extracting link from replacement pattern
-				    arguments.put("systemID", Resolver.resolve(resolver, currentFileURL.toString(), prefixDef));
-				    arguments.put("prefix", prefixDef.getIdent() + ":");
-				    // we make a new instance of the
-				    // provider, because we do not
-				    // want to configure the same
-				    // several times.
-				    ILabelledEntriesProvider p = entriesProvider.getClass().newInstance();
-				    p.init(arguments, resolver, entityResolver, currentFileURL);
-				    configuredEntriesProviders.add(p);
-				}
-				if (prefixCount == 0) {
-				    log(err + "\nNo prefixDef found", DEBUG);
-				}
+			    if (// matching context?
+				contxt.size() > 0
+				// configured for attribute?
+				&& spec.getConditions().get("nodeType").equals("attribute")
+				// matching attribute name?
+				&& spec.getConditions().get("nodeName").equals(attributeName)
+				) {
+				// we make a new instance of the map, because we set some values of it
+				Map<String, String> arguments = new HashMap<String, String>(spec.getArguments());
+				// we make a new instance of the
+				// provider, because we do not want to
+				// configure the same several times.
+				ILabelledEntriesProvider p = entriesProvider.getClass().newInstance();
+				p.init(arguments, resolver, entityResolver, currentFileURL);
+				configuredEntriesProviders.add(p);
 			    }
-			} catch (IndexOutOfBoundsException e) {
-			    log(err + "\nExpression should return a boolean value", DEBUG);
 			} catch (NullPointerException e) {
 			    log("Configuration error in " + configFile + "\n\n" + e, DEBUG);
-			} catch (TransformerException e) {
-			    log("Error in syntax of the location given in prefixDef\n\n"
-				+ err, DEBUG);
-			} catch (MalformedURLException e) {
-			    log("Malformed URL in the location given in prefixDef\n\n"
-				+ err, DEBUG);
 			} catch (InstantiationException e) {
 			    log("Error loading plugin "
 				+ entriesProvider.getClass().getCanonicalName()
