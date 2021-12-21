@@ -151,6 +151,8 @@ public class OxbyteiSchemaManagerFilter
 			} catch (ExtensionException e) {
 			    log("Error initializing plugin "
 				+ entriesProvider.getClass().getCanonicalName()
+				+ "\nusing config file "
+				+ configFile
 				+ "\n\n" + e, DEBUG);
 			}
 		    }

@@ -174,6 +174,8 @@ abstract class AbstractOperation {
 			} catch (ExtensionException e) {
 			    throw new AuthorOperationException("Error initializing plugin "
 							       + entriesProvider.getClass().getCanonicalName()
+							       + "\nusing config file "
+							       + configFile
 							       + "\n\n"
 							       + e);
 			}
