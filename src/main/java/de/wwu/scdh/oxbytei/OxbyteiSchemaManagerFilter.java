@@ -46,7 +46,9 @@ public class OxbyteiSchemaManagerFilter
     private static final int ERROR = 2;
     
     private void log(String msg, int level) {
-	System.err.println("ERROR, level " + level + "\n" + msg);
+	if (level > INFO) {
+	    System.err.println("Log level " + level + "\n" + msg);
+	}
     }
 
     private static final String[] namespaces = null;
