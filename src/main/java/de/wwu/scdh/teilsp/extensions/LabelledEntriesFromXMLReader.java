@@ -14,7 +14,9 @@ import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpressionException;
-import javax.xml.xpath.XPathFactory;
+
+import net.sf.saxon.xpath.XPathFactoryImpl;
+//import net.sf.saxon.xpath.XPathFunctionLibrary;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -78,8 +80,9 @@ public class LabelledEntriesFromXMLReader {
 	    // parse the input document
 	    InputSource inputSource = new InputSource(inputStream);
 	    Document indexDoc = builder.parse(inputSource);
-	    // prepare the XPath query
-	    XPath xpath = XPathFactory.newInstance().newXPath();
+	    // prepare the XPath query, using Saxon here for XPath 2.0
+	    XPath xpath = new XPathFactoryImpl().newXPath();
+	    //xpath.setXPathFunctionResolver(new XPathFunctionLibrary().getXPathFunctionResolver());
 	    xpath.setNamespaceContext(this.namespaceDecl);
 	    // run the XPath query
 	    NodeList itemNodes = (NodeList) xpath.evaluate(this.selectionXPath, indexDoc, XPathConstants.NODESET);
