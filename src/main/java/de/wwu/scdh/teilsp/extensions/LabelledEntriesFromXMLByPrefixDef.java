@@ -11,14 +11,12 @@ import javax.xml.transform.TransformerException;
 
 import org.xml.sax.EntityResolver;
 
-import javax.xml.namespace.NamespaceContext;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpressionException;
-import javax.xml.xpath.XPathFactory;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -27,7 +25,7 @@ import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
 import net.sf.saxon.xpath.XPathFactoryImpl;
-import net.sf.saxon.xpath.XPathFunctionLibrary;
+//import net.sf.saxon.xpath.XPathFunctionLibrary;
 
 import de.wwu.scdh.teilsp.services.extensions.ILabelledEntriesProvider;
 import de.wwu.scdh.teilsp.services.extensions.ExtensionException;
@@ -147,7 +145,7 @@ public class LabelledEntriesFromXMLByPrefixDef
 	    // parse the input document
 	    InputSource inputSource = new InputSource(inputStream);
 	    Document indexDoc = builder.parse(inputSource);
-	    // prepare the XPath query
+	    // prepare the XPath query, using Saxon here for XPath 2.0
 	    XPath xpath = new XPathFactoryImpl().newXPath();
 	    //xpath.setXPathFunctionResolver(new XPathFunctionLibrary().getXPathFunctionResolver());
 	    xpath.setNamespaceContext(namespaceDecl);
