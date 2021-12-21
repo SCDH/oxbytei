@@ -181,7 +181,7 @@ public class LabelledEntriesFromXMLByPrefixDef
 	    try {
 		String urlString = uriResolver.resolve(href, systemId.toString()).getSystemId();
 		url = new URL(urlString);
-		System.err.println("Redirecting " + args.get("url") + " to " + urlString);
+		System.err.println("Redirecting " + href + " to " + urlString);
 	    } catch (MalformedURLException e) {
 		throw new ExtensionException("Error opening URL " + args.get("url") + "\n" + e);
 	    } catch (TransformerException e) {
