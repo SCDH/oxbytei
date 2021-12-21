@@ -36,7 +36,7 @@ public class LabelledEntriesFromXML
     private static final ArgumentDescriptor ARGUMENT_PREFIX =
 	new ArgumentDescriptor("prefix",
 			       ArgumentDescriptor.TYPE_STRING,
-			       "The prefix of the URI scheme given in prefixDef/@ident.");
+			       "The prefix of the returned keys.");
 
     private static final ArgumentDescriptor ARGUMENT_SELECTION =
 	new ArgumentDescriptor("selection",
