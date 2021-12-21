@@ -97,13 +97,7 @@ abstract class AbstractOperation {
 	URL currentFileURL = authorAccess.getEditorAccess().getEditorLocation();
 
 	// get the URL of the configuration file
-	String defaultConfigFile =
-	    authorAccess.getUtilAccess().expandEditorVariables(OxbyteiConstants.DEFAULT_CONFIG_FILE, null);
-	String configFile = defaultConfigFile;
-	try {
-	    // use resolver with xml catalogs
-	    configFile = resolver.resolve(defaultConfigFile, null).getSystemId();
-	} catch (TransformerException e) {}
+	String configFile = OxbyteiConstants.getConfigFile();
 
 	//System.err.println("loading config from " + configFile);
 

@@ -10,6 +10,7 @@
                         <condition domain="context">self::persName and //teiHeader//prefixDef[matches(@ident, '^(psn|prs|pers|person)')]</condition>
                         <condition domain="priority">10</condition>
                         <condition domain="prefix">//teiHeader//prefixDef[matches(@ident, '^(psn|prs|pers|person)')]</condition>
+                        <condition domain="attribute">ref</condition>
                     </conditions>
                     <arguments>
                         <argument name="selection">//t:text/descendant::t:person[@xml:id]</argument>
@@ -23,6 +24,7 @@
                         <condition domain="context">self::placeName and //teiHeader//prefixDef[matches(@ident, '^(pl|plc|place)')]</condition>
                         <condition domain="priority">10</condition>
                         <condition domain="prefix">//teiHeader//prefixDef[matches(@ident, '^(pl|plc|place)')]</condition>
+                        <condition domain="attribute">ref</condition>
                     </conditions>
                     <arguments>
                         <argument name="selection">//t:text/descendant::t:place[@xml:id]</argument>

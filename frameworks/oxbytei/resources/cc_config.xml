@@ -12,13 +12,6 @@
     xsi:schemaLocation="http://www.oxygenxml.com/ns/ccfilter/config http://www.oxygenxml.com/ns/ccfilter/config/ccConfigSchemaFilter.xsd"
     xmlns="http://www.oxygenxml.com/ns/ccfilter/config">
 
-
-    <!-- personographic references -->
-    <match attributeName="ref" editable="onlyAllowedItems" elementName="persName"
-        elementNS="http://www.tei-c.org/ns/1.0">
-        <xslt href="cc_personref.xsl" useCache="false" action="replace"/>
-    </match>
-
     <!-- proposals for @xml:lang -->
     <match attributeName="lang" attributeNS="http://www.w3.org/XML/1998/namespace" editable="onlyAllowedItems">
         <xslt href="cc_xmllang.xsl" useCache="false" action="replace"/>
