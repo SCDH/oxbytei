@@ -28,10 +28,11 @@ public class LabelledEntriesFromXML
 
     private Map<String, String> arguments;
 
-    private static final ArgumentDescriptor ARGUMENT_URI =
-	new ArgumentDescriptor("systeID",
+    private static final ArgumentDescriptor ARGUMENT_URL =
+	new ArgumentDescriptor("url",
 			       ArgumentDescriptor.TYPE_STRING,
-			       "The URI pointing to the referatory.");
+			       "The URL pointing to the referatory."
+			       + "\nIf not set, this defaults to the currently edited file.");
 
     private static final ArgumentDescriptor ARGUMENT_PREFIX =
 	new ArgumentDescriptor("prefix",
@@ -71,7 +72,7 @@ public class LabelledEntriesFromXML
      * The array of arguments, this author operation takes.
      */
     private static final ArgumentDescriptor[] ARGUMENTS = new ArgumentDescriptor[] {
-	ARGUMENT_URI,
+	ARGUMENT_URL,
 	ARGUMENT_PREFIX,
 	ARGUMENT_SELECTION,
 	ARGUMENT_KEY,
