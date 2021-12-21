@@ -97,13 +97,7 @@ abstract class AbstractOperation {
 	URL currentFileURL = authorAccess.getEditorAccess().getEditorLocation();
 
 	// get the URL of the configuration file
-	String defaultConfigFile =
-	    authorAccess.getUtilAccess().expandEditorVariables(OxbyteiConstants.DEFAULT_CONFIG_FILE, null);
-	String configFile = defaultConfigFile;
-	try {
-	    // use resolver with xml catalogs
-	    configFile = resolver.resolve(defaultConfigFile, null).getSystemId();
-	} catch (TransformerException e) {}
+	String configFile = OxbyteiConstants.getConfigFile();
 
 	//System.err.println("loading config from " + configFile);
 
@@ -151,7 +145,8 @@ abstract class AbstractOperation {
 			    //System.err.println(context[0].toString());
 			    if (context.length == 1 && context[0].toString().equals("true")) {
 				// get all the prefixDef elements for this provider
-				AuthorNode[] prefixDefNodes = document.findNodesByXPath(spec.getArguments().get("prefix"), false, false, false);
+				AuthorNode[] prefixDefNodes =
+				    document.findNodesByXPath(spec.getConditions().get("prefix"), false, false, false);
 				for (m = 0; m < prefixDefNodes.length; m++) {
 				    // parse the prefixDef element to a java type and append a configured provider
 				    PrefixDef prefixDef = new PrefixDef((AuthorElement) prefixDefNodes[m]);

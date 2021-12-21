@@ -57,6 +57,7 @@ public class OxygenSelectionDialog
 
 	// we need some iteration variables
 	int i, j;
+	int total = 0; // we count the absolute number of selection entries
 
 	LabelledEntry entry;
 	String pairs = "";
@@ -71,6 +72,7 @@ public class OxygenSelectionDialog
 			pairs += ";";
 		    }
 		    pairs += "'" + entry.getKey() + "':'" + entry.getLabel() + "'";
+		    total++;
 		}
 	    } catch (ExtensionException e) {
 		String report = "";
@@ -87,6 +89,22 @@ public class OxygenSelectionDialog
 	    // }
 	    // System.err.println("Config of " + provider.getClass().getCanonicalName() + "\n" + report);
 
+	}
+
+	// if there are no selection items at all, we display a
+	// message with usefull debugging information
+	if (total == 0) {
+	    String report = "";
+	    report += "Plugins found for current editing context: " + providers.size() + "\n\n";
+	    for (ILabelledEntriesProvider p : providers) {
+		report += "Plugin: " + p.getClass().getCanonicalName() + "\nArguments:";
+		for (Map.Entry<String, String> argument : p.getArguments().entrySet()) {
+		    report += argument.getKey() + " = " + argument.getValue() + "\n";
+		}
+		report += "\n\n";
+	    }
+	    System.err.println(report);
+	    throw new AuthorOperationException(report);
 	}
 
 	// get first of current values

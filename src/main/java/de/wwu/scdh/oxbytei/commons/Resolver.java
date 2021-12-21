@@ -5,6 +5,7 @@ import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.file.Paths;
 import javax.xml.transform.TransformerException;
+import javax.xml.transform.URIResolver;
 
 import ro.sync.ecss.extensions.api.AuthorAccess;
 
@@ -31,6 +32,11 @@ public class Resolver {
     public static String resolve(AuthorAccess authorAccess, PrefixDef prefixDef)
 	throws MalformedURLException, NullPointerException, TransformerException {
 	return resolve(authorAccess, extractReference(prefixDef));
+    }
+
+    public static String resolve(URIResolver resolver, String defaultLocation, PrefixDef prefixDef)
+	throws MalformedURLException, NullPointerException, TransformerException {
+	return resolver.resolve(extractReference(prefixDef), defaultLocation).getSystemId();
     }
 
     public static String extractReference(PrefixDef prefixDef)

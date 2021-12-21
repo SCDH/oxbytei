@@ -9,7 +9,7 @@
   <a:smallIconPath href="${framework}/images/pin-16.png"/>
   <a:operations>
     <a:operation id="de.wwu.scdh.oxbytei.PrefixURIChangeAttributeOperation">
-      <a:xpathCondition>self::placeName and /descendant::listPrefixDef/prefixDef[matches(@ident, '^(pl|plc|plac)')]</a:xpathCondition>
+      <a:xpathCondition>(self::placeName | self::geogName) and //teiHeader/encodingDesc//prefixDef</a:xpathCondition>
       <a:arguments>
         <a:argument name="attribute">ref</a:argument>
         <a:argument name="location">self::placeName</a:argument>
@@ -18,7 +18,7 @@
       </a:arguments>
     </a:operation>
     <a:operation id="ExecuteMultipleActionsOperation">
-      <a:xpathCondition>/descendant::listPrefixDef/prefixDef[matches(@ident, '^(pl|plc|plac)')]</a:xpathCondition>
+      <a:xpathCondition>not(self::placeName | self::geogName) and //teiHeader/encodingDesc//prefixDef</a:xpathCondition>
       <a:arguments>
         <!-- This is a RECURSIVE operation! -->
         <a:argument name="actionIDs">markup.place, link.place</a:argument>
