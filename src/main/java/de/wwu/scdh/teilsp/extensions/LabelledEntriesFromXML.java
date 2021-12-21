@@ -63,7 +63,7 @@ public class LabelledEntriesFromXML
 
     private static final ArgumentDescriptor ARGUMENT_NAMESPACE =
 	new ArgumentDescriptor("namespace",
-			       ArgumentDescriptor.TYPE_XPATH_EXPRESSION,
+			       ArgumentDescriptor.TYPE_STRING,
 			       "A space-separated list of prefix:namespace-name tuples for use in the XPath expressions for accessing the target documents."
 			       + " This should regard the structure of the referred XML document.",
 			       "t:http://www.tei-c.org/ns/1.0 xml:http://www.w3.org/XML/1998/namespace");
