@@ -152,11 +152,11 @@ public class LabelledEntriesFromXMLByPrefixDef
 	    // run the XPath query
 	    NodeList prefixNodes = (NodeList) xpath.evaluate(prefixDefXPath, indexDoc, XPathConstants.NODESET);
 	    if (prefixNodes.getLength() != 1) {
-		System.err.println(prefixNodes.getLength()
-				   + " <prefixDef> elements found by "
-				   + getClass().getCanonicalName()
-				   + "\nwith XPath "
-				   + prefixDefXPath);
+		throw new ExtensionException("Unsupported: There were " + prefixNodes.getLength()
+					     + " <prefixDef> elements found by plugin "
+					     + getClass().getCanonicalName()
+					     + "\nwith XPath "
+					     + prefixDefXPath);
 	    } else {
 		Element prefixDef = (Element) prefixNodes.item(0);
 		ident = xpath.evaluate("@ident", prefixDef);
