@@ -36,6 +36,11 @@
 	    <artifactId>oxygen</artifactId>
 	    <version>24.0.0.0</version>
 	</dependency>
+	<dependency>
+	    <groupId>net.sf.saxon</groupId>
+	    <artifactId>Saxon-HE</artifactId>
+	    <version>${saxon.version}</version>
+	</dependency>
 	<!-- https://mvnrepository.com/artifact/com.googlecode.maven-download-plugin/download-maven-plugin -->
 	<dependency>
 	    <groupId>com.googlecode.maven-download-plugin</groupId>
