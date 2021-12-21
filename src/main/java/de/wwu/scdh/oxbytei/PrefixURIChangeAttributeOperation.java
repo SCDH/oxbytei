@@ -113,7 +113,7 @@ public class PrefixURIChangeAttributeOperation
 		(AuthorElement) (doc.findNodesByXPath((String) location, selectionContext, false, true, true, false))[0];
 
 	    // set up the providers from prefix definitions
-	    setupProvidersFromPrefixDef();
+	    setupLabelledEntriesProviders();
 
 	    // call setAttribute() to open user dialog and set the attribute
 	    setAttribute();
