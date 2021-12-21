@@ -10,7 +10,6 @@
  */
 package de.wwu.scdh.oxbytei;
 
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -18,7 +17,6 @@ import java.util.Map;
 import java.util.List;
 import java.util.ArrayList;
 import javax.xml.transform.URIResolver;
-import javax.xml.transform.TransformerException;
 
 import org.w3c.dom.Attr;
 import org.xml.sax.EntityResolver;
@@ -33,12 +31,10 @@ import ro.sync.ecss.extensions.api.node.AttrValue;
 import de.wwu.scdh.teilsp.services.extensions.ILabelledEntriesProvider;
 import de.wwu.scdh.teilsp.services.extensions.LabelledEntries;
 import de.wwu.scdh.teilsp.services.extensions.ExtensionException;
-import de.wwu.scdh.teilsp.tei.PrefixDef;
 import de.wwu.scdh.teilsp.config.ArgumentsConditionsPair;
 import de.wwu.scdh.teilsp.config.ExtensionConfiguration;
 import de.wwu.scdh.teilsp.config.ExtensionConfigurationReader;
 import de.wwu.scdh.teilsp.exceptions.ConfigurationException;
-import de.wwu.scdh.oxbytei.commons.Resolver;
 import de.wwu.scdh.oxbytei.commons.ISelectionDialog;
 
 
@@ -85,7 +81,7 @@ abstract class AbstractOperation {
      * and configure them based on config file and <prefixDef>
      * elements in the currently edited file.
      */
-    protected void setupProvidersFromPrefixDef()
+    protected void setupLabelledEntriesProviders()
 	throws AuthorOperationException {
 
 	// Load providers
@@ -113,7 +109,7 @@ abstract class AbstractOperation {
 	}
 
 	// we need some iteration variables
-	int i, j, k, m;
+	int i, j, k;
 
 	// get plugins configured for current editing context
 	ExtensionConfiguration config;
@@ -144,29 +140,14 @@ abstract class AbstractOperation {
 			    Object[] context = document.evaluateXPath(spec.getConditions().get("context"), false, true, true);
 			    //System.err.println(context[0].toString());
 			    if (context.length == 1 && context[0].toString().equals("true")) {
-				// get all the prefixDef elements for this provider
-				AuthorNode[] prefixDefNodes =
-				    document.findNodesByXPath(spec.getConditions().get("prefix"), false, false, false);
-				for (m = 0; m < prefixDefNodes.length; m++) {
-				    // parse the prefixDef element to a java type and append a configured provider
-				    PrefixDef prefixDef = new PrefixDef((AuthorElement) prefixDefNodes[m]);
-				    //System.err.println("prefixDef@ident " + prefixDef.getIdent());
-				    // we need a new instance of the map, because we set some values of it
-				    Map<String, String> arguments = new HashMap<String, String>(spec.getArguments());
-				    // TODO: get plugin for extracting link from replacement pattern
-				    arguments.put("systemID", Resolver.resolve(authorAccess, prefixDef));
-				    arguments.put("prefix", prefixDef.getIdent() + ":");
-				    // we make a new instance of the
-				    // provider, because we do not
-				    // want to configure the same
-				    // several times.
-				    ILabelledEntriesProvider p = entriesProvider.getClass().newInstance();
-				    p.init(arguments, resolver, entityResolver, currentFileURL);
-				    configuredEntriesProviders.add(p);
-				}
-				if (prefixDefNodes.length == 0) {
-				    System.err.println(err + "\nNo prefixDef found");
-				}
+				// we need a new instance of the map, because we set some values of it
+				Map<String, String> arguments = new HashMap<String, String>(spec.getArguments());
+				// we make a new instance of the
+				// provider, because we do not want to
+				// configure the same several times.
+				ILabelledEntriesProvider p = entriesProvider.getClass().newInstance();
+				p.init(arguments, resolver, entityResolver, currentFileURL);
+				configuredEntriesProviders.add(p);
 			    }
 			} catch (AuthorOperationException e) {
 			    // we do not throw an exception here, but
@@ -180,12 +161,6 @@ abstract class AbstractOperation {
 							       + configFile
 							       + "\n\n"
 							       + e);
-			} catch (TransformerException e) {
-			    throw new AuthorOperationException("Error in syntax of the location given in prefixDef\n\n"
-							       + err);
-			} catch (MalformedURLException e) {
-			    throw new AuthorOperationException("Malformed URL in the location given in prefixDef\n\n"
-							       + err);
 			} catch (InstantiationException e) {
 			    throw new AuthorOperationException("Error loading plugin "
 							       + entriesProvider.getClass().getCanonicalName()
