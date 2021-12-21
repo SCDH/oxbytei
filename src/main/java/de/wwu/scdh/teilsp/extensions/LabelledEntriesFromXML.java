@@ -24,8 +24,6 @@ public class LabelledEntriesFromXML
     extends LabelledEntriesFromXMLReader
     implements ILabelledEntriesProvider {
 
-    public LabelledEntriesFromXML() {}
-
     private Map<String, String> arguments;
 
     private static final ArgumentDescriptor ARGUMENT_URL =
