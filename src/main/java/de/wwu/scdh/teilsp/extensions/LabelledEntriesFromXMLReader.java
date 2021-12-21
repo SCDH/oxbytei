@@ -2,10 +2,10 @@ package de.wwu.scdh.teilsp.extensions;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.FileInputStream;
 import java.net.URL;
 import java.net.URLConnection;
-import java.net.MalformedURLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.xml.namespace.NamespaceContext;
 import javax.xml.parsers.DocumentBuilder;
@@ -25,37 +25,34 @@ import org.xml.sax.SAXException;
 import de.wwu.scdh.teilsp.exceptions.DocumentReaderException;
 import de.wwu.scdh.teilsp.xml.NamespaceContextImpl;
 import de.wwu.scdh.teilsp.services.extensions.LabelledEntry;
+import de.wwu.scdh.teilsp.services.extensions.ExtensionException;
 
 
 public class LabelledEntriesFromXMLReader {
 
-    private LabelledEntry[] entries;
+    protected String prefix;
 
-    private String prefix;
+    protected String selectionXPath;
 
-    private String url;
+    protected String labelXPath;
 
-    private String selectionXPath;
+    protected String keyXPath;
 
-    private String labelXPath;
+    protected NamespaceContext namespaceDecl;
 
-    private String keyXPath;
+    protected URL url;
 
-    private NamespaceContext namespaceDecl;
+    public LabelledEntriesFromXMLReader() {}
 
-    private InputStream inputStream;
-
-    private NodeList itemNodes;
-
-    public LabelledEntriesFromXMLReader(String prefixDef, InputStream inStream,
+    public LabelledEntriesFromXMLReader(String prefix, URL href,
 					String selection, String key, String label,
 					String namespaces)
 	throws DocumentReaderException {
 
-	if (prefixDef == null) {
+	if (prefix == null) {
 	    this.prefix = "";
 	} else {
-	    this.prefix = prefixDef;
+	    this.prefix = prefix;
 	}
 
 	this.selectionXPath = selection;
@@ -63,108 +60,72 @@ public class LabelledEntriesFromXMLReader {
 	this.labelXPath = label;
 	this.namespaceDecl = new NamespaceContextImpl(namespaces);
 
-	this.inputStream = inStream;
-	this.getItemNodes();
-	this.read();
+	this.url = href;
     }
 
-    /**
-     * return the parsed labelled entries
-     */
-    public LabelledEntry[] getEntries() {
-	return this.entries;
-    }
-
-    /**
-     * get count of parsed labelled entries
-     */
-    public int getLength() {
-	return this.entries.length;
-    }
-
-    /**
-     * get count of found nodes for making the selection
-     */
-    public int nodesCount() {
-	return this.itemNodes.getLength();
-    }
-
-    private void getInputStream() throws DocumentReaderException {
+    public List<LabelledEntry> getLabelledEntries(String userInput)
+	throws ExtensionException {
+	List<LabelledEntry> entries = new ArrayList<LabelledEntry>();
 	try {
-	    try {
-		URL theURL = new URL(this.url);
-		URLConnection urlConnection = theURL.openConnection();
-		this.inputStream = urlConnection.getInputStream();
-	    } catch (MalformedURLException e) {
-		this.inputStream = new FileInputStream(this.url);
-	    }
-	} catch (IOException e) {
-	    throw new DocumentReaderException(e);
-	}
-    }
+	    // open the document url
+            URLConnection urlConnection = this.url.openConnection();
+            InputStream inputStream = urlConnection.getInputStream();
 
-    private void getItemNodes() throws DocumentReaderException {
-	try {
 	    // prepare dom builder
 	    DocumentBuilderFactory domFactory = DocumentBuilderFactory.newInstance();
 	    domFactory.setNamespaceAware(true);
 	    DocumentBuilder builder = domFactory.newDocumentBuilder();
 	    // parse the input document
-	    InputSource inputSource = new InputSource(this.inputStream);
+	    InputSource inputSource = new InputSource(inputStream);
 	    Document indexDoc = builder.parse(inputSource);
 	    // prepare the XPath query
 	    XPath xpath = XPathFactory.newInstance().newXPath();
 	    xpath.setNamespaceContext(this.namespaceDecl);
 	    // run the XPath query
-	    Object result = xpath.evaluate(this.selectionXPath, indexDoc, XPathConstants.NODESET);
-	    this.itemNodes = (NodeList) result;
-	} catch (ParserConfigurationException e) {
-	    throw new DocumentReaderException(e);
-	} catch (SAXException e) {
-	    throw new DocumentReaderException(e);
-	} catch (IOException e) {
-	    throw new DocumentReaderException(e);
-	} catch (XPathExpressionException e) {
-	    throw new DocumentReaderException(e);
-	}
-    }
+	    NodeList itemNodes = (NodeList) xpath.evaluate(this.selectionXPath, indexDoc, XPathConstants.NODESET);
 
-    private void read() throws DocumentReaderException {
+	    //this.itemNodes = (NodeList) result;
 
-	// get the count of nodes found in getItemNodes()
-	int count = 0;
-	if (this.itemNodes != null) {
-	    count = this.itemNodes.getLength();
-	}
-
-	// initialize with size
-	this.entries = new LabelledEntry[count];
-
-	// prepare XPath queries
-	XPathFactory xpathFactory = XPathFactory.newInstance();
-	XPath xpath = xpathFactory.newXPath();
-	xpath.setNamespaceContext(this.namespaceDecl);
-
-	try {
-	    // for every node in itemNodes ...
-	    int i;
-	    for (i = 0; i < count; i++) {
-		// make an element from it
-		Element item = (Element) this.itemNodes.item(i);
-
-		// get key
-		String key = xpath.evaluate(keyXPath, item);
-
-		// get label
-		String label = xpath.evaluate(labelXPath, item);
-
-		// store them away
-		this.entries[i] = new LabelledEntry(this.prefix + key, label);
+	    // get the count of nodes found in getItemNodes()
+	    int count = 0;
+	    if (itemNodes != null) {
+		count = itemNodes.getLength();
 	    }
+
+	    try {
+		// for every node in itemNodes ...
+		int i;
+		for (i = 0; i < count; i++) {
+		    // make an element from it
+		    Element item = (Element) itemNodes.item(i);
+
+		    // get key
+		    String key = xpath.evaluate(keyXPath, item);
+
+		    // get label
+		    String label = xpath.evaluate(labelXPath, item);
+
+		    // store them away
+		    entries.add(new LabelledEntry(this.prefix + key, label));
+		}
+	    } catch (XPathExpressionException e) {
+		inputStream.close();
+		throw new ExtensionException(e);
+	    } catch (NullPointerException e) {
+		inputStream.close();
+		throw new ExtensionException(e);
+	    }
+	    inputStream.close();
+	} catch (ParserConfigurationException e) {
+	    throw new ExtensionException(e);
+	} catch (SAXException e) {
+	    throw new ExtensionException(e);
+	} catch (IOException e) {
+	    throw new ExtensionException(e);
 	} catch (XPathExpressionException e) {
-	    throw new DocumentReaderException(e);
-	} catch (NullPointerException e) {
-	    throw new DocumentReaderException(e);
+	    throw new ExtensionException(e);
 	}
+	return entries;
     }
+
 }
