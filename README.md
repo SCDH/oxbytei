@@ -113,10 +113,45 @@ the path to the cloned repository in &lt;oXygen/>'s settings.
   framework directory.  Enter `${pdu}/oxbytei` as directory and click
   `OK`. (Note: `${pdu}` is an [editor
   variable](https://www.oxygenxml.com/doc/versions/22.1/ug-editor/topics/editor-variables.html)
-  and points to the root folder of the current project.
+  and points to the root folder of the current project.)
   
-- 3) Close and restart &lt;oXygen/>. The framework is now present as an
+- 3) Run maven to get dependencies
+
+```{shell}
+mvn generate-sources
+mvn package
+```
+
+- 4) Create symbolic links for the jar files from the folder
+`target/lib` to the folder `frameworks/oxbytei`:
+
+```{shell}
+cd frameworks/oxbytei
+ln -s ../../target/oxbytei.jar .
+ln -s ../../target/lib/ediarum-3.1.0.jar .
+ln -s ../../target/lib/slf4j-log4j12-1.7.32.jar .
+ln -s ../../target/lib/slf4j-api-1.7.32.jar .
+```
+
+- 5) In your project's root folder (aka `${pd}`, see above), create a
+  symbolic link to oXybytei's `frameworks/oxbytei` folder.
+
+```{shell}
+cd <project-directory>
+ln -s <oXybytei-directory>/frameworks/oxbytei oxbytei
+```
+
+- 6) Close and restart &lt;oXygen/>. The framework is now present as an
   extension to the default TEI P5 framework.
+
+
+Note for Windows (no symbolic links) users: Clone the framework into
+your project folder in step 1. Then use
+`{pd}/oXbytei/frameworks/oxbytei` in step 2. You have to copy all the
+jar files from step 4. You can skip step 5 then. But you will have to
+copy oxbytei.jar every time you recompile the code.
+
+
 
 #### Logging ####
 
