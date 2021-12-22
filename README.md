@@ -5,7 +5,7 @@
 
 ## tl;dr ##
 
-Install from [https://scdh.github.com/oxbytei/descriptor.xml](https://scdh.github.com/oxbytei/descriptor.xml).
+Install from [https://scdh.github.io/oxbytei/descriptor.xml](https://scdh.github.io/oxbytei/descriptor.xml).
 
 
 ## An oXygen framework configured by TEI ##
@@ -65,11 +65,9 @@ update mechanism. Therefore, the following URL has to be entered into
 the form *Show addons from:* of the dialogue box from ***Help** ->
 **Install new addons**...*.
 
-<!--
-[https://scdh.github.io/oxbytei/descriptor.xml](https://scdh.github.io/oxbytei/descriptor.xml)
--->
 
-[https://scdh.zivgitlabpages.uni-muenster.de/tei-processing/oxbytei/descriptor.xml](https://scdh.zivgitlabpages.uni-muenster.de/tei-processing/oxbytei/descriptor.xml)
+[https://scdh.github.io/oxbytei/descriptor.xml](https://scdh.github.io/oxbytei/descriptor.xml)
+
 
 ![Dialog "Install new addons"](images/install.png)
 
