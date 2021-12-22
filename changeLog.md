@@ -1,5 +1,10 @@
 # Change log #
 
+## 0.4.3 ##
+
+- fixed link to package in the package descriptor file
+- added index.html for github pages
+
 ## 0.4.2 ##
 
 - fixed github workflow for making releases
