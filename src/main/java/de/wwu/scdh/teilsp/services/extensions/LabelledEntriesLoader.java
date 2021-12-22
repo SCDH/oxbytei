@@ -7,8 +7,12 @@ import java.util.ServiceLoader;
 
 import de.wwu.scdh.teilsp.exceptions.ProviderNotFoundException;
 
-
-public final class LabelledEntries {
+/**
+ * {@link LabelledEntriesLoader} - a class for loading plugins
+ * registered for {@link ILabelledEntriesProvider} through the service
+ * provider interface (SPI).
+ */
+public final class LabelledEntriesLoader {
 
     private static final String DEFAULT_PROVIDER = "de.wwu.scdh.teilsp.extensions.LabelledEntriesFromXML";
 

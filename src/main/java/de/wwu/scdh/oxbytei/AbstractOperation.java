@@ -29,7 +29,7 @@ import ro.sync.ecss.extensions.api.node.AuthorNode;
 import ro.sync.ecss.extensions.api.node.AttrValue;
 
 import de.wwu.scdh.teilsp.services.extensions.ILabelledEntriesProvider;
-import de.wwu.scdh.teilsp.services.extensions.LabelledEntries;
+import de.wwu.scdh.teilsp.services.extensions.LabelledEntriesLoader;
 import de.wwu.scdh.teilsp.services.extensions.ExtensionException;
 import de.wwu.scdh.teilsp.config.ArgumentsConditionsPair;
 import de.wwu.scdh.teilsp.config.ExtensionConfiguration;
@@ -85,7 +85,7 @@ abstract class AbstractOperation {
 	throws AuthorOperationException {
 
 	// Load providers
-	List<ILabelledEntriesProvider> entriesProviders = LabelledEntries.providers();
+	List<ILabelledEntriesProvider> entriesProviders = LabelledEntriesLoader.providers();
 
 	// get the uri resolver, entity resolver used by oxygen and editing context
 	URIResolver resolver = authorAccess.getXMLUtilAccess().getURIResolver();
