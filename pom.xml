@@ -45,6 +45,7 @@
 	<test.dir>${project.basedir}/test/xspec</test.dir>
 	<testing.xsl.dir>${project.build.directory}/generated-resources/xml/xslt/</testing.xsl.dir>
 	<oxygen.sdk.version>23.1.0.4</oxygen.sdk.version>
+        <slf4j.version>1.7.32</slf4j.version>
 	<maven.compiler.source>1.8</maven.compiler.source>
 	<maven.compiler.target>1.8</maven.compiler.target>
     </properties>
@@ -92,6 +93,18 @@
             <version>5.7.2</version>
             <scope>test</scope>
         </dependency>
+	<dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>${slf4j.version}</version>
+        </dependency>
+	<dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-log4j12</artifactId>
+            <version>${slf4j.version}</version>
+            <scope>runtime</scope>
+        </dependency>
+	<!-- log4j is provided by Oxygen -->
     </dependencies>
 
     <build>
@@ -243,6 +256,24 @@
 		    </dependency>
 		</dependencies>
 	    </plugin>
+
+	    <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <version>3.1.1</version>
+                <executions>
+		    <execution>
+			<phase>prepare-package</phase>
+			<goals>
+			    <goal>copy-dependencies</goal>
+			</goals>
+			<configuration>
+			    <outputDirectory>${project.build.directory}/lib</outputDirectory>
+			    <includeArtifactIds>slf4j-log4j12,slf4j-api</includeArtifactIds>
+			</configuration>
+		    </execution>
+                </executions>
+            </plugin>
 	    
 	</plugins>
     </build>
