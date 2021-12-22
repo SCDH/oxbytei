@@ -1,5 +1,9 @@
 # Change log #
 
+## v0.4.1 ##
+
+- added logging through slf4j
+
 ## v0.4.0
 
 - added a schema manager filter that suggests attribute values
