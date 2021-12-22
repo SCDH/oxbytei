@@ -3,8 +3,8 @@
                xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                xsi:schemaLocation="http://www.oxygenxml.com/ns/extension http://www.oxygenxml.com/ns/extension/extensions.xsd">
    <xt:extension id="oxbytei">
-      <xt:location href="https://github.com/SCDH/oxbytei/releases/tag/0.4.2/oxbytei-0.4.2-package.zip"/>
-      <xt:version>0.4.2</xt:version>
+      <xt:location href="https://github.com/SCDH/oxbytei/releases/download/0.4.3/oxbytei-0.4.3-package.zip"/>
+      <xt:version>0.4.3</xt:version>
       <xt:oxy_version>23.1+</xt:oxy_version>
       <xt:type>framework</xt:type>
       <xt:author>Christian Lück</xt:author>
@@ -16,7 +16,7 @@
 		    offers high level functions.
 
 		    Visit
-		    https://github.com/SCDH/oxbytei/releases/tag/0.4.2
+		    https://github.com/SCDH/oxbytei/releases/tag/0.4.3
 		    to see what's new.
 
 		    Copyright (c) 2021 Christian Lück
