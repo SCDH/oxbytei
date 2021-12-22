@@ -22,5 +22,8 @@ jobs:
           distribution: 'adopt'
           cache: maven
 
+      - name: run maven to get ediarum
+        run: mvn --batch-mode --update-snapshots generate-sources
+
       - name: run maven
         run: mvn --batch-mode --update-snapshots verify
