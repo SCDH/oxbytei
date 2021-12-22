@@ -118,6 +118,17 @@ the path to the cloned repository in &lt;oXygen/>'s settings.
 - 3) Close and restart &lt;oXygen/>. The framework is now present as an
   extension to the default TEI P5 framework.
 
+#### Logging ####
+
+Getting logs may be the key to solving problems during development or
+configuration. oXbytei uses slf4j as a logging tool and oXygen ships
+with log4j, which slf4j passes its messages to. Simply running oXygen
+from the commandline (instead of clicking the desktop icon) may help,
+because you get the log of some error messages. To get the full logs,
+one has to [turn on logging in
+oXygen](https://www.oxygenxml.com/doc/versions/23.0/ug-editor/topics/problem-report-submitted-on-technical-support-form.html)
+by putting a log4j config file into the application folder.
+
 ### Regression Tests ###
 
 Besides Java unit tests there are regression tests based on
