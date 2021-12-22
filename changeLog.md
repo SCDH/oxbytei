@@ -1,5 +1,9 @@
 # Change log #
 
+## 0.4.2 ##
+
+- fixed github workflow for making releases
+
 ## v0.4.1 ##
 
 - added logging through slf4j
