@@ -188,15 +188,15 @@ have a look at the pom-file to see what's needed.
 
 Releases of installable packages will be created with github actions
 on tags with a name matching the pattern
-`v\.[0-9]+\.[0-9]+\.[0-9]+(-.*)?`,
-i.e. `v<MAJOR>.<MINOR>.<BUGFIX>[-<SUFFIX>]`. To produce a release:
+`[0-9]+\.[0-9]+\.[0-9]+(-.*)?`,
+i.e. `<MAJOR>.<MINOR>.<BUGFIX>[-<SUFFIX>]`. To produce a release:
 
 - first push the branch to be released
 - then tag it with the tag name matching the above pattern
 
 This will produce a release on [releases/tag/<TAG_NAME>](releases/tag)
 and update the [descriptor
-file](https://scdh.github.io/scdh-oxygen-framework/descriptor.xml).
+file](https://scdh.github.io/oxbytei/descriptor.xml).
 
 NOTE: The tag name **must equal** the version name in the
 [pom.xml](pom.xml)!
