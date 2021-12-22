@@ -1,13 +1,11 @@
 # oXbytei #
 
-<!--
-![release](https://github.com/scdh/scdh-oxygen-extension/actions/workflows/release.yml/badge.svg)
-![tests](https://github.com/scdh/scdh-oxygen-extension/actions/workflows/test-main.yml/badge.svg)
--->
+![release](https://github.com/scdh/oxbytei/actions/workflows/release.yml/badge.svg)
+![tests](https://github.com/scdh/oxbytei/actions/workflows/test-main.yml/badge.svg)
 
 ## tl;dr ##
 
-Install from [https://scdh.zivgitlabpages.uni-muenster.de/tei-processing/oxbytei/descriptor.xml](https://scdh.zivgitlabpages.uni-muenster.de/tei-processing/oxbytei/descriptor.xml).
+Install from [https://scdh.github.com/oxbytei/descriptor.xml](https://scdh.github.com/oxbytei/descriptor.xml).
 
 
 ## An oXygen framework configured by TEI ##
@@ -88,7 +86,7 @@ mvn generate-sources
 mvn package
 ```
 
-This will create a file named `oXbytei-<VERSION>-package.zip` in the
+This will create a file named `oxbytei-<VERSION>-package.zip` in the
 `target` folder. This zip-File is the same as the one distributed
 under the above mentioned URL.
 
@@ -105,7 +103,7 @@ read-only. For hacking on it's code you can install it by registering
 the path to the cloned repository in &lt;oXygen/>'s settings.
 
 - 1) Clone this repository into a subfolder of an &lt;oXygen/>
-  project, e.g. `oXbytei`. (It may also be sym-linked there.)
+  project, e.g. `oxbytei`. (It may also be sym-linked there.)
 
 - 2) Start &lt;oXygen/> and select `Options` -> `Preferences` from the
   menu. Expand `Document Type Association` on the left and select
@@ -147,7 +145,7 @@ ln -s <oXybytei-directory>/frameworks/oxbytei oxbytei
 
 Note for Windows (no symbolic links) users: Clone the framework into
 your project folder in step 1. Then use
-`{pd}/oXbytei/frameworks/oxbytei` in step 2. You have to copy all the
+`{pd}/oxbytei/frameworks/oxbytei` in step 2. You have to copy all the
 jar files from step 4. You can skip step 5 then. But you will have to
 copy oxbytei.jar every time you recompile the code.
 
