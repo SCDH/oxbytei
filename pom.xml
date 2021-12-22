@@ -6,9 +6,35 @@
     <groupId>de.wwu.scdh.oxbytei</groupId>
     <artifactId>oxbytei</artifactId>
     <version>0.4.0</version>
-    
-    <name>oxbytei</name>
+
+    <name>oXbytei</name>
     <url>https://github.com/scdh/oxbytei</url>
+
+    <developers>
+	<developer>
+	    <name>Christian Lück</name>
+	    <organization>SCDH, University of Münster</organization>
+	</developer>
+    </developers>
+
+    <organization>
+	<name>Service Center of Digital Humanities, ULB, University of Münster</name>
+	<url>https://www.uni-muenster.de/SCDH/</url>
+    </organization>
+
+    <licenses>
+	<license>
+	    <name>GNU General Public License, version 3</name>
+	    <url>https://gplv3.fsf.org/</url>
+	</license>
+    </licenses>
+
+    <scm>
+	<connection>scm:git:https://github.com/scdh/oxbytei.git</connection>
+	<developerConnection>scm:git:https://github.com/scdh/oxbytei.git</developerConnection>
+	<url>scm:git:https://github.com/scdh/oxbytei.git</url>
+	<tag>HEAD</tag>
+    </scm>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
