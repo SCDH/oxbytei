@@ -18,7 +18,7 @@
 	<framework.dir>${project.basedir}/frameworks/oxbytei</framework.dir>
 	<test.dir>${project.basedir}/test/xspec</test.dir>
 	<testing.xsl.dir>${project.build.directory}/generated-resources/xml/xslt/</testing.xsl.dir>
-	<oxygen.jar.version>24.0.0.0</oxygen.jar.version>
+	<oxygen.sdk.version>23.1.0.4</oxygen.sdk.version>
 	<maven.compiler.source>1.8</maven.compiler.source>
 	<maven.compiler.target>1.8</maven.compiler.target>
     </properties>
@@ -34,7 +34,7 @@
 	<dependency>
 	    <groupId>com.oxygenxml</groupId>
 	    <artifactId>oxygen</artifactId>
-	    <version>24.0.0.0</version>
+	    <version>${oxygen.sdk.version}</version>
 	</dependency>
 	<dependency>
 	    <groupId>net.sf.saxon</groupId>
