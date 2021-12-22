@@ -6,21 +6,50 @@
     <groupId>de.wwu.scdh.oxbytei</groupId>
     <artifactId>oxbytei</artifactId>
     <version>0.4.0</version>
-    
-    <name>oxbytei</name>
+
+    <name>oXbytei</name>
     <url>https://github.com/scdh/oxbytei</url>
+
+    <developers>
+	<developer>
+	    <name>Christian Lück</name>
+	    <organization>SCDH, University of Münster</organization>
+	</developer>
+    </developers>
+
+    <organization>
+	<name>Service Center of Digital Humanities, ULB, University of Münster</name>
+	<url>https://www.uni-muenster.de/SCDH/</url>
+    </organization>
+
+    <licenses>
+	<license>
+	    <name>GNU General Public License, version 3</name>
+	    <url>https://gplv3.fsf.org/</url>
+	</license>
+    </licenses>
+
+    <scm>
+	<connection>scm:git:https://github.com/scdh/oxbytei.git</connection>
+	<developerConnection>scm:git:https://github.com/scdh/oxbytei.git</developerConnection>
+	<url>scm:git:https://github.com/scdh/oxbytei.git</url>
+	<tag>HEAD</tag>
+    </scm>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>11</maven.compiler.source>
         <maven.compiler.target>11</maven.compiler.target>
-	<saxon.version>9.9.1-6</saxon.version>
+	<maven.compiler.source>1.8</maven.compiler.source>
+	<maven.compiler.target>1.8</maven.compiler.target>
 	<framework.dir>${project.basedir}/frameworks/oxbytei</framework.dir>
 	<test.dir>${project.basedir}/test/xspec</test.dir>
 	<testing.xsl.dir>${project.build.directory}/generated-resources/xml/xslt/</testing.xsl.dir>
-	<oxygen.jar.version>24.0.0.0</oxygen.jar.version>
-	<maven.compiler.source>1.8</maven.compiler.source>
-	<maven.compiler.target>1.8</maven.compiler.target>
+	<oxygen.sdk.version>23.1.0.4</oxygen.sdk.version>
+	<saxon.version>9.9.1-6</saxon.version>
+	<!-- take care: after changing the following you have to update the exf-file! -->
+        <slf4j.version>1.7.32</slf4j.version>
+	<ediarum.version>3.1.0</ediarum.version>
     </properties>
 
     <repositories>
@@ -34,7 +63,12 @@
 	<dependency>
 	    <groupId>com.oxygenxml</groupId>
 	    <artifactId>oxygen</artifactId>
-	    <version>24.0.0.0</version>
+	    <version>${oxygen.sdk.version}</version>
+	</dependency>
+	<dependency>
+	    <groupId>net.sf.saxon</groupId>
+	    <artifactId>Saxon-HE</artifactId>
+	    <version>${saxon.version}</version>
 	</dependency>
 	<!-- https://mvnrepository.com/artifact/com.googlecode.maven-download-plugin/download-maven-plugin -->
 	<dependency>
@@ -47,7 +81,7 @@
 	    <artifactId>ediarum</artifactId>
 	    <version>3.1.0</version>
 	    <scope>system</scope>
-	    <systemPath>${project.build.directory}/ediarum.jar</systemPath>
+	    <systemPath>${project.build.directory}/lib/ediarum-${ediarum.version}.jar</systemPath>
 	</dependency>
 	<dependency>
             <groupId>org.junit.jupiter</groupId>
@@ -61,6 +95,18 @@
             <version>5.7.2</version>
             <scope>test</scope>
         </dependency>
+	<dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>${slf4j.version}</version>
+        </dependency>
+	<dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-log4j12</artifactId>
+            <version>${slf4j.version}</version>
+            <scope>runtime</scope>
+        </dependency>
+	<!-- log4j is provided by Oxygen -->
     </dependencies>
 
     <build>
@@ -98,9 +144,9 @@
 			    <goal>wget</goal>
 			</goals>
 			<configuration>
-			    <url>https://github.com/ediarum/ediarum.JAR/blob/master/dist/ediarum.jar?raw=true</url>
-			    <outputDirectory>${project.build.directory}</outputDirectory>
-			    <outputFileName>ediarum.jar</outputFileName>
+			    <url>https://github.com/ediarum/ediarum.JAR/blob/master/dist/ediarum-${ediarum.version}.jar?raw=true</url>
+			    <outputDirectory>${project.build.directory}/lib</outputDirectory>
+			    <outputFileName>ediarum-${ediarum.version}.jar</outputFileName>
 			</configuration>
 		    </execution>
 		</executions>
@@ -212,6 +258,24 @@
 		    </dependency>
 		</dependencies>
 	    </plugin>
+
+	    <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <version>3.1.1</version>
+                <executions>
+		    <execution>
+			<phase>prepare-package</phase>
+			<goals>
+			    <goal>copy-dependencies</goal>
+			</goals>
+			<configuration>
+			    <outputDirectory>${project.build.directory}/lib</outputDirectory>
+			    <includeArtifactIds>slf4j-log4j12,slf4j-api</includeArtifactIds>
+			</configuration>
+		    </execution>
+                </executions>
+            </plugin>
 	    
 	</plugins>
     </build>

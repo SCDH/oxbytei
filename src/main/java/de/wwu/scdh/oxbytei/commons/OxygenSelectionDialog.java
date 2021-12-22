@@ -82,13 +82,6 @@ public class OxygenSelectionDialog
 		throw new AuthorOperationException("Error reading entries\n\n"
 						   + report + "\n\n" + e);
 	    }
-
-	    // String report = "";
-	    // for (Map.Entry<String, String> argument : configuredEntriesProvider.arguments.entrySet()) {
-	    // 	report += argument.getKey() + " = " + argument.getValue() + "\n";
-	    // }
-	    // System.err.println("Config of " + provider.getClass().getCanonicalName() + "\n" + report);
-
 	}
 
 	// if there are no selection items at all, we display a
@@ -103,7 +96,6 @@ public class OxygenSelectionDialog
 		}
 		report += "\n\n";
 	    }
-	    System.err.println(report);
 	    throw new AuthorOperationException(report);
 	}
 

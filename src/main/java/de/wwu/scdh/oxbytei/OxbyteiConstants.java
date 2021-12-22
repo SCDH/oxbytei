@@ -10,11 +10,16 @@ import java.nio.file.Paths;
 import javax.xml.transform.URIResolver;
 import javax.xml.transform.TransformerException;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import ro.sync.exml.workspace.api.PluginWorkspaceProvider;
 
 
 
 public class OxbyteiConstants {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(OxbyteiConstants.class);
 
     /**
      * URL of the default plugin configuration
@@ -28,7 +33,7 @@ public class OxbyteiConstants {
 	return path;
     }
 
-    public static String getConfigFile() {
+	public static String getConfigFile() {
 	String defaultConfigFile = Paths.get(getExtensionRoot(), "config", "default.xml").toString();
 	URIResolver resolver =
 	    PluginWorkspaceProvider.getPluginWorkspace().getXMLUtilAccess().getURIResolver();
@@ -37,6 +42,7 @@ public class OxbyteiConstants {
 	    // use resolver with xml catalogs
 	    configFile = resolver.resolve(defaultConfigFile, null).getSystemId();
 	} catch (TransformerException e) {}
+	LOGGER.debug("Using oXbytei config file {}", configFile);
 	return configFile;
     }
 

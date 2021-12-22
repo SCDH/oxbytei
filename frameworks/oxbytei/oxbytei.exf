@@ -15,8 +15,10 @@ from the contextual menu.
   <priority>Normal</priority>
 
   <classpath>
-    <addEntry path="${framework}/ediarum.jar"/>
     <addEntry path="${framework}/oxbytei.jar"/>
+    <addEntry path="${framework}/ediarum-3.1.0.jar"/>
+    <addEntry path="${framework}/slf4j-api-1.7.32.jar"/>
+    <addEntry path="${framework}/slf4j-log4j12-1.7.32.jar"/>
   </classpath>
 
   <extensionPoints>

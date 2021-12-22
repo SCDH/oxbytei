@@ -8,6 +8,9 @@ package de.wwu.scdh.oxbytei;
 
 import javax.swing.text.BadLocationException;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import ro.sync.ecss.extensions.api.AuthorConstants;
 import ro.sync.ecss.extensions.api.ArgumentDescriptor;
 import ro.sync.ecss.extensions.api.ArgumentsMap;
@@ -25,6 +28,8 @@ import de.wwu.scdh.oxbytei.AbstractOperation;
 public class PrefixURIChangeAttributeOperation
     extends AbstractOperation
     implements AuthorOperation {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(OxbyteiSchemaManagerFilter.class);
 
     private static final ArgumentDescriptor ARGUMENT_ATTRIBUTE =
 	new ArgumentDescriptor("attribute",
@@ -113,13 +118,13 @@ public class PrefixURIChangeAttributeOperation
 		(AuthorElement) (doc.findNodesByXPath((String) location, selectionContext, false, true, true, false))[0];
 
 	    // set up the providers from prefix definitions
-	    setupProvidersFromPrefixDef();
+	    setupLabelledEntriesProviders();
 
 	    // call setAttribute() to open user dialog and set the attribute
 	    setAttribute();
 	} catch (BadLocationException e) {
 	    // This can occur on getNodeAtOffset()
-	    System.err.println("Error: At bad editor location. Offset " + selStart);
+	    LOGGER.error("At bad editor location. Offset {}", selStart);
 	} catch (IndexOutOfBoundsException e) {
 	    // This occurs, when the XPath of the 'location'
 	    // argument does not return an elemnt. Then the
