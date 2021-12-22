@@ -27,8 +27,7 @@
 	    <directory>${project.build.directory}</directory>
 	    <outputDirectory>/</outputDirectory>
 	    <includes>
-		<include>${artifactId}.jar</include>
-		<include>ediarum.jar</include>
+		<include>${project.artifactId}.jar</include>
 	    </includes>
 	</fileSet>
 	<fileSet>
@@ -36,6 +35,7 @@
 	    <directory>${project.build.directory}/lib</directory>
 	    <outputDirectory>/</outputDirectory>
 	    <includes>
+		<include>ediarum-${ediarum.version}.jar</include>
 		<include>slf4j-api-${slf4j.version}.jar</include>
 		<include>slf4j-log4j12-${slf4j.version}.jar</include>
 	    </includes>

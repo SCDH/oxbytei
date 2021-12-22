@@ -49,6 +49,7 @@
 	<saxon.version>9.9.1-6</saxon.version>
 	<!-- take care: after changing the following you have to update the exf-file! -->
         <slf4j.version>1.7.32</slf4j.version>
+	<ediarum.version>3.1.0</ediarum.version>
     </properties>
 
     <repositories>
@@ -80,7 +81,7 @@
 	    <artifactId>ediarum</artifactId>
 	    <version>3.1.0</version>
 	    <scope>system</scope>
-	    <systemPath>${project.build.directory}/ediarum.jar</systemPath>
+	    <systemPath>${project.build.directory}/lib/ediarum-${ediarum.version}.jar</systemPath>
 	</dependency>
 	<dependency>
             <groupId>org.junit.jupiter</groupId>
@@ -143,9 +144,9 @@
 			    <goal>wget</goal>
 			</goals>
 			<configuration>
-			    <url>https://github.com/ediarum/ediarum.JAR/blob/master/dist/ediarum.jar?raw=true</url>
-			    <outputDirectory>${project.build.directory}</outputDirectory>
-			    <outputFileName>ediarum.jar</outputFileName>
+			    <url>https://github.com/ediarum/ediarum.JAR/blob/master/dist/ediarum-${ediarum.version}.jar?raw=true</url>
+			    <outputDirectory>${project.build.directory}/lib</outputDirectory>
+			    <outputFileName>ediarum-${ediarum.version}.jar</outputFileName>
 			</configuration>
 		    </execution>
 		</executions>
