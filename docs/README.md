@@ -10,3 +10,8 @@
 Take a look at the folder
 [`frameworks/oxbytei/samples`](frameworks/oxbytei/samples)
 for sample resources, especially at the XML catalog.
+
+
+Note: The plugins used by oXbytei do not use oXygen's functions for
+accessing the documents currently edited. The plugins operate on the
+files as they were last saved to disk.

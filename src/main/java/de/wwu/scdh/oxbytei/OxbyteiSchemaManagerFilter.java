@@ -9,6 +9,9 @@ import javax.xml.transform.URIResolver;
 
 import org.xml.sax.EntityResolver;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import ro.sync.contentcompletion.xml.SchemaManagerFilter;
 import ro.sync.contentcompletion.xml.CIAttribute;
 import ro.sync.contentcompletion.xml.CIElement;
@@ -33,18 +36,10 @@ import de.wwu.scdh.teilsp.exceptions.ConfigurationException;
 public class OxbyteiSchemaManagerFilter
     implements SchemaManagerFilter {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(OxbyteiSchemaManagerFilter.class);
+
     public String getDescription() {
 	return "oXbytei content completer";
-    }
-
-    private static final int INFO = 0;
-    private static final int DEBUG = 1;
-    private static final int ERROR = 2;
-    
-    private void log(String msg, int level) {
-	if (level > INFO) {
-	    System.err.println("Log level " + level + "\n" + msg);
-	}
     }
 
     private static final String[] namespaces = null;
@@ -81,11 +76,7 @@ public class OxbyteiSchemaManagerFilter
 	try {
 	    extensionsConfiguration = ExtensionConfigurationReader.getExtensionsConfiguration(configFile);
 	} catch (ConfigurationException e) {
-	    log("Error reading config from '"
-		+ configFile +
-		"'\n\nDetails:\n"
-		+ e,
-		ERROR);
+	    LOGGER.error("Error reading config from '{}'\nDetails:\n{}", configFile, e);
 	}
 
 	// we need some iteration variables
@@ -107,21 +98,18 @@ public class OxbyteiSchemaManagerFilter
 		    for (k = 0; k < config.getSpecification().size(); k++) {
 			ArgumentsConditionsPair spec = config.getSpecification().get(k);
 			// prepare an error message we might throw multiple times
-			String err = "Error running XPath configured as 'context' condition for "
-			    + config.getClassName()
-			    + " in config file "
-			    + configFile
-			    + "\n"
-			    + spec.getConditions().get("context");
-			log("NO error, yust info: " + err, INFO);
+			LOGGER.debug("Running XPath configured as 'context' condition for {} in config file {}:\n{}",
+				     config.getClassName(),
+				     configFile,
+				     spec.getConditions().get("context"));
 			// check condition defined in 'context' matches the current edition context
 			try {
 			    // run xpath configured as context on the current editing context
 			    // note: we put the context form conditions into an xpath attribute!
 			    String xpath = contextXPath + "[" + spec.getConditions().get("context") + "]";
-			    log(xpath, INFO);
+			    LOGGER.debug(xpath);
 			    List<Object> contxt = context.executeXPath(xpath, namespaces, false);
-			    log("This plugin matches: " + contxt.size(), INFO);
+			    LOGGER.debug("This plugin matches: {}", contxt.size());
 			    if (// matching context?
 				contxt.size() > 0
 				// configured for attribute?
@@ -139,29 +127,29 @@ public class OxbyteiSchemaManagerFilter
 				configuredEntriesProviders.add(p);
 			    }
 			} catch (NullPointerException e) {
-			    log("Configuration error in " + configFile + "\n\n" + e, DEBUG);
+			    LOGGER.error("Configuration error in {}\n{}", configFile, e);
 			} catch (InstantiationException e) {
-			    log("Error loading plugin "
-				+ entriesProvider.getClass().getCanonicalName()
-				+ "\n\n" + e, DEBUG);
+			    LOGGER.error("Error loading plugin {}\n{}",
+					 entriesProvider.getClass().getCanonicalName(),
+					 e);
 			} catch (IllegalAccessException e) {
-			    log("Error loading plugin "
-				+ entriesProvider.getClass().getCanonicalName()
-				+ "\n\n" + e, DEBUG);
+			    LOGGER.error("Error loading plugin {}\n",
+					 entriesProvider.getClass().getCanonicalName(),
+					 e);
 			} catch (ExtensionException e) {
-			    log("Error initializing plugin "
-				+ entriesProvider.getClass().getCanonicalName()
-				+ "\nusing config file "
-				+ configFile
-				+ "\n\n" + e, DEBUG);
+				LOGGER.error("Error initializing plugin {} \nusing config file {}:\n",
+					     entriesProvider.getClass().getCanonicalName(),
+					     configFile, e);
 			}
 		    }
 		}
 	    }
 	}
-	log("Configured plugins: " + configuredEntriesProviders.size(), INFO);
+	LOGGER.debug("Configured plugins: {}", configuredEntriesProviders.size());
 	for (ILabelledEntriesProvider p : configuredEntriesProviders) {
-	    log(p.toString() + p.getArguments().toString() + p.getArguments().get("prefix"), INFO);
+	    LOGGER.debug("Plugin {} configured with arguments:\n{}",
+			 p.toString(),
+			 p.getArguments().toString());
 	}
 
 	List<CIValue> suggestions = new ArrayList<CIValue>();
@@ -172,8 +160,8 @@ public class OxbyteiSchemaManagerFilter
 		    suggestions.add(new CIValue(entry.getKey(), entry.getLabel()));
 		}
 	    } catch (ExtensionException e) {
-		log("Error getting values from " + provider.getClass().getCanonicalName()
-		    + "\n" + e, ERROR); 
+		LOGGER.error("Error getting values from plugin {}:\n{}",
+			     provider.getClass().getCanonicalName(), e);
 	    }
 	}
 	suggestions.addAll(list);

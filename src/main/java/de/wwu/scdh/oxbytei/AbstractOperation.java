@@ -18,6 +18,9 @@ import java.util.List;
 import java.util.ArrayList;
 import javax.xml.transform.URIResolver;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import org.w3c.dom.Attr;
 import org.xml.sax.EntityResolver;
 
@@ -39,6 +42,8 @@ import de.wwu.scdh.oxbytei.commons.ISelectionDialog;
 
 
 abstract class AbstractOperation {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(AbstractOperation.class);
 
     /**
      * Attribute name to be set by {@link setAttribute}
@@ -95,8 +100,6 @@ abstract class AbstractOperation {
 	// get the URL of the configuration file
 	String configFile = OxbyteiConstants.getConfigFile();
 
-	//System.err.println("loading config from " + configFile);
-
 	// read the plugin configuration from the config file
 	List<ExtensionConfiguration> extensionsConfiguration = new ArrayList<ExtensionConfiguration>();
 	try {
@@ -115,7 +118,7 @@ abstract class AbstractOperation {
 	ExtensionConfiguration config;
 	AuthorDocumentController document = authorAccess.getDocumentController();
 	List<ILabelledEntriesProvider> configuredEntriesProviders = new ArrayList<ILabelledEntriesProvider>();
-	//System.err.println("plugin configurations: " + extensionsConfiguration.size());
+	LOGGER.debug("plugin configurations: {}", extensionsConfiguration.size());
 	// iterate over extension (plugin) configurations from config file
 	for (i = 0; i < extensionsConfiguration.size(); i++) {
 	    config = extensionsConfiguration.get(i);
@@ -128,17 +131,15 @@ abstract class AbstractOperation {
 		    for (k = 0; k < config.getSpecification().size(); k++) {
 			ArgumentsConditionsPair spec = config.getSpecification().get(k);
 			// prepare an error message we might throw multiple times
-			String err = "Error running XPath configured as 'context' condition for "
-			    + config.getClassName()
-			    + " in config file "
-			    + configFile
-			    + "\n"
-			    + spec.getConditions().get("context");
+			LOGGER.debug("Running XPath configured as 'context' condition for {} in config file {}:\n{}",
+				     config.getClassName(),
+				     configFile,
+				     spec.getConditions().get("context"));
 			// check condition defined in 'context' matches the current edition context
 			try {
 			    // run xpath configured as context on the current editing context
 			    Object[] context = document.evaluateXPath(spec.getConditions().get("context"), false, true, true);
-			    //System.err.println(context[0].toString());
+			    LOGGER.debug("XPath result: ", context[0].toString());
 			    if (context.length == 1 && context[0].toString().equals("true")) {
 				// we need a new instance of the map, because we set some values of it
 				Map<String, String> arguments = new HashMap<String, String>(spec.getArguments());
@@ -152,10 +153,16 @@ abstract class AbstractOperation {
 			} catch (AuthorOperationException e) {
 			    // we do not throw an exception here, but
 			    // print an error message
-			    System.err.println(err);
+			    LOGGER.error("Error running XPath configured as 'context' condition for {} in config file {}:\n{}",
+					 config.getClassName(),
+					 configFile,
+					 spec.getConditions().get("context"));
 			} catch (IndexOutOfBoundsException e) {
 			    // dito
-			    System.err.println(err + "\nExpression should return a boolean value");
+			    LOGGER.error("Error running XPath configured as 'context' condition for {} in config file {}:\n{}\nExpression should return a boolean value!",
+					 config.getClassName(),
+					 configFile,
+					 spec.getConditions().get("context"));
 			} catch (NullPointerException e) {
 			    throw new AuthorOperationException("Configuration error in "
 							       + configFile
@@ -183,10 +190,7 @@ abstract class AbstractOperation {
 		}
 	    }
 	}
-	// System.err.println("Configured plugins: " + configuredEntriesProviders.size());
-	// for (ILabelledEntriesProvider p : configuredEntriesProviders) {
-	//     System.err.println(p.toString() + p.getArguments().toString() + p.getArguments().get("prefix"));
-	// }
+	LOGGER.debug("Configured plugins: {}", configuredEntriesProviders.size());
 	this.providers = configuredEntriesProviders;
     }
 
