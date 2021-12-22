@@ -21,7 +21,7 @@ import ro.sync.exml.workspace.api.PluginWorkspaceProvider;
 import ro.sync.exml.workspace.api.PluginWorkspace;
 
 import de.wwu.scdh.teilsp.services.extensions.ILabelledEntriesProvider;
-import de.wwu.scdh.teilsp.services.extensions.LabelledEntries;
+import de.wwu.scdh.teilsp.services.extensions.LabelledEntriesLoader;
 import de.wwu.scdh.teilsp.services.extensions.LabelledEntry;
 import de.wwu.scdh.teilsp.services.extensions.ExtensionException;
 import de.wwu.scdh.teilsp.config.ArgumentsConditionsPair;
@@ -63,7 +63,7 @@ public class OxbyteiSchemaManagerFilter
 	String contextXPath = context.computeContextXPathExpression();
 
 	// Load providers
-	List<ILabelledEntriesProvider> entriesProviders = LabelledEntries.providers();
+	List<ILabelledEntriesProvider> entriesProviders = LabelledEntriesLoader.providers();
 
 	// get resolvers and url of the current editing context
 	URIResolver resolver =

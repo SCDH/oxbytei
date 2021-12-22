@@ -8,24 +8,24 @@ import java.util.List;
 import de.wwu.scdh.teilsp.exceptions.ProviderNotFoundException;
 
 
-public class LabelledEntriesTest {
+public class LabelledEntriesLoaderTest {
 
     @Test
     public void testAtLeastDefaultProvider() {
-	List<ILabelledEntriesProvider> providers = LabelledEntries.providers();
+	List<ILabelledEntriesProvider> providers = LabelledEntriesLoader.providers();
 	assertTrue(providers.size() > 0);
     }
 
     @Test
     public void testDefaultProvider() throws ExtensionException, ProviderNotFoundException {
 	assertEquals("de.wwu.scdh.teilsp.extensions.LabelledEntriesFromXML",
-		     LabelledEntries.provider().getClass().getName());
+		     LabelledEntriesLoader.provider().getClass().getName());
     }
 
     @Test
     public void testProviderNotFound() throws ExtensionException {
 	assertThrows(ProviderNotFoundException.class,
-		     () -> { LabelledEntries.provider("unknown");
+		     () -> { LabelledEntriesLoader.provider("unknown");
 		     });
     }
 }
