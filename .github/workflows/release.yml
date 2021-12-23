@@ -46,18 +46,3 @@ jobs:
           asset_path: target/oxbytei-${{ github.ref_name }}-package.zip
           asset_name: oxbytei-${{ github.ref_name }}-package.zip
           asset_content_type: application/zip
-
-      - name: create directory for github pages
-        run: mkdir -p public
-
-      - name: copy descriptor file
-        run: cp target/generated-resources/xml/xslt/pom.xml public/descriptor.xml
-
-      - name: copy index.html
-        run: cp pages/index.html public/index.html
-
-      - name: Deploy descriptor file on Github pages
-        uses: peaceiris/actions-gh-pages@v3
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./public
