@@ -1,5 +1,9 @@
 # Change log #
 
+## 0.4.4 ##
+
+- deploy descriptor file on pages in separate action
+
 ## 0.4.3 ##
 
 - fixed link to package in the package descriptor file
