@@ -21,6 +21,11 @@ public class OxbyteiConstants {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(OxbyteiConstants.class);
 
+    public static final String DOCUMENT_XPATH = "root(/)";
+
+    public static final String CONTEXT_XPATH =
+	"string-join(for $node in ancestor-or-self::* return concat('*:', name($node), '[', count(preceding-sibling::*[name() eq name($node)]) + 1, ']'), '/')";
+
     /**
      * URL of the default plugin configuration
      */
