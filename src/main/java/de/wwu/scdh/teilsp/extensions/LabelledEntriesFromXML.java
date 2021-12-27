@@ -86,7 +86,8 @@ public class LabelledEntriesFromXML
     public void init(Map<String, String> args,
 		     URIResolver uriResolver,
 		     EntityResolver entityResolver,
-		     Document doc)
+		     Document doc,
+		     String systemId)
 	throws ExtensionException {
 
 	document = doc;

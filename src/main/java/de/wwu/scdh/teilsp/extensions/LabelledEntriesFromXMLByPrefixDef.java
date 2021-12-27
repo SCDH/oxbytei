@@ -110,7 +110,8 @@ public class LabelledEntriesFromXMLByPrefixDef
     public void init(Map<String, String> args,
 		     URIResolver uriResolver,
 		     EntityResolver entityResolver,
-		     Document currentDoc)
+		     Document currentDoc,
+		     String systemId)
 	throws ExtensionException {
 
 	// get the XPath to the <prefixDef> element
@@ -133,14 +134,15 @@ public class LabelledEntriesFromXMLByPrefixDef
 	// get url from prefixDef
 	String ident = null;
 	String href = null;
-	String systemId = null;
+	//String systemId = null;
 	try {
 	    // prepare the XPath query, using Saxon here for XPath 2.0
 	    XPath xpath = new XPathFactoryImpl().newXPath();
 	    //xpath.setXPathFunctionResolver(new XPathFunctionLibrary().getXPathFunctionResolver());
 	    xpath.setNamespaceContext(namespaceDecl);
 	    // run the XPath query
-	    systemId = (String) xpath.evaluate("base-uri(/)", currentDoc, XPathConstants.STRING);
+	    //systemId = (String) xpath.evaluate("base-uri(/)", currentDoc, XPathConstants.STRING);
+
 	    NodeList prefixNodes = (NodeList) xpath.evaluate(prefixDefXPath, currentDoc, XPathConstants.NODESET);
 	    if (prefixNodes.getLength() != 1) {
 		throw new ExtensionException("Unsupported: There were " + prefixNodes.getLength()
