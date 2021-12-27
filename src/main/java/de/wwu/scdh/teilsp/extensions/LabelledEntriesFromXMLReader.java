@@ -18,6 +18,9 @@ import javax.xml.xpath.XPathExpressionException;
 import net.sf.saxon.xpath.XPathFactoryImpl;
 //import net.sf.saxon.xpath.XPathFunctionLibrary;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
@@ -43,6 +46,9 @@ public class LabelledEntriesFromXMLReader {
     protected NamespaceContext namespaceDecl;
 
     protected Document document;
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(LabelledEntriesFromXMLReader.class);
+
 
     public LabelledEntriesFromXMLReader() {}
 

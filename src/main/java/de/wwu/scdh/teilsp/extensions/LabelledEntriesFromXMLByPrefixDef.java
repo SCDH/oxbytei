@@ -18,6 +18,9 @@ import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpressionException;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
@@ -42,6 +45,8 @@ import de.wwu.scdh.teilsp.xml.NamespaceContextImpl;
 public class LabelledEntriesFromXMLByPrefixDef
     extends LabelledEntriesFromXMLReader
     implements ILabelledEntriesProvider {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(LabelledEntriesFromXMLByPrefixDef.class);
 
     private Map<String, String> arguments;
 
@@ -164,7 +169,7 @@ public class LabelledEntriesFromXMLByPrefixDef
 	} else {
 	    try {
 		String urlString = uriResolver.resolve(href, systemId.toString()).getSystemId();
-		System.err.println("Redirecting " + href + " to " + urlString);
+		LOGGER.error("Resolving URL in prefixDef \"{}\" given in {} to {}", href, systemId, urlString);
 
 		// open the document url
 		URL url = new URL(urlString);
