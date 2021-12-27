@@ -6,6 +6,7 @@
  */
 package de.wwu.scdh.oxbytei;
 
+import java.util.List;
 import javax.swing.text.BadLocationException;
 
 import org.slf4j.Logger;
@@ -22,7 +23,8 @@ import ro.sync.ecss.extensions.api.node.AuthorElement;
 import ro.sync.ecss.extensions.api.node.AuthorNode;
 
 import de.wwu.scdh.oxbytei.commons.OperationArgumentValidator;
-import de.wwu.scdh.oxbytei.AbstractOperation;
+import de.wwu.scdh.teilsp.services.extensions.ILabelledEntriesProvider;
+import de.wwu.scdh.teilsp.services.extensions.LabelledEntriesLoader;
 
 
 public class PrefixURIChangeAttributeOperation
@@ -107,8 +109,6 @@ public class PrefixURIChangeAttributeOperation
 
 	multiple = multipleString.equals(AuthorConstants.ARG_VALUE_TRUE);
 
-	authorAccess = auAccess;
-
 	int selStart = auAccess.getEditorAccess().getSelectionStart();
 	try {
 	    // get location, which must be set for subsequent method calls
@@ -118,10 +118,11 @@ public class PrefixURIChangeAttributeOperation
 		(AuthorElement) (doc.findNodesByXPath((String) location, selectionContext, false, true, true, false))[0];
 
 	    // set up the providers from prefix definitions
-	    setupLabelledEntriesProviders();
+	    List<ILabelledEntriesProvider> providers =
+		setupLabelledEntriesProviders(auAccess, LabelledEntriesLoader.ATTRIBUTE_VALUE, attributeName);
 
 	    // call setAttribute() to open user dialog and set the attribute
-	    setAttribute();
+	    setAttribute(auAccess, providers);
 	} catch (BadLocationException e) {
 	    // This can occur on getNodeAtOffset()
 	    LOGGER.error("At bad editor location. Offset {}", selStart);

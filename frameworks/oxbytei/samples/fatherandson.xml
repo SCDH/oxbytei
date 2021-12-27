@@ -28,8 +28,8 @@
                ident="psn"/>
             <prefixDef matchPattern="([a-zA-Z0-9_-]+)" replacementPattern="geography.xml#$1"
                ident="plc"/>
-            <prefixDef matchPattern="([a-zA-Z0-9_-]+)" replacementPattern="geography.xml#$1"
-               ident="place"/>
+            <!--prefixDef matchPattern="([a-zA-Z0-9_-]+)" replacementPattern="geography.xml#$1"
+               ident="place"/-->
          </listPrefixDef>
       </encodingDesc>
       <xenoData/>
@@ -39,9 +39,9 @@
    </teiHeader>
    <text>
       <body>
-         <p><persName ref="psn:FCSavigny">Savigny</persName> is rooted in Saviniacum, an aboriginal
-            hamlet in France, and has come over Germany like the Roman Law, says his most famous
-               <person>son</person>.</p>
+         <p><persName ref="psn:FCSavigny">Savigny</persName> is rooted in <placeName
+               ref="plc:Saviniacum">Saviniacum</placeName>, an aboriginal hamlet in France, and has
+            come over Germany like the Roman Law, says his most famous <person>son</person>.</p>
       </body>
    </text>
 </TEI>
