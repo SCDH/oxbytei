@@ -1,8 +1,3 @@
-/**
- * {@link ILabelledEntriesProvider} - an interface for plugins, that
- * provide labelled entries.
- *
- */
 package de.wwu.scdh.teilsp.services.extensions;
 
 import java.util.List;
@@ -13,6 +8,11 @@ import org.xml.sax.EntityResolver;
 import org.w3c.dom.Document;
 
 
+/**
+ * {@link ILabelledEntriesProvider} - an interface for plugins, that
+ * provide labelled entries.
+ *
+ */
 public interface ILabelledEntriesProvider {
 
     /**
@@ -24,12 +24,14 @@ public interface ILabelledEntriesProvider {
      * @param  uriResolver URI resolver used in the editor
      * @param  entityResolver entity resolver used in the editor
      * @param  document    the currently edited file as DOM object
+     * @param  systemId    URL of the current document
      * @return             an ordered sequence of labelled entries
      */
     public void init(Map<String, String> kwargs,
 		     URIResolver uriResolver,
 		     EntityResolver entityResolver,
-		     Document document) throws ExtensionException;
+		     Document document,
+		     String systemId) throws ExtensionException;
     
     /**
      * This method must return an ordered collection of labelled
