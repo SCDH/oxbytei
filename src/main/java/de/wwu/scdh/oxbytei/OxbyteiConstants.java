@@ -38,7 +38,7 @@ public class OxbyteiConstants {
 	return path;
     }
 
-	public static String getConfigFile() {
+    public static String getConfigFile() {
 	String defaultConfigFile = Paths.get(getExtensionRoot(), "config", "default.xml").toString();
 	URIResolver resolver =
 	    PluginWorkspaceProvider.getPluginWorkspace().getXMLUtilAccess().getURIResolver();
