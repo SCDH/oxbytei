@@ -131,8 +131,10 @@ public class LabelledEntriesLoader {
 	XPath xpath = new XPathFactoryImpl().newXPath();
 	xpath.setNamespaceContext(namespaceDecl);
 
+	// just for debugging
 	LOGGER.debug("Implementation of document: {}", document.getClass().getCanonicalName());
 	try {
+	    // can we evaluate an XPath expression?
 	    NodeList nodes = (NodeList) xpath.evaluate("//*", document, XPathConstants.NODESET);
 	    LOGGER.debug("Document contains {} element nodes.", nodes.getLength());
 	} catch (XPathExpressionException e) {
