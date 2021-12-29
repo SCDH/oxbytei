@@ -76,6 +76,8 @@ public class OxbyteiSchemaManagerFilter
 							  configFile);
 
 	    return providers;
+	} catch (IndexOutOfBoundsException e) {
+	    LOGGER.error("No document node found {}", e);
 	} catch (ConfigurationException e) {
 	    LOGGER.error("{}", e);
 	} catch (ExtensionException e) {
