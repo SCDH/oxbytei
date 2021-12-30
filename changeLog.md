@@ -1,5 +1,24 @@
 # Change log #
 
+## 0.4.5 ##
+
+- Changes to the API:
+  - The signature of the init method of ILabelledEntriesProvider has
+    changed.
+  - It takes the document's DOM node now.
+- The logic of the plugin loader for loading plugins for the current
+  editing context has been moved from oxbytei to teilsp
+- Document DOM nodes of the currently edited document are now passed
+  through from oXygen to the plugins. This speeds things up and
+  reflects changes in them that have not been saved to disk yet.
+- The redundant class ...commons.Resolver has been removed.
+- The name of the one and only author mode operation has changed to
+  SelectAttributeValueOperation, because there is nothing specific for
+  `<prefixDef>` in there any more.
+- A utility class for making an XPath object has been added as a
+  convenience tool regarding different implementations of the document
+  DOM node, that is passed around: `XPathUtil`.
+
 ## 0.4.4 ##
 
 - deploy descriptor file on pages in separate action
