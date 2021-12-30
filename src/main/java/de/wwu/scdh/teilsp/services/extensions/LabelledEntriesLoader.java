@@ -84,6 +84,7 @@ public class LabelledEntriesLoader {
      * This reads the configuration file and returns a list of
      * initialized providers, defined for the current context.
      * @param document the current document
+     * @param systemId the url string pointing to the current document
      * @param context the current cursor position in the document
      * given by an XPath expression
      * @param nodeType the type of node which to offer completion suggestions
