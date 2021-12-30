@@ -19,15 +19,12 @@ import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
 import org.xml.sax.EntityResolver;
 
-import net.sf.saxon.xpath.XPathFactoryImpl;
-import net.sf.saxon.dom.DocumentOverNodeInfo;
-
 import de.wwu.scdh.teilsp.config.ArgumentsConditionsPair;
 import de.wwu.scdh.teilsp.config.ExtensionConfiguration;
 import de.wwu.scdh.teilsp.config.ExtensionConfigurationReader;
 import de.wwu.scdh.teilsp.exceptions.ProviderNotFoundException;
 import de.wwu.scdh.teilsp.exceptions.ConfigurationException;
-
+import de.wwu.scdh.teilsp.xpath.XPathUtil;
 
 
 /**
@@ -115,6 +112,7 @@ public class LabelledEntriesLoader {
 
 	LOGGER.debug("Searching plugins for context: \"{}\"", context);
 	LOGGER.debug("Searching pluging for nodeType: {}, nodeName: {}", nodeType, nodeName);
+	LOGGER.debug("Implementation of document: {}", document.getClass().getCanonicalName());
 
 	// Load plugins
 	List<ILabelledEntriesProvider> plugins = LabelledEntriesLoader.providers();
@@ -125,23 +123,9 @@ public class LabelledEntriesLoader {
 	// we need some iteration variables
 	int i, j, k;
 
-	// setup XPath 2.0 from Saxon
-	XPathFactoryImpl xpathFactoryImpl = new XPathFactoryImpl();
-	if (document instanceof DocumentOverNodeInfo) {
-	    xpathFactoryImpl.setConfiguration(((DocumentOverNodeInfo) document).getUnderlyingNodeInfo().getConfiguration());
-	}
-	XPath xpath = xpathFactoryImpl.newXPath();
+	// prepare the XPath query, using Saxon here for XPath 2.0
+	XPath xpath = XPathUtil.makeXPath(document);
 	xpath.setNamespaceContext(namespaceDecl);
-
-	// just for debugging
-	LOGGER.error("Implementation of document: {}", document.getClass().getCanonicalName());
-	try {
-	    // can we evaluate an XPath expression?
-	    NodeList nodes = (NodeList) xpath.evaluate("//*", document, XPathConstants.NODESET);
-	    LOGGER.error("Document contains {} element nodes.", nodes.getLength());
-	} catch (XPathExpressionException e) {
-	    throw new ConfigurationException("Failed to count element nodes\n" + e);
-	}
 
 	// get plugins configured for current editing context
 	ExtensionConfiguration config;

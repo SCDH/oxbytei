@@ -27,13 +27,11 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
-import net.sf.saxon.xpath.XPathFactoryImpl;
-import net.sf.saxon.dom.DocumentOverNodeInfo;
-
 import de.wwu.scdh.teilsp.services.extensions.ILabelledEntriesProvider;
 import de.wwu.scdh.teilsp.services.extensions.ExtensionException;
 import de.wwu.scdh.teilsp.services.extensions.ArgumentDescriptor;
 import de.wwu.scdh.teilsp.xml.NamespaceContextImpl;
+import de.wwu.scdh.teilsp.xpath.XPathUtil;
 
 
 /**
@@ -141,17 +139,8 @@ public class LabelledEntriesFromXMLByPrefixDef
 	String href = null;
 	//String systemId = null;
 	try {
-	    // // prepare the XPath query, using Saxon here for XPath 2.0
-	    // XPath xpath = new XPathFactoryImpl().newXPath();
-	    // //xpath.setXPathFunctionResolver(new XPathFunctionLibrary().getXPathFunctionResolver());
-	    // xpath.setNamespaceContext(namespaceDecl);
-
-	    // setup XPath 2.0 from Saxon
-	    XPathFactoryImpl xpathFactoryImpl = new XPathFactoryImpl();
-	    if (currentDoc instanceof DocumentOverNodeInfo) {
-	    	xpathFactoryImpl.setConfiguration(((DocumentOverNodeInfo) currentDoc).getUnderlyingNodeInfo().getConfiguration());
-	    }
-	    XPath xpath = xpathFactoryImpl.newXPath();
+	    // prepare the XPath query, using Saxon here for XPath 2.0
+	    XPath xpath = XPathUtil.makeXPath(currentDoc);
 	    xpath.setNamespaceContext(namespaceDecl);
 
 	    // run the XPath query

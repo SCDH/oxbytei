@@ -15,9 +15,6 @@ import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpressionException;
 
-import net.sf.saxon.xpath.XPathFactoryImpl;
-//import net.sf.saxon.xpath.XPathFunctionLibrary;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -31,6 +28,7 @@ import de.wwu.scdh.teilsp.exceptions.DocumentReaderException;
 import de.wwu.scdh.teilsp.xml.NamespaceContextImpl;
 import de.wwu.scdh.teilsp.services.extensions.LabelledEntry;
 import de.wwu.scdh.teilsp.services.extensions.ExtensionException;
+import de.wwu.scdh.teilsp.xpath.XPathUtil;
 
 
 public class LabelledEntriesFromXMLReader {
@@ -95,7 +93,7 @@ public class LabelledEntriesFromXMLReader {
 	List<LabelledEntry> entries = new ArrayList<LabelledEntry>();
 	try {
 	    // prepare the XPath query, using Saxon here for XPath 2.0
-	    XPath xpath = new XPathFactoryImpl().newXPath();
+	    XPath xpath = XPathUtil.makeXPath(document);
 	    //xpath.setXPathFunctionResolver(new XPathFunctionLibrary().getXPathFunctionResolver());
 	    xpath.setNamespaceContext(this.namespaceDecl);
 	    // run the XPath query
