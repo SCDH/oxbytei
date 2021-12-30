@@ -24,7 +24,7 @@
       </profileDesc>
       <encodingDesc>
          <listPrefixDef>
-            <prefixDef matchPattern="([a-zA-Z0-9_-]+)" replacementPattern="personography.xml#$1"
+            <prefixDef matchPattern="([a-zA-Z0-9_-]+)" replacementPattern="teigraphy.xml#$1"
                ident="psn"/>
             <prefixDef matchPattern="([a-zA-Z0-9_-]+)" replacementPattern="geography.xml#$1"
                ident="plc"/>

@@ -10,18 +10,16 @@
  */
 package de.wwu.scdh.oxbytei;
 
-import java.net.URL;
 import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.List;
-import java.util.ArrayList;
 import javax.xml.transform.URIResolver;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import org.w3c.dom.Attr;
+import org.w3c.dom.Document;
+
 import org.xml.sax.EntityResolver;
 
 import ro.sync.ecss.extensions.api.AuthorDocumentController;
@@ -31,13 +29,10 @@ import ro.sync.ecss.extensions.api.node.AuthorElement;
 import ro.sync.ecss.extensions.api.node.AuthorNode;
 import ro.sync.ecss.extensions.api.node.AttrValue;
 
+import de.wwu.scdh.teilsp.exceptions.ConfigurationException;
 import de.wwu.scdh.teilsp.services.extensions.ILabelledEntriesProvider;
 import de.wwu.scdh.teilsp.services.extensions.LabelledEntriesLoader;
 import de.wwu.scdh.teilsp.services.extensions.ExtensionException;
-import de.wwu.scdh.teilsp.config.ArgumentsConditionsPair;
-import de.wwu.scdh.teilsp.config.ExtensionConfiguration;
-import de.wwu.scdh.teilsp.config.ExtensionConfigurationReader;
-import de.wwu.scdh.teilsp.exceptions.ConfigurationException;
 import de.wwu.scdh.oxbytei.commons.ISelectionDialog;
 
 
@@ -66,139 +61,55 @@ abstract class AbstractOperation {
     protected String dialog;
 
     /**
-     * {@link AuthorAccess} passed in from the author mode operation.
-     */
-    protected AuthorAccess authorAccess;
-
-    /**
      * The node, which to operate on, i.e. which to set the attribute on.
      */
     protected AuthorNode locationNode;
 
     /**
-     * Plugins setup by {@link setupProvidersFromPrefixDef()} and
-     * used by {@link setAttribute()}.
-     */
-    private List<ILabelledEntriesProvider> providers;
-    
-    /**
      * Get the plugins registered for {@link ILabelledEntriesProvider}
      * and configure them based on config file and <prefixDef>
      * elements in the currently edited file.
      */
-    protected void setupLabelledEntriesProviders()
+    public static List<ILabelledEntriesProvider> setupLabelledEntriesProviders
+	(AuthorAccess authorAccess,
+	 String nodeType,
+	 String nodeName)
 	throws AuthorOperationException {
 
-	// Load providers
-	List<ILabelledEntriesProvider> entriesProviders = LabelledEntriesLoader.providers();
-
 	// get the uri resolver, entity resolver used by oxygen and editing context
-	URIResolver resolver = authorAccess.getXMLUtilAccess().getURIResolver();
+	URIResolver uriResolver = authorAccess.getXMLUtilAccess().getURIResolver();
 	EntityResolver entityResolver = authorAccess.getXMLUtilAccess().getEntityResolver();
-	URL currentFileURL = authorAccess.getEditorAccess().getEditorLocation();
+	String currentFileURL = authorAccess.getEditorAccess().getEditorLocation().toString();
 
 	// get the URL of the configuration file
 	String configFile = OxbyteiConstants.getConfigFile();
 
-	// read the plugin configuration from the config file
-	List<ExtensionConfiguration> extensionsConfiguration = new ArrayList<ExtensionConfiguration>();
+	Object[] doc = authorAccess.getDocumentController().evaluateXPath(OxbyteiConstants.DOCUMENT_XPATH, true, false, false, true);
+	Object[] context = authorAccess.getDocumentController().evaluateXPath(OxbyteiConstants.CONTEXT_XPATH, true, false, false, true);
+
 	try {
-	    extensionsConfiguration = ExtensionConfigurationReader.getExtensionsConfiguration(configFile);
+	    return LabelledEntriesLoader.providersForContext((Document) doc[0],
+							     currentFileURL,
+							     (String) context[0],
+							     nodeType,
+							     nodeName,
+							     uriResolver,
+							     entityResolver,
+							     null,
+							     configFile);
 	} catch (ConfigurationException e) {
-	    throw new AuthorOperationException("Error reading config from '"
-					       + configFile +
-					       "'\n\nDetails:\n"
-					       + e);
+	    throw new AuthorOperationException("" + e);
+	} catch (ExtensionException e) {
+	    throw new AuthorOperationException("" + e);
 	}
-
-	// we need some iteration variables
-	int i, j, k;
-
-	// get plugins configured for current editing context
-	ExtensionConfiguration config;
-	AuthorDocumentController document = authorAccess.getDocumentController();
-	List<ILabelledEntriesProvider> configuredEntriesProviders = new ArrayList<ILabelledEntriesProvider>();
-	LOGGER.debug("plugin configurations: {}", extensionsConfiguration.size());
-	// iterate over extension (plugin) configurations from config file
-	for (i = 0; i < extensionsConfiguration.size(); i++) {
-	    config = extensionsConfiguration.get(i);
-	    // iteratre over loaded plugins
-	    for (j = 0; j < entriesProviders.size(); j++) {
-		ILabelledEntriesProvider entriesProvider = entriesProviders.get(j);
-		// check if the configuration is for this provider
-		if (entriesProvider.getClass().getCanonicalName().equals(config.getClassName())) {
-		    // check all specifications of this provider
-		    for (k = 0; k < config.getSpecification().size(); k++) {
-			ArgumentsConditionsPair spec = config.getSpecification().get(k);
-			// prepare an error message we might throw multiple times
-			LOGGER.debug("Running XPath configured as 'context' condition for {} in config file {}:\n{}",
-				     config.getClassName(),
-				     configFile,
-				     spec.getConditions().get("context"));
-			// check condition defined in 'context' matches the current edition context
-			try {
-			    // run xpath configured as context on the current editing context
-			    Object[] context = document.evaluateXPath(spec.getConditions().get("context"), false, true, true);
-			    LOGGER.debug("XPath result: ", context[0].toString());
-			    if (context.length == 1 && context[0].toString().equals("true")) {
-				// we need a new instance of the map, because we set some values of it
-				Map<String, String> arguments = new HashMap<String, String>(spec.getArguments());
-				// we make a new instance of the
-				// provider, because we do not want to
-				// configure the same several times.
-				ILabelledEntriesProvider p = entriesProvider.getClass().newInstance();
-				p.init(arguments, resolver, entityResolver, currentFileURL);
-				configuredEntriesProviders.add(p);
-			    }
-			} catch (AuthorOperationException e) {
-			    // we do not throw an exception here, but
-			    // print an error message
-			    LOGGER.error("Error running XPath configured as 'context' condition for {} in config file {}:\n{}",
-					 config.getClassName(),
-					 configFile,
-					 spec.getConditions().get("context"));
-			} catch (IndexOutOfBoundsException e) {
-			    // dito
-			    LOGGER.error("Error running XPath configured as 'context' condition for {} in config file {}:\n{}\nExpression should return a boolean value!",
-					 config.getClassName(),
-					 configFile,
-					 spec.getConditions().get("context"));
-			} catch (NullPointerException e) {
-			    throw new AuthorOperationException("Configuration error in "
-							       + configFile
-							       + "\n\n"
-							       + e);
-			} catch (InstantiationException e) {
-			    throw new AuthorOperationException("Error loading plugin "
-							       + entriesProvider.getClass().getCanonicalName()
-							       + "\n\n"
-							       + e);
-			} catch (IllegalAccessException e) {
-			    throw new AuthorOperationException("Error loading plugin "
-							       + entriesProvider.getClass().getCanonicalName()
-							       + "\n\n"
-							       + e);
-			} catch (ExtensionException e) {
-			    throw new AuthorOperationException("Error initializing plugin "
-							       + entriesProvider.getClass().getCanonicalName()
-							       + "\nusing config file "
-							       + configFile
-							       + "\n\n"
-							       + e);
-			}
-		    }
-		}
-	    }
-	}
-	LOGGER.debug("Configured plugins: {}", configuredEntriesProviders.size());
-	this.providers = configuredEntriesProviders;
     }
 
     /**
      * Set the attribute given by {@link attributeName} on the
      * {@link locationNode} node in a user dialogue.
      */
-    protected void setAttribute() throws AuthorOperationException {
+    protected void setAttribute(AuthorAccess authorAccess, List<ILabelledEntriesProvider> providers)
+	throws AuthorOperationException  {
 
 	// get current attribute value
 	AuthorDocumentController doc = authorAccess.getDocumentController();
