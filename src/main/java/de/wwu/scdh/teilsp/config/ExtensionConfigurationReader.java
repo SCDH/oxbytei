@@ -25,7 +25,7 @@ import de.wwu.scdh.teilsp.exceptions.ConfigurationException;
 
 public class ExtensionConfigurationReader {
 
-    public static final String pluginsXPath = "/c:configuration/c:plugins/c:plugin";
+    public static final String pluginsXPath = "/c:teilspConfiguration/c:plugins/c:plugin";
     public static final String classNameXPath = "c:class";
     public static final String typeXPath = "c:type";
     public static final String conditionXPath = "descendant::c:conditions/c:condition";

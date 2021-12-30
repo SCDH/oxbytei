@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<configuration xmlns="http://wwu.de/scdh/teilsp/config/">
+<teilspConfiguration xmlns="http://wwu.de/scdh/teilsp/config/">
     <plugins>
         <plugin>
             <class>de.wwu.scdh.teilsp.extensions.LabelledEntriesFromXMLByPrefixDef</class>
@@ -40,4 +40,4 @@
             </configurations>
         </plugin>
     </plugins>
-</configuration>
+</teilspConfiguration>
