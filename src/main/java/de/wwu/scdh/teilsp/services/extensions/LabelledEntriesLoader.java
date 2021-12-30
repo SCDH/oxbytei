@@ -34,11 +34,6 @@ import de.wwu.scdh.teilsp.xpath.XPathUtil;
  */
 public class LabelledEntriesLoader {
 
-    public static final String ELEMENT_NODE = "element";
-    public static final String ATTRIBUTE_NODE = "attribute";
-    public static final String TEXT_NODE = "text";
-    public static final String ATTRIBUTE_VALUE = "attribute"; // FIXME
-
     private static final String DEFAULT_PROVIDER = "de.wwu.scdh.teilsp.extensions.LabelledEntriesFromXML";
 
     /**

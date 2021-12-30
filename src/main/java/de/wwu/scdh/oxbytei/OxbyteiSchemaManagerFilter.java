@@ -26,6 +26,7 @@ import de.wwu.scdh.teilsp.services.extensions.LabelledEntriesLoader;
 import de.wwu.scdh.teilsp.services.extensions.LabelledEntry;
 import de.wwu.scdh.teilsp.services.extensions.ExtensionException;
 import de.wwu.scdh.teilsp.exceptions.ConfigurationException;
+import de.wwu.scdh.teilsp.config.ExtensionConfiguration;
 
 
 public class OxbyteiSchemaManagerFilter
@@ -95,7 +96,7 @@ public class OxbyteiSchemaManagerFilter
 	String alreadyTyped = context.getCurrentValuePrefix();
 
 	List<ILabelledEntriesProvider> providers =
-	    providersForContext(context, LabelledEntriesLoader.ATTRIBUTE_VALUE, attributeName);
+	    providersForContext(context, ExtensionConfiguration.ATTRIBUTE_VALUE, attributeName);
 
 	List<CIValue> suggestions = new ArrayList<CIValue>();
 	for (ILabelledEntriesProvider provider : providers) {

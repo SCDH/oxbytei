@@ -20,6 +20,7 @@ import org.xml.sax.SAXException;
 import de.wwu.scdh.teilsp.exceptions.ConfigurationException;
 import de.wwu.scdh.teilsp.exceptions.ProviderNotFoundException;
 import de.wwu.scdh.teilsp.testutils.SimpleURIResolver;
+import de.wwu.scdh.teilsp.config.ExtensionConfiguration;
 
 
 public class LabelledEntriesLoaderTest {
@@ -66,7 +67,7 @@ public class LabelledEntriesLoaderTest {
 	    LabelledEntriesLoader.providersForContext(document,
 						      currentFile,
 						      "/*:TEI[1]/*:text[1]/*:body[1]/*:p[1]/*:persName[1]",
-						      LabelledEntriesLoader.ATTRIBUTE_VALUE,
+						      ExtensionConfiguration.ATTRIBUTE_VALUE,
 						      "ref",
 						      new SimpleURIResolver(), null, null,
 						      configFile);
@@ -82,7 +83,7 @@ public class LabelledEntriesLoaderTest {
 	    LabelledEntriesLoader.providersForContext(document,
 						      currentFile,
 						      "/*:TEI[1]/*:text[1]/*:body[1]/*:p[1]/*:persName[1]",
-						      LabelledEntriesLoader.ATTRIBUTE_VALUE,
+						      ExtensionConfiguration.ATTRIBUTE_VALUE,
 						      "type",
 						      new SimpleURIResolver(), null, null,
 						      configFile);
@@ -96,7 +97,7 @@ public class LabelledEntriesLoaderTest {
 	    LabelledEntriesLoader.providersForContext(document,
 						      currentFile,
 						      "/*:TEI[1]/*:text[1]/*:body[1]/*:p[1]/*:person[1]",
-						      LabelledEntriesLoader.ATTRIBUTE_VALUE,
+						      ExtensionConfiguration.ATTRIBUTE_VALUE,
 						      "ref",
 						      new SimpleURIResolver(), null, null,
 						      configFile);

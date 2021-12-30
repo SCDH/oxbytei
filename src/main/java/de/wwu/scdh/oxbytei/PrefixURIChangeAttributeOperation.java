@@ -25,6 +25,7 @@ import ro.sync.ecss.extensions.api.node.AuthorNode;
 import de.wwu.scdh.oxbytei.commons.OperationArgumentValidator;
 import de.wwu.scdh.teilsp.services.extensions.ILabelledEntriesProvider;
 import de.wwu.scdh.teilsp.services.extensions.LabelledEntriesLoader;
+import de.wwu.scdh.teilsp.config.ExtensionConfiguration;
 
 
 public class PrefixURIChangeAttributeOperation
@@ -119,7 +120,7 @@ public class PrefixURIChangeAttributeOperation
 
 	    // set up the providers from prefix definitions
 	    List<ILabelledEntriesProvider> providers =
-		setupLabelledEntriesProviders(auAccess, LabelledEntriesLoader.ATTRIBUTE_VALUE, attributeName);
+		setupLabelledEntriesProviders(auAccess, ExtensionConfiguration.ATTRIBUTE_VALUE, attributeName);
 
 	    // call setAttribute() to open user dialog and set the attribute
 	    setAttribute(auAccess, providers);
