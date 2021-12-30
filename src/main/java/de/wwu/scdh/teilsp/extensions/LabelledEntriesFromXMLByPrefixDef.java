@@ -162,12 +162,16 @@ public class LabelledEntriesFromXMLByPrefixDef
 	    throw new ExtensionException(e);
 	}
 
+	String urlString = href;
 	if (href == null) {
 	    throw new ExtensionException("Error: No URL from prefix definition");
 	} else {
 	    try {
-		String urlString = uriResolver.resolve(href, systemId.toString()).getSystemId();
-		LOGGER.error("Resolving URL in prefixDef \"{}\" given in {} to {}", href, systemId, urlString);
+		if (uriResolver != null) {
+		    LOGGER.debug("Resolving URL in prefixDef \"{}\" given in {}", href, systemId);
+		    urlString = uriResolver.resolve(href, systemId.toString()).getSystemId();
+		    LOGGER.debug("Resolved URL in prefixDef \"{}\" given in {} to {}", href, systemId, urlString);
+		}
 
 		// open the document url
 		URL url = new URL(urlString);
@@ -193,7 +197,7 @@ public class LabelledEntriesFromXMLByPrefixDef
 	    } catch (IOException e) {
 		throw new ExtensionException(e);
 	    } catch (NullPointerException e) {
-		throw new ExtensionException("Error excuting base-uri(/)\n" + e);
+		throw new ExtensionException("Error opening URL " + urlString + "\n" + e);
 	    }
 	}
 
