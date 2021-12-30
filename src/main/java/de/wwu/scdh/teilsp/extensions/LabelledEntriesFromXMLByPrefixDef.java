@@ -28,7 +28,7 @@ import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
 import net.sf.saxon.xpath.XPathFactoryImpl;
-//import net.sf.saxon.xpath.XPathFunctionLibrary;
+import net.sf.saxon.dom.DocumentOverNodeInfo;
 
 import de.wwu.scdh.teilsp.services.extensions.ILabelledEntriesProvider;
 import de.wwu.scdh.teilsp.services.extensions.ExtensionException;
@@ -141,10 +141,19 @@ public class LabelledEntriesFromXMLByPrefixDef
 	String href = null;
 	//String systemId = null;
 	try {
-	    // prepare the XPath query, using Saxon here for XPath 2.0
-	    XPath xpath = new XPathFactoryImpl().newXPath();
-	    //xpath.setXPathFunctionResolver(new XPathFunctionLibrary().getXPathFunctionResolver());
+	    // // prepare the XPath query, using Saxon here for XPath 2.0
+	    // XPath xpath = new XPathFactoryImpl().newXPath();
+	    // //xpath.setXPathFunctionResolver(new XPathFunctionLibrary().getXPathFunctionResolver());
+	    // xpath.setNamespaceContext(namespaceDecl);
+
+	    // setup XPath 2.0 from Saxon
+	    XPathFactoryImpl xpathFactoryImpl = new XPathFactoryImpl();
+	    if (currentDoc instanceof DocumentOverNodeInfo) {
+	    	xpathFactoryImpl.setConfiguration(((DocumentOverNodeInfo) currentDoc).getUnderlyingNodeInfo().getConfiguration());
+	    }
+	    XPath xpath = xpathFactoryImpl.newXPath();
 	    xpath.setNamespaceContext(namespaceDecl);
+
 	    // run the XPath query
 	    //systemId = (String) xpath.evaluate("base-uri(/)", currentDoc, XPathConstants.STRING);
 

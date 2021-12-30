@@ -20,6 +20,7 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.EntityResolver;
 
 import net.sf.saxon.xpath.XPathFactoryImpl;
+import net.sf.saxon.dom.DocumentOverNodeInfo;
 
 import de.wwu.scdh.teilsp.config.ArgumentsConditionsPair;
 import de.wwu.scdh.teilsp.config.ExtensionConfiguration;
@@ -124,19 +125,20 @@ public class LabelledEntriesLoader {
 	// we need some iteration variables
 	int i, j, k;
 
-
 	// setup XPath 2.0 from Saxon
-	//XPathFactoryImpl xpathFactoryImpl = new XPathFactoryImpl();
-	//xpathFactoryImpl.setConfiguration((Configuration) document.getDomConfig());
-	XPath xpath = new XPathFactoryImpl().newXPath();
+	XPathFactoryImpl xpathFactoryImpl = new XPathFactoryImpl();
+	if (document instanceof DocumentOverNodeInfo) {
+	    xpathFactoryImpl.setConfiguration(((DocumentOverNodeInfo) document).getUnderlyingNodeInfo().getConfiguration());
+	}
+	XPath xpath = xpathFactoryImpl.newXPath();
 	xpath.setNamespaceContext(namespaceDecl);
 
 	// just for debugging
-	LOGGER.debug("Implementation of document: {}", document.getClass().getCanonicalName());
+	LOGGER.error("Implementation of document: {}", document.getClass().getCanonicalName());
 	try {
 	    // can we evaluate an XPath expression?
 	    NodeList nodes = (NodeList) xpath.evaluate("//*", document, XPathConstants.NODESET);
-	    LOGGER.debug("Document contains {} element nodes.", nodes.getLength());
+	    LOGGER.error("Document contains {} element nodes.", nodes.getLength());
 	} catch (XPathExpressionException e) {
 	    throw new ConfigurationException("Failed to count element nodes\n" + e);
 	}
