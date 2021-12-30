@@ -7,7 +7,7 @@ public class ExtensionConfiguration {
     public static final String ELEMENT_NODE = "element";
     public static final String ATTRIBUTE_NODE = "attribute";
     public static final String TEXT_NODE = "text";
-    public static final String ATTRIBUTE_VALUE = "attribute"; // FIXME
+    public static final String ATTRIBUTE_VALUE = "attributeValue";
 
     private String className;
     private String type;
