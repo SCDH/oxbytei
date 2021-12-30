@@ -1,10 +1,10 @@
 # Personography #
 
 If there is a `<prefixDef>` in the header, which defines a URI scheme
-on the protocol `psn`, `pers`, `prs`, `prsn` or `person`, an author
-mode action ![icon](frameworks/oxbytei/images/person-24.png) for
-selecting a person from a personography is activated. For example, put
-this in the header:
+with the prefix (protocol) `psn`, `pers`, `prs`, `prsn` or `person`,
+an author mode action ![icon](frameworks/oxbytei/images/person-24.png)
+for selecting a person from a personography is activated. For example,
+put this in the header:
 
 ```{xml}
 ...
@@ -31,6 +31,15 @@ created:
 ```{xml}
 <persName ref="psn:BadraddinbalAttar">Badraddīn</persName>
 ```
+
+In oXygen's text mode, suggestions for the value of `@ref` of
+`<persName>` are offered.
+
+
+## Configuration ##
+
+
+## Local norm data ##
 
 I strongly encourage providing a personography in a local file as a
 broker to global norm data on the WWW, instead of linking to triple

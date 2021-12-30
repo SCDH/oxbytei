@@ -32,23 +32,18 @@ Read more in the [**Usage Notes**](docs/README.md).
 on the road map:
 
 - bibliography
+- generic argument value selection dialogue
 - (index)
 - metre of lyrics
 - critical apparatus
 
 
-Note: Yes, there are some little assumptions that have poured
-into this framework and blur its generality, e.g. assumptions about
-sensible URI schemes for certain purposes, like `psn` or `pers` for
-persons. But these are endangered animals that will become extinct as
-soon as oXygen allows [parametrized
-frameworks](https://www.oxygenxml.com/forum/topic23764.html).
+Note: Yes, there are some little assumptions that have poured into
+this framework. But they are not hard coded into it. They've just been
+put into its configuration file and can be overwritten by a customized
+configuration.
 
-See the section [Usage and Customization](#usage-and-customization)
-for how to write TEI and setup your project in order to make use of
-the framework's features.
-
-
+STATE: experimental
 
 ## Package ##
 
