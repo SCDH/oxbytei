@@ -32,7 +32,7 @@ Let's look at an example: The default configuration for
 
 
 ```{xml}
-<config xmlns="http://wwu.de/scdh/teilsp/config/">
+<teilspConfiguration xmlns="http://wwu.de/scdh/teilsp/config/">
     <plugins>
 		
         <plugin>
@@ -43,7 +43,7 @@ Let's look at an example: The default configuration for
                     <conditions>
                         <condition domain="context">self::*:persName and //*:teiHeader//*:prefixDef[matches(@ident, '^(psn|prs|pers|person)')]</condition>
                         <condition domain="priority">10</condition>
-                        <condition domain="nodeType">attribute</condition>
+                        <condition domain="nodeType">attributeValue</condition>
                         <condition domain="nodeName">ref</condition>
                     </conditions>
                     <arguments>
@@ -63,7 +63,7 @@ Let's look at an example: The default configuration for
 
 		
     </plugins>
-</config>
+</teilspConfiguration>
 ```
 
 
