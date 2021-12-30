@@ -61,7 +61,7 @@ public class LabelledEntriesLoaderTest {
     }
 
     @Test
-    public void testProvidersForContextPersName() throws ExtensionException, ConfigurationException {
+    public void testProvidersForContextPersNameRef() throws ExtensionException, ConfigurationException {
 	List<ILabelledEntriesProvider> providers =
 	    LabelledEntriesLoader.providersForContext(document,
 						      currentFile,
@@ -70,7 +70,38 @@ public class LabelledEntriesLoaderTest {
 						      "ref",
 						      new SimpleURIResolver(), null, null,
 						      configFile);
+	// one provider for this context
 	assertEquals(1, providers.size());
+	// there are 3 persons suggested
+	assertEquals(3, providers.get(0).getLabelledEntries("").size());
+    }
+
+    @Test
+    public void testProvidersForContextPersNameType() throws ExtensionException, ConfigurationException {
+	List<ILabelledEntriesProvider> providers =
+	    LabelledEntriesLoader.providersForContext(document,
+						      currentFile,
+						      "/*:TEI[1]/*:text[1]/*:body[1]/*:p[1]/*:persName[1]",
+						      LabelledEntriesLoader.ATTRIBUTE_VALUE,
+						      "type",
+						      new SimpleURIResolver(), null, null,
+						      configFile);
+	// one provider for this context
+	assertEquals(0, providers.size());
+    }
+
+    @Test
+    public void testProvidersForContextPersonRef() throws ExtensionException, ConfigurationException {
+	List<ILabelledEntriesProvider> providers =
+	    LabelledEntriesLoader.providersForContext(document,
+						      currentFile,
+						      "/*:TEI[1]/*:text[1]/*:body[1]/*:p[1]/*:person[1]",
+						      LabelledEntriesLoader.ATTRIBUTE_VALUE,
+						      "ref",
+						      new SimpleURIResolver(), null, null,
+						      configFile);
+	// one provider for this context
+	assertEquals(0, providers.size());
     }
 
 }
