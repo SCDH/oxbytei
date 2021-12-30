@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<configuration xmlns="http://wwu.de/scdh/teilsp/config/">
+<teilspConfiguration xmlns="http://wwu.de/scdh/teilsp/config/">
     <plugins>
         <plugin>
             <class>de.wwu.scdh.teilsp.extensions.LabelledEntriesFromXMLByPrefixDef</class>
@@ -9,7 +9,7 @@
                     <conditions>
                         <condition domain="context">self::*:persName and //*:teiHeader//*:prefixDef[matches(@ident, '^(psn|prs|pers|person)')]</condition>
                         <condition domain="priority">10</condition>
-                        <condition domain="nodeType">attribute</condition>
+                        <condition domain="nodeType">attributeValue</condition>
                         <condition domain="nodeName">ref</condition>
                     </conditions>
                     <arguments>
@@ -23,10 +23,10 @@
                 </configuration>
                 <configuration>
                     <conditions>
-                        <condition domain="context">self::placeName and //teiHeader//prefixDef[matches(@ident, '^(pl|plc|place)')]</condition>
+                        <condition domain="context">self::*:placeName and //*:teiHeader//*:prefixDef[matches(@ident, '^(pl|plc|place)')]</condition>
                         <condition domain="priority">10</condition>
                         <condition domain="nodeName">ref</condition>
-                        <condition domain="nodeType">attribute</condition>
+                        <condition domain="nodeType">attributeValue</condition>
                     </conditions>
                     <arguments>
                         <argument name="namespaces">t:http://www.tei-c.org/ns/1.0 xml:http://www.w3.org/XML/1998/namespace</argument>
@@ -40,4 +40,4 @@
             </configurations>
         </plugin>
     </plugins>
-</configuration>
+</teilspConfiguration>

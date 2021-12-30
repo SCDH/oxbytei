@@ -8,7 +8,7 @@
   <a:largeIconPath href="${framework}/images/pin-24.png"/>
   <a:smallIconPath href="${framework}/images/pin-16.png"/>
   <a:operations>
-    <a:operation id="de.wwu.scdh.oxbytei.PrefixURIChangeAttributeOperation">
+    <a:operation id="de.wwu.scdh.oxbytei.SelectAttributeValueOperation">
       <a:xpathCondition>(self::placeName | self::geogName) and //teiHeader/encodingDesc//prefixDef</a:xpathCondition>
       <a:arguments>
         <a:argument name="attribute">ref</a:argument>

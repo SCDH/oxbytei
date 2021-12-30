@@ -1,12 +1,10 @@
 package de.wwu.scdh.teilsp.extensions;
 
 import java.util.Map;
-import java.net.URL;
-import java.net.MalformedURLException;
 import javax.xml.transform.URIResolver;
-import javax.xml.transform.TransformerException;
 
 import org.xml.sax.EntityResolver;
+import org.w3c.dom.Document;
 
 import de.wwu.scdh.teilsp.services.extensions.ILabelledEntriesProvider;
 import de.wwu.scdh.teilsp.services.extensions.ExtensionException;
@@ -88,25 +86,11 @@ public class LabelledEntriesFromXML
     public void init(Map<String, String> args,
 		     URIResolver uriResolver,
 		     EntityResolver entityResolver,
-		     URL systemId)
+		     Document doc,
+		     String systemId)
 	throws ExtensionException {
 
-	// The 'url' argument can be used to rewrite to another source
-	// than the one given in systemId.
-	if (args.get("url") == null) {
-	    url = systemId;
-	    System.out.println("Using URL " + systemId);
-	} else {
-	    try {
-		String urlString = uriResolver.resolve(args.get("url"), systemId.toString()).getSystemId();
-		url = new URL(urlString);
-		System.err.println("Redirecting " + args.get("url") + " to " + urlString);
-	    } catch (MalformedURLException e) {
-		throw new ExtensionException("Error opening URL " + args.get("url") + "\n" + e);
-	    } catch (TransformerException e) {
-		throw new ExtensionException(e);
-	    }
-	}
+	document = doc;
 
 	prefix = args.getOrDefault("prefix", "");
 

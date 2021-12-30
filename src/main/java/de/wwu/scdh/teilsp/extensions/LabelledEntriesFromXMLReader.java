@@ -15,8 +15,8 @@ import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpressionException;
 
-import net.sf.saxon.xpath.XPathFactoryImpl;
-//import net.sf.saxon.xpath.XPathFunctionLibrary;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -28,6 +28,7 @@ import de.wwu.scdh.teilsp.exceptions.DocumentReaderException;
 import de.wwu.scdh.teilsp.xml.NamespaceContextImpl;
 import de.wwu.scdh.teilsp.services.extensions.LabelledEntry;
 import de.wwu.scdh.teilsp.services.extensions.ExtensionException;
+import de.wwu.scdh.teilsp.xpath.XPathUtil;
 
 
 public class LabelledEntriesFromXMLReader {
@@ -42,7 +43,10 @@ public class LabelledEntriesFromXMLReader {
 
     protected NamespaceContext namespaceDecl;
 
-    protected URL url;
+    protected Document document;
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(LabelledEntriesFromXMLReader.class);
+
 
     public LabelledEntriesFromXMLReader() {}
 
@@ -62,16 +66,10 @@ public class LabelledEntriesFromXMLReader {
 	this.labelXPath = label;
 	this.namespaceDecl = new NamespaceContextImpl(namespaces);
 
-	this.url = href;
-    }
-
-    public List<LabelledEntry> getLabelledEntries(String userInput)
-	throws ExtensionException {
-	List<LabelledEntry> entries = new ArrayList<LabelledEntry>();
 	try {
 	    // open the document url
-            URLConnection urlConnection = this.url.openConnection();
-            InputStream inputStream = urlConnection.getInputStream();
+	    URLConnection urlConnection = href.openConnection();
+	    InputStream inputStream = urlConnection.getInputStream();
 
 	    // prepare dom builder
 	    DocumentBuilderFactory domFactory = DocumentBuilderFactory.newInstance();
@@ -79,13 +77,27 @@ public class LabelledEntriesFromXMLReader {
 	    DocumentBuilder builder = domFactory.newDocumentBuilder();
 	    // parse the input document
 	    InputSource inputSource = new InputSource(inputStream);
-	    Document indexDoc = builder.parse(inputSource);
+	    document = builder.parse(inputSource);
+	    inputStream.close();
+	} catch (ParserConfigurationException e) {
+	    throw new DocumentReaderException(e);
+	} catch (SAXException e) {
+	    throw new DocumentReaderException(e);
+	} catch (IOException e) {
+	    throw new DocumentReaderException(e);
+	}
+    }
+
+    public List<LabelledEntry> getLabelledEntries(String userInput)
+	throws ExtensionException {
+	List<LabelledEntry> entries = new ArrayList<LabelledEntry>();
+	try {
 	    // prepare the XPath query, using Saxon here for XPath 2.0
-	    XPath xpath = new XPathFactoryImpl().newXPath();
+	    XPath xpath = XPathUtil.makeXPath(document);
 	    //xpath.setXPathFunctionResolver(new XPathFunctionLibrary().getXPathFunctionResolver());
 	    xpath.setNamespaceContext(this.namespaceDecl);
 	    // run the XPath query
-	    NodeList itemNodes = (NodeList) xpath.evaluate(this.selectionXPath, indexDoc, XPathConstants.NODESET);
+	    NodeList itemNodes = (NodeList) xpath.evaluate(this.selectionXPath, document, XPathConstants.NODESET);
 
 	    //this.itemNodes = (NodeList) result;
 
@@ -112,19 +124,10 @@ public class LabelledEntriesFromXMLReader {
 		    entries.add(new LabelledEntry(this.prefix + key, label));
 		}
 	    } catch (XPathExpressionException e) {
-		inputStream.close();
 		throw new ExtensionException(e);
 	    } catch (NullPointerException e) {
-		inputStream.close();
 		throw new ExtensionException(e);
 	    }
-	    inputStream.close();
-	} catch (ParserConfigurationException e) {
-	    throw new ExtensionException(e);
-	} catch (SAXException e) {
-	    throw new ExtensionException(e);
-	} catch (IOException e) {
-	    throw new ExtensionException(e);
 	} catch (XPathExpressionException e) {
 	    throw new ExtensionException(e);
 	}

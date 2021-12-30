@@ -4,7 +4,7 @@
     datatypeLibrary="http://www.w3.org/2001/XMLSchema-datatypes"
     ns="http://wwu.de/scdh/teilsp/config/">
     <start>
-        <element name="configuration">
+        <element name="teilspConfiguration">
             <element name="plugins">
                 <zeroOrMore>
                     <ref name="plugin"/>
