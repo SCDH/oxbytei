@@ -26,6 +26,6 @@ practised
 [here](https://listserv.brown.edu/cgi-bin/wa?A2=ind1606&L=TEI-L&D=0&P=10714)
 is not supported by the current plugin.
 
-Note: The plugins used by oXbytei do not use oXygen's functions for
-accessing the documents currently edited. The plugins operate on the
-files as they were last saved to disk.
+Note: Disregarding the currently edited file, oXbytei operates on the
+files as they were last saved to disk, not their current state in
+oXygen.
