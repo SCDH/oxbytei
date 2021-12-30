@@ -24,7 +24,6 @@ import ro.sync.ecss.extensions.api.node.AuthorNode;
 
 import de.wwu.scdh.oxbytei.commons.OperationArgumentValidator;
 import de.wwu.scdh.teilsp.services.extensions.ILabelledEntriesProvider;
-import de.wwu.scdh.teilsp.services.extensions.LabelledEntriesLoader;
 import de.wwu.scdh.teilsp.config.ExtensionConfiguration;
 
 
