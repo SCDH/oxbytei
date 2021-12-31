@@ -7,11 +7,13 @@
 
 Install from [https://scdh.github.io/oxbytei/descriptor.xml](https://scdh.github.io/oxbytei/descriptor.xml).
 
+STATE: development, experimental
 
 ## An oXygen framework configured by TEI ##
 
-oXbytei [ɔx bʌtaj] (greco-english tongue and french ears) is an oXygen
-framework for editing TEI, that is configured by TEI's header. It
+oXbytei [ɔx bʌtaj] (greco-english tongue and french ears) is an
+[oXygen](https://www.oxygenxml.com/) framework for editing
+[TEI](https://tei-c.org/), that is configured by TEI's header. It
 offers high-level functions that facilitate everyday work on TEI
 documents.
 
@@ -43,7 +45,6 @@ this framework. But they are not hard coded into it. They've just been
 put into its configuration file and can be overwritten by a customized
 configuration.
 
-STATE: experimental
 
 ## Package ##
 
