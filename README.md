@@ -231,11 +231,14 @@ NOTE: The tag name **must equal** the version in the
   - Put all such assumptions into the configuration file.
 
 So` de.wwu.scdh.teilsp` contains code which is not specific to the
-oXygen editor. It's intended to be the germ of a TEI
+oXygen editor. It serves as a layer of abstraction and can be plugged
+into other editors, too. It's intended to be the germ of a TEI
 [LSP](https://langserver.org/) implementation based on Lemminx and
 will be sourced out to it's own repository in the future.
 
-It includes the plugin mechanism.
+It provides the interfaces for plugins and the plugin loader, which
+evaluates the current editing context for loading and initializing
+plugins. So plugins can be developed for this layer of abstraction.
 
 ### Regarding other oXygen framework components  ###
 
