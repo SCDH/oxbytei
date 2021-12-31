@@ -44,6 +44,7 @@ from the contextual menu.
         <addAction id="select.language"/>
         <addAction id="link.person"/>
         <addAction id="link.place"/>
+        <addAction id="link.bibref"/>
       </toolbar>
     </toolbars>
 
@@ -52,6 +53,7 @@ from the contextual menu.
       <addAction id="select.language"/>
       <addAction id="link.person"/>
       <addAction id="link.place"/>
+      <addAction id="link.bibref"/>
     </menu>
 
     <contextualMenu>
@@ -59,6 +61,7 @@ from the contextual menu.
         <addAction id="select.language"/>
         <addAction id="link.person"/>
         <addAction id="link.place"/>
+        <addAction id="link.bibref"/>
       </submenu>
     </contextualMenu>
 
@@ -67,6 +70,7 @@ from the contextual menu.
         <addAction id="select.language" inElementsView="true" inCCWindow="true"/>
         <addAction id="link.person" inElementsView="true" inCCWindow="true"/>
         <addAction id="link.place" inElementsView="true" inCCWindow="true"/>
+        <addAction id="link.bibref" inElementsView="true" inCCWindow="true"/>
       </authorActions>
     </contentCompletion>
 
