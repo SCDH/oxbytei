@@ -37,6 +37,22 @@
                         <argument name="prefixDefRef">tokenize(@replacementPattern, '#')[1]</argument>
                     </arguments>
                 </configuration>
+                <configuration>
+                    <conditions>
+                        <condition domain="context">self::*:bibl and //*:teiHeader//*:prefixDef[matches(@ident, '^(b$|bib$|biblio)')]</condition>
+                        <condition domain="priority">10</condition>
+                        <condition domain="nodeType">attributeValue</condition>
+                        <condition domain="nodeName">corresp</condition>
+                    </conditions>
+                    <arguments>
+                        <argument name="namespaces">t:http://www.tei-c.org/ns/1.0 xml:http://www.w3.org/XML/1998/namespace</argument>
+                        <argument name="selection">//t:text/descendant::t:listBibl/t:bibl[@xml:id] | //t:text/descendant::t:listBibl/t:biblStruct[@xml:id]</argument>
+                        <argument name="key">@xml:id</argument>
+                        <argument name="label">normalize-space(t:bibl | t:biblStruct)</argument>
+                        <argument name="prefixDef">//t:teiHeader//t:prefixDef[matches(@ident, '^(b$|bib$|biblio)')]</argument>
+                        <argument name="prefixDefRef">tokenize(@replacementPattern, '#')[1]</argument>
+                    </arguments>
+                </configuration>
             </configurations>
         </plugin>
     </plugins>
