@@ -106,7 +106,7 @@ the path to the cloned repository in &lt;oXygen/>'s settings.
   `OK`. (Note: `${pdu}` is an [editor
   variable](https://www.oxygenxml.com/doc/versions/22.1/ug-editor/topics/editor-variables.html)
   and points to the root folder of the current project.)
-  
+
 - 3) Run maven to get dependencies
 
 ```{shell}
@@ -199,15 +199,48 @@ NOTE: The tag name **must equal** the version in the
 [pom.xml](pom.xml) file for releases that update the descriptor file
 (i.e. releases that match the pattern `[0-9]+\.[0-9]+\.[0-9]+`)!
 
-## de.wwu.scdh.teilsp ##
+## Design principles ##
 
-The Java classes are split into two namespaces. `de.wwu.scdh.teilsp`
-contains code which is not specific to the oXygen editor. It's
-intended to be the germ of a TEI [LSP](https://langserver.org/)
-implementation based on Lemminx and will be sourced out to it's own
-repository in the future.
+### Regarding the Java code base ###
+
+- Keep the Java code base that depends on oXygen as small as possible
+  und put it in the namespace `de.wwu.scdh.oxbytei`.
+
+  - Code for user interaction also belongs to here.
+
+  - Offer content completion in text mode *and* in author mode.
+
+- Source out as much business logic as possible to the namespace
+  `de.wwu.scdh.teilsp`.
+
+  - Keep things extensible.
+
+  - Use plugins based on Java's SPI to provide suggestions for content
+    completion.
+
+	- No user interaction allowed in such plugins, but their
+      interfaces distinguish between intialization phase and query
+      phase, so that user interaction can be done in oXbytei.
+
+  - Do not hardcode assumptions about TEI usage – and not about
+    whether this XML dialect is used at all either – into Java
+    classes.
+
+    - Exception: Plugins
+
+  - Put all such assumptions into the configuration file.
+
+So` de.wwu.scdh.teilsp` contains code which is not specific to the
+oXygen editor. It's intended to be the germ of a TEI
+[LSP](https://langserver.org/) implementation based on Lemminx and
+will be sourced out to it's own repository in the future.
 
 It includes the plugin mechanism.
+
+### Regarding other oXygen framework components  ###
+
+- Offer recursively defined author mode actions. Are they accepted by
+  the users?
 
 ## Plugins ##
 
@@ -218,8 +251,24 @@ repository. They are used in the functions for linking persons, places
 etc.
 
 Existing plugins:
-- `de.wwu.scdh.teilsp.extensions.LabelledEntriesFromXML`: read from an
-  XML file
+
+- `de.wwu.scdh.teilsp.extensions.LabelledEntriesFromXML`: Read from
+  the XML file currently edited and provide suggestions.
+
+- `de.wwu.scdh.teilsp.extensions.LabelledEntriesFromXMLByPrefixDef`:
+  Get an URL from a `<prefixDef>` in the currently edited document,
+  open this URL und provide suggestions from it. Note, that this can
+  be used to refer to external documents, the URL of which is not
+  given in a `<prefixDef>`.
+
+Plugins on the road map:
+
+- Suggestions from JSON, XSLT, also from remote documents.
+
+TODO: Expand oXygen's editor variables in the configuration file,
+which would allow an additional level of user interaction, e.g. for
+passing user credentials when fetching resources over a network.
+
 
 # License #
 
