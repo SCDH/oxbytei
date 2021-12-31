@@ -201,17 +201,24 @@ NOTE: The tag name **must equal** the version in the
 
 ## Design principles ##
 
-### Regarding the Java code base ###
+- Installation and updating must be simple, i.e. no additional tools
+  and compilers required.
+
+- Keep things flexible through configuration.
+
+- The default configuration must be reasonable.
+
+### Design Principles regarding the Java code base ###
 
 - Keep the Java code base that depends on oXygen as small as possible
-  und put it in the namespace `de.wwu.scdh.oxbytei`.
+  und put it in the namespace `de.wwu.scdh.oxbytei`!
 
   - Code for user interaction also belongs to here.
 
   - Offer content completion in text mode *and* in author mode.
 
 - Source out as much business logic as possible to the namespace
-  `de.wwu.scdh.teilsp`.
+  `de.wwu.scdh.teilsp`!
 
   - Keep things extensible.
 
@@ -240,10 +247,16 @@ It provides the interfaces for plugins and the plugin loader, which
 evaluates the current editing context for loading and initializing
 plugins. So plugins can be developed for this layer of abstraction.
 
-### Regarding other oXygen framework components  ###
+### Design principles regarding other oXygen framework components ###
 
-- Offer recursively defined author mode actions. Are they accepted by
-  the users?
+- Offer recursively defined author mode actions.
+
+  - Reason: This allows atomization of editing actions. So frameworks
+    deriving (based on) oXbytei can have a minimal codebase for
+    overriding single editing atoms.
+
+  - Get feedback: Are they accepted by the users?
+
 
 ## Plugins ##
 
