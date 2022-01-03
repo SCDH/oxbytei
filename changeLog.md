@@ -1,17 +1,19 @@
 # Change log #
 
-## dev ##
+## 0.4.6 ##
 
-- new author mode operation for annotating bibliographic references
-  and linking them to a bibliography
 - changed inheritance hierarchy for author mode operations:
   - `SelectAttributeValueOperation` does not extend
     `AbstractOperation` any more, but the `ChangeAttributeOperation`
-    from oXygen.
+    from oXygen. So we needn't implement the real operation on the
+    document any more.
   - The code of the old `AbstractOperation` has been moved to a class
     that can be used for composition: `SelectLabelledEntryInteraction`
     now calls the plugin loader and does the user interaction. The
     code is much better encapsulated this way.
+- new author mode operation for annotating bibliographic references
+  and linking them to a bibliography
+- removed the `<prefixDef>` condition from author mode actionsq
 
 ## 0.4.5 ##
 
