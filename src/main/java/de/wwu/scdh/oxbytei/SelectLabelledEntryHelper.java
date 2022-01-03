@@ -90,7 +90,7 @@ public class SelectLabelledEntryHelper
     /**
      * The XPath location that identifies the element.
      */
-    protected String elementLocation;
+    protected String location;
 
     /**
      * Whether or not the selection dialog allows multiple selects.
@@ -136,7 +136,8 @@ public class SelectLabelledEntryHelper
      * @param authorAccess {@link AuthorAccess} from the author operation
      * @param nodeType the type of the node to be edited
      * @param nodeName the name of the node to be edited
-     * @param elementLocation the (relative) XPath location that identifies the element
+     * @param location the relative XPath location with respect to the
+     * current caret position that identifies the element
      * @param dialog the canonical name of the selection user dialog class
      * @param message the text message presented to the user in the selection dialog
      * @param multiple whether or not multiple selections are possible
@@ -148,7 +149,7 @@ public class SelectLabelledEntryHelper
 	(AuthorAccess authorAccess,
 	 final String nodeType,
 	 final String nodeName,
-	 final String elementLocation,
+	 final String location,
 	 final String dialog,
 	 final String message,
 	 final boolean multiple,
@@ -159,7 +160,7 @@ public class SelectLabelledEntryHelper
 	this.authorAccess = authorAccess;
 	this.nodeType = nodeType;
 	this.nodeName = nodeName;
-	this.elementLocation = elementLocation;
+	this.location = location;
 	this.dialog = dialog;
 	this.message = message;
 	this.multiple = multiple;
@@ -182,6 +183,7 @@ public class SelectLabelledEntryHelper
 	    Document document = (Document) docNodes[0];
 
 	    // get the current editing context as an XPath expression
+	    // TODO: reflect relative 'location'
 	    Object[] contxt =
 		authorAccess.getDocumentController().evaluateXPath(OxbyteiConstants.CONTEXT_XPATH, true, false, false, true);
 	    context = (String) contxt[0];
@@ -209,7 +211,7 @@ public class SelectLabelledEntryHelper
 	// get current value
 	if (nodeType == ExtensionConfiguration.ATTRIBUTE_VALUE) {
 	    Object[] elementNodes =
-		authorAccess.getDocumentController().evaluateXPath(elementLocation,
+		authorAccess.getDocumentController().evaluateXPath(location,
 								   false, true, true, false);
 	    currentValue = ((Element) elementNodes[0]).getAttribute(nodeName);
 	    LOGGER.error("Current attribute value: {}", currentValue);
