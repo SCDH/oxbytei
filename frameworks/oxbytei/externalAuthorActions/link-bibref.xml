@@ -11,8 +11,8 @@
     <a:operation id="de.wwu.scdh.oxbytei.SelectAttributeValueOperation">
       <a:xpathCondition>self::bibl</a:xpathCondition>
       <a:arguments>
-        <a:argument name="attribute">corresp</a:argument>
-        <a:argument name="location">self::*</a:argument>
+        <a:argument name="name">corresp</a:argument>
+        <a:argument name="elementLocation">self::*</a:argument>
         <a:argument name="message">Chooase a bibliographic entry</a:argument>
       </a:arguments>
     </a:operation>
