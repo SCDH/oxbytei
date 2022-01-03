@@ -9,7 +9,7 @@
   <a:smallIconPath href="${framework}/images/pin-16.png"/>
   <a:operations>
     <a:operation id="de.wwu.scdh.oxbytei.SelectAttributeValueOperation">
-      <a:xpathCondition>(self::placeName | self::geogName) and //teiHeader/encodingDesc//prefixDef</a:xpathCondition>
+      <a:xpathCondition>self::placeName | self::geogName | self::place | self::region</a:xpathCondition>
       <a:arguments>
         <a:argument name="name">ref</a:argument>
         <a:argument name="elementLocation">self::placeName</a:argument>
@@ -18,7 +18,7 @@
       </a:arguments>
     </a:operation>
     <a:operation id="ExecuteMultipleActionsOperation">
-      <a:xpathCondition>not(self::placeName | self::geogName) and //teiHeader/encodingDesc//prefixDef</a:xpathCondition>
+      <a:xpathCondition>nottrue()</a:xpathCondition>
       <a:arguments>
         <!-- This is a RECURSIVE operation! -->
         <a:argument name="actionIDs">markup.place, link.place</a:argument>

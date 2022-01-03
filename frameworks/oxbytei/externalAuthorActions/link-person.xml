@@ -9,7 +9,7 @@
   <a:smallIconPath href="${framework}/images/person-16.png"/>
   <a:operations>
     <a:operation id="de.wwu.scdh.oxbytei.SelectAttributeValueOperation">
-      <a:xpathCondition>(self::persName | self::orgName | self::person) and //teiHeader/encodingDesc//prefixDef</a:xpathCondition>
+      <a:xpathCondition>(self::persName | self::orgName | self::person)</a:xpathCondition>
       <a:arguments>
         <a:argument name="name">ref</a:argument>
         <a:argument name="elementLocation">self::*</a:argument>
@@ -17,7 +17,7 @@
       </a:arguments>
     </a:operation>
     <a:operation id="ExecuteMultipleActionsOperation">
-      <a:xpathCondition>not(self::persName) and //teiHeader/encodingDesc//prefixDef</a:xpathCondition>
+      <a:xpathCondition>true()</a:xpathCondition>
       <a:arguments>
         <a:argument name="actionIDs">markup.person, link.person</a:argument>
       </a:arguments>
