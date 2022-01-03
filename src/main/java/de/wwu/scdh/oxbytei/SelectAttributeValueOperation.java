@@ -78,7 +78,7 @@ public class SelectAttributeValueOperation
 
 	// do the user interaction
 	String selection = contextInteraction.doUserInteraction();
-	LOGGER.error("Selected value {}", selection);
+	LOGGER.debug("Selected value {}", selection);
 
 	// write to the argument value by passing it to super class
 	if (selection != null) {
