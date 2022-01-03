@@ -38,7 +38,7 @@ public class SelectAttributeValueOperation
      * @see ro.sync.ecss.extensions.api.AuthorOperation#getArguments()
      */
     public ArgumentDescriptor[] getArguments() {
-	ArgumentDescriptor[] help = SelectLabelledEntryHelper.getArguments();
+	ArgumentDescriptor[] help = SelectLabelledEntryInteraction.getArguments();
 	ArgumentDescriptor[] sup = super.getArguments();
 	// TODO: Is there a guarantee, that a missing 'value' argument
 	// does not cause an exception? I.e. is it guaranteed, thtere
@@ -69,12 +69,12 @@ public class SelectAttributeValueOperation
 
 	// use helper class to load the plugins und initialize them
 	InteractiveOperation contextInteraction =
-	    new SelectLabelledEntryHelper(authorAccess,
-					  ExtensionConfiguration.ATTRIBUTE_VALUE,
-					  attributeName,
-					  attributeNamespace,
-					  location,
-					  args);
+	    new SelectLabelledEntryInteraction(authorAccess,
+					       ExtensionConfiguration.ATTRIBUTE_VALUE,
+					       attributeName,
+					       attributeNamespace,
+					       location,
+					       args);
 
 	// do the user interaction
 	String selection = contextInteraction.doUserInteraction();
