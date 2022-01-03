@@ -11,8 +11,8 @@
     <a:operation id="de.wwu.scdh.oxbytei.SelectAttributeValueOperation">
       <a:xpathCondition>(self::placeName | self::geogName) and //teiHeader/encodingDesc//prefixDef</a:xpathCondition>
       <a:arguments>
-        <a:argument name="attribute">ref</a:argument>
-        <a:argument name="location">self::placeName</a:argument>
+        <a:argument name="name">ref</a:argument>
+        <a:argument name="elementLocation">self::placeName</a:argument>
         <a:argument name="message">Choose a place</a:argument>
         <a:argument name="dialog">de.wwu.scdh.oxbytei.commons.OxygenSelectionDialog</a:argument>
       </a:arguments>

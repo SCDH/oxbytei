@@ -28,7 +28,13 @@ import de.wwu.scdh.teilsp.services.extensions.ExtensionException;
 import de.wwu.scdh.teilsp.exceptions.ConfigurationException;
 import de.wwu.scdh.teilsp.config.ExtensionConfiguration;
 
-
+/**
+ * A schema manager filter that provides the user with content
+ * completion suggestions for the current editing context from
+ * plugins.
+ *
+ * @author Christian Lück
+ */
 public class OxbyteiSchemaManagerFilter
     implements SchemaManagerFilter {
 

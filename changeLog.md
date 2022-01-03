@@ -1,5 +1,18 @@
 # Change log #
 
+## dev ##
+
+- new author mode operation for annotating bibliographic references
+  and linking them to a bibliography
+- changed inheritance hierarchy for author mode operations:
+  - `SelectAttributeValueOperation` does not extend
+    `AbstractOperation` any more, but the `ChangeAttributeOperation`
+    from oXygen.
+  - The code of the old `AbstractOperation` has been moved to a class
+    that can be used for composition: `SelectLabelledEntryInteraction`
+    now calls the plugin loader and does the user interaction. The
+    code is much better encapsulated this way.
+
 ## 0.4.4 ##
 
 - deploy descriptor file on pages in separate action
