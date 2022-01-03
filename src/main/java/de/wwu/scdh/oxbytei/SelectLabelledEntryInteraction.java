@@ -142,7 +142,8 @@ public class SelectLabelledEntryInteraction
      *
      * @param authorAccess {@link AuthorAccess} from the author operation
      * @param nodeType the type of the node to be edited
-     * @param nodeName the name of the node to be edited
+     * @param nodeName the local name of the node to be edited
+     * @param nodeNamespace the namespace part of the node's name
      * @param location the relative XPath location with respect to the
      * current caret position that identifies the element
      * @param argumentsMap the map of arguments, passed to the author
