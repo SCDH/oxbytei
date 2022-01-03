@@ -1,17 +1,38 @@
 # Change log #
 
-## dev ##
+## 0.4.6 ##
 
-- new author mode operation for annotating bibliographic references
-  and linking them to a bibliography
 - changed inheritance hierarchy for author mode operations:
   - `SelectAttributeValueOperation` does not extend
     `AbstractOperation` any more, but the `ChangeAttributeOperation`
-    from oXygen.
+    from oXygen. So we needn't implement the real operation on the
+    document any more.
   - The code of the old `AbstractOperation` has been moved to a class
     that can be used for composition: `SelectLabelledEntryInteraction`
     now calls the plugin loader and does the user interaction. The
     code is much better encapsulated this way.
+- new author mode operation for annotating bibliographic references
+  and linking them to a bibliography
+- removed the `<prefixDef>` condition from author mode actionsq
+
+## 0.4.5 ##
+
+- Changes to the API:
+  - The signature of the init method of ILabelledEntriesProvider has
+    changed.
+  - It takes the document's DOM node now.
+- The logic of the plugin loader for loading plugins for the current
+  editing context has been moved from oxbytei to teilsp
+- Document DOM nodes of the currently edited document are now passed
+  through from oXygen to the plugins. This speeds things up and
+  reflects changes in them that have not been saved to disk yet.
+- The redundant class ...commons.Resolver has been removed.
+- The name of the one and only author mode operation has changed to
+  SelectAttributeValueOperation, because there is nothing specific for
+  `<prefixDef>` in there any more.
+- A utility class for making an XPath object has been added as a
+  convenience tool regarding different implementations of the document
+  DOM node, that is passed around: `XPathUtil`.
 
 ## 0.4.4 ##
 
