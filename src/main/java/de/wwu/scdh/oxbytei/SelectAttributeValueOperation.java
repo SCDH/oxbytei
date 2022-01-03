@@ -5,7 +5,6 @@ import java.util.Arrays;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import ro.sync.ecss.extensions.api.AuthorConstants;
 import ro.sync.ecss.extensions.api.ArgumentDescriptor;
 import ro.sync.ecss.extensions.api.ArgumentsMap;
 import ro.sync.ecss.extensions.api.AuthorAccess;
@@ -41,6 +40,10 @@ public class SelectAttributeValueOperation
     public ArgumentDescriptor[] getArguments() {
 	ArgumentDescriptor[] help = SelectLabelledEntryHelper.getArguments();
 	ArgumentDescriptor[] sup = super.getArguments();
+	// TODO: Is there a guarantee, that a missing 'value' argument
+	// does not cause an exception? I.e. is it guaranteed, thtere
+	// is no validation, before the arugments are passed to the
+	// operation?
 	ArgumentDescriptor[] all = Arrays.copyOf(sup, sup.length + help.length);
 	System.arraycopy(help, 0, all, sup.length, help.length);
 	return all;
@@ -59,33 +62,30 @@ public class SelectAttributeValueOperation
     public void doOperation(final AuthorAccess authorAccess, ArgumentsMap args)
 	throws AuthorOperationException, IllegalArgumentException {
 
-	// Validate arguments
+	// Validate arguments that are passed to helper class
 	String attributeName = OperationArgumentValidator.validateStringArgument("name", args);
+	String attributeNamespace = OperationArgumentValidator.validateStringArgument("namespace", args, null);
 	String location = OperationArgumentValidator.validateStringArgument("elementLocation", args);
-	String multipleString = OperationArgumentValidator.validateStringArgument(SelectLabelledEntryHelper.ARGUMENT_MULTIPLE.getName(), args);
-	String message = OperationArgumentValidator.validateStringArgument(SelectLabelledEntryHelper.ARGUMENT_MESSAGE.getName(), args);
-	String dialog = OperationArgumentValidator.validateStringArgument(SelectLabelledEntryHelper.ARGUMENT_DIALOG.getName(), args);
 
-	boolean multiple = multipleString.equals(AuthorConstants.ARG_VALUE_TRUE);
-
-	// use helper class load the plugins und initialize them
+	// use helper class to load the plugins und initialize them
 	InteractiveOperation contextInteraction =
 	    new SelectLabelledEntryHelper(authorAccess,
 					  ExtensionConfiguration.ATTRIBUTE_VALUE,
 					  attributeName,
+					  attributeNamespace,
 					  location,
-					  dialog,
-					  message);
+					  args);
+
 	// do the user interaction
 	String selection = contextInteraction.doUserInteraction();
 	LOGGER.error("Selected value {}", selection);
-	// write to the argument value
+
+	// write to the argument value by passing it to super class
 	if (selection != null) {
 	    UpdatableArgumentsMap newArgs = new UpdatableArgumentsMap(args, super.getArguments());
 	    newArgs.update("value", (Object) selection);
 	    super.doOperation(authorAccess, newArgs);
 	}
-
     }
 
 }
