@@ -30,5 +30,30 @@ public class OperationArgumentValidator {
 
 	return (String) val;
     }
+
+    /**
+     * Validate argument and return the input value as a string
+     * @param name
+     * @param args
+     * @param def default value
+     * @return String value of argument
+     */
+    public static String validateStringArgument(String name, ArgumentsMap args, String def)
+	throws AuthorOperationException {
+
+	Object val = args.getArgumentValue(name);
+
+	if (val == null) {
+	    return def;
+	}
+
+	if (val instanceof String) {
+		throw new IllegalArgumentException("invalid parameter type: "
+						   + name + ", " + val);
+	}
+
+	return (String) val;
+    }
+
     
 }

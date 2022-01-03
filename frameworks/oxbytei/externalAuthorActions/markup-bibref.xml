@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<a:authorAction xmlns:a="http://www.oxygenxml.com/ns/author/external-action"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.oxygenxml.com/ns/author/external-action http://www.oxygenxml.com/ns/author/external-action/authorAction.xsd"
+  id="markup.bibref">
+  <a:name>Markup bibliographic reference</a:name>
+  <a:description>Surround selection with &lt;bibl&gt;</a:description>
+  <a:operations>
+    <a:operation id="SurroundWithFragmentOperation">
+      <a:xpathCondition>true()</a:xpathCondition>
+      <a:arguments>
+        <a:argument name="fragment"><![CDATA[<bibl xmlns="http://www.tei-c.org/ns/1.0"/>]]></a:argument>
+      </a:arguments>
+    </a:operation>
+  </a:operations>
+  <a:accessKey/>
+</a:authorAction>

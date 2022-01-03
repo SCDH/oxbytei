@@ -2,24 +2,24 @@
 <a:authorAction xmlns:a="http://www.oxygenxml.com/ns/author/external-action"
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://www.oxygenxml.com/ns/author/external-action http://www.oxygenxml.com/ns/author/external-action/authorAction.xsd"
-  id="link.person">
-  <a:name>Identify Person</a:name>
-  <a:description>Link person to norm file.</a:description>
-  <a:largeIconPath href="${framework}/images/person-24.png"/>
-  <a:smallIconPath href="${framework}/images/person-16.png"/>
+  id="link.bibref">
+  <a:name>Bibliographic reference</a:name>
+  <a:description>Identify a passage as the same as an entry from the bibliography.</a:description>
+  <a:largeIconPath href="${framework}/images/bibref-24.png"/>
+  <a:smallIconPath href="${framework}/images/bibref-16.png"/>
   <a:operations>
     <a:operation id="de.wwu.scdh.oxbytei.SelectAttributeValueOperation">
-      <a:xpathCondition>(self::persName | self::orgName | self::person)</a:xpathCondition>
+      <a:xpathCondition>self::bibl</a:xpathCondition>
       <a:arguments>
-        <a:argument name="name">ref</a:argument>
+        <a:argument name="name">corresp</a:argument>
         <a:argument name="elementLocation">self::*</a:argument>
-        <a:argument name="message">Choose a person</a:argument>
+        <a:argument name="message">Chooase a bibliographic entry</a:argument>
       </a:arguments>
     </a:operation>
     <a:operation id="ExecuteMultipleActionsOperation">
       <a:xpathCondition>true()</a:xpathCondition>
       <a:arguments>
-        <a:argument name="actionIDs">markup.person, link.person</a:argument>
+        <a:argument name="actionIDs">markup.bibref, link.bibref</a:argument>
       </a:arguments>
     </a:operation>
   </a:operations>

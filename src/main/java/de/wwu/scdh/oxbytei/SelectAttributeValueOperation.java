@@ -1,23 +1,18 @@
 package de.wwu.scdh.oxbytei;
 
-import java.util.List;
-import javax.swing.text.BadLocationException;
+import java.util.Arrays;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import ro.sync.ecss.extensions.api.AuthorConstants;
 import ro.sync.ecss.extensions.api.ArgumentDescriptor;
 import ro.sync.ecss.extensions.api.ArgumentsMap;
 import ro.sync.ecss.extensions.api.AuthorAccess;
-import ro.sync.ecss.extensions.api.AuthorDocumentController;
-import ro.sync.ecss.extensions.api.AuthorOperation;
 import ro.sync.ecss.extensions.api.AuthorOperationException;
-import ro.sync.ecss.extensions.api.node.AuthorElement;
-import ro.sync.ecss.extensions.api.node.AuthorNode;
+import ro.sync.ecss.extensions.commons.operations.ChangeAttributeOperation;
 
 import de.wwu.scdh.oxbytei.commons.OperationArgumentValidator;
-import de.wwu.scdh.teilsp.services.extensions.ILabelledEntriesProvider;
+import de.wwu.scdh.oxbytei.commons.UpdatableArgumentsMap;
 import de.wwu.scdh.teilsp.config.ExtensionConfiguration;
 
 
@@ -35,63 +30,23 @@ import de.wwu.scdh.teilsp.config.ExtensionConfiguration;
  * @author Christian Lück
  */
 public class SelectAttributeValueOperation
-    extends AbstractOperation
-    implements AuthorOperation {
+    extends ChangeAttributeOperation {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(OxbyteiSchemaManagerFilter.class);
-
-    private static final ArgumentDescriptor ARGUMENT_ATTRIBUTE =
-	new ArgumentDescriptor("attribute",
-			       ArgumentDescriptor.TYPE_STRING,
-			       "The attribute which the link goes into.");
-
-    private static final ArgumentDescriptor ARGUMENT_LOCATION =
-	new ArgumentDescriptor("location",
-			       ArgumentDescriptor.TYPE_XPATH_EXPRESSION,
-			       "An XPath 2.0 locating the element on which the link is to be stored."
-			       + " Defaults to the current element context.",
-			       "self::*");
-
-    private static final String[] ARGUMENT_MULTIPLE_ALLOWED_VALUES = new String[] {
-	AuthorConstants.ARG_VALUE_FALSE,
-	AuthorConstants.ARG_VALUE_TRUE
-    };
-
-    private static final ArgumentDescriptor ARGUMENT_MULTIPLE =
-	new ArgumentDescriptor("multiple",
-			       ArgumentDescriptor.TYPE_CONSTANT_LIST,
-			       "Whether or not multiple selections are allowed."
-			       + " Defaults to false.",
-			       ARGUMENT_MULTIPLE_ALLOWED_VALUES,
-			       AuthorConstants.ARG_VALUE_FALSE);
-
-    private static final ArgumentDescriptor ARGUMENT_MESSAGE =
-	new ArgumentDescriptor("message",
-			       ArgumentDescriptor.TYPE_STRING,
-			       "The message in the user dialog.");
-
-    private static final ArgumentDescriptor ARGUMENT_DIALOG =
-	new ArgumentDescriptor("dialog",
-			       ArgumentDescriptor.TYPE_STRING,
-			       "The user dialogue used for this operation.",
-			       "de.wwu.scdh.oxbytei.commons.OxygenSelectionDialog");
-
-    /**
-     * The array of arguments, this author operation takes.
-     */
-    private static final ArgumentDescriptor[] ARGUMENTS = new ArgumentDescriptor[] {
-	ARGUMENT_ATTRIBUTE,
-	ARGUMENT_LOCATION,
-	ARGUMENT_MULTIPLE,
-	ARGUMENT_MESSAGE,
-	ARGUMENT_DIALOG
-    };
+    private static final Logger LOGGER = LoggerFactory.getLogger(SelectAttributeValueOperation.class);
 
     /**
      * @see ro.sync.ecss.extensions.api.AuthorOperation#getArguments()
      */
     public ArgumentDescriptor[] getArguments() {
-	return ARGUMENTS;
+	ArgumentDescriptor[] help = SelectLabelledEntryInteraction.getArguments();
+	ArgumentDescriptor[] sup = super.getArguments();
+	// TODO: Is there a guarantee, that a missing 'value' argument
+	// does not cause an exception? I.e. is it guaranteed, thtere
+	// is no validation, before the arugments are passed to the
+	// operation?
+	ArgumentDescriptor[] all = Arrays.copyOf(sup, sup.length + help.length);
+	System.arraycopy(help, 0, all, sup.length, help.length);
+	return all;
     }
 
     /**
@@ -104,45 +59,33 @@ public class SelectAttributeValueOperation
     /**
      * @see ro.sync.ecss.extensions.api.AuthorOperation#doOperation()
      */
-    public void doOperation(AuthorAccess auAccess, ArgumentsMap args)
+    public void doOperation(final AuthorAccess authorAccess, ArgumentsMap args)
 	throws AuthorOperationException, IllegalArgumentException {
 
-	// Validate arguments
-	attributeName = OperationArgumentValidator.validateStringArgument(ARGUMENT_ATTRIBUTE.getName(), args);
-	String location = OperationArgumentValidator.validateStringArgument(ARGUMENT_LOCATION.getName(), args);
-	String multipleString = OperationArgumentValidator.validateStringArgument(ARGUMENT_MULTIPLE.getName(), args);
-	message = OperationArgumentValidator.validateStringArgument(ARGUMENT_MESSAGE.getName(), args);
-	dialog = OperationArgumentValidator.validateStringArgument(ARGUMENT_DIALOG.getName(), args);
+	// Validate arguments that are passed to helper class
+	String attributeName = OperationArgumentValidator.validateStringArgument("name", args);
+	String attributeNamespace = OperationArgumentValidator.validateStringArgument("namespace", args, null);
+	String location = OperationArgumentValidator.validateStringArgument("elementLocation", args);
 
-	multiple = multipleString.equals(AuthorConstants.ARG_VALUE_TRUE);
+	// use helper class to load the plugins und initialize them
+	InteractiveOperation contextInteraction =
+	    new SelectLabelledEntryInteraction(authorAccess,
+					       ExtensionConfiguration.ATTRIBUTE_VALUE,
+					       attributeName,
+					       attributeNamespace,
+					       location,
+					       args);
 
-	int selStart = auAccess.getEditorAccess().getSelectionStart();
-	try {
-	    // get location, which must be set for subsequent method calls
-	    AuthorDocumentController doc = auAccess.getDocumentController();
-	    AuthorNode selectionContext = doc.getNodeAtOffset(selStart);
-	    locationNode =
-		(AuthorElement) (doc.findNodesByXPath((String) location, selectionContext, false, true, true, false))[0];
+	// do the user interaction
+	String selection = contextInteraction.doUserInteraction();
+	LOGGER.debug("Selected value {}", selection);
 
-	    // set up the providers
-	    List<ILabelledEntriesProvider> providers =
-		setupLabelledEntriesProviders(auAccess, ExtensionConfiguration.ATTRIBUTE_VALUE, attributeName);
-
-	    // call setAttribute() to open user dialog and set the attribute
-	    setAttribute(auAccess, providers);
-	} catch (BadLocationException e) {
-	    // This can occur on getNodeAtOffset()
-	    LOGGER.error("At bad editor location. Offset {}", selStart);
-	} catch (IndexOutOfBoundsException e) {
-	    // This occurs, when the XPath of the 'location'
-	    // argument does not return an elemnt. Then the
-	    // accessing the first element of the array returned
-	    // by findNodesByXPath, [0], fails.
-	    throw new AuthorOperationException("An error occured\n"
-					       + "Please check the XPath expression given as `location`!\n\n"
-					       + e);
+	// write to the argument value by passing it to super class
+	if (selection != null) {
+	    UpdatableArgumentsMap newArgs = new UpdatableArgumentsMap(args, super.getArguments());
+	    newArgs.update("value", (Object) selection);
+	    super.doOperation(authorAccess, newArgs);
 	}
-
     }
 
 }
