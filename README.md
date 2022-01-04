@@ -40,7 +40,7 @@ on the road map:
 - generic argument value selection dialogue
 - ...
 
-Read more in the [**Wiki**](wiki).
+Read more in the [**Wiki**](https://github.com/scdh/oxbytei/wiki).
 
 
 Note: Yes, there are some little assumptions that have poured into
