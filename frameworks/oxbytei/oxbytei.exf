@@ -45,6 +45,7 @@ from the contextual menu.
         <addAction id="link.person"/>
         <addAction id="link.place"/>
         <addAction id="link.bibref"/>
+        <addAction id="tag.span"/>
       </toolbar>
     </toolbars>
 
@@ -54,6 +55,7 @@ from the contextual menu.
       <addAction id="link.person"/>
       <addAction id="link.place"/>
       <addAction id="link.bibref"/>
+      <addAction id="tag.span"/>
     </menu>
 
     <contextualMenu>
@@ -62,6 +64,7 @@ from the contextual menu.
         <addAction id="link.person"/>
         <addAction id="link.place"/>
         <addAction id="link.bibref"/>
+        <addAction id="tag.span"/>
       </submenu>
     </contextualMenu>
 
@@ -71,6 +74,7 @@ from the contextual menu.
         <addAction id="link.person" inElementsView="true" inCCWindow="true"/>
         <addAction id="link.place" inElementsView="true" inCCWindow="true"/>
         <addAction id="link.bibref" inElementsView="true" inCCWindow="true"/>
+        <addAction id="tag.span" inElementsView="true" inCCWindow="true"/>
       </authorActions>
     </contentCompletion>
 
