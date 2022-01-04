@@ -17,27 +17,30 @@ oXbytei [ɔx bʌtaj] (greco-english tongue and french ears) is an
 offers high-level functions that facilitate everyday work on TEI
 documents.
 
-- set `@xml:lang` by selecting a language registered in the header by
+- **Language**: Set `@xml:lang` by selecting a language registered in
+  the header by
   [`langUsage`](https://www.tei-c.org/release/doc/tei-p5-doc/de/html/ref-langUsage.html)
-- set `@ref` of `<persName>` etc. by selecting a person from a locally
-  stored personography that is bound to a local URI scheme defined in
-  the header by
+- **Persons**: Set `@ref` of `<persName>` etc. by selecting a person
+  from a locally stored personography that is bound to a local URI
+  scheme defined in the header by
   [`<prefixDef>`](https://www.tei-c.org/release/doc/tei-p5-doc/de/html/ref-listPrefixDef.html)
-- set `@ref` of `<placeName>` etc. by selecting a place from a locally
-  stored geography that is bound to a local URI scheme defined in
-  the header by
-  [`<prefixDef>`](https://www.tei-c.org/release/doc/tei-p5-doc/de/html/ref-listPrefixDef.html)
-- update the header by pulling in information from the project's central header file
-
-Read more in the [**Usage Notes**](docs/README.md).
+- **Places**: Set `placeName/@ref` similarly
+- **Bibliographical references**: Set `bibl/@corresp` similarly, too.
+- **Annotations**: Surround the user selection with empty `<anchor>`
+  elements carrying unique IDs and then call an XSL transformation for
+  adding an `<span>` referencing the anchors somewhere else in the
+  document. Also select `span/@ana` from `<interp>`s in the document
+  or somewhere else.
 
 on the road map:
 
-- bibliography
-- generic argument value selection dialogue
-- (index)
+- critical apparatus (all forms)
+- index
 - metre of lyrics
-- critical apparatus
+- generic argument value selection dialogue
+- ...
+
+Read more in the [**Wiki**](wiki).
 
 
 Note: Yes, there are some little assumptions that have poured into
