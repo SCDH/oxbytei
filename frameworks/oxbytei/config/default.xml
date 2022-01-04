@@ -1,5 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <teilspConfiguration xmlns="http://wwu.de/scdh/teilsp/config/">
+
+    <properties>
+        <property name="oxbytei.action.annotate.sourceLocation">self::*</property>
+        <property name="oxbytei.action.annotate.targetLocation">/TEI/text/back/spanGrp</property>
+        <property name="oxbytei.action.annotate.action">Inside as last child</property>
+        <property name="oxbytei.action.annotate.externalParams"></property>
+    </properties>
+
     <plugins>
         <plugin>
             <class>de.wwu.scdh.teilsp.extensions.LabelledEntriesFromXMLByPrefixDef</class>
