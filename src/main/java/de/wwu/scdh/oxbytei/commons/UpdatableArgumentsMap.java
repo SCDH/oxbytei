@@ -3,6 +3,7 @@ package de.wwu.scdh.oxbytei.commons;
 import java.util.HashMap;
 import java.util.Map;
 
+import ro.sync.ecss.extensions.api.AuthorAccess;
 import ro.sync.ecss.extensions.api.ArgumentDescriptor;
 import ro.sync.ecss.extensions.api.ArgumentsMap;
 
@@ -42,6 +43,19 @@ public class UpdatableArgumentsMap implements ArgumentsMap {
      */
     public void update(String name, Object value) {
 	map.put(name, value);
+    }
+
+    /**
+     * Expand editor variables and upate with expanded string.
+     *
+     */
+    public void expand(String name, AuthorAccess authorAccess, boolean expandAsk) {
+	String unexpanded = (String) getArgumentValue(name);
+	String expanded =
+	    authorAccess.getUtilAccess().expandEditorVariables(unexpanded,
+							       authorAccess.getEditorAccess().getEditorLocation(),
+							       expandAsk);
+	update(name, expanded);
     }
 
 }

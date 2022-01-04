@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<a:authorAction xmlns:a="http://www.oxygenxml.com/ns/author/external-action"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.oxygenxml.com/ns/author/external-action http://www.oxygenxml.com/ns/author/external-action/authorAction.xsd"
+  id="markup.annotation">
+  <a:name>Markup annotation</a:name>
+  <a:description>Add annotation markup to annotate the selected passage.</a:description>
+  <a:operations>
+    <a:operation id="de.wwu.scdh.oxbytei.SurroundWithAnchorsXSLTOperation">
+      <a:xpathCondition>true()</a:xpathCondition>
+      <a:arguments>
+        <a:argument name="startAnchor">${xpath_eval(doc('${framework}/config/default.xml')//*:property[@name eq 'oxbytei.action.annotate.startAnchor']/text())}</a:argument>
+        <a:argument name="startAnchorNamespace">${xpath_eval(doc('${framework}/config/default.xml')//*:property[@name eq 'oxbytei.action.annotate.startAnchorNamespace']/text())}</a:argument>
+        <a:argument name="startId">${xpath_eval(doc('${framework}/config/default.xml')//*:property[@name eq 'oxbytei.action.annotate.startId']/text())}</a:argument>
+        <a:argument name="endAnchor">${xpath_eval(doc('${framework}/config/default.xml')//*:property[@name eq 'oxbytei.action.annotate.endAnchor']/text())}</a:argument>
+        <a:argument name="endAnchorNamespace">${xpath_eval(doc('${framework}/config/default.xml')//*:property[@name eq 'oxbytei.action.annotate.endAnchorNamespace']/text())}</a:argument>
+        <a:argument name="endId">${xpath_eval(doc('${framework}/config/default.xml')//*:property[@name eq 'oxbytei.action.annotate.endId']/text())}</a:argument>
+        <a:argument name="script">${framework}/xsl/linkedAnnotation.xsl</a:argument>
+        <a:argument name="sourceLocation">${xpath_eval(doc('${framework}/config/default.xml')//*:property[@name eq 'oxbytei.action.annotate.sourceLocation']/text())}</a:argument>
+        <a:argument name="targetLocation">${xpath_eval(doc('${framework}/config/default.xml')//*:property[@name eq 'oxbytei.action.annotate.targetLocation']/text())}</a:argument>
+        <a:argument name="action">${xpath_eval(doc('${framework}/config/default.xml')//*:property[@name eq 'oxbytei.action.annotate.action']/text())}</a:argument>
+        <a:argument name="externalParams">${xpath_eval(doc('${framework}/config/default.xml')//*:property[@name eq 'oxbytei.action.annotate.externalParams']/text())}</a:argument>
+      </a:arguments>
+    </a:operation>
+  </a:operations>
+  <a:accessKey/>
+</a:authorAction>

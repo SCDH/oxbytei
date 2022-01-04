@@ -1,5 +1,27 @@
 # Change log #
 
+## dev ##
+
+- new author mode operation for surrounding the user selection with
+  empty anchor elements with IDs
+  - per default it uses oXygen's `${id}` editor variable, to produce
+    `@xml:id`s
+  - But the ID can be calculated by an XPath expression from the
+    document, too.
+- new author mode operation for a) surrounding the user selection with
+  empty anchor elements with IDs and b) then performing an XSLT
+  operation
+  - This is very cool because it let's us produce complicated
+    interlinked markup with just one click.
+  - It will be the heart of annotation, double-end attached apparatus
+    etc.
+- added new author mode action for annotations of overlapping structures
+  - inserts anchors with `start_id` and `end_id`
+  - inserts an `<span from="#start_id" to="#end_id">` to a `<spanGrp>`
+    in the backmatter per default config
+  - adds `@ana` with a value select from provider suggestions to the
+    `<span>`.
+
 ## 0.4.6 ##
 
 - changed inheritance hierarchy for author mode operations:
