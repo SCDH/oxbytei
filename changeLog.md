@@ -1,6 +1,6 @@
 # Change log #
 
-## dev ##
+## 0.5.0 ##
 
 - new author mode operation for surrounding the user selection with
   empty anchor elements with IDs
