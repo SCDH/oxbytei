@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<a:authorAction xmlns:a="http://www.oxygenxml.com/ns/author/external-action"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.oxygenxml.com/ns/author/external-action http://www.oxygenxml.com/ns/author/external-action/authorAction.xsd"
+  id="sel.wit">
+  <a:name>Select witnesses</a:name>
+  <a:description>Select witnesses of a reading or the lemma.</a:description>
+  <a:operations>
+    <a:operation id="de.wwu.scdh.oxbygei.SelectAttributeValueOperation">
+      <a:xpathCondition>lem | rdg</a:xpathCondition>
+      <a:arguments>
+        <a:argument name="name">wit</a:argument>
+        <a:argument name="elementLocation">self::*</a:argument>
+        <a:argument name="message">Select a witnesses for ${xpath_eval(local-name(.)}</a:argument>
+      </a:arguments>
+    </a:operation>
+  </a:operations>
+  <a:accessKey/>
+</a:authorAction>
