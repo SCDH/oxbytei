@@ -127,7 +127,7 @@ public class SurroundWithAnchorsOperation
 	    authorAccess.getDocumentController().evaluateXPath(expandedEndXPath, false, false, false);
 	endId = (String) endIds[0];
 
-	LOGGER.error("start ID: {}, end ID: {}", startId, endId);
+	LOGGER.debug("start ID: {}, end ID: {}", startId, endId);
 
 	// get name of the start anchor element
 	String startTagNamespace =
