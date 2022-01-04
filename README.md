@@ -67,6 +67,8 @@ the form *Show addons from:* of the dialogue box from ***Help** ->
 
 [https://scdh.github.io/oxbytei/descriptor.xml](https://scdh.github.io/oxbytei/descriptor.xml)
 
+Note: The framework is not signed with a key. You can simple ignore
+the warning, oXygen throws during the installation process.
 
 ![Dialog "Install new addons"](images/install.png)
 
