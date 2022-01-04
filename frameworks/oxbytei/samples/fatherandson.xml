@@ -43,5 +43,12 @@
                ref="plc:Saviniacum">Saviniacum</placeName>, an aboriginal hamlet in France, and has
             come over Germany like the Roman Law, says his most famous <person>son</person>.</p>
       </body>
+      <back>
+         <interpGrp>
+            <interp xml:id="inquit">Inquit formula</interp>
+            <interp xml:id="overblown">Overblow, stilted</interp>
+         </interpGrp>
+         <spanGrp/>
+      </back>
    </text>
 </TEI>

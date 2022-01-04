@@ -1,5 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <teilspConfiguration xmlns="http://wwu.de/scdh/teilsp/config/">
+
+    <properties>
+        <property name="oxbytei.action.annotate.sourceLocation">self::*</property>
+        <property name="oxbytei.action.annotate.targetLocation">/TEI/text/back/spanGrp</property>
+        <property name="oxbytei.action.annotate.action">Inside as last child</property>
+        <property name="oxbytei.action.annotate.externalParams"></property>
+    </properties>
+
     <plugins>
         <plugin>
             <class>de.wwu.scdh.teilsp.extensions.LabelledEntriesFromXMLByPrefixDef</class>
@@ -55,5 +63,28 @@
                 </configuration>
             </configurations>
         </plugin>
+
+        <plugin>
+            <class>de.wwu.scdh.teilsp.extensions.LabelledEntriesFromXML</class>
+            <type>e.wwu.scdh.teilsp.services.extensions.ILabelledEntriesProvider</type>
+            <configurations>
+                <configuration>
+                    <conditions>
+                        <condition domain="context">self::*:span and //*:interpGrp/*:interp</condition>
+                        <condition domain="priority">10</condition>
+                        <condition domain="nodeName">ana</condition>
+                        <condition domain="nodeType">attributeValue</condition>
+                    </conditions>
+                    <arguments>
+                        <argument name="namespaces">t:http://www.tei-c.org/ns/1.0 xml:http://www.w3.org/XML/1998/namespace</argument>
+                        <argument name="selection">//t:interpGrp/t:interp</argument>
+                        <argument name="key">@xml:id</argument>
+                        <argument name="label">@xml:id</argument>
+                        <argument name="prefix">#</argument>
+                    </arguments>
+                </configuration>
+            </configurations>
+        </plugin>
+
     </plugins>
 </teilspConfiguration>

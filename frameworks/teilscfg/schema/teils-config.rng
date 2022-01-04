@@ -5,6 +5,11 @@
     ns="http://wwu.de/scdh/teilsp/config/">
     <start>
         <element name="teilspConfiguration">
+            <element name="properties">
+                <zeroOrMore>
+                    <ref name="property"/>
+                </zeroOrMore>
+            </element>
             <element name="plugins">
                 <zeroOrMore>
                     <ref name="plugin"/>
@@ -12,6 +17,15 @@
             </element>
         </element>
     </start>
+
+    <define name="property">
+        <element name="property">
+            <attribute name="name">
+                <text/>
+            </attribute>
+            <text/>
+        </element>
+    </define>
 
     <define name="plugin">
         <element name="plugin">

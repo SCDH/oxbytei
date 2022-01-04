@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<a:authorAction xmlns:a="http://www.oxygenxml.com/ns/author/external-action"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.oxygenxml.com/ns/author/external-action http://www.oxygenxml.com/ns/author/external-action/authorAction.xsd"
+  id="annotate">
+  <a:name>Annotate</a:name>
+  <a:description>Annotate the selected passage with an analytic label.</a:description>
+  <a:largeIconPath href="${framework}/images/annotate-24.png"/>
+  <a:smallIconPath href="${framework}/images/annotate-16.png"/>
+  <a:operations>
+    <a:operation id="de.wwu.scdh.oxbytei.SelectAttributeValueOperation">
+      <a:xpathCondition>self::span</a:xpathCondition>
+      <a:arguments>
+        <a:argument name="name">ana</a:argument>
+        <a:argument name="elementLocation">self::*</a:argument>
+        <a:argument name="message">Choose a label</a:argument>
+      </a:arguments>
+    </a:operation>
+    <a:operation id="ExecuteMultipleActionsOperation">
+      <a:xpathCondition>true()</a:xpathCondition>
+      <a:arguments>
+        <a:argument name="actionIDs">markup.annotation, annotate</a:argument>
+      </a:arguments>
+    </a:operation>
+  </a:operations>
+  <a:accessKey/>
+</a:authorAction>
