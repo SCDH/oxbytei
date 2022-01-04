@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<a:authorAction xmlns:a="http://www.oxygenxml.com/ns/author/external-action"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.oxygenxml.com/ns/author/external-action http://www.oxygenxml.com/ns/author/external-action/authorAction.xsd"
+  id="markup.app">
+  <a:name>Markup apparatus</a:name>
+  <a:description>Make an apparatus entry on the current user selection.</a:description>
+  <a:operations>
+    <a:operation id="SurroundWithFragmentOperation">
+      <a:xpathCondition>//teiHeader/encodingDesc/variantEncoding[@method eq 'parallel-segmentation' and @location eq 'internal']</a:xpathCondition>
+      <a:arguments>
+        <a:argument name="fragment"><![CDATA[<app xmlns="http://www.tei-c.org/ns/1.0"><lem/><rdg>${caret}</rdg></app>]]></a:argument>
+      </a:arguments>
+    </a:operation>
+    <a:operation id="de.wwu.scdh.oxbytei.SurroundWithAnchorsXSLTOperation">
+      <a:xpathCondition>//teiHeader/encodingDesc/variantEncoding[@method eq 'double-end-point' and @location eq 'internal']</a:xpathCondition>
+      <a:arguments>
+        <a:argument name="startAnchor">${xpath_eval(doc('${framework}/config/default.xml')//*:property[@name eq 'oxbytei.action.app.dep.int.startAnchor']/text())}</a:argument>
+        <a:argument name="startAnchorNamespace">${xpath_eval(doc('${framework}/config/default.xml')//*:property[@name eq 'oxbytei.action.app.dep.int.startAnchorNamespace']/text())}</a:argument>
+        <a:argument name="startId">${xpath_eval(doc('${framework}/config/default.xml')//*:property[@name eq 'oxbytei.action.app.dep.int.startId']/text())}</a:argument>
+        <a:argument name="endAnchor">${xpath_eval(doc('${framework}/config/default.xml')//*:property[@name eq 'oxbytei.action.app.dep.int.endAnchor']/text())}</a:argument>
+        <a:argument name="endAnchorNamespace">${xpath_eval(doc('${framework}/config/default.xml')//*:property[@name eq 'oxbytei.action.app.dep.int.endAnchorNamespace']/text())}</a:argument>
+        <a:argument name="endId">${xpath_eval(doc('${framework}/config/default.xml')//*:property[@name eq 'oxbytei.action.app.dep.int.endId']/text())}</a:argument>
+        <a:argument name="script">${framework}/xsl/app-dep-int.xsl</a:argument>
+        <a:argument name="sourceLocation">${xpath_eval(doc('${framework}/config/default.xml')//*:property[@name eq 'oxbytei.action.app.dep.int.sourceLocation']/text())}</a:argument>
+        <a:argument name="targetLocation">${xpath_eval(doc('${framework}/config/default.xml')//*:property[@name eq 'oxbytei.action.app.dep.int.targetLocation']/text())}</a:argument>
+        <a:argument name="action">${xpath_eval(doc('${framework}/config/default.xml')//*:property[@name eq 'oxbytei.action.app.dep.int.action']/text())}</a:argument>
+        <a:argument name="externalParams">${xpath_eval(doc('${framework}/config/default.xml')//*:property[@name eq 'oxbytei.action.app.dep.int.externalParams']/text())}</a:argument>
+      </a:arguments>
+    </a:operation>
+    <a:operation id="de.wwu.scdh.oxbytei.SurroundWithAnchorsXSLTOperation">
+      <a:xpathCondition>//teiHeader/encodingDesc/variantEncoding[@method eq 'double-end-point' and @location eq 'external']</a:xpathCondition>
+      <a:arguments>
+        <a:argument name="startAnchor">${xpath_eval(doc('${framework}/config/default.xml')//*:property[@name eq 'oxbytei.action.app.dep.ext.startAnchor']/text())}</a:argument>
+        <a:argument name="startAnchorNamespace">${xpath_eval(doc('${framework}/config/default.xml')//*:property[@name eq 'oxbytei.action.app.dep.ext.startAnchorNamespace']/text())}</a:argument>
+        <a:argument name="startId">${xpath_eval(doc('${framework}/config/default.xml')//*:property[@name eq 'oxbytei.action.app.dep.ext.startId']/text())}</a:argument>
+        <a:argument name="endAnchor">${xpath_eval(doc('${framework}/config/default.xml')//*:property[@name eq 'oxbytei.action.app.dep.ext.endAnchor']/text())}</a:argument>
+        <a:argument name="endAnchorNamespace">${xpath_eval(doc('${framework}/config/default.xml')//*:property[@name eq 'oxbytei.action.app.dep.ext.endAnchorNamespace']/text())}</a:argument>
+        <a:argument name="endId">${xpath_eval(doc('${framework}/config/default.xml')//*:property[@name eq 'oxbytei.action.app.dep.ext.endId']/text())}</a:argument>
+        <a:argument name="script">${framework}/xsl/app-dep-ext.xsl</a:argument>
+        <a:argument name="sourceLocation">${xpath_eval(doc('${framework}/config/default.xml')//*:property[@name eq 'oxbytei.action.app.dep.ext.sourceLocation']/text())}</a:argument>
+        <a:argument name="targetLocation">${xpath_eval(doc('${framework}/config/default.xml')//*:property[@name eq 'oxbytei.action.app.dep.ext.targetLocation']/text())}</a:argument>
+        <a:argument name="action">${xpath_eval(doc('${framework}/config/default.xml')//*:property[@name eq 'oxbytei.action.app.dep.ext.action']/text())}</a:argument>
+        <a:argument name="externalParams">${xpath_eval(doc('${framework}/config/default.xml')//*:property[@name eq 'oxbytei.action.app.dep.ext.externalParams']/text())}</a:argument>
+      </a:arguments>
+    </a:operation>
+    <a:operation id="InsertFragmentOperation">
+      <a:xpathCondition>//teiHeader/encodingDesc/variantEncoding[@method eq 'location-referenced' and @location eq 'internal']</a:xpathCondition>
+      <a:arguments>
+        <a:argument name="fragment"><![CDATA[<app xmlns="http://www.tei-c.org/ns/1.0"><lem>${selection}</lem><rdg>${caret}</rdg></app>]]></a:argument>
+        <a:argument name="insertLocation">self::*</a:argument>
+        <a:argument name="insertPosition">Inside as last child</a:argument>
+      </a:arguments>
+    </a:operation>
+  </a:operations>
+  <a:accessKey/>
+</a:authorAction>
