@@ -5,6 +5,8 @@
   id="annotate">
   <a:name>Annotate</a:name>
   <a:description>Annotate the selected passage with an analytic label.</a:description>
+  <a:largeIconPath href="${framework}/images/annotate-24.png"/>
+  <a:smallIconPath href="${framework}/images/annotate-16.png"/>
   <a:operations>
     <a:operation id="de.wwu.scdh.oxbytei.SelectAttributeValueOperation">
       <a:xpathCondition>self::span</a:xpathCondition>
