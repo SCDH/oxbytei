@@ -21,6 +21,7 @@
         <property name="oxbytei.action.app.dep.int.endAnchor">anchor</property>
         <property name="oxbytei.action.app.dep.int.startAnchorNamespace">http://www.tei-c.org/ns/1.0</property>
         <property name="oxbytei.action.app.dep.int.endId">'${id}'</property>
+        <property name="oxbytei.action.app.dep.int.moveToEnd">true</property>
         <property name="oxbytei.action.app.dep.int.sourceLocation">/*</property>
         <property name="oxbytei.action.app.dep.int.targetLocation">self::*</property>
         <property name="oxbytei.action.app.dep.int.action">Replace</property>
