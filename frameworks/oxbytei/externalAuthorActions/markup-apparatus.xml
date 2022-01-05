@@ -45,12 +45,10 @@
         <a:argument name="externalParams">${xpath_eval(doc('${framework}/config/default.xml')//*:property[@name eq 'oxbytei.action.app.dep.ext.externalParams']/text())}</a:argument>
       </a:arguments>
     </a:operation>
-    <a:operation id="InsertFragmentOperation">
+    <a:operation id="ExecuteMultipleActionsOperation">
       <a:xpathCondition>//teiHeader/encodingDesc/variantEncoding[@method eq 'location-referenced' and @location eq 'internal']</a:xpathCondition>
       <a:arguments>
-        <a:argument name="fragment"><![CDATA[<app xmlns="http://www.tei-c.org/ns/1.0"><lem>${selection}</lem><rdg>${caret}</rdg></app>]]></a:argument>
-        <a:argument name="insertLocation">self::*</a:argument>
-        <a:argument name="insertPosition">Inside as last child</a:argument>
+        <a:argument name="actionIDs">markup.apparatus.locref, postprocess.apparatus.locref</a:argument>
       </a:arguments>
     </a:operation>
   </a:operations>
