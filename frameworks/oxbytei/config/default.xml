@@ -2,6 +2,7 @@
 <teilspConfiguration xmlns="http://wwu.de/scdh/teilsp/config/">
 
     <properties>
+        <!-- properties for annotation action -->
         <property name="oxbytei.action.annotate.startAnchor">anchor</property>
         <property name="oxbytei.action.annotate.startAnchorNamespace">http://www.tei-c.org/ns/1.0</property>
         <property name="oxbytei.action.annotate.startId">'${id}'</property>
@@ -12,6 +13,31 @@
         <property name="oxbytei.action.annotate.targetLocation">/TEI/text/back/spanGrp</property>
         <property name="oxbytei.action.annotate.action">Inside as last child</property>
         <property name="oxbytei.action.annotate.externalParams"></property>
+
+        <!-- properties for internal double-end point attached apparatus -->
+        <property name="oxbytei.action.app.dep.int.startAnchor">anchor</property>
+        <property name="oxbytei.action.app.dep.int.startAnchorNamespace">http://www.tei-c.org/ns/1.0</property>
+        <property name="oxbytei.action.app.dep.int.startId">'${id}'</property>
+        <property name="oxbytei.action.app.dep.int.endAnchor">anchor</property>
+        <property name="oxbytei.action.app.dep.int.startAnchorNamespace">http://www.tei-c.org/ns/1.0</property>
+        <property name="oxbytei.action.app.dep.int.endId">'${id}'</property>
+        <property name="oxbytei.action.app.dep.int.moveToEnd">true</property>
+        <property name="oxbytei.action.app.dep.int.sourceLocation">/*</property>
+        <property name="oxbytei.action.app.dep.int.targetLocation">self::*</property>
+        <property name="oxbytei.action.app.dep.int.action">Replace</property>
+        <property name="oxbytei.action.app.dep.int.externalParams"></property>
+
+        <!-- properties for external double-end point attached apparatus -->
+        <property name="oxbytei.action.app.dep.ext.startAnchor">anchor</property>
+        <property name="oxbytei.action.app.dep.ext.startAnchorNamespace">http://www.tei-c.org/ns/1.0</property>
+        <property name="oxbytei.action.app.dep.ext.startId">'${id}'</property>
+        <property name="oxbytei.action.app.dep.ext.endAnchor">anchor</property>
+        <property name="oxbytei.action.app.dep.ext.startAnchorNamespace">http://www.tei-c.org/ns/1.0</property>
+        <property name="oxbytei.action.app.dep.ext.endId">'${id}'</property>
+        <property name="oxbytei.action.app.dep.ext.sourceLocation">/*</property>
+        <property name="oxbytei.action.app.dep.ext.targetLocation">/TEI/text/back/listApp</property>
+        <property name="oxbytei.action.app.dep.ext.action">Inside as last child</property>
+        <property name="oxbytei.action.app.dep.ext.externalParams"></property>
     </properties>
 
     <plugins>
@@ -30,7 +56,7 @@
                         <argument name="namespaces">t:http://www.tei-c.org/ns/1.0 xml:http://www.w3.org/XML/1998/namespace</argument>
                         <argument name="selection">//t:text/descendant::t:person[@xml:id]</argument>
                         <argument name="key">@xml:id</argument>
-                        <argument name="label">normalize-space(concat(t:persName, ', *', t:birth, unparsed-text(test.txt)))</argument>
+                        <argument name="label">normalize-space(concat(t:persName, ', *', t:birth))</argument>
                         <argument name="prefixDef">//t:teiHeader//t:prefixDef[matches(@ident, '(psn|prs|pers)')]</argument>
                         <argument name="prefixDefRef">tokenize(@replacementPattern, '#')[1]</argument>
                     </arguments>
@@ -86,6 +112,21 @@
                         <argument name="selection">//t:interpGrp/t:interp</argument>
                         <argument name="key">@xml:id</argument>
                         <argument name="label">@xml:id</argument>
+                        <argument name="prefix">#</argument>
+                    </arguments>
+                </configuration>
+                <configuration>
+                    <conditions>
+                        <condition domain="context">self::*:lem | self::*:rdg</condition>
+                        <condition domain="priority">10</condition>
+                        <condition domain="nodeName">wit</condition>
+                        <condition domain="nodeType">attributeValue</condition>
+                    </conditions>
+                    <arguments>
+                        <argument name="namespaces">t:http://www.tei-c.org/ns/1.0 xml:http://www.w3.org/XML/1998/namespace</argument>
+                        <argument name="selection">//t:teiHeader//t:sourceDesc/t:listWit//t:witness</argument>
+                        <argument name="key">@xml:id</argument>
+                        <argument name="label">normalize-space(concat(@xml:id, ':', .))</argument>
                         <argument name="prefix">#</argument>
                     </arguments>
                 </configuration>

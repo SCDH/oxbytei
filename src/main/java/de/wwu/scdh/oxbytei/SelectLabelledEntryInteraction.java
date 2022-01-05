@@ -177,7 +177,7 @@ public class SelectLabelledEntryInteraction
 	try {
 	    // get the document DOM object
 	    Object[] docNodes =
-		authorAccess.getDocumentController().evaluateXPath(OxbyteiConstants.DOCUMENT_XPATH, true, false, false, true);
+		authorAccess.getDocumentController().evaluateXPath(OxbyteiConstants.DOCUMENT_XPATH, false, false, false, true);
 	    Document document = (Document) docNodes[0];
 
 	    // get the current editing context as an XPath expression

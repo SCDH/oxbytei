@@ -5,16 +5,19 @@ import javax.xml.namespace.QName;
 import ro.sync.ecss.extensions.api.ArgumentDescriptor;
 import ro.sync.ecss.extensions.api.ArgumentsMap;
 import ro.sync.ecss.extensions.api.AuthorAccess;
+import ro.sync.ecss.extensions.api.AuthorConstants;
 import ro.sync.ecss.extensions.api.AuthorDocumentController;
 import ro.sync.ecss.extensions.api.AuthorOperation;
 import ro.sync.ecss.extensions.api.AuthorOperationException;
 import ro.sync.ecss.extensions.api.node.AttrValue;
 import ro.sync.ecss.extensions.api.node.AuthorElement;
+import ro.sync.ecss.extensions.commons.operations.MoveCaretOperation;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import de.wwu.scdh.oxbytei.commons.OperationArgumentValidator;
+import de.wwu.scdh.oxbytei.commons.UpdatableArgumentsMap;
 
 
 /**
@@ -79,6 +82,20 @@ public class SurroundWithAnchorsOperation
 			       + "\nDefaults to the editor variable \"'\\$\\{id\\}'\" as constant.",
 			       "'${id}'");
 
+    public static final String[] ARGUMENT_MOVE_ALLOWED_VALUES = new String[] {
+	AuthorConstants.ARG_VALUE_FALSE,
+	AuthorConstants.ARG_VALUE_TRUE
+    };
+
+    public static final ArgumentDescriptor ARGUMENT_MOVE =
+	new ArgumentDescriptor("moveToEnd",
+			       ArgumentDescriptor.TYPE_CONSTANT_LIST,
+			       "Move the caret to the end anchor after insertion of both anchors."
+			       + " Without moving, the caret is at the start anchor after the operation."
+			       + "\nDefaults to false.",
+			       ARGUMENT_MOVE_ALLOWED_VALUES,
+			       AuthorConstants.ARG_VALUE_FALSE);
+
     @Override
     public ArgumentDescriptor[] getArguments() {
 	return new ArgumentDescriptor[] {
@@ -87,7 +104,8 @@ public class SurroundWithAnchorsOperation
 	    ARGUMENT_END_ANCHOR,
 	    ARGUMENT_END_ANCHOR_NAMESPACE,
 	    ARGUMENT_START_ID_XPATH,
-	    ARGUMENT_END_ID_XPATH
+	    ARGUMENT_END_ID_XPATH,
+	    ARGUMENT_MOVE
 	};
     }
 
@@ -171,8 +189,25 @@ public class SurroundWithAnchorsOperation
 	doc.setAttribute("xml:id", new AttrValue(startId), startTag);
 
 	if (!success) {
-	    throw new AuthorOperationException("");
+	    throw new AuthorOperationException("Failed to insert anchors");
 	}
+
+	// move the caret if that's on the arguments
+	String moveString =
+	    OperationArgumentValidator.validateStringArgument(ARGUMENT_MOVE.getName(), arguments);
+	moveString = authorAccess.getUtilAccess().expandEditorVariables(moveString, authorAccess.getEditorAccess().getEditorLocation());
+	boolean move = moveString.equals(AuthorConstants.ARG_VALUE_TRUE);
+	LOGGER.debug("moveToEnd: {}, logical value: {}", moveString, move);
+	if (move) {
+	    LOGGER.debug("Moving the caret to the end anchor.");
+	    AuthorOperation moveOperation = new MoveCaretOperation();
+	    UpdatableArgumentsMap newArgs = new UpdatableArgumentsMap(arguments, moveOperation.getArguments());
+	    newArgs.update("xpathLocation", "//*[@xml:id eq '" + endId + "']");
+	    newArgs.update("position", "Before");
+	    newArgs.update("selection", "None");
+	    moveOperation.doOperation(authorAccess, newArgs);
+	}
+	
     }
 
     /**

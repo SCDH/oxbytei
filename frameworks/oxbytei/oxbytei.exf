@@ -46,6 +46,9 @@ from the contextual menu.
         <addAction id="link.place"/>
         <addAction id="link.bibref"/>
         <addAction id="annotate"/>
+        <separator/>
+        <addAction id="add.variant"/>
+        <addAction id="sel.wit"/>
       </toolbar>
     </toolbars>
 
@@ -56,6 +59,9 @@ from the contextual menu.
       <addAction id="link.place"/>
       <addAction id="link.bibref"/>
       <addAction id="annotate"/>
+      <separator/>
+      <addAction id="add.variant"/>
+      <addAction id="sel.wit"/>
     </menu>
 
     <contextualMenu>
@@ -65,6 +71,9 @@ from the contextual menu.
         <addAction id="link.place"/>
         <addAction id="link.bibref"/>
         <addAction id="annotate"/>
+        <separator/>
+        <addAction id="add.variant"/>
+        <addAction id="sel.wit"/>
       </submenu>
     </contextualMenu>
 
@@ -75,6 +84,8 @@ from the contextual menu.
         <addAction id="link.place" inElementsView="true" inCCWindow="true"/>
         <addAction id="link.bibref" inElementsView="true" inCCWindow="true"/>
         <addAction id="annotate" inElementsView="true" inCCWindow="true"/>
+        <addAction id="add.variant" inElementsView="true" inCCWindow="true"/>
+        <addAction id="sel.wit" inElementsView="true" inCCWindow="true"/>
       </authorActions>
     </contentCompletion>
 
