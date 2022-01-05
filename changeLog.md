@@ -1,6 +1,6 @@
 # Change log #
 
-## dev ##
+## 0.6.0 ##
 
 - author mode action for adding an apparatus entry
   - user selection goes to the lemma
