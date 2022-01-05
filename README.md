@@ -17,6 +17,15 @@ oXbytei [ɔx bʌtaj] (greco-english tongue and french ears) is an
 offers high-level functions that facilitate everyday work on TEI
 documents.
 
+- **Critical apparatus**: According to what is stated in
+  [`<variantEncoding>`](https://www.tei-c.org/release/doc/tei-p5-doc/de/html/ref-variantEncoding.html)
+  a new apparatus entry is generated from the <span
+  style="background-color:powderblue;">user selection</span> and
+  inserted into the document. The selected text goes into
+  `<lem>`. Supported variant encodings: **all** but external
+  location-referenced. [`@wit`](https://www.tei-c.org/release/doc/tei-p5-doc/de/html/ref-att.witnessed.html)
+  can be selected based on the witnesses supplied via
+  [`sourceDesc/listWit//witness`](https://www.tei-c.org/release/doc/tei-p5-doc/de/html/TC.html#TCAPWL).
 - **Language**: Set `@xml:lang` by selecting a language registered in
   the header by
   [`langUsage`](https://www.tei-c.org/release/doc/tei-p5-doc/de/html/ref-langUsage.html)
@@ -28,17 +37,13 @@ documents.
   editing contexts.
 - **Places**: Set `placeName/@ref` similarly
 - **Bibliographical references**: Set `bibl/@corresp` similarly, too.
-- **Annotations**: Surround the user selection with empty `<anchor>`
-  elements carrying unique IDs and then insert a `<span>` referencing
-  the anchors somewhere else in the document. Also select `span/@ana`
-  from `<interp>` elements in the document or somewhere else or a
-  prefix definition.
-- **Critical apparatus**: Depending on what is stated in
-  `<variantEncoding>` a new apparatus entry is correctly generated
-  from the user selection and inserted into the document. The selected
-  text goes into `<lem>`. Supported variant encodings: **all** but
-  external location-referenced. `@wit` can be selected based on the
-  witnesses registered via `sourceDesc/listWit//witness`.
+- **Annotations**: Surround the <span
+  style="background-color:powderblue;">user selection</span> with
+  empty `<anchor>` elements carrying unique IDs and then insert a
+  `<span>` referencing the anchors somewhere else in the
+  document. Also select `span/@ana` from `<interp>` elements in the
+  document (default). Other sources/references for `@ana` can be
+  configured.
 
 on the road map:
 
