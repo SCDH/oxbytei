@@ -125,7 +125,7 @@
                         <argument name="namespaces">t:http://www.tei-c.org/ns/1.0 xml:http://www.w3.org/XML/1998/namespace</argument>
                         <argument name="selection">//t:teiHeader//t:sourceDesc/t:listWit//t:witness</argument>
                         <argument name="key">@xml:id</argument>
-                        <argument name="label">normalize-space(concat(@xml:id, ':', descendant::text()))</argument>
+                        <argument name="label">normalize-space(concat(@xml:id, ':', .))</argument>
                         <argument name="prefix">#</argument>
                     </arguments>
                 </configuration>
