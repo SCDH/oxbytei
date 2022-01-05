@@ -114,6 +114,21 @@
                         <argument name="prefix">#</argument>
                     </arguments>
                 </configuration>
+                <configuration>
+                    <conditions>
+                        <condition domain="context">self::*:lem | self::*:rdg</condition>
+                        <condition domain="priority">10</condition>
+                        <condition domain="nodeName">wit</condition>
+                        <condition domain="nodeType">attributeValue</condition>
+                    </conditions>
+                    <arguments>
+                        <argument name="namespaces">t:http://www.tei-c.org/ns/1.0 xml:http://www.w3.org/XML/1998/namespace</argument>
+                        <argument name="selection">//t:teiHeader//t:sourceDesc/t:listWit//t:witness</argument>
+                        <argument name="key">@xml:id</argument>
+                        <argument name="label">normalize-space(concat(@xml:id, ':', descendant::text()))</argument>
+                        <argument name="prefix">#</argument>
+                    </arguments>
+                </configuration>
             </configurations>
         </plugin>
 
