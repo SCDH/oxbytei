@@ -7,6 +7,7 @@
   - caret is placed into the reading
   - ask for witness of reading
   - **all variant encodings**, but external location-referenced
+  - select witness based on `sourceDesc/listWit//witness`
 
 ## 0.5.0 ##
 

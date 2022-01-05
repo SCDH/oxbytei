@@ -29,15 +29,16 @@ documents.
 - **Places**: Set `placeName/@ref` similarly
 - **Bibliographical references**: Set `bibl/@corresp` similarly, too.
 - **Annotations**: Surround the user selection with empty `<anchor>`
-  elements carrying unique IDs and then call an XSL transformation for
-  adding an `<span>` referencing the anchors somewhere else in the
-  document. Also select `span/@ana` from `<interp>`s in the document
-  or somewhere else.
+  elements carrying unique IDs and then insert a `<span>` referencing
+  the anchors somewhere else in the document. Also select `span/@ana`
+  from `<interp>` elements in the document or somewhere else or a
+  prefix definition.
 - **Critical apparatus**: Depending on what is stated in
   `<variantEncoding>` a new apparatus entry is correctly generated
   from the user selection and inserted into the document. The selected
-  text goes into the `<lem>`. Supported variant encodings: **all** but
-  external location-referenced.
+  text goes into `<lem>`. Supported variant encodings: **all** but
+  external location-referenced. `@wit` can be selected based on the
+  witnesses registered via `sourceDesc/listWit//witness`.
 
 on the road map:
 
