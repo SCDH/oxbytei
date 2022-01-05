@@ -55,7 +55,7 @@
                         <argument name="namespaces">t:http://www.tei-c.org/ns/1.0 xml:http://www.w3.org/XML/1998/namespace</argument>
                         <argument name="selection">//t:text/descendant::t:person[@xml:id]</argument>
                         <argument name="key">@xml:id</argument>
-                        <argument name="label">normalize-space(concat(t:persName, ', *', t:birth, unparsed-text(test.txt)))</argument>
+                        <argument name="label">normalize-space(concat(t:persName, ', *', t:birth))</argument>
                         <argument name="prefixDef">//t:teiHeader//t:prefixDef[matches(@ident, '(psn|prs|pers)')]</argument>
                         <argument name="prefixDefRef">tokenize(@replacementPattern, '#')[1]</argument>
                     </arguments>
