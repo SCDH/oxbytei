@@ -36,7 +36,8 @@ documents.
 - **Critical apparatus**: Depending on what is stated in
   `<variantEncoding>` a new apparatus entry is correctly generated
   from the user selection and inserted into the document. The selected
-  text goes into the `<lem>`.
+  text goes into the `<lem>`. Supported variant encodings: **all** but
+  external location-referenced.
 
 on the road map:
 
