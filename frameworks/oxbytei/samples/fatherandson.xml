@@ -23,6 +23,7 @@
          </langUsage>
       </profileDesc>
       <encodingDesc>
+         <variantEncoding location="internal" method="double-end-point"/>
          <listPrefixDef>
             <prefixDef matchPattern="([a-zA-Z0-9_-]+)" replacementPattern="personography.xml#$1"
                ident="psn"/>
@@ -49,6 +50,7 @@
             <interp xml:id="overblown">Overblow, stilted</interp>
          </interpGrp>
          <spanGrp/>
+         <listApp/>
       </back>
    </text>
 </TEI>

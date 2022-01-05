@@ -1,5 +1,13 @@
 # Change log #
 
+## dev ##
+
+- author mode action for adding an apparatus entry
+  - user selection goes to the lemma
+  - caret is placed into the reading
+  - ask for witness of reading
+  - **all variant encodings**, but external location-referenced
+
 ## 0.5.0 ##
 
 - new author mode operation for surrounding the user selection with
