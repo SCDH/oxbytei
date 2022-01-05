@@ -9,11 +9,19 @@
   <a:smallIconPath href="${framework}/images/sheetsquestion-16.png"/>
   <a:operations>
     <a:operation id="de.wwu.scdh.oxbytei.SelectAttributeValueOperation">
-      <a:xpathCondition>self::lem | self::rdg</a:xpathCondition>
+      <a:xpathCondition>self::lem</a:xpathCondition>
       <a:arguments>
         <a:argument name="name">wit</a:argument>
         <a:argument name="elementLocation">self::*</a:argument>
-        <a:argument name="message">Select a witnesses for ${xpath_eval(local-name(.)}</a:argument>
+        <a:argument name="message">Select a witnesses for the lemma</a:argument>
+      </a:arguments>
+    </a:operation>
+    <a:operation id="de.wwu.scdh.oxbytei.SelectAttributeValueOperation">
+      <a:xpathCondition>self::rdg</a:xpathCondition>
+      <a:arguments>
+        <a:argument name="name">wit</a:argument>
+        <a:argument name="elementLocation">self::*</a:argument>
+        <a:argument name="message">Select a witnesses for the reading</a:argument>
       </a:arguments>
     </a:operation>
   </a:operations>
