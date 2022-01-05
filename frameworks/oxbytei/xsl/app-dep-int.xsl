@@ -23,8 +23,8 @@ The caret will be on the inserted <rdg>.
         <xsl:apply-templates select="oxy:current-element()"/>
     </xsl:template>
 
-    <xsl:template match="*[@xml:id eq $startId]">
-        <app to="#{$endId}">
+    <xsl:template match="*[@xml:id eq $endId]">
+        <app from="#{$startId}">
             <xsl:if test="$withLemma">
                 <lem>
                     <xsl:value-of
