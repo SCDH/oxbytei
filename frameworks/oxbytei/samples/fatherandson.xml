@@ -12,7 +12,10 @@
             <p>Shipped as a sample with a framework</p>
          </publicationStmt>
          <sourceDesc source="local">
-            <p>borne again</p>
+            <listWit>
+               <witness xml:id="car">contents of the address register</witness>
+               <witness xml:id="cdr">contents of the decrement register</witness>
+            </listWit>
          </sourceDesc>
       </fileDesc>
       <profileDesc>
