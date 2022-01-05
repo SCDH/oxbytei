@@ -40,10 +40,10 @@ documents.
 - **Annotations**: Surround the <span
   style="background-color:powderblue;">user selection</span> with
   empty `<anchor>` elements carrying unique IDs and then insert a
-  `<span>` referencing the anchors somewhere else in the
-  document. Also select `span/@ana` from `<interp>` elements in the
-  document (default). Other sources/references for `@ana` can be
-  configured.
+  [`<span>`](https://www.tei-c.org/release/doc/tei-p5-doc/de/html/AI.html#AISP)
+  referencing the anchors somewhere else in the document. Also select
+  `span/@ana` from `<interp>` elements in the document
+  (default). Other sources/references for `@ana` can be configured.
 
 on the road map:
 
