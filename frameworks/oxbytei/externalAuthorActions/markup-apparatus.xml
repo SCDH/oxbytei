@@ -21,6 +21,7 @@
         <a:argument name="endAnchor">${xpath_eval(doc('${framework}/config/default.xml')//*:property[@name eq 'oxbytei.action.app.dep.int.endAnchor']/text())}</a:argument>
         <a:argument name="endAnchorNamespace">${xpath_eval(doc('${framework}/config/default.xml')//*:property[@name eq 'oxbytei.action.app.dep.int.endAnchorNamespace']/text())}</a:argument>
         <a:argument name="endId">${xpath_eval(doc('${framework}/config/default.xml')//*:property[@name eq 'oxbytei.action.app.dep.int.endId']/text())}</a:argument>
+        <a:argument name="moveToEnd">${xpath_eval(doc('${framework}/config/default.xml')//*:property[@name eq 'oxbytei.action.app.dep.int.moveToEnd']/text())}</a:argument>
         <a:argument name="script">${framework}/xsl/app-dep-int.xsl</a:argument>
         <a:argument name="sourceLocation">${xpath_eval(doc('${framework}/config/default.xml')//*:property[@name eq 'oxbytei.action.app.dep.int.sourceLocation']/text())}</a:argument>
         <a:argument name="targetLocation">${xpath_eval(doc('${framework}/config/default.xml')//*:property[@name eq 'oxbytei.action.app.dep.int.targetLocation']/text())}</a:argument>
