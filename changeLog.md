@@ -1,5 +1,18 @@
 # Change log #
 
+## dev ##
+
+- Anchored markup for `persName`:
+  - If the start and end point of the name are childs of the same
+    node, then wrap the name into a `persName` element.
+  - Otherwise put a start anchor at the front and an empty `persName`
+    element at the end.
+
+- added `de.wwu.scdh.oxbytei.NoOperation` author mode operation that
+  does nothing at all.
+- unified the editing steps for adding a new apparatus entry by using
+  `NoOperation`.
+
 ## 0.6.0 ##
 
 - author mode action for adding an apparatus entry
