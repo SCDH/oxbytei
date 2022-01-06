@@ -1,6 +1,6 @@
 # Change log #
 
-## dev ##
+## 0.7.0-dev ##
 
 - Anchored markup for `persName`:
   - If the start and end point of the name are childs of the same
