@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- editing atom -->
+<a:authorAction xmlns:a="http://www.oxygenxml.com/ns/author/external-action"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.oxygenxml.com/ns/author/external-action http://www.oxygenxml.com/ns/author/external-action/authorAction.xsd"
+  id="sel.person">
+  <a:name>Select Person</a:name>
+  <a:description>Select a person from suggestions.</a:description>
+  <a:operations>
+    <a:operation id="de.wwu.scdh.oxbytei.SelectAttributeValueOperation">
+      <a:xpathCondition>true()</a:xpathCondition>
+      <a:arguments>
+        <a:argument name="name">${xpath_eval(doc('${framework}/config/default.xml')//*:property[@name eq 'oxbytei.action.sel.person.name']/text())}</a:argument>
+        <a:argument name="elementLocation">self::*</a:argument>
+        <a:argument name="message">Choose a person</a:argument>
+      </a:arguments>
+    </a:operation>
+  </a:operations>
+  <a:accessKey/>
+</a:authorAction>
