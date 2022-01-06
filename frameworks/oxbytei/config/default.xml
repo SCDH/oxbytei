@@ -38,6 +38,21 @@
         <property name="oxbytei.action.app.dep.ext.targetLocation">/TEI/text/back/listApp</property>
         <property name="oxbytei.action.app.dep.ext.action">Inside as last child</property>
         <property name="oxbytei.action.app.dep.ext.externalParams"></property>
+
+        <!-- properties for person linking action -->
+        <property name="oxbytei.action.markup.person.startAnchor">anchor</property>
+        <property name="oxbytei.action.markup.person.startAnchorNamespace">http://www.tei-c.org/ns/1.0</property>
+        <property name="oxbytei.action.markup.person.startId">'${id}'</property>
+        <property name="oxbytei.action.markup.person.endAnchor">anchor</property>
+        <property name="oxbytei.action.markup.person.startAnchorNamespace">http://www.tei-c.org/ns/1.0</property>
+        <property name="oxbytei.action.markup.person.endId">'${id}'</property>
+        <property name="oxbytei.action.markup.person.moveToEnd">true</property>
+        <property name="oxbytei.action.markup.person.sourceLocation">self::*</property>
+        <property name="oxbytei.action.markup.person.targetLocation">self::*</property>
+        <property name="oxbytei.action.markup.person.action">Replace</property>
+        <property name="oxbytei.action.markup.person.externalParams">tag=persName,linking-att=corresp</property>
+        <property name="oxbytei.action.sel.person.name">ref</property>
+
     </properties>
 
     <plugins>
