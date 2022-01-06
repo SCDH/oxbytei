@@ -19,8 +19,7 @@ documents.
 
 - **Critical apparatus**: According to what is stated in
   [`<variantEncoding>`](https://www.tei-c.org/release/doc/tei-p5-doc/de/html/ref-variantEncoding.html)
-  a new apparatus entry is generated from the <span
-  style="background-color:powderblue;">user selection</span> and
+  a new apparatus entry is generated from the _user selection_ and
   inserted into the document. The selected text goes into
   `<lem>`. Supported variant encodings: **all** but external
   location-referenced. [`@wit`](https://www.tei-c.org/release/doc/tei-p5-doc/de/html/ref-att.witnessed.html)
@@ -37,19 +36,29 @@ documents.
   editing contexts.
 - **Places**: Set `placeName/@ref` similarly
 - **Bibliographical references**: Set `bibl/@corresp` similarly, too.
-- **Annotations**: Surround the <span
-  style="background-color:powderblue;">user selection</span> with
-  empty `<anchor>` elements carrying unique IDs and then insert a
-  `<span>` referencing the anchors somewhere else in the
-  document. Also select `span/@ana` from `<interp>` elements in the
-  document (default). Other sources/references for `@ana` can be
-  configured.
+- **Annotations**: Surround the _user selection_ with empty `<anchor>`
+  elements carrying unique IDs and then insert a
+  [`<span>`](https://www.tei-c.org/release/doc/tei-p5-doc/de/html/AI.html#AISP)
+  referencing the anchors somewhere else in the document. Also select
+  `span/@ana` from `<interp>` elements in the document
+  (default). Other sources/references for `@ana` can be configured.
 
-on the road map:
+On the road map:
 
-- index
-- metre of lyrics
-- generic argument value selection dialogue
+- **Melt and cristallize anchors**: The anchors inserted for your
+  double end-point attached apparatus, for your annotations or for
+  other markup, will pollute your edited text. Melting is the process
+  of joining anchors, which are direct siblings, into one anchor or
+  even integrating the ID into another tag. Cristallizing is the
+  process of giving a referring element back its own anchors, after
+  there was a melting. This is needed when a reference point to the
+  edited text has to be moved.
+- **Update lemma**: The content of `<lem>` may become outdated, when
+  using a double end-point attached or location referenced apparatus.
+- **Metre**: Selecting `@met` based on `<metDecl>` and other things
+  related to lyrics.
+- exploit `<tagsDecl>` etc. 
+- **Index**
 - ...
 
 Read more in the [**Wiki**](https://github.com/scdh/oxbytei/wiki).
