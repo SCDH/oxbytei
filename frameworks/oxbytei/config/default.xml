@@ -35,7 +35,7 @@
         <property name="oxbytei.action.app.dep.ext.startAnchorNamespace">http://www.tei-c.org/ns/1.0</property>
         <property name="oxbytei.action.app.dep.ext.endId">'${id}'</property>
         <property name="oxbytei.action.app.dep.ext.sourceLocation">/*</property>
-        <property name="oxbytei.action.app.dep.ext.targetLocation">/TEI/text/back/listApp</property>
+        <property name="oxbytei.action.app.dep.ext.targetLocation">following::listApp[1]</property>
         <property name="oxbytei.action.app.dep.ext.action">Inside as last child</property>
         <property name="oxbytei.action.app.dep.ext.externalParams"></property>
     </properties>
