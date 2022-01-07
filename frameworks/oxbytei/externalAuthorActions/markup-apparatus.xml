@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!-- editing atom -->
 <a:authorAction xmlns:a="http://www.oxygenxml.com/ns/author/external-action"
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://www.oxygenxml.com/ns/author/external-action http://www.oxygenxml.com/ns/author/external-action/authorAction.xsd"
-  id="markup.app">
+  id="markup.apparatus">
   <a:name>Markup apparatus</a:name>
   <a:description>Make an apparatus entry on the current user selection.</a:description>
   <a:operations>
@@ -45,10 +46,10 @@
         <a:argument name="externalParams">${xpath_eval(doc('${framework}/config/default.xml')//*:property[@name eq 'oxbytei.action.app.dep.ext.externalParams']/text())}</a:argument>
       </a:arguments>
     </a:operation>
-    <a:operation id="ExecuteMultipleActionsOperation">
+    <a:operation id="InsertFragmentOperation">
       <a:xpathCondition>//teiHeader/encodingDesc/variantEncoding[@method eq 'location-referenced' and @location eq 'internal']</a:xpathCondition>
       <a:arguments>
-        <a:argument name="actionIDs">markup.apparatus.locref, postprocess.apparatus.locref</a:argument>
+        <a:argument name="fragment"><![CDATA[<app xmlns="http://www.tei-c.org/ns/1.0"><lem>${selection}</lem><rdg>${caret}</rdg></app>]]></a:argument>
       </a:arguments>
     </a:operation>
   </a:operations>
