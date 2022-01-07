@@ -10,6 +10,8 @@
 - unified the editing steps for adding a new apparatus entry by using
   `NoOperation`.
 - do not use a recursive action for the appratus any more
+- include the framework for editing the configuration file into the
+  package and ship it with oXbytei
 
 ## 0.6.0 ##
 
