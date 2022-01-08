@@ -8,10 +8,18 @@
   - Otherwise put a start anchor at the front and an empty `persName`
     element at the end.
 
+## 0.6.1 ##
+
+- default configuration:
+  - put apparatus entry in external double end-point attached variant
+	encodings into the next following `<listApp>`
 - added `de.wwu.scdh.oxbytei.NoOperation` author mode operation that
   does nothing at all.
 - unified the editing steps for adding a new apparatus entry by using
   `NoOperation`.
+- do not use a recursive action for the appratus any more
+- include the framework for editing the configuration file into the
+  package and ship it with oXbytei
 
 ## 0.6.0 ##
 
