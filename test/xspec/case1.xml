@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-model href="http://www.tei-c.org/release/xml/tei/custom/schema/relaxng/tei_all.rng" type="application/xml" schematypens="http://relaxng.org/ns/structure/1.0"?>
+<?xml-model href="http://www.tei-c.org/release/xml/tei/custom/schema/relaxng/tei_all.rng" type="application/xml"
+	schematypens="http://purl.oclc.org/dsdl/schematron"?>
+<TEI xmlns="http://www.tei-c.org/ns/1.0">
+   <teiHeader>
+      <fileDesc>
+         <titleStmt>
+            <title>Test Case 1</title>
+         </titleStmt>
+         <publicationStmt>
+            <p>Publication Information</p>
+         </publicationStmt>
+         <sourceDesc>
+            <p>Information about the source</p>
+         </sourceDesc>
+      </fileDesc>
+   </teiHeader>
+   <text>
+      <body xml:id="body_y2m_kzk_2sb">
+         <div>
+            <div>
+               <head>May</head>
+               <p xml:id="p1"><anchor xml:id="a1"/>Lorem ipsum dolor sit
+                     amet,<anchor xml:id="a2"/> consetetur sadipscing elitr<anchor
+                     xml:id="a3"/>, sed diam nonumy eirmod tempor invidunt ut labore
+                  et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo
+                  duo dolores et ea <anchor xml:id="a4"/>rebum.</p>
+               <p> Stet<anchor xml:id="a5"/> clita kasd gubergren, <seg>no
+                        sea<anchor xml:id="a6"/> takimata sanctus est <anchor
+                        xml:id="anchor_of3_rzk_2sb"/>Lorem ipsum dolor sit</seg> amet<anchor
+                     xml:id="anchor_gkc_wzk_2sb"/>.</p>
+            </div>
+            <div>
+               <head>Be</head>
+               <p><seg>Quorum ipsum</seg> dolor sit amet<anchor xml:id="anchor_gv4_rzk_2sb"/>,
+                  consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et
+                  dolore magna aliquyam erat, sed diam voluptua.</p>
+               <p>At vero eos et accusam et justo duo dolores et ea rebum. Sed clita kasd gubergren,
+                  no sea takimata sanctus est Lorem ipsum dolor sit amet.</p>
+            </div>
+         </div>
+      </body>
+   </text>
+</TEI>
