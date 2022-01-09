@@ -13,6 +13,11 @@ to the start anchor by @from.
     <xsl:param name="startId" as="xs:ID" required="yes"/>
     <xsl:param name="endId" as="xs:ID" required="yes"/>
 
+    <xsl:param name="context" as="xs:string" select="'/*:TEI[1]'" required="false"/>
+
+    <!-- style can either be 'aggregative' or 'spanning' or 'analytic' -->
+    <xsl:param name="style" as="xs:string" select="'aggregative'" required="no"/>
+
     <!-- In any case, do not wrap nodes between anchors into an element.
         Keep markup with anchors instead. -->
     <xsl:param name="keepAnchors" as="xs:boolean" select="false()" required="no"/>
@@ -41,19 +46,40 @@ to the start anchor by @from.
     <xsl:mode name="anchors" on-no-match="shallow-copy"/>
 
 
-    <xsl:template match="/">
+    <xsl:template match="/ | *">
+        <xsl:variable name="ctx" select="."/>
+        <xsl:variable name="current-node" use-when="function-available('oxy:current-element', 0)"
+            select="oxy:current-element()"/>
+        <xsl:variable name="current-node"
+            use-when="not(function-available('oxy:current-node', 0)) and element-available('xsl:evaluate')">
+            <xsl:message>using parameter 'context'</xsl:message>
+            <xsl:evaluate as="node()" context-item="/" expand-text="yes"
+                xpath="concat($context, [0])"/>
+        </xsl:variable>
+        <xsl:variable name="current-node"
+            use-when="not(function-available('oxy:current-node', 0) or element-available('xsl:evaluate'))"
+            select="
+                if (exists($ctx/self::*)) then
+                    $ctx
+                else
+                    $ctx/*"/>
+        <xsl:if test="$debug">
+            <xsl:message>Entering from element <xsl:value-of select="local-name(.)"/></xsl:message>
+            <xsl:message>Current node is <xsl:value-of select="local-name($current-node)"
+                /></xsl:message>
+        </xsl:if>
         <!-- get the node of the current editor position -->
-        <xsl:variable name="current-node" as="node()" select="oxy:current-element()"/>
         <xsl:variable name="start-parent-id"
             select="generate-id(//*[@xml:id eq $startId]/parent::*)"/>
         <xsl:variable name="end-parent-id" select="generate-id(//*[@xml:id eq $endId]/parent::*)"/>
+        <xsl:variable name="same-parent" select="$start-parent-id eq $end-parent-id"/>
         <xsl:choose>
-            <xsl:when test="$start-parent-id eq $end-parent-id and not($keepAnchors)">
+            <xsl:when test="$same-parent and ($style eq 'aggregative')">
                 <!-- start and end anchor have the same parent, so it's possible to wrap into an element -->
                 <xsl:if test="$debug">
                     <xsl:message>wrapping into element</xsl:message>
                 </xsl:if>
-                <xsl:apply-templates select="$current-node[1]" mode="element">
+                <xsl:apply-templates select="$current-node" mode="element">
                     <xsl:with-param name="parent-id" select="$start-parent-id" tunnel="yes"/>
                 </xsl:apply-templates>
             </xsl:when>
