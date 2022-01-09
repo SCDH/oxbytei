@@ -48,16 +48,16 @@ to the start anchor by @from.
 
     <xsl:template match="/ | *">
         <xsl:variable name="ctx" select="."/>
-        <xsl:variable name="current-node" use-when="function-available('oxy:current-element', 0)"
+        <xsl:variable name="current-node" use-when="function-available('oxy:current-element')"
             select="oxy:current-element()"/>
-        <xsl:variable name="current-node"
-            use-when="not(function-available('oxy:current-node', 0)) and element-available('xsl:evaluate')">
+        <xsl:variable name="current-node" as="node()*"
+            use-when="not(function-available('oxy:current-element')) and element-available('xsl:evaluate')">
             <xsl:message>using parameter 'context'</xsl:message>
-            <xsl:evaluate as="node()" context-item="/" expand-text="yes"
-                xpath="concat($context, [0])"/>
+            <xsl:evaluate as="node()*" context-item="/" expand-text="yes"
+                xpath="$context"/>
         </xsl:variable>
         <xsl:variable name="current-node"
-            use-when="not(function-available('oxy:current-node', 0) or element-available('xsl:evaluate'))"
+            use-when="not(function-available('oxy:current-element', 0) or element-available('xsl:evaluate'))"
             select="
                 if (exists($ctx/self::*)) then
                     $ctx
