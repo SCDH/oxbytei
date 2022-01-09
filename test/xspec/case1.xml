@@ -21,15 +21,13 @@
          <div>
             <div>
                <head>May</head>
-               <p xml:id="p1"><anchor xml:id="a1"/>Lorem ipsum dolor sit
-                     amet,<anchor xml:id="a2"/> consetetur sadipscing elitr<anchor
-                     xml:id="a3"/>, sed diam nonumy eirmod tempor invidunt ut labore
-                  et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo
-                  duo dolores et ea <anchor xml:id="a4"/>rebum.</p>
-               <p> Stet<anchor xml:id="a5"/> clita kasd gubergren, <seg>no
-                        sea<anchor xml:id="a6"/> takimata sanctus est <anchor
-                        xml:id="anchor_of3_rzk_2sb"/>Lorem ipsum dolor sit</seg> amet<anchor
-                     xml:id="anchor_gkc_wzk_2sb"/>.</p>
+               <p xml:id="p1"><anchor xml:id="a1"/>Lorem ipsum dolor sit amet,<anchor
+                  xml:id="a2"/> consetetur sadipscing elitr<anchor 
+                  xml:id="a3"/>, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea <anchor 
+                     xml:id="a4"/>rebum.</p>
+               <p> Stet<anchor xml:id="a5"/> clita kasd gubergren, <seg>no sea<anchor xml:id="a6"/>
+                     takimata sanctus est <anchor xml:id="anchor_of3_rzk_2sb"/>Lorem ipsum dolor
+                     sit</seg> amet<anchor xml:id="anchor_gkc_wzk_2sb"/>.</p>
             </div>
             <div>
                <head>Be</head>

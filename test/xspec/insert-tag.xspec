@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description xmlns:x="http://www.jenitennison.com/xslt/xspec"
+    xmlns:t="http://www.tei-c.org/ns/1.0" stylesheet="../../frameworks/oxbytei/xsl/insert-tag.xsl">
+
+    <x:param name="style">aggregative</x:param>
+    <x:param name="startId">a1</x:param>
+    <x:param name="endId">a2</x:param>
+    <x:param name="debug">true</x:param>
+
+    <x:scenario label="#a1 to #a2 - aggregative">
+        <x:context href="case1.xml" select="t:TEI/t:text/t:body/t:div[1]/t:div[1]/t:p[1]"/>
+        <!--x:context href="case1.xml" select="/"/-->
+        <x:expect
+            label="First">
+            <t:p xml:id="p1"><t:seg>${caret}Lorem ipsum dolor sit amet,</t:seg
+                > consetetur sadipscing elitr<t:anchor xml:id="a3"
+                />, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea <t:anchor
+                    xml:id="a4"/>rebum.</t:p></x:expect>
+    </x:scenario>
+
+</x:description>
