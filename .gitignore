@@ -14,4 +14,5 @@ frameworks/oxbytei/*.jar
 # ignore build artifacts
 target
 test/xspec/xspec
+test/xspec/*.html
 /log4j2.properties
