@@ -101,6 +101,38 @@ public class LabelledEntriesLoader {
 	 NamespaceContext namespaceDecl,
 	 String configFile)
 	throws ExtensionException, ConfigurationException {
+	// read the plugin configuration from the config file
+	List<ExtensionConfiguration> extensionsConfiguration = ExtensionConfigurationReader.getExtensionsConfiguration(configFile);
+	return providersForContext(document, systemId, context, nodeType, nodeName, uriResolver, entityResolver,
+				   namespaceDecl, extensionsConfiguration);
+    }
+
+    /**
+     * This returns a list of initialized providers, defined for the
+     * current context.
+     * @param document the current document
+     * @param systemId the url string pointing to the current document
+     * @param context the current cursor position in the document
+     * given by an XPath expression
+     * @param nodeType the type of node which to offer completion suggestions
+     * @param nodeName the name of the element or attribute node, which to offer suggestions for
+     * @param uriResolver a {@link URIResolver} to be used by the plugins
+     * @param entityResolver a {@link EntityResolver} to be used by the plugins
+     * @param namespaceDecl the {@link NamespaceContext} of the current document
+     * @param extensionsConfiguration the parsed config file
+     * {@code file:...} for local files
+     */
+    public static List<ILabelledEntriesProvider> providersForContext
+	(Document document,
+	 String systemId,
+	 String context,
+	 String nodeType,
+	 String nodeName,
+	 URIResolver uriResolver,
+	 EntityResolver entityResolver,
+	 NamespaceContext namespaceDecl,
+	 List<ExtensionConfiguration> extensionsConfiguration)
+	throws ExtensionException, ConfigurationException {
 	List<ILabelledEntriesProvider> providers = new ArrayList<ILabelledEntriesProvider>();
 
 	// setup logging utility
@@ -112,9 +144,6 @@ public class LabelledEntriesLoader {
 
 	// Load plugins
 	List<ILabelledEntriesProvider> plugins = LabelledEntriesLoader.providers();
-
-	// read the plugin configuration from the config file
-	List<ExtensionConfiguration> extensionsConfiguration = ExtensionConfigurationReader.getExtensionsConfiguration(configFile);
 
 	// we need some iteration variables
 	int i, j, k;
@@ -138,9 +167,8 @@ public class LabelledEntriesLoader {
 		    for (k = 0; k < config.getSpecification().size(); k++) {
 			ArgumentsConditionsPair spec = config.getSpecification().get(k);
 			String contextXPath = context + "[" + spec.getConditions().get("context") + "]";
-			LOGGER.debug("Running XPath configured as 'context' condition for {} in config file {}:\n{}\nResulting XPath: \"{}\"",
+			LOGGER.debug("Running XPath configured as 'context' condition for {}:\n{}\nResulting XPath: \"{}\"",
 				     config.getClassName(),
-				     configFile,
 				     spec.getConditions().get("context"),
 				     contextXPath);
 			// check condition defined in 'context' matches the current edition context
@@ -175,7 +203,7 @@ public class LabelledEntriesLoader {
 							     + "\nResulting XPath expression:\n"
 							     + contextXPath);
 			} catch (NullPointerException e) {
-			    throw new ConfigurationException("Configuration error in " + configFile + "\n" + e);
+			    throw new ConfigurationException("Configuration error\n" + e);
 			} catch (InstantiationException e) {
 			    throw new ConfigurationException("Error loading plugin "
 							     + plugin.getClass().getCanonicalName()
@@ -187,8 +215,6 @@ public class LabelledEntriesLoader {
 			} catch (ExtensionException e) {
 			    throw new ConfigurationException("Error initializing plugin "
 							     + plugin.getClass().getCanonicalName()
-							     + " using config file "
-							     + configFile
 							     + ":\n" + e);
 			}
 		    }
