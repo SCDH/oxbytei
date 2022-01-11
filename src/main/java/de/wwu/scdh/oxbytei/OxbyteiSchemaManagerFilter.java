@@ -1,5 +1,7 @@
 package de.wwu.scdh.oxbytei;
 
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import javax.xml.transform.URIResolver;
@@ -56,11 +58,27 @@ public class OxbyteiSchemaManagerFilter
 	EntityResolver entityResolver =
 	    PluginWorkspaceProvider.getPluginWorkspace().getXMLUtilAccess().getEntityResolver();
 
+	// try {
+	//     // get URL of currently edited file
+	//     URL currentFileURL = new URL(context.getSystemID());
+	//     extensionsConfiguration = ConfigurationReader.getExtensionsConfiguration(currentFileURL, configFile);
+	//     LOGGER.error("Expanded editor variables in {}, current edited URL: {}", configFile, currentFileURL.toString());
+	// } catch (MalformedURLException e) {
+	//     LOGGER.error("Path to configuration file is not a valid URL: {}", context.getSystemID());
+	// } catch (ConfigurationException e) {
+	//     LOGGER.error("Error reading config file {}\n{}", configFile, e);
+	// }
+
 	// get the URL of the configuration file
 	String configFile = OxbyteiConstants.getConfigFile();
-
 	try {
-	    // FIXME: the resulting DocumentOverNodeInfo fails with further evalution
+	    // get URL of currently edited file
+	    URL currentFileURL = new URL(context.getSystemID());
+	    // read configuration file and expand editor variables
+	    List<ExtensionConfiguration> extensionsConfiguration =
+		ConfigurationReader.getExtensionsConfiguration(currentFileURL, configFile);
+	    LOGGER.error("Expanded editor variables in {}, current edited URL: {}", configFile, currentFileURL.toString());
+
 	    List<Object> docNodes = context.executeXPath(OxbyteiConstants.DOCUMENT_XPATH, namespaces, true);
 	    String ctx =
 		context.computeContextXPathExpression().replaceAll("/", "/*:"); //.substring(1);
@@ -80,9 +98,11 @@ public class OxbyteiSchemaManagerFilter
 							  uriResolver,
 							  entityResolver,
 							  null,
-							  configFile);
+							  extensionsConfiguration);
 
 	    return providers;
+	} catch (MalformedURLException e) {
+	    LOGGER.error("Path to current edited file is not a valid URL: {}", context.getSystemID());
 	} catch (IndexOutOfBoundsException e) {
 	    LOGGER.error("No document node found {}", e);
 	} catch (ConfigurationException e) {
