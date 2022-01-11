@@ -2,6 +2,8 @@
 
 ## dev ##
 
+- expand editor variables in configuration file
+  - right now this only works in author mode
 - introduced `${teilspProp(property.name)}` editor variable, which is
   expanded to the property named `property.name` in the config file
 - load an extension state listener and register the new oXbytei editor
