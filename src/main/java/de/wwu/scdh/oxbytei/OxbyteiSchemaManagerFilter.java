@@ -23,12 +23,14 @@ import ro.sync.contentcompletion.xml.WhatElementsCanGoHereContext;
 import ro.sync.contentcompletion.xml.WhatPossibleValuesHasAttributeContext;
 import ro.sync.exml.workspace.api.PluginWorkspaceProvider;
 
+import de.wwu.scdh.teilsp.config.EditorVariablesExpander;
 import de.wwu.scdh.teilsp.services.extensions.ILabelledEntriesProvider;
 import de.wwu.scdh.teilsp.services.extensions.LabelledEntriesLoader;
 import de.wwu.scdh.teilsp.services.extensions.LabelledEntry;
 import de.wwu.scdh.teilsp.services.extensions.ExtensionException;
 import de.wwu.scdh.teilsp.exceptions.ConfigurationException;
 import de.wwu.scdh.teilsp.config.ExtensionConfiguration;
+import de.wwu.scdh.oxbytei.commons.EditorVariablesExpanderImpl;
 
 /**
  * A schema manager filter that provides the user with content
@@ -74,10 +76,8 @@ public class OxbyteiSchemaManagerFilter
 	try {
 	    // get URL of currently edited file
 	    URL currentFileURL = new URL(context.getSystemID());
-	    // read configuration file and expand editor variables
-	    List<ExtensionConfiguration> extensionsConfiguration =
-		ConfigurationReader.getExtensionsConfiguration(currentFileURL, configFile);
-	    LOGGER.error("Expanded editor variables in {}, current edited URL: {}", configFile, currentFileURL.toString());
+	    // get an expander for editor variables
+	    EditorVariablesExpander expander = new EditorVariablesExpanderImpl(currentFileURL, true);
 
 	    List<Object> docNodes = context.executeXPath(OxbyteiConstants.DOCUMENT_XPATH, namespaces, true);
 	    String ctx =
@@ -98,7 +98,8 @@ public class OxbyteiSchemaManagerFilter
 							  uriResolver,
 							  entityResolver,
 							  null,
-							  extensionsConfiguration);
+							  configFile,
+							  expander);
 
 	    return providers;
 	} catch (MalformedURLException e) {
