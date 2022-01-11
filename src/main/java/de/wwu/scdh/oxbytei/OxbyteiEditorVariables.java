@@ -55,20 +55,27 @@ public class OxbyteiEditorVariables
     }
 
     public String resolveEditorVariables(String contentWithEditorVariables, String currentEditedFile) {
-	LOGGER.error("Trying to resolve editor variables in '{}'", contentWithEditorVariables);
+	LOGGER.debug("Trying to resolve editor variables in '{}'", contentWithEditorVariables);
 	String resolved = contentWithEditorVariables;
 	Matcher matcher;
 	// resolve ${configProp(...)
 	matcher = CONFIG_PROPERTY_PATTERN.matcher(resolved);
 	while (matcher.matches()) {
 	    String propertyName = matcher.group(1);
+	    // we get the config file in the loop, because this method
+	    // will be called very often without this editor
+	    // variables, too.
 	    String configFile = OxbyteiConstants.getConfigFile();
 	    try {
 		String property = ExtensionConfigurationReader.getProperty(propertyName, configFile);
-		LOGGER.error("Resolved {} to {}", resolved, property);
-		resolved = matcher.replaceFirst(property);
+		resolved = matcher.replaceFirst(Matcher.quoteReplacement(property));
+		LOGGER.debug("Resolved {} to {}", contentWithEditorVariables, resolved);
 	    } catch (ConfigurationException e) {
 		LOGGER.error("Property '{}' not found in {}\n{}", contentWithEditorVariables, configFile, e);
+		break; // avoid infinit loop
+	    } catch (Exception e) {
+		LOGGER.error("{}", e);
+		break;
 	    }
 	    // resolve more ocurrences
 	    matcher = CONFIG_PROPERTY_PATTERN.matcher(resolved);
