@@ -1,5 +1,13 @@
 # Change log #
 
+## dev ##
+
+- introduced `${teilspProp(property.name)}` editor variable, which is
+  expanded to the property named `property.name` in the config file
+- load an extension state listener and register the new oXbytei editor
+  variable resolver
+
+
 ## 0.6.1 ##
 
 - default configuration:
