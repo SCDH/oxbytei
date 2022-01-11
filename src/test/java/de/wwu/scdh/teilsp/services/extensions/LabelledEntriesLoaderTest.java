@@ -21,12 +21,15 @@ import de.wwu.scdh.teilsp.exceptions.ConfigurationException;
 import de.wwu.scdh.teilsp.exceptions.ProviderNotFoundException;
 import de.wwu.scdh.teilsp.testutils.SimpleURIResolver;
 import de.wwu.scdh.teilsp.config.ExtensionConfiguration;
+import de.wwu.scdh.teilsp.config.EditorVariablesExpander;
+import de.wwu.scdh.teilsp.config.NoExpander;
 
 
 public class LabelledEntriesLoaderTest {
 
     String configFile, currentFile;
     Document document;
+    EditorVariablesExpander expander;
 
     @BeforeEach
     void setup() throws ParserConfigurationException, SAXException, IOException {
@@ -40,6 +43,7 @@ public class LabelledEntriesLoaderTest {
 	// parse the input document
 	InputSource inputSource = new InputSource(currentFile);
 	document = builder.parse(inputSource);
+ 	expander = new NoExpander();
     }
 
     @Test
@@ -70,7 +74,8 @@ public class LabelledEntriesLoaderTest {
 						      ExtensionConfiguration.ATTRIBUTE_VALUE,
 						      "ref",
 						      new SimpleURIResolver(), null, null,
-						      configFile);
+						      configFile,
+						      expander);
 	// one provider for this context
 	assertEquals(1, providers.size());
 	// there are 3 persons suggested
@@ -86,7 +91,8 @@ public class LabelledEntriesLoaderTest {
 						      ExtensionConfiguration.ATTRIBUTE_VALUE,
 						      "type",
 						      new SimpleURIResolver(), null, null,
-						      configFile);
+						      configFile,
+						      expander);
 	// one provider for this context
 	assertEquals(0, providers.size());
     }
@@ -100,7 +106,8 @@ public class LabelledEntriesLoaderTest {
 						      ExtensionConfiguration.ATTRIBUTE_VALUE,
 						      "ref",
 						      new SimpleURIResolver(), null, null,
-						      configFile);
+						      configFile,
+						      expander);
 	// one provider for this context
 	assertEquals(0, providers.size());
     }

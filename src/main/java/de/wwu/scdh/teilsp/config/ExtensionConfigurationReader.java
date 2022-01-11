@@ -34,11 +34,11 @@ public class ExtensionConfigurationReader {
     public static final NamespaceContext namespace =
 	new NamespaceContextImpl("c:http://wwu.de/scdh/teilsp/config/");
 
-    public static List<ExtensionConfiguration> getExtensionsConfiguration(String configURL)
+    public static List<ExtensionConfiguration> getExtensionsConfiguration(String configURL, EditorVariablesExpander expander)
 	throws ConfigurationException {
 	try {
 	    InputStream input = new URL(configURL).openStream();
-	    List<ExtensionConfiguration> config = getExtensionsConfiguration(input);
+	    List<ExtensionConfiguration> config = getExtensionsConfiguration(input, expander);
 	    input.close();
 	    return config;
 	} catch (IOException e) {
@@ -48,7 +48,7 @@ public class ExtensionConfigurationReader {
 	}
     }
 
-    public static List<ExtensionConfiguration> getExtensionsConfiguration(InputStream input)
+    public static List<ExtensionConfiguration> getExtensionsConfiguration(InputStream input, EditorVariablesExpander expander)
 	throws ConfigurationException {
 	List<ExtensionConfiguration> config = new ArrayList<ExtensionConfiguration>();
 
@@ -66,7 +66,7 @@ public class ExtensionConfigurationReader {
 		String typeName = (String) xpath.compile(typeXPath).evaluate(plugin, XPathConstants.STRING);
 		
 		extension = new ExtensionConfiguration(className, typeName,
-						       getSpecifications(plugin, xpath));
+						       getSpecifications(plugin, xpath, expander));
 		config.add(extension);
 	    }
 	} catch (XPathExpressionException e) {
@@ -78,7 +78,7 @@ public class ExtensionConfigurationReader {
 	return config;
     }
 
-    private static List<ArgumentsConditionsPair> getSpecifications(Element specsNode, XPath xpath)
+    private static List<ArgumentsConditionsPair> getSpecifications(Element specsNode, XPath xpath, EditorVariablesExpander expander)
 	throws ConfigurationException {
 	List<ArgumentsConditionsPair> spec = new ArrayList<ArgumentsConditionsPair>();
 	try {
@@ -86,8 +86,8 @@ public class ExtensionConfigurationReader {
 	    for (int i = 0; i < nodes.getLength(); i++) {
 		Element specNode = (Element) nodes.item(i);
 		ArgumentsConditionsPair pair = 
-		    new ArgumentsConditionsPair(getConditions(specNode, xpath),
-						getArguments(specNode, xpath));
+		    new ArgumentsConditionsPair(getConditions(specNode, xpath, expander),
+						getArguments(specNode, xpath, expander));
 		spec.add(pair);
 	    }
 	} catch (XPathExpressionException e) {
@@ -96,7 +96,7 @@ public class ExtensionConfigurationReader {
 	return spec;
     }
 
-    private static Map<String, String> getConditions(Element conditionsNode, XPath xpath)
+    private static Map<String, String> getConditions(Element conditionsNode, XPath xpath, EditorVariablesExpander expander)
 	throws ConfigurationException {
 	Map<String, String> conditions = new HashMap<String, String>();
 	Element node;
@@ -107,7 +107,7 @@ public class ExtensionConfigurationReader {
 		node = (Element) conditionNodes.item(i);
 		domain = (String) xpath.compile("@domain").evaluate(node, XPathConstants.STRING);
 		condition = (String) xpath.compile("text()").evaluate(node, XPathConstants.STRING);
-		conditions.put(domain, condition);
+		conditions.put(domain, expander.expand(condition));
 	    }
 	} catch (XPathExpressionException e) {
 	    throw new ConfigurationException(e);
@@ -115,7 +115,7 @@ public class ExtensionConfigurationReader {
 	return conditions;
     }
 
-    private static Map<String, String> getArguments(Element argumentsNode, XPath xpath)
+    private static Map<String, String> getArguments(Element argumentsNode, XPath xpath, EditorVariablesExpander expander)
 	throws ConfigurationException {
 	Map<String, String> arguments = new HashMap<String, String>();
 	Element node;
@@ -126,7 +126,7 @@ public class ExtensionConfigurationReader {
 		node = (Element) argumentNodes.item(i);
 		name = (String) xpath.compile("@name").evaluate(node, XPathConstants.STRING);
 		argument = (String) xpath.compile("text()").evaluate(node, XPathConstants.STRING);
-		arguments.put(name, argument);
+		arguments.put(name, expander.expand(argument));
 	    }
 	} catch (XPathExpressionException e) {
 	    throw new ConfigurationException(e);
