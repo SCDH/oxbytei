@@ -21,11 +21,13 @@ import ro.sync.ecss.extensions.api.AuthorAccess;
 import ro.sync.ecss.extensions.api.AuthorOperationException;
 import ro.sync.ecss.extensions.api.AuthorConstants;
 
+import de.wwu.scdh.teilsp.config.EditorVariablesExpander;
 import de.wwu.scdh.teilsp.config.ExtensionConfiguration;
 import de.wwu.scdh.teilsp.exceptions.ConfigurationException;
 import de.wwu.scdh.teilsp.services.extensions.ILabelledEntriesProvider;
 import de.wwu.scdh.teilsp.services.extensions.LabelledEntriesLoader;
 import de.wwu.scdh.teilsp.services.extensions.ExtensionException;
+import de.wwu.scdh.oxbytei.commons.EditorVariablesExpanderImpl;
 import de.wwu.scdh.oxbytei.commons.ISelectionDialog;
 import de.wwu.scdh.oxbytei.commons.OperationArgumentValidator;
 
@@ -173,13 +175,9 @@ public class SelectLabelledEntryInteraction
 
 	// get the URL of the configuration file
 	String configFile = OxbyteiConstants.getConfigFile();
-	// read the config file and expand editor variables
-	List<ExtensionConfiguration> extensionsConfiguration = null;
-	try {
-	    extensionsConfiguration = ConfigurationReader.getExtensionsConfiguration(currentFileURL, configFile);
-	} catch (ConfigurationException e) {
-	    throw new AuthorOperationException("" + e);
-	}
+
+	// get an expander for editor variables
+	EditorVariablesExpander expander = new EditorVariablesExpanderImpl(authorAccess, currentFileURL, true);
 
 	providers = null;
 	try {
@@ -205,7 +203,8 @@ public class SelectLabelledEntryInteraction
 							  uriResolver,
 							  entityResolver,
 							  null,
-							  extensionsConfiguration);
+							  configFile,
+							  expander);
 	} catch (IndexOutOfBoundsException e) {
 	    throw new AuthorOperationException("No document node found");
 	} catch (ConfigurationException e) {
