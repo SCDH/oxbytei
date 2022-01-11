@@ -2,10 +2,12 @@
 <teilspConfiguration xmlns="http://wwu.de/scdh/teilsp/config/">
 
     <properties>
+        <property name="oxbytei.id.scheme">'a_${id}'</property>
+
         <!-- properties for annotation action -->
         <property name="oxbytei.action.annotate.startAnchor">anchor</property>
         <property name="oxbytei.action.annotate.startAnchorNamespace">http://www.tei-c.org/ns/1.0</property>
-        <property name="oxbytei.action.annotate.startId">'${id}'</property>
+        <property name="oxbytei.action.annotate.startId">${configProp(oxbytei.id.scheme)}</property>
         <property name="oxbytei.action.annotate.endAnchor">anchor</property>
         <property name="oxbytei.action.annotate.startAnchorNamespace">http://www.tei-c.org/ns/1.0</property>
         <property name="oxbytei.action.annotate.endId">'${id}'</property>
