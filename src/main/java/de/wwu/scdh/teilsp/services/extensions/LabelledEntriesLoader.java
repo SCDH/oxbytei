@@ -22,6 +22,7 @@ import org.xml.sax.EntityResolver;
 import de.wwu.scdh.teilsp.config.ArgumentsConditionsPair;
 import de.wwu.scdh.teilsp.config.ExtensionConfiguration;
 import de.wwu.scdh.teilsp.config.ExtensionConfigurationReader;
+import de.wwu.scdh.teilsp.config.EditorVariablesExpander;
 import de.wwu.scdh.teilsp.exceptions.ProviderNotFoundException;
 import de.wwu.scdh.teilsp.exceptions.ConfigurationException;
 import de.wwu.scdh.teilsp.xpath.XPathUtil;
@@ -89,6 +90,7 @@ public class LabelledEntriesLoader {
      * @param namespaceDecl the {@link NamespaceContext} of the current document
      * @param configFile an URL pointing to the config file, use
      * {@code file:...} for local files
+     * @param expander an {@link EditorVariablesExpander}
      */
     public static List<ILabelledEntriesProvider> providersForContext
 	(Document document,
@@ -99,11 +101,13 @@ public class LabelledEntriesLoader {
 	 URIResolver uriResolver,
 	 EntityResolver entityResolver,
 	 NamespaceContext namespaceDecl,
-	 String configFile)
+	 String configFile,
+	 EditorVariablesExpander expander)
 	throws ExtensionException, ConfigurationException {
 	// read the plugin configuration from the config file
-	List<ExtensionConfiguration> extensionsConfiguration = ExtensionConfigurationReader.getExtensionsConfiguration(configFile);
-	return providersForContext(document, systemId, context, nodeType, nodeName, uriResolver, entityResolver,
+	List<ExtensionConfiguration> extensionsConfiguration = ExtensionConfigurationReader.getExtensionsConfiguration(configFile, expander);
+	return providersForContext(document, systemId, context, nodeType, nodeName,
+				   uriResolver, entityResolver,
 				   namespaceDecl, extensionsConfiguration);
     }
 
