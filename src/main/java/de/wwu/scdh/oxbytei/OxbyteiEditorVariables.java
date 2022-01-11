@@ -27,7 +27,7 @@ public class OxbyteiEditorVariables
     private static final Logger LOGGER = LoggerFactory.getLogger(OxbyteiEditorVariables.class);
     
     public static final EditorVariableDescription VARIABLE_CONFIG_PROPERTY =
-	new EditorVariableDescription("configProp",
+	new EditorVariableDescription("teilspProp",
 				      "A property set in the configuration file.");
 
     public static final Pattern CONFIG_PROPERTY_PATTERN =
@@ -58,7 +58,7 @@ public class OxbyteiEditorVariables
 	LOGGER.debug("Trying to resolve editor variables in '{}'", contentWithEditorVariables);
 	String resolved = contentWithEditorVariables;
 	Matcher matcher;
-	// resolve ${configProp(...)
+	// resolve ${teilspProp(...)
 	matcher = CONFIG_PROPERTY_PATTERN.matcher(resolved);
 	while (matcher.matches()) {
 	    String propertyName = matcher.group(1);
