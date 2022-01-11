@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <teilspConfiguration xmlns="http://wwu.de/scdh/teilsp/config/">
+
+    <properties>
+        <property name="test.property">TestPropertyValue</property>
+    </properties>
+
     <plugins>
         <plugin>
             <class>de.wwu.scdh.teilsp.extensions.LabelledEntriesFromXMLByPrefixDef</class>

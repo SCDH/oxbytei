@@ -134,4 +134,35 @@ public class ExtensionConfigurationReader {
 	return arguments;
     }
 
+    public static String getProperty(String propertyName, String configURL)
+	throws ConfigurationException {
+	try {
+	    InputStream input = new URL(configURL).openStream();
+	    String property = getProperty(propertyName, input);
+	    input.close();
+	    return property;
+	} catch (IOException e) {
+	    throw new ConfigurationException("Error opening config from '"
+					     + configURL
+					     + "'. File not found");
+	}
+    }
+
+    public static String getProperty(String propertyName, InputStream input)
+	throws ConfigurationException {
+	XPath xpath = XPathFactory.newInstance().newXPath();
+	xpath.setNamespaceContext(namespace);
+	String propertyXPath = "/c:teilspConfiguration/c:properties/c:property[@name = '" + propertyName + "']";
+	String property = null;
+	try {
+	    InputSource inputSource = new InputSource(input);
+	    property = (String) xpath.compile(propertyXPath).evaluate(inputSource, XPathConstants.STRING);
+	} catch (XPathExpressionException e) {
+	    throw new ConfigurationException(e);
+	}//  catch (SAXException e) {
+	//     throw new ConfigurationException(e);
+	// }
+	return property;
+    }
+
 }
