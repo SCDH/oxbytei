@@ -1,5 +1,6 @@
 package de.wwu.scdh.oxbytei;
 
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -168,10 +169,17 @@ public class SelectLabelledEntryInteraction
 	// get the uri resolver, entity resolver used by oxygen and editing context
 	URIResolver uriResolver = authorAccess.getXMLUtilAccess().getURIResolver();
 	EntityResolver entityResolver = authorAccess.getXMLUtilAccess().getEntityResolver();
-	String currentFileURL = authorAccess.getEditorAccess().getEditorLocation().toString();
+	URL currentFileURL = authorAccess.getEditorAccess().getEditorLocation();
 
 	// get the URL of the configuration file
 	String configFile = OxbyteiConstants.getConfigFile();
+	// read the config file and expand editor variables
+	List<ExtensionConfiguration> extensionsConfiguration = null;
+	try {
+	    extensionsConfiguration = ConfigurationReader.getExtensionsConfiguration(currentFileURL, configFile);
+	} catch (ConfigurationException e) {
+	    throw new AuthorOperationException("" + e);
+	}
 
 	providers = null;
 	try {
@@ -190,14 +198,14 @@ public class SelectLabelledEntryInteraction
 
 	    providers =
 		LabelledEntriesLoader.providersForContext(document,
-							  currentFileURL,
+							  currentFileURL.toString(),
 							  context,
 							  nodeType,
 							  nodeName,
 							  uriResolver,
 							  entityResolver,
 							  null,
-							  configFile);
+							  extensionsConfiguration);
 	} catch (IndexOutOfBoundsException e) {
 	    throw new AuthorOperationException("No document node found");
 	} catch (ConfigurationException e) {
