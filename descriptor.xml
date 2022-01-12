@@ -3,57 +3,50 @@
                xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                xsi:schemaLocation="http://www.oxygenxml.com/ns/extension http://www.oxygenxml.com/ns/extension/extensions.xsd">
    <xt:extension id="oxbytei">
-      <xt:location href="https://github.com/SCDH/oxbytei/releases/download/0.6.1/oxbytei-0.6.1-package.zip"/>
-      <xt:version>0.6.1</xt:version>
+      <xt:location href="https://github.com/SCDH/oxbytei/releases/download/0.7.0/oxbytei-0.7.0-package.zip"/>
+      <xt:version>0.7.0</xt:version>
       <xt:oxy_version>23.1+</xt:oxy_version>
       <xt:type>framework</xt:type>
       <xt:author>Christian Lück</xt:author>
       <xt:name>oXbytei</xt:name>
       <xt:description xmlns="http://www.w3.org/1999/xhtml">
-		    An &lt;oXygen/&gt; author framework extending TEI P5,
-		    developed at SCDH, Westfälische Wilhelms-Universität
-		    Münster. It is configured by the TEI's header and
-		    offers high level functions.
-
-		    Visit
-		    https://github.com/SCDH/oxbytei/releases/tag/0.6.1
-		    to see what's new.
-
-		    Copyright (c) 2021 Christian Lück
-
-		    This program is free software: you can
-		    redistribute it and/or modify it under the terms
-		    of the GNU General Public License as published by
-		    the Free Software Foundation, either version 3 of
-		    the License, or (at your option) any later
-		    version.
-
-		    This program is distributed in the hope that it
-		    will be useful, but WITHOUT ANY WARRANTY; without
-		    even the implied warranty of MERCHANTABILITY or
-		    FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-		    General Public License for more details.
-
-		    You should have received a copy of the GNU General
-		    Public License along with this program.  If not,
-		    see http://www.gnu.org/licenses/
-
-
-		    Included Software and other Material
-
-		    The included languageicon icon was desigend by
-		    Onur Mustak Cobanli an is distributed on
-		    http://languageicon.org by under a CC licence with
-		    Relax-Attribution term.
-
-		    The framework ships with a copy of ediarum.JAR,
-		    distributed at
-		    https://github.com/ediarum/ediarum.JAR under the
-		    terms of the GPL v3, written by Martin Fechner and
-		    copyrighted by the Berlin-Brandenburg Academy of
-		    Sciences and Humanities.
-		</xt:description>
-      <xt:license>                    GNU GENERAL PUBLIC LICENSE
+         <html>
+            <head>
+               <title>oXbytei framework</title>
+            </head>
+            <body>
+               <div>
+                  <p>oXbytei is an &lt;oXygen/&gt; framework extending TEI P5,
+									developed at SCDH, Westfälische Wilhelms-Universität Münster. It
+									is configured by the document's header and offers high level
+									functions.</p>
+                  <p>Visit the <a href="https://github.com/SCDH/oxbytei/releases/tag/0.7.0">release page</a> to see what's new.</p>
+                  <p>Copyright (c) 2021, 2022 Christian Lück</p>
+                  <p>This program is free software: you can redistribute it and/or
+									modify it under the terms of the GNU General Public License as
+									published by the Free Software Foundation, either version 3 of
+									the License, or (at your option) any later version.<br/> This
+									program is distributed in the hope that it will be useful, but
+									WITHOUT ANY WARRANTY; without even the implied warranty of
+									MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+									General Public License for more details.<br/> You should have
+									received a copy of the GNU General Public License along with
+									this program. If not, see <a href="http://www.gnu.org/licenses/">http://www.gnu.org/licenses/</a>
+                  </p>
+               </div>
+               <div>
+                  <head>Included Software and other Material</head>
+                  <p>The included languageicon icon was desigend by Onur Mustak
+									Cobanli an is distributed on <a href="http://languageicon.org">http://languageicon.org</a> by under a CC licence with
+									Relax-Attribution term.</p>
+                  <p>The framework ships with a copy of ediarum.JAR, distributed at <a href="https://github.com/ediarum/ediarum.JAR">https://github.com/ediarum/ediarum.JAR</a> under the terms
+									of the GPL v3, written by Martin Fechner and copyrighted by the
+									Berlin-Brandenburg Academy of Sciences and Humanities.</p>
+               </div>
+            </body>
+         </html>
+      </xt:description>
+      <xt:license><![CDATA[                    GNU GENERAL PUBLIC LICENSE
                        Version 3, 29 June 2007
 
  Copyright (C) 2007 Free Software Foundation, Inc. &lt;https://fsf.org/&gt;
@@ -727,6 +720,6 @@ may consider it more useful to permit linking proprietary applications with
 the library.  If this is what you want to do, use the GNU Lesser General
 Public License instead of this License.  But first, please read
 &lt;https://www.gnu.org/licenses/why-not-lgpl.html&gt;.
-</xt:license>
+]]></xt:license>
    </xt:extension>
 </xt:extensions>
