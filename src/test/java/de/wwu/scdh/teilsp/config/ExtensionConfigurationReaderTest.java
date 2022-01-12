@@ -21,11 +21,13 @@ public class ExtensionConfigurationReaderTest {
     InputStream input;
     List<ExtensionConfiguration> configs;
     ExtensionConfiguration config;
+    EditorVariablesExpander expander;
     
     @BeforeEach
     void setup() throws FileNotFoundException, IOException {
 	String configFile = Paths.get("src", "test", "resources", "config.xml").toFile().getAbsolutePath();
 	input = new FileInputStream(configFile);
+	expander = new NoExpander();
     }
 
     @AfterEach
@@ -35,7 +37,7 @@ public class ExtensionConfigurationReaderTest {
     
     @Test
     void testConfigReader() throws ConfigurationException {
-	configs = ExtensionConfigurationReader.getExtensionsConfiguration(input);
+	configs = ExtensionConfigurationReader.getExtensionsConfiguration(input, expander);
 	assertEquals(1, configs.size());
 	config = configs.get(0);
 	assertEquals("de.wwu.scdh.teilsp.extensions.LabelledEntriesFromXMLByPrefixDef", config.getClassName());
