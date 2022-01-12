@@ -1,7 +1,10 @@
 # Change log #
 
-## dev ##
+## 0.7.0 ##
 
+- expand editor variables in the config file
+  - this only works in author mode
+  - thus, no editor variables are used in the default config file
 - introduced `${teilspProp(property.name)}` editor variable, which is
   expanded to the property named `property.name` in the config file
 - load an extension state listener and register the new oXbytei editor
