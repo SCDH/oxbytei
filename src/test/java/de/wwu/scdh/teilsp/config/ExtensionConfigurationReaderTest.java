@@ -51,5 +51,11 @@ public class ExtensionConfigurationReaderTest {
 	config = configs.get(0);
 	assertEquals(4, config.getSpecification().get(1).getConditions().size());
     }
-    
+
+    @Test
+    void testPropertyReader() throws ConfigurationException {
+	String property = ExtensionConfigurationReader.getProperty("test.property", input);
+	assertEquals("TestPropertyValue", property);
+    }
+
 }

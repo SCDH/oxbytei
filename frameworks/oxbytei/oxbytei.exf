@@ -23,6 +23,7 @@ from the contextual menu.
 
   <extensionPoints>
     <extension name="schemaManagerFilterExtension" value="de.wwu.scdh.oxbytei.OxbyteiSchemaManagerFilter"/>
+    <extension name="authorExtensionStateListener" value="de.wwu.scdh.oxbytei.OxbyteiStateListener"/>
   </extensionPoints>
 
   <transformationScenarios>
