@@ -1,5 +1,6 @@
 package de.wwu.scdh.oxbytei;
 
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -20,11 +21,13 @@ import ro.sync.ecss.extensions.api.AuthorAccess;
 import ro.sync.ecss.extensions.api.AuthorOperationException;
 import ro.sync.ecss.extensions.api.AuthorConstants;
 
+import de.wwu.scdh.teilsp.config.EditorVariablesExpander;
 import de.wwu.scdh.teilsp.config.ExtensionConfiguration;
 import de.wwu.scdh.teilsp.exceptions.ConfigurationException;
 import de.wwu.scdh.teilsp.services.extensions.ILabelledEntriesProvider;
 import de.wwu.scdh.teilsp.services.extensions.LabelledEntriesLoader;
 import de.wwu.scdh.teilsp.services.extensions.ExtensionException;
+import de.wwu.scdh.oxbytei.commons.EditorVariablesExpanderImpl;
 import de.wwu.scdh.oxbytei.commons.ISelectionDialog;
 import de.wwu.scdh.oxbytei.commons.OperationArgumentValidator;
 
@@ -168,10 +171,13 @@ public class SelectLabelledEntryInteraction
 	// get the uri resolver, entity resolver used by oxygen and editing context
 	URIResolver uriResolver = authorAccess.getXMLUtilAccess().getURIResolver();
 	EntityResolver entityResolver = authorAccess.getXMLUtilAccess().getEntityResolver();
-	String currentFileURL = authorAccess.getEditorAccess().getEditorLocation().toString();
+	URL currentFileURL = authorAccess.getEditorAccess().getEditorLocation();
 
 	// get the URL of the configuration file
 	String configFile = OxbyteiConstants.getConfigFile();
+
+	// get an expander for editor variables
+	EditorVariablesExpander expander = new EditorVariablesExpanderImpl(authorAccess, currentFileURL, true);
 
 	providers = null;
 	try {
@@ -190,14 +196,15 @@ public class SelectLabelledEntryInteraction
 
 	    providers =
 		LabelledEntriesLoader.providersForContext(document,
-							  currentFileURL,
+							  currentFileURL.toString(),
 							  context,
 							  nodeType,
 							  nodeName,
 							  uriResolver,
 							  entityResolver,
 							  null,
-							  configFile);
+							  configFile,
+							  expander);
 	} catch (IndexOutOfBoundsException e) {
 	    throw new AuthorOperationException("No document node found");
 	} catch (ConfigurationException e) {
