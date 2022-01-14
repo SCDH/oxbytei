@@ -301,7 +301,7 @@ public class SelectLabelledEntryInteraction
 	// dialog.init(authorAccess, message, multiple, current, providers);
 	// List<String> selected = dialog.doUserInteraction();
 
-	// set the attribute value, if not null returned form
+	// set the value, if not null returned form
 	// doUserInteraction(), because null means cancellation
 	if (selected != null) {
 	    // make the new value
@@ -313,8 +313,14 @@ public class SelectLabelledEntryInteraction
 		}
 		newValue += selected.get(i);
 	    }
+	    // store in state variable
+	    GlobalState.selection = newValue;
+	    // return
 	    return newValue;
 	} else {
+	    // store in state variable
+	    GlobalState.selection = currentValue; // TODO: OK ???
+	    // return value
 	    return null;
 	}
     }

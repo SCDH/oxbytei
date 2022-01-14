@@ -11,4 +11,6 @@ public class GlobalState {
 
     public static String anchorsContainer = null;
 
+    public static String selection = null;
+
 }
