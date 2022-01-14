@@ -16,4 +16,25 @@ public class OxbyteiEditorVariablesTest {
 	assertEquals("asdf.cl", matcher.group(1));
     }
 
+    @Test
+    public void startAnchorIdTest() {
+	String testString = "${startAnchorId}, asdf=true";
+	Matcher matcher = OxbyteiEditorVariables.START_ANCHOR_ID_PATTERN.matcher(testString);
+	assertEquals(true, matcher.find());
+    }
+
+    @Test
+    public void endAnchorIdTest() {
+	String testString = "start=${endAnchorId},end=afj";
+	Matcher matcher = OxbyteiEditorVariables.END_ANCHOR_ID_PATTERN.matcher(testString);
+	assertEquals(true, matcher.find());
+    }
+
+    @Test
+    public void anchorsContainerTest() {
+	String testString = "container=${anchorsContainer}";
+	Matcher matcher = OxbyteiEditorVariables.ANCHORS_CONTAINER_PATTERN.matcher(testString);
+	assertEquals(true, matcher.find());
+    }
+
 }
