@@ -53,9 +53,19 @@ public class OperationArgumentValidator {
 						   + name + ", " + val);
 	};
 
-	return authorAccess.getUtilAccess().expandEditorVariables((String) val,
-								  authorAccess.getEditorAccess().getEditorLocation(),
-								  expandAsk);
+	// expand as long as there are still unexpanded editor variables
+	String unexpanded = (String) val;
+	String expanded =
+	    authorAccess.getUtilAccess().expandEditorVariables(unexpanded,
+							       authorAccess.getEditorAccess().getEditorLocation(),
+							       expandAsk);
+	while (! expanded.equals(unexpanded)) {
+	    unexpanded = expanded;
+	    expanded = authorAccess.getUtilAccess().expandEditorVariables(unexpanded,
+									  authorAccess.getEditorAccess().getEditorLocation(),
+									  expandAsk);
+	}
+	return expanded;
     }
 
     /**

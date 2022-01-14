@@ -71,6 +71,7 @@ public class SurroundWithAnchorsXSLTOperation extends XSLTOperation {
 	// get the anchors' IDs
 	String startId = anchorsOperation.getStartId();
 	String endId = anchorsOperation.getEndId();
+	String anchorsContainer = anchorsOperation.getAnchorsContainer();
 
 	// do XSLT
 	newArgs = new UpdatableArgumentsMap(args, super.getArguments());
@@ -82,7 +83,7 @@ public class SurroundWithAnchorsXSLTOperation extends XSLTOperation {
 	if (! params.isEmpty()) {
 	    params += ", ";
 	}
-	params += "startId=" + startId + ", endId=" + endId;
+	params += "startId=" + startId + ", endId=" + endId + ", container=" + anchorsContainer;
 	newArgs.update("externalParams", params);
 	// expand editor variables in some arguments
 	LOGGER.debug("targetLocation before expansion: {}", newArgs.getArgumentValue("targetLocation"));

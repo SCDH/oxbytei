@@ -1,12 +1,26 @@
 # Change log #
 
-## 0.7.0-dev ##
+## dev ##
 
 - Anchored markup for `persName`:
   - If the start and end point of the name are childs of the same
     node, then wrap the name into a `persName` element.
   - Otherwise put a start anchor at the front and an empty `persName`
     element at the end.
+
+## 0.7.1 ##
+
+- expand editor variables in the config file
+  - this only works in author mode
+  - thus, no editor variables are used in the default config file
+
+## 0.7.0 ##
+
+- introduced `${teilspProp(property.name)}` editor variable, which is
+  expanded to the property named `property.name` in the config file
+- load an extension state listener and register the new oXbytei editor
+  variable resolver
+
 
 ## 0.6.1 ##
 

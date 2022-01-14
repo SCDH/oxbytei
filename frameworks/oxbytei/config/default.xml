@@ -2,6 +2,9 @@
 <teilspConfiguration xmlns="http://wwu.de/scdh/teilsp/config/">
 
     <properties>
+        <property name="namespaces">t:http://www.tei-c.org/ns/1.0 xml:http://www.w3.org/XML/1998/namespace</property>
+        <property name="oxbytei.id.scheme">'a_${id}'</property>
+
         <!-- properties for annotation action -->
         <property name="oxbytei.action.annotate.startAnchor">anchor</property>
         <property name="oxbytei.action.annotate.startAnchorNamespace">http://www.tei-c.org/ns/1.0</property>
