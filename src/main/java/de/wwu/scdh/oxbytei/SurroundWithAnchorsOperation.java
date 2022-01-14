@@ -210,6 +210,7 @@ public class SurroundWithAnchorsOperation
 	// store in state variables
 	GlobalState.startAnchorId = startId;
 	GlobalState.endAnchorId = endId;
+	GlobalState.anchorsContainer = anchorsContainer;
 
 	// move the caret if that's on the arguments
 	String moveString =
