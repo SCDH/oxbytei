@@ -123,6 +123,10 @@ public class SurroundWithAnchorsOperation
 	return endId;
     }
 
+    public String getAnchorsContainer() {
+	return anchorsContainer;
+    }
+
     @Override
     public void doOperation
 	(AuthorAccess authorAccess,
