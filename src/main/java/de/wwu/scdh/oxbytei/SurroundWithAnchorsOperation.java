@@ -192,6 +192,10 @@ public class SurroundWithAnchorsOperation
 	    throw new AuthorOperationException("Failed to insert anchors");
 	}
 
+	// store in state variables
+	GlobalState.startAnchorId = startId;
+	GlobalState.endAnchorId = endId;
+
 	// move the caret if that's on the arguments
 	String moveString =
 	    OperationArgumentValidator.validateStringArgument(ARGUMENT_MOVE.getName(), arguments);
