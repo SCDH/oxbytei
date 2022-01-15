@@ -15,6 +15,8 @@ to the start anchor by @from.
 
     <xsl:param name="context" as="xs:string" select="'/*:TEI[1]'" required="false"/>
 
+    <xsl:param name="container" as="xs:string" select="'/*'" required="false"/>
+
     <!-- style can either be 'aggregative' or 'spanning' or 'analytic' -->
     <xsl:param name="style" as="xs:string" select="'aggregative'" required="no"/>
 
@@ -67,6 +69,7 @@ to the start anchor by @from.
             <xsl:message>Entering from element <xsl:value-of select="local-name(.)"/></xsl:message>
             <xsl:message>Current node is <xsl:value-of select="local-name($current-node)"
                 /></xsl:message>
+            <xsl:message>Container element is <xsl:value-of select="$container"/></xsl:message>
         </xsl:if>
         <!-- get the node of the current editor position -->
         <xsl:variable name="start-parent-id"
