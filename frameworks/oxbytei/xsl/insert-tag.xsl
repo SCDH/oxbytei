@@ -77,6 +77,12 @@ to the start anchor by @from.
         <xsl:variable name="end-parent-id" select="generate-id(//*[@xml:id eq $endId]/parent::*)"/>
         <xsl:variable name="same-parent" select="$start-parent-id eq $end-parent-id"/>
         <xsl:choose>
+            <xsl:when test="$style eq 'analytic'">
+                <xsl:if test="$debug">
+                    <xsl:message>producing analytic markup</xsl:message>
+                </xsl:if>
+                <xsl:call-template name="analytic-entry"/>
+            </xsl:when>
             <xsl:when test="$same-parent and ($style eq 'aggregative')">
                 <!-- start and end anchor have the same parent, so it's possible to wrap into an element -->
                 <xsl:if test="$debug">
@@ -132,6 +138,17 @@ to the start anchor by @from.
                 <xsl:text>${caret}</xsl:text>
             </xsl:if>
         </xsl:element>
+    </xsl:template>
+
+    <xsl:template name="analytic-entry">
+        <span from="{$startId}" to="{$endId}">
+            <xsl:element name="{$tag}" namespace="{$tag-namespace}">
+                <xsl:text>${caret}</xsl:text>
+                <xsl:value-of
+                    select="(//*[@xml:id eq $startId]/following::node() intersect //*[@xml:id eq $endId]/preceding::node()) => string-join('') => normalize-space()"
+                />
+            </xsl:element>
+        </span>
     </xsl:template>
 
 </xsl:stylesheet>
