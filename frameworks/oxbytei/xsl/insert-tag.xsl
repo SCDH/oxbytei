@@ -69,6 +69,11 @@ action: Replace
     <!-- style parameter. See above! -->
     <xsl:param name="style" as="xs:string" select="'aggregative'" required="no"/>
 
+    <!-- Whether or not to wrap whitespace nodes into segments or tags in some styles.
+        Saying false() here is reasonable, because we do not want to wrap whitespace
+        between paragraphs, verses etc. -->
+    <xsl:param name="wrap-whitespace" as="xs:boolean" select="false()" required="no"/>
+
     <!-- In any case, do not wrap nodes between anchors into an element.
         Keep markup with anchors instead. -->
     <xsl:param name="keepAnchors" as="xs:boolean" select="false()" required="no"/>
@@ -206,7 +211,8 @@ action: Replace
     </xsl:template>
 
     <!-- wrap non-whitespace text nodes into a tag -->
-    <xsl:template mode="linking-between" match="text()">
+    <xsl:template mode="linking-between"
+        match="text()[not(matches(., '^\s+$')) or $wrap-whitespace]">
         <xsl:element name="{$tag}" namespace="{$tag-namespace}">
             <!-- we use the @n attribute to temporarily keep track of the elements -->
             <xsl:attribute name="n" select="$startId"/>
@@ -297,12 +303,11 @@ action: Replace
 
     <xsl:template mode="restrictive-aggregative"
         match="node()[preceding::*[@xml:id eq $startId] and following::*[@xml:id eq $endId]]">
-        <xsl:message>Hallo!</xsl:message>
         <xsl:apply-templates select="." mode="restrictive-aggregative-between"/>
     </xsl:template>
 
     <xsl:template mode="restrictive-aggregative-between"
-        match="text()[not(parent::seg[count(child::node()) eq 1])]">
+        match="text()[not(parent::seg[count(child::node()) eq 1])][not(matches(., '^\s+$')) or $wrap-whitespace]">
         <seg xml:id="{generate-id()}">
             <xsl:value-of select="."/>
         </seg>
