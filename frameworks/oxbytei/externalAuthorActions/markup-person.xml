@@ -7,21 +7,14 @@
   <a:name>Markup Person</a:name>
   <a:description>Surround selection with &lt;persName&gt; element or anchored markup.</a:description>
   <a:operations>
-    <a:operation id="de.wwu.scdh.oxbytei.SurroundWithAnchorsXSLTOperation">
+    <a:operation id="de.wwu.scdh.oxbytei.ExpandingXSLTOperation">
       <a:xpathCondition>true()</a:xpathCondition>
       <a:arguments>
-        <a:argument name="startAnchor">${xpath_eval(doc('${framework}/config/default.xml')//*:property[@name eq 'oxbytei.action.markup.person.startAnchor']/text())}</a:argument>
-        <a:argument name="startAnchorNamespace">${xpath_eval(doc('${framework}/config/default.xml')//*:property[@name eq 'oxbytei.action.markup.person.startAnchorNamespace']/text())}</a:argument>
-        <a:argument name="startId">${xpath_eval(doc('${framework}/config/default.xml')//*:property[@name eq 'oxbytei.action.markup.person.startId']/text())}</a:argument>
-        <a:argument name="endAnchor">${xpath_eval(doc('${framework}/config/default.xml')//*:property[@name eq 'oxbytei.action.markup.person.endAnchor']/text())}</a:argument>
-        <a:argument name="endAnchorNamespace">${xpath_eval(doc('${framework}/config/default.xml')//*:property[@name eq 'oxbytei.action.markup.person.endAnchorNamespace']/text())}</a:argument>
-        <a:argument name="endId">${xpath_eval(doc('${framework}/config/default.xml')//*:property[@name eq 'oxbytei.action.markup.person.endId']/text())}</a:argument>
-        <a:argument name="moveToEnd">${xpath_eval(doc('${framework}/config/default.xml')//*:property[@name eq 'oxbytei.action.markup.person.moveToEnd']/text())}</a:argument>
         <a:argument name="script">${framework}/xsl/insert-tag.xsl</a:argument>
-        <a:argument name="sourceLocation">${xpath_eval(doc('${framework}/config/default.xml')//*:property[@name eq 'oxbytei.action.markup.person.sourceLocation']/text())}</a:argument>
-        <a:argument name="targetLocation">${xpath_eval(doc('${framework}/config/default.xml')//*:property[@name eq 'oxbytei.action.markup.person.targetLocation']/text())}</a:argument>
-        <a:argument name="action">${xpath_eval(doc('${framework}/config/default.xml')//*:property[@name eq 'oxbytei.action.markup.person.action']/text())}</a:argument>
-        <a:argument name="externalParams">${xpath_eval(doc('${framework}/config/default.xml')//*:property[@name eq 'oxbytei.action.markup.person.externalParams']/text())}</a:argument>
+        <a:argument name="sourceLocation">${teilspProp(oxbytei.action.markup.person.sourceLocation)}</a:argument>
+        <a:argument name="targetLocation">${teilspProp(oxbytei.action.markup.person.targetLocation)}</a:argument>
+        <a:argument name="action">${teilspProp(oxbytei.action.markup.person.action)}</a:argument>
+        <a:argument name="externalParams">container=${anchorsContainer},startId=${startAnchorId},endId=${endAnchorId},${teilspProp(oxbytei.action.markup.person.externalParams)}</a:argument>
       </a:arguments>
     </a:operation>
   </a:operations>

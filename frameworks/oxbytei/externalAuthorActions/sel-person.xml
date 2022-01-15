@@ -10,7 +10,7 @@
     <a:operation id="de.wwu.scdh.oxbytei.SelectAttributeValueOperation">
       <a:xpathCondition>true()</a:xpathCondition>
       <a:arguments>
-        <a:argument name="name">${xpath_eval(doc('${framework}/config/default.xml')//*:property[@name eq 'oxbytei.action.sel.person.name']/text())}</a:argument>
+        <a:argument name="name">${teilspProp(oxbytei.action.sel.person.name)}</a:argument>
         <a:argument name="elementLocation">self::*</a:argument>
         <a:argument name="message">Choose a person</a:argument>
       </a:arguments>
