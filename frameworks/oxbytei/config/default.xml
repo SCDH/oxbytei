@@ -19,6 +19,14 @@
         <property name="oxbytei.style.spanTo.action">Replace</property>
         <property name="oxbytei.style.spanTo.style">spanTo</property>
 
+        <!-- Properties for restricted-aggregative style -->
+        <property name="oxbytei.style.restrictive-aggregative.moveToEnd">false</property>
+        <property name="oxbytei.style.restrictive-aggregative.sourceLocation">${anchorsContainer}</property>
+        <property name="oxbytei.style.restrictive-aggregative.targetLocation">${anchorsContainer}</property>
+        <property name="oxbytei.style.restrictive-aggregative.action">Replace</property>
+        <property name="oxbytei.style.restrictive-aggregative.style">restricted-aggregative</property>
+
+
         <!-- properties for annotation action -->
         <property name="oxbytei.action.annotate.startAnchor">anchor</property>
         <property name="oxbytei.action.annotate.startAnchorNamespace">http://www.tei-c.org/ns/1.0</property>

@@ -26,6 +26,16 @@ action: Replace
 moveToEnd: false
 
 
+'restrictive-aggregative' style:
+When style=restrictive-aggregative, then the result will be an empty element defined by tag
+and namespace which @select all text between the anchors. This text will be wrapped in <seg>s
+and have @xml:id.
+Depending arguments:
+moveToEnd: false
+sourceLocation: ${anchorsContainer}
+targetLocation: ${anchorsContainer}
+action: Replace
+
 -->
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
     xmlns:xs="http://www.w3.org/2001/XMLSchema"
@@ -113,6 +123,15 @@ moveToEnd: false
                 </xsl:if>
                 <xsl:call-template name="spanTo"/>
             </xsl:when>
+            <xsl:when test="$style eq 'restricted-aggregative'">
+                <xsl:if test="$debug">
+                    <xsl:message>producing restrictive aggregative markup</xsl:message>
+                </xsl:if>
+                <xsl:variable name="wrapped">
+                    <xsl:apply-templates select="/" mode="restrictive-aggregative"/>
+                </xsl:variable>
+                <xsl:apply-templates select="$wrapped" mode="restrictive-aggregative-postproc"/>
+            </xsl:when>
             <xsl:when test="$same-parent and ($style eq 'aggregative')">
                 <!-- start and end anchor have the same parent, so it's possible to wrap into an element -->
                 <xsl:if test="$debug">
@@ -189,5 +208,50 @@ moveToEnd: false
             <xsl:attribute name="spanTo" select="$att"/>
         </xsl:element>
     </xsl:template>
+
+
+    <!-- restrictive-aggregative -->
+
+    <xsl:mode name="restrictive-aggregative" on-no-match="shallow-copy"/>
+    <xsl:mode name="restrictive-aggregative-between" on-no-match="shallow-copy"/>
+    <xsl:mode name="restrictive-aggregative-postproc" on-no-match="shallow-copy"/>
+
+    <xsl:template mode="restrictive-aggregative"
+        match="node()[preceding::*[@xml:id eq $startId] and following::*[@xml:id eq $endId]]">
+        <xsl:message>Hallo!</xsl:message>
+        <xsl:apply-templates select="." mode="restrictive-aggregative-between"/>
+    </xsl:template>
+
+    <xsl:template mode="restrictive-aggregative-between"
+        match="text()[not(parent::seg[count(child::node()) eq 1])]">
+        <seg xml:id="{generate-id()}">
+            <xsl:value-of select="."/>
+        </seg>
+    </xsl:template>
+
+    <xsl:template mode="restrictive-aggregative-between"
+        match="seg[not(@xml:id) and exists(child::text()) and count(child::node()) eq 1]">
+        <seg xml:id="{generate-id()}">
+            <xsl:apply-templates select="node()" mode="restrictive-aggregative-between"/>
+        </seg>
+    </xsl:template>
+
+    <xsl:template mode="restrictive-aggregative-postproc" match="*[@xml:id eq $endId]">
+        <xsl:message>
+            <xsl:text>#nodes: </xsl:text>
+            <xsl:value-of
+                select="count(//seg[preceding::*[@xml:id eq $startId] and following::*[@xml:id eq $endId]]/@xml:id)"
+            />
+        </xsl:message>
+        <xsl:element name="{$tag}" namespace="{$tag-namespace}">
+            <xsl:attribute name="select"
+                select="(//seg[preceding::*[@xml:id eq $startId] and following::*[@xml:id eq $endId]]/@xml:id ! concat('#', .)) => string-join(' ')"/>
+            <xsl:if test="$insert-caret">
+                <xsl:text>${caret}</xsl:text>
+            </xsl:if>
+        </xsl:element>
+    </xsl:template>
+
+    <xsl:template mode="restrictive-aggregative-postproc" match="*[@xml:id eq $startId]"/>
 
 </xsl:stylesheet>
