@@ -5,6 +5,13 @@
         <property name="namespaces">t:http://www.tei-c.org/ns/1.0 xml:http://www.w3.org/XML/1998/namespace</property>
         <property name="oxbytei.id.scheme">'a_${id}'</property>
 
+        <!-- Properties for analytic style -->
+        <property name="oxbytei.style.analytic.moveToEnd">false</property>
+        <property name="oxbytei.style.analytic.sourceLocation">/*</property>
+        <property name="oxbytei.style.analytic.targetLocation">following::*:spanGrp</property>
+        <property name="oxbytei.style.analytic.action">Inside as last child</property>
+        <property name="oxbytei.style.analytic.style">analytic</property>
+
         <!-- Properties for spanTo-Style -->
         <property name="oxbytei.style.spanTo.moveToEnd">false</property>
         <property name="oxbytei.style.spanTo.sourceLocation">/*</property>
