@@ -1,15 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!-- editing atom -->
 <a:authorAction xmlns:a="http://www.oxygenxml.com/ns/author/external-action"
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://www.oxygenxml.com/ns/author/external-action http://www.oxygenxml.com/ns/author/external-action/authorAction.xsd"
   id="markup.place">
-  <a:name>Markup Place</a:name>
-  <a:description>Surround place with &lt;placeName&gt; element.</a:description>
+  <a:name>Markup place</a:name>
+  <a:description>Surround selection with &lt;placeName&gt; element or anchored markup.</a:description>
   <a:operations>
-    <a:operation id="SurroundWithFragmentOperation">
+    <a:operation id="de.wwu.scdh.oxbytei.ExpandingXSLTOperation">
       <a:xpathCondition>true()</a:xpathCondition>
       <a:arguments>
-        <a:argument name="fragment"><![CDATA[<placeName xmlns="http://www.tei-c.org/ns/1.0"/>]]></a:argument>
+        <a:argument name="script">${framework}/xsl/insert-tag.xsl</a:argument>
+        <a:argument name="sourceLocation">${teilspProp(oxbytei.action.markup.place.sourceLocation)}</a:argument>
+        <a:argument name="targetLocation">${teilspProp(oxbytei.action.markup.place.targetLocation)}</a:argument>
+        <a:argument name="action">${teilspProp(oxbytei.action.markup.place.action)}</a:argument>
+        <a:argument name="externalParams">container=${anchorsContainer},startId=${startAnchorId},endId=${endAnchorId},${teilspProp(oxbytei.action.markup.place.externalParams)}</a:argument>
       </a:arguments>
     </a:operation>
   </a:operations>

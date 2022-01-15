@@ -1,27 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!-- user action -->
 <a:authorAction xmlns:a="http://www.oxygenxml.com/ns/author/external-action"
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://www.oxygenxml.com/ns/author/external-action http://www.oxygenxml.com/ns/author/external-action/authorAction.xsd"
   id="link.place">
-  <a:name>Identify Place</a:name>
+  <a:name>Identify place</a:name>
   <a:description>Link place to norm file.</a:description>
   <a:largeIconPath href="${framework}/images/pin-24.png"/>
   <a:smallIconPath href="${framework}/images/pin-16.png"/>
   <a:operations>
-    <a:operation id="de.wwu.scdh.oxbytei.SelectAttributeValueOperation">
-      <a:xpathCondition>self::placeName | self::geogName | self::place | self::region</a:xpathCondition>
+    <a:operation id="ExecuteMultipleActionsOperation">
+      <a:xpathCondition>(self::placeName | self::geogName | self::place | self::region)</a:xpathCondition>
       <a:arguments>
-        <a:argument name="name">ref</a:argument>
-        <a:argument name="elementLocation">self::placeName</a:argument>
-        <a:argument name="message">Choose a place</a:argument>
-        <a:argument name="dialog">de.wwu.scdh.oxbytei.commons.OxygenSelectionDialog</a:argument>
+        <a:argument name="actionIDs">sel.place</a:argument>
       </a:arguments>
     </a:operation>
     <a:operation id="ExecuteMultipleActionsOperation">
-      <a:xpathCondition>nottrue()</a:xpathCondition>
+      <a:xpathCondition>true()</a:xpathCondition>
       <a:arguments>
-        <!-- This is a RECURSIVE operation! -->
-        <a:argument name="actionIDs">markup.place, link.place</a:argument>
+        <a:argument name="actionIDs">anchors.place, markup.place, sel.place</a:argument>
       </a:arguments>
     </a:operation>
   </a:operations>

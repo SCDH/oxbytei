@@ -41,6 +41,81 @@
         <property name="oxbytei.action.app.dep.ext.targetLocation">following::listApp[1]</property>
         <property name="oxbytei.action.app.dep.ext.action">Inside as last child</property>
         <property name="oxbytei.action.app.dep.ext.externalParams"></property>
+
+
+        <!-- Styles -->
+
+        <!-- Properties for analytic style -->
+        <property name="oxbytei.style.analytic.moveToEnd">false</property>
+        <property name="oxbytei.style.analytic.sourceLocation">/*</property>
+        <property name="oxbytei.style.analytic.targetLocation">following::*:spanGrp</property>
+        <property name="oxbytei.style.analytic.action">Inside as last child</property>
+        <property name="oxbytei.style.analytic.style">analytic</property>
+
+        <!-- Properties for spanTo-Style -->
+        <property name="oxbytei.style.spanTo.moveToEnd">false</property>
+        <property name="oxbytei.style.spanTo.sourceLocation">/*</property>
+        <property name="oxbytei.style.spanTo.targetLocation">//*[@xml:id eq '${startAnchorId}']</property>
+        <property name="oxbytei.style.spanTo.action">Replace</property>
+        <property name="oxbytei.style.spanTo.style">spanTo</property>
+
+        <!-- Properties for restricted-aggregative style -->
+        <property name="oxbytei.style.restrictive-aggregative.moveToEnd">false</property>
+        <property name="oxbytei.style.restrictive-aggregative.sourceLocation">/*</property>
+        <property name="oxbytei.style.restrictive-aggregative.targetLocation">${anchorsContainer}</property>
+        <property name="oxbytei.style.restrictive-aggregative.action">Replace</property>
+        <property name="oxbytei.style.restrictive-aggregative.style">restricted-aggregative</property>
+
+        <!-- Properties for aggregative style -->
+        <property name="oxbytei.style.aggregative.moveToEnd">false</property>
+        <property name="oxbytei.style.aggregative.sourceLocation">/*</property>
+        <property name="oxbytei.style.aggregative.targetLocation">${anchorsContainer}</property>
+        <property name="oxbytei.style.aggregative.action">Replace</property>
+        <property name="oxbytei.style.aggregative.style">aggregative</property>
+
+
+        <!-- properties for person linking action -->
+        <property name="oxbytei.action.anchors.person.startAnchor">anchor</property>
+        <property name="oxbytei.action.anchors.person.startAnchorNamespace">http://www.tei-c.org/ns/1.0</property>
+        <property name="oxbytei.action.anchors.person.startId">'${id}'</property>
+        <property name="oxbytei.action.anchors.person.endAnchor">anchor</property>
+        <property name="oxbytei.action.anchors.person.startAnchorNamespace">http://www.tei-c.org/ns/1.0</property>
+        <property name="oxbytei.action.anchors.person.endId">'${id}'</property>
+        <property name="oxbytei.action.anchors.person.moveToEnd">false</property>
+        <property name="oxbytei.action.markup.person.sourceLocation">/*</property>
+        <property name="oxbytei.action.markup.person.targetLocation">${anchorsContainer}</property>
+        <property name="oxbytei.action.markup.person.action">Replace</property>
+        <property name="oxbytei.action.markup.person.externalParams">tag=persName, style=aggregative</property>
+        <property name="oxbytei.action.sel.person.name">ref</property>
+
+        <!-- properties for place linking action -->
+        <property name="oxbytei.action.anchors.place.startAnchor">anchor</property>
+        <property name="oxbytei.action.anchors.place.startAnchorNamespace">http://www.tei-c.org/ns/1.0</property>
+        <property name="oxbytei.action.anchors.place.startId">'${id}'</property>
+        <property name="oxbytei.action.anchors.place.endAnchor">anchor</property>
+        <property name="oxbytei.action.anchors.place.startAnchorNamespace">http://www.tei-c.org/ns/1.0</property>
+        <property name="oxbytei.action.anchors.place.endId">'${id}'</property>
+        <property name="oxbytei.action.anchors.place.moveToEnd">false</property>
+        <property name="oxbytei.action.markup.place.sourceLocation">/*</property>
+        <property name="oxbytei.action.markup.place.targetLocation">${anchorsContainer}</property>
+        <property name="oxbytei.action.markup.place.action">Replace</property>
+        <property name="oxbytei.action.markup.place.externalParams">tag=placeName, style=aggregative</property>
+        <property name="oxbytei.action.sel.place.name">ref</property>
+
+        <!-- properties for bibref linking action -->
+        <property name="oxbytei.action.anchors.bibref.startAnchor">anchor</property>
+        <property name="oxbytei.action.anchors.bibref.startAnchorNamespace">http://www.tei-c.org/ns/1.0</property>
+        <property name="oxbytei.action.anchors.bibref.startId">'${id}'</property>
+        <property name="oxbytei.action.anchors.bibref.endAnchor">anchor</property>
+        <property name="oxbytei.action.anchors.bibref.startAnchorNamespace">http://www.tei-c.org/ns/1.0</property>
+        <property name="oxbytei.action.anchors.bibref.endId">'${id}'</property>
+        <property name="oxbytei.action.anchors.bibref.moveToEnd">false</property>
+        <property name="oxbytei.action.markup.bibref.sourceLocation">/*</property>
+        <property name="oxbytei.action.markup.bibref.targetLocation">${anchorsContainer}</property>
+        <property name="oxbytei.action.markup.bibref.action">Replace</property>
+        <property name="oxbytei.action.markup.bibref.externalParams">tag=bibl, style=aggregative</property>
+        <property name="oxbytei.action.sel.bibref.name">corresp</property>
+
     </properties>
 
     <plugins>

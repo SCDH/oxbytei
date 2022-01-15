@@ -69,7 +69,7 @@ public class OxbyteiEditorVariables
 	Matcher matcher;
 	// resolve ${teilspProp(...)
 	matcher = CONFIG_PROPERTY_PATTERN.matcher(resolved);
-	while (matcher.matches()) {
+	while (matcher.find()) {
 	    String propertyName = matcher.group(1);
 	    // we get the config file in the loop, because this method
 	    // will be called very often without this editor

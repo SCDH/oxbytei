@@ -1,5 +1,13 @@
 # Change log #
 
+## dev ##
+
+- Anchored markup for `persName`:
+  - If the start and end point of the name are childs of the same
+    node, then wrap the name into a `persName` element.
+  - Otherwise put a start anchor at the front and an empty `persName`
+    element at the end.
+
 ## 0.7.1 ##
 
 - expand editor variables in the config file
