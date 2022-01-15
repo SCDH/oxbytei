@@ -1,8 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Stylesheet for making an element from a pair of anchors after SurroundWithAnchorsXSLTOperation
-If the anchors are on the same node, they are replaced with an element.
-Otherwise, the end anchor is replaced with an empty element that refers
-to the start anchor by @from.
+
+The style param decides about the resulting markup:
+
+'analytic' style:
+
+When style=analytic, then the result will be a <span> containing an
+element defined by tag and tag-namespace. The contents of this element will be
+the text between the two anchors.
+Depending arguments:
+sourceLocation: /* OR ${anchorsContainer}
+targetLocation: following::*:spanGrp
+action: Inside as last child
+moveToEnd: false OR true
+
+
+'spanTo' style:
+
+When style=spanTo, then the result will be an empty element defined by tag and namespace.
+It will have a @spanTo attribute. It should replace the start anchor!
+Depending arguments:
+sourceLocation: /* OR ${anchorsContainer}
+targetLocation: //*[@xml:id eq '${startAnchorId}']
+action: Replace
+moveToEnd: false
+
+
 -->
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
     xmlns:xs="http://www.w3.org/2001/XMLSchema"
@@ -17,7 +40,7 @@ to the start anchor by @from.
 
     <xsl:param name="container" as="xs:string" select="'/*'" required="false"/>
 
-    <!-- style can either be 'aggregative' or 'spanning' or 'analytic' -->
+    <!-- style parameter. See above! -->
     <xsl:param name="style" as="xs:string" select="'aggregative'" required="no"/>
 
     <!-- In any case, do not wrap nodes between anchors into an element.
@@ -55,8 +78,7 @@ to the start anchor by @from.
         <xsl:variable name="current-node" as="node()*"
             use-when="not(function-available('oxy:current-element')) and element-available('xsl:evaluate')">
             <xsl:message>using parameter 'context'</xsl:message>
-            <xsl:evaluate as="node()*" context-item="/" expand-text="yes"
-                xpath="$context"/>
+            <xsl:evaluate as="node()*" context-item="/" expand-text="yes" xpath="$context"/>
         </xsl:variable>
         <xsl:variable name="current-node"
             use-when="not(function-available('oxy:current-element', 0) or element-available('xsl:evaluate'))"
@@ -76,12 +98,20 @@ to the start anchor by @from.
             select="generate-id(//*[@xml:id eq $startId]/parent::*)"/>
         <xsl:variable name="end-parent-id" select="generate-id(//*[@xml:id eq $endId]/parent::*)"/>
         <xsl:variable name="same-parent" select="$start-parent-id eq $end-parent-id"/>
+
         <xsl:choose>
             <xsl:when test="$style eq 'analytic'">
                 <xsl:if test="$debug">
                     <xsl:message>producing analytic markup</xsl:message>
                 </xsl:if>
                 <xsl:call-template name="analytic-entry"/>
+            </xsl:when>
+            <xsl:when test="$style eq 'spanTo'">
+                <xsl:if test="$debug">
+                    <xsl:message>producing anchor based markup with @spanTo="<xsl:value-of
+                            select="$endId"/>"</xsl:message>
+                </xsl:if>
+                <xsl:call-template name="spanTo"/>
             </xsl:when>
             <xsl:when test="$same-parent and ($style eq 'aggregative')">
                 <!-- start and end anchor have the same parent, so it's possible to wrap into an element -->
@@ -98,6 +128,7 @@ to the start anchor by @from.
                 </xsl:if>
                 <xsl:apply-templates select="." mode="anchors"/>
             </xsl:otherwise>
+
         </xsl:choose>
     </xsl:template>
 
@@ -149,6 +180,14 @@ to the start anchor by @from.
                 />
             </xsl:element>
         </span>
+    </xsl:template>
+
+    <xsl:template name="spanTo">
+        <!--xsl:variable name="att" select="if ($insert-caret) then concat('#', $endId, '${caret}') else concat('#', $endId)"/-->
+        <xsl:variable name="att" select="concat('#', $endId)"/>
+        <xsl:element name="{$tag}" namespace="{$tag-namespace}">
+            <xsl:attribute name="spanTo" select="$att"/>
+        </xsl:element>
     </xsl:template>
 
 </xsl:stylesheet>

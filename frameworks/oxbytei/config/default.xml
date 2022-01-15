@@ -5,6 +5,13 @@
         <property name="namespaces">t:http://www.tei-c.org/ns/1.0 xml:http://www.w3.org/XML/1998/namespace</property>
         <property name="oxbytei.id.scheme">'a_${id}'</property>
 
+        <!-- Properties for spanTo-Style -->
+        <property name="oxbytei.style.spanTo.moveToEnd">false</property>
+        <property name="oxbytei.style.spanTo.sourceLocation">/*</property>
+        <property name="oxbytei.style.spanTo.targetLocation">//*[@xml:id eq '${startAnchorId}']</property>
+        <property name="oxbytei.style.spanTo.action">Replace</property>
+        <property name="oxbytei.style.spanTo.style">spanTo</property>
+
         <!-- properties for annotation action -->
         <property name="oxbytei.action.annotate.startAnchor">anchor</property>
         <property name="oxbytei.action.annotate.startAnchorNamespace">http://www.tei-c.org/ns/1.0</property>
