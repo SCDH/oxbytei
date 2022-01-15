@@ -77,9 +77,6 @@ action: Replace
     <xsl:param name="debug" as="xs:boolean" select="false()" required="no"/>
 
     <xsl:mode on-no-match="shallow-copy"/>
-    <xsl:mode name="element" on-no-match="shallow-copy"/>
-    <xsl:mode name="anchors" on-no-match="shallow-copy"/>
-
 
     <xsl:template match="/ | *">
         <xsl:variable name="ctx" select="."/>
@@ -143,13 +140,20 @@ action: Replace
             </xsl:when>
             <xsl:otherwise>
                 <xsl:if test="$debug">
-                    <xsl:message>keeping anchored markup</xsl:message>
+                    <xsl:message>falling back onto restrictive-aggregative mode</xsl:message>
                 </xsl:if>
-                <xsl:apply-templates select="." mode="anchors"/>
+                <xsl:variable name="wrapped">
+                    <xsl:apply-templates select="/" mode="restrictive-aggregative"/>
+                </xsl:variable>
+                <xsl:apply-templates select="$wrapped" mode="restrictive-aggregative-postproc"/>
             </xsl:otherwise>
 
         </xsl:choose>
     </xsl:template>
+
+
+    <!-- wrap with element in aggregative style -->
+    <xsl:mode name="element" on-no-match="shallow-copy"/>
 
     <xsl:template mode="element"
         match="*[child::*[@xml:id eq $startId] and child::*[@xml:id eq $endId]]">
@@ -172,6 +176,10 @@ action: Replace
         </xsl:element>
     </xsl:template>
 
+
+    <!-- anchor style, DEPRECATED -->
+    <xsl:mode name="anchors" on-no-match="shallow-copy"/>
+
     <xsl:template mode="anchors" match="*[@xml:id eq $endId and not($atStart)]">
         <xsl:element name="{$tag}" namespace="{$tag-namespace}">
             <xsl:attribute name="{$linking-att}" select="concat('#', $startId)"/>
@@ -190,6 +198,8 @@ action: Replace
         </xsl:element>
     </xsl:template>
 
+
+    <!-- analytic style -->
     <xsl:template name="analytic-entry">
         <span from="{$startId}" to="{$endId}">
             <xsl:element name="{$tag}" namespace="{$tag-namespace}">
@@ -201,6 +211,8 @@ action: Replace
         </span>
     </xsl:template>
 
+
+    <!-- spanTo style -->
     <xsl:template name="spanTo">
         <!--xsl:variable name="att" select="if ($insert-caret) then concat('#', $endId, '${caret}') else concat('#', $endId)"/-->
         <xsl:variable name="att" select="concat('#', $endId)"/>
