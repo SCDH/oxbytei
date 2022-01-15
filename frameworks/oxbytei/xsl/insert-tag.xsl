@@ -3,6 +3,18 @@
 
 The style param decides about the resulting markup:
 
+'aggregative' style:
+When style=aggregative, then the markup depends on the situation: If both anchors are on the
+same parent, then the nodes between them are simply wrapped into a tag element. Otherwise,
+each non-whitespace text node is wrapped into a tag element and they are linked with @next
+and @prev.
+Depending on arguments:
+sourceLocation: /*
+targetLocation: ${anchorsContainer}
+action: Replace
+moveToEnd: false
+
+
 'analytic' style:
 
 When style=analytic, then the result will be a <span> containing an
@@ -149,9 +161,9 @@ action: Replace
                     <xsl:message>falling back onto restrictive-aggregative mode</xsl:message>
                 </xsl:if>
                 <xsl:variable name="wrapped">
-                    <xsl:apply-templates select="$containerNode" mode="restrictive-aggregative"/>
+                    <xsl:apply-templates select="$containerNode" mode="linking"/>
                 </xsl:variable>
-                <xsl:apply-templates select="$wrapped" mode="restrictive-aggregative-postproc"/>
+                <xsl:apply-templates select="$wrapped" mode="linking-postproc"/>
             </xsl:otherwise>
 
         </xsl:choose>
@@ -181,6 +193,55 @@ action: Replace
             <xsl:copy-of select="node()[preceding-sibling::*[@xml:id eq $endId]]"/>
         </xsl:element>
     </xsl:template>
+
+
+    <!-- wrap into tags and link them with @prev and @next -->
+    <xsl:mode name="linking" on-no-match="shallow-copy"/>
+    <xsl:mode name="linking-between" on-no-match="shallow-copy"/>
+    <xsl:mode name="linking-postproc" on-no-match="shallow-copy"/>
+
+    <xsl:template mode="linking"
+        match="node()[preceding::*[@xml:id eq $startId] and following::*[@xml:id eq $endId]]">
+        <xsl:apply-templates select="." mode="linking-between"/>
+    </xsl:template>
+
+    <!-- wrap non-whitespace text nodes into a tag -->
+    <xsl:template mode="linking-between" match="text()">
+        <xsl:element name="{$tag}" namespace="{$tag-namespace}">
+            <!-- we use the @n attribute to temporarily keep track of the elements -->
+            <xsl:attribute name="n" select="$startId"/>
+            <xsl:attribute name="xml:id" select="generate-id()"/>
+            <xsl:value-of select="."/>
+        </xsl:element>
+    </xsl:template>
+
+    <xsl:template mode="linking-postproc" match="*[local-name() eq $tag and @n eq $startId]">
+        <xsl:copy select=".">
+            <!-- do the linking with @prev and @next -->
+            <xsl:if test="exists(preceding::*[@n eq $startId])">
+                <xsl:attribute name="prev"
+                    select="concat('#', preceding::*[@n eq $startId][1]/@xml:id)"/>
+            </xsl:if>
+            <xsl:if test="exists(following::*[@n eq $startId])">
+                <xsl:attribute name="next"
+                    select="concat('#', following::*[@n eq $startId][1]/@xml:id)"/>
+            </xsl:if>
+            <xsl:copy select="@xml:id"/>
+            <xsl:apply-templates mode="linking-postproc"/>
+            <!-- insert the caret on the last tag -->
+            <xsl:if test="not(exists(following::*[@n eq $startId])) and $insert-caret">
+                <xsl:text>${caret}</xsl:text>
+            </xsl:if>
+        </xsl:copy>
+    </xsl:template>
+
+    <!-- remove @n attributes that where used for tracking -->
+    <xsl:template mode="linking-postproc"
+        match="@n[. eq $startId and parent::*[local-name() eq $tag]]"/>
+
+    <!-- remove anchors -->
+    <xsl:template mode="linking-postproc" match="*[@xml:id eq $startId]"/>
+    <xsl:template mode="linking-postproc" match="*[@xml:id eq $endId]"/>
 
 
     <!-- anchor style, DEPRECATED -->
