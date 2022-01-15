@@ -105,11 +105,10 @@ public class OxbyteiEditorVariables
 	}
 
 	// resolve ${anchorsContainer
-	//LOGGER.error("anchors container: {}", GlobalState.anchorsContainer);
 	matcher = ANCHORS_CONTAINER_PATTERN.matcher(resolved);
 	while (matcher.find()) {
 	    String str = GlobalState.anchorsContainer;
-	    LOGGER.error("resolved anchors container: {}", str);
+	    LOGGER.debug("resolved anchors container: {}", str);
 	    resolved = matcher.replaceFirst(Matcher.quoteReplacement(GlobalState.anchorsContainer));
 	    matcher = ANCHORS_CONTAINER_PATTERN.matcher(resolved);
 	}
