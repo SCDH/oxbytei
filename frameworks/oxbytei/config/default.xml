@@ -102,19 +102,19 @@
         <property name="oxbytei.action.markup.place.externalParams">tag=placeName, style=aggregative</property>
         <property name="oxbytei.action.sel.place.name">ref</property>
 
-        <!-- properties for biblio linking action -->
-        <property name="oxbytei.action.anchors.biblio.startAnchor">anchor</property>
-        <property name="oxbytei.action.anchors.biblio.startAnchorNamespace">http://www.tei-c.org/ns/1.0</property>
-        <property name="oxbytei.action.anchors.biblio.startId">'${id}'</property>
-        <property name="oxbytei.action.anchors.biblio.endAnchor">anchor</property>
-        <property name="oxbytei.action.anchors.biblio.startAnchorNamespace">http://www.tei-c.org/ns/1.0</property>
-        <property name="oxbytei.action.anchors.biblio.endId">'${id}'</property>
-        <property name="oxbytei.action.anchors.biblio.moveToEnd">false</property>
-        <property name="oxbytei.action.markup.biblio.sourceLocation">/*</property>
-        <property name="oxbytei.action.markup.biblio.targetLocation">${anchorsContainer}</property>
-        <property name="oxbytei.action.markup.biblio.action">Replace</property>
-        <property name="oxbytei.action.markup.biblio.externalParams">tag=bibl, style=aggregative</property>
-        <property name="oxbytei.action.sel.biblio.name">corresp</property>
+        <!-- properties for bibref linking action -->
+        <property name="oxbytei.action.anchors.bibref.startAnchor">anchor</property>
+        <property name="oxbytei.action.anchors.bibref.startAnchorNamespace">http://www.tei-c.org/ns/1.0</property>
+        <property name="oxbytei.action.anchors.bibref.startId">'${id}'</property>
+        <property name="oxbytei.action.anchors.bibref.endAnchor">anchor</property>
+        <property name="oxbytei.action.anchors.bibref.startAnchorNamespace">http://www.tei-c.org/ns/1.0</property>
+        <property name="oxbytei.action.anchors.bibref.endId">'${id}'</property>
+        <property name="oxbytei.action.anchors.bibref.moveToEnd">false</property>
+        <property name="oxbytei.action.markup.bibref.sourceLocation">/*</property>
+        <property name="oxbytei.action.markup.bibref.targetLocation">${anchorsContainer}</property>
+        <property name="oxbytei.action.markup.bibref.action">Replace</property>
+        <property name="oxbytei.action.markup.bibref.externalParams">tag=bibl, style=aggregative</property>
+        <property name="oxbytei.action.sel.bibref.name">corresp</property>
 
     </properties>
 
