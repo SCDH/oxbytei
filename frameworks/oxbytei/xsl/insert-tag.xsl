@@ -264,12 +264,6 @@ action: Replace
     </xsl:template>
 
     <xsl:template mode="restrictive-aggregative-postproc" match="*[@xml:id eq $endId]">
-        <xsl:message>
-            <xsl:text>#nodes: </xsl:text>
-            <xsl:value-of
-                select="count(//seg[preceding::*[@xml:id eq $startId] and following::*[@xml:id eq $endId]]/@xml:id)"
-            />
-        </xsl:message>
         <xsl:element name="{$tag}" namespace="{$tag-namespace}">
             <xsl:attribute name="select"
                 select="(//seg[preceding::*[@xml:id eq $startId] and following::*[@xml:id eq $endId]]/@xml:id ! concat('#', .)) => string-join(' ')"/>
