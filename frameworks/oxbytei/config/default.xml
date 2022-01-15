@@ -21,14 +21,14 @@
 
         <!-- Properties for restricted-aggregative style -->
         <property name="oxbytei.style.restrictive-aggregative.moveToEnd">false</property>
-        <property name="oxbytei.style.restrictive-aggregative.sourceLocation">${anchorsContainer}</property>
+        <property name="oxbytei.style.restrictive-aggregative.sourceLocation">/*</property>
         <property name="oxbytei.style.restrictive-aggregative.targetLocation">${anchorsContainer}</property>
         <property name="oxbytei.style.restrictive-aggregative.action">Replace</property>
         <property name="oxbytei.style.restrictive-aggregative.style">restricted-aggregative</property>
 
         <!-- Properties for aggregative style -->
         <property name="oxbytei.style.aggregative.moveToEnd">false</property>
-        <property name="oxbytei.style.aggregative.sourceLocation">${anchorsContainer}</property>
+        <property name="oxbytei.style.aggregative.sourceLocation">/*</property>
         <property name="oxbytei.style.aggregative.targetLocation">${anchorsContainer}</property>
         <property name="oxbytei.style.aggregative.action">Replace</property>
         <property name="oxbytei.style.aggregative.style">aggregative</property>

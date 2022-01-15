@@ -50,6 +50,10 @@ action: Replace
 
     <xsl:param name="container" as="xs:string" select="'/*'" required="false"/>
 
+    <xsl:variable name="containerNode" as="node()">
+        <xsl:evaluate as="node()" context-item="/" expand-text="yes" xpath="$container"/>
+    </xsl:variable>
+
     <!-- style parameter. See above! -->
     <xsl:param name="style" as="xs:string" select="'aggregative'" required="no"/>
 
@@ -79,6 +83,7 @@ action: Replace
     <xsl:mode on-no-match="shallow-copy"/>
 
     <xsl:template match="/ | *">
+        <!--
         <xsl:variable name="ctx" select="."/>
         <xsl:variable name="current-node" use-when="function-available('oxy:current-element')"
             select="oxy:current-element()"/>
@@ -100,6 +105,7 @@ action: Replace
                 /></xsl:message>
             <xsl:message>Container element is <xsl:value-of select="$container"/></xsl:message>
         </xsl:if>
+        -->
         <!-- get the node of the current editor position -->
         <xsl:variable name="start-parent-id"
             select="generate-id(//*[@xml:id eq $startId]/parent::*)"/>
@@ -125,7 +131,7 @@ action: Replace
                     <xsl:message>producing restrictive aggregative markup</xsl:message>
                 </xsl:if>
                 <xsl:variable name="wrapped">
-                    <xsl:apply-templates select="/" mode="restrictive-aggregative"/>
+                    <xsl:apply-templates select="$containerNode" mode="restrictive-aggregative"/>
                 </xsl:variable>
                 <xsl:apply-templates select="$wrapped" mode="restrictive-aggregative-postproc"/>
             </xsl:when>
@@ -134,7 +140,7 @@ action: Replace
                 <xsl:if test="$debug">
                     <xsl:message>wrapping into element</xsl:message>
                 </xsl:if>
-                <xsl:apply-templates select="$current-node" mode="element">
+                <xsl:apply-templates select="$containerNode" mode="element">
                     <xsl:with-param name="parent-id" select="$start-parent-id" tunnel="yes"/>
                 </xsl:apply-templates>
             </xsl:when>
@@ -143,7 +149,7 @@ action: Replace
                     <xsl:message>falling back onto restrictive-aggregative mode</xsl:message>
                 </xsl:if>
                 <xsl:variable name="wrapped">
-                    <xsl:apply-templates select="/" mode="restrictive-aggregative"/>
+                    <xsl:apply-templates select="$containerNode" mode="restrictive-aggregative"/>
                 </xsl:variable>
                 <xsl:apply-templates select="$wrapped" mode="restrictive-aggregative-postproc"/>
             </xsl:otherwise>
