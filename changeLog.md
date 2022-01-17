@@ -1,5 +1,30 @@
 # Change log #
 
+## dev ##
+
+- flexible markup for persons, places and bibliographic references:
+- markup styles available:
+  - **aggregative**: Wrap user selection into an element, if the start
+    and end point are on the same parent node. Otherwise wrap each
+    text nodes in the selection into its own element and link them
+    with `@next` and `@prev`.
+  - **analytic**: Insert empty anchors with IDs at the start and end
+    point of the user selection and add a `<span from="#startId"
+    to="#endId">` into the next following `<spanGrp>`. The element tag
+    is put into the `<span>`. The selected text is repeated in it.
+  - **spanTo**: Insert an empty anchor at the end of the user
+    selection and a tag to the start point, that has
+    `@spanTo="#endId"`.
+  - **restricted-aggregative**: Wrap text nodes in the user selection
+    into `<seg>` elements, put IDs on them and add an *empty*
+    aggragative tag at the selection's end point with `@select="#id1
+    id2 ... idN"`.
+- Whitespace-only text nodes are not wrapped in *aggregative* and
+  *restricted-aggregative* style in order to avoid invalid markup when
+  annotating over paragraph or verse boundaries. This can be turned
+  off.
+- configurable through the configuration file
+
 ## 0.7.1 ##
 
 - expand editor variables in the config file

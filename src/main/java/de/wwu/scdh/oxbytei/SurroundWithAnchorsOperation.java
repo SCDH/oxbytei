@@ -113,12 +113,18 @@ public class SurroundWithAnchorsOperation
 
     protected String endId;
 
+    protected String anchorsContainer;
+
     public String getStartId() {
 	return startId;
     }
 
     public String getEndId() {
 	return endId;
+    }
+
+    public String getAnchorsContainer() {
+	return anchorsContainer;
     }
 
     @Override
@@ -188,9 +194,27 @@ public class SurroundWithAnchorsOperation
 	success = success && doc.insertElement(startSelection, startTag);
 	doc.setAttribute("xml:id", new AttrValue(startId), startTag);
 
+	// get XPath of the deepest element, that contains both anchors
+	// (//*[descendant::*[@xml:id = 'a1'] and descendant::*[@xml:id = 'a2']])[last()]
+	String containerXPath = "string-join(for $node in (//*[descendant::*[@xml:id = '" + startId + "'] and descendant::*[@xml:id = '" + endId + "']]) return concat('*:', name($node), '[', count(preceding-sibling::*[name() eq name($node)]) + 1, ']'), '/')";
+	Object[] container =
+	    authorAccess.getDocumentController().evaluateXPath(containerXPath, true, false, false);
+	anchorsContainer = null;
+	try {
+	    anchorsContainer = "/" + (String) container[0];
+	} catch (IndexOutOfBoundsException e) {
+	    throw new AuthorOperationException("Failed to get the XPath of the anchors' container");
+	}
+	LOGGER.debug("The anchors' container is {}", anchorsContainer);
+
 	if (!success) {
 	    throw new AuthorOperationException("Failed to insert anchors");
 	}
+
+	// store in state variables
+	GlobalState.startAnchorId = startId;
+	GlobalState.endAnchorId = endId;
+	GlobalState.anchorsContainer = anchorsContainer;
 
 	// move the caret if that's on the arguments
 	String moveString =

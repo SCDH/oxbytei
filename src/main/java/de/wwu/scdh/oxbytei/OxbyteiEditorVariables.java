@@ -34,23 +34,32 @@ public class OxbyteiEditorVariables
 	Pattern.compile("\\$\\{" + VARIABLE_CONFIG_PROPERTY.getName() + "\\(([\\.a-zA-Z0-9]+)\\)\\}");
 
     public static final EditorVariableDescription VARIABLE_ANCHOR_START_ID =
-	new EditorVariableDescription("anchorStartId",
+	new EditorVariableDescription("startAnchorId",
 				      "@xml:id of last inserted start anchor.");
 
+    public static final Pattern START_ANCHOR_ID_PATTERN =
+	Pattern.compile("\\$\\{" + VARIABLE_ANCHOR_START_ID.getName() + "\\}");
+
     public static final EditorVariableDescription VARIABLE_ANCHOR_END_ID =
-	new EditorVariableDescription("anchorEndId",
+	new EditorVariableDescription("endAnchorId",
 				      "@xml:id of last inserted end anchor.");
+
+    public static final Pattern END_ANCHOR_ID_PATTERN =
+	Pattern.compile("\\$\\{" + VARIABLE_ANCHOR_END_ID.getName() + "\\}");
 
     public static final EditorVariableDescription VARIABLE_ANCHORS_CONTAINER =
 	new EditorVariableDescription("anchorsContainer",
 				      "XPath expression identifying the element node, that contains both anchors.");
 
+    public static final Pattern ANCHORS_CONTAINER_PATTERN =
+	Pattern.compile("\\$\\{" + VARIABLE_ANCHORS_CONTAINER.getName() + "\\}");
+
     public List<EditorVariableDescription> getCustomResolverEditorVariableDescriptions() {
 	List<EditorVariableDescription> descriptions = new ArrayList<EditorVariableDescription>();
 	descriptions.add(VARIABLE_CONFIG_PROPERTY);
-	//descriptions.add(VARIABLE_ANCHOR_START_ID);
-	//descriptions.add(VARIABLE_ANCHOR_END_ID);
-	//descriptions.add(VARIABLE_ANCHORS_CONTAINER);
+	descriptions.add(VARIABLE_ANCHOR_START_ID);
+	descriptions.add(VARIABLE_ANCHOR_END_ID);
+	descriptions.add(VARIABLE_ANCHORS_CONTAINER);
 	return descriptions;
     }
 
@@ -60,7 +69,7 @@ public class OxbyteiEditorVariables
 	Matcher matcher;
 	// resolve ${teilspProp(...)
 	matcher = CONFIG_PROPERTY_PATTERN.matcher(resolved);
-	while (matcher.matches()) {
+	while (matcher.find()) {
 	    String propertyName = matcher.group(1);
 	    // we get the config file in the loop, because this method
 	    // will be called very often without this editor
@@ -80,6 +89,30 @@ public class OxbyteiEditorVariables
 	    // resolve more ocurrences
 	    matcher = CONFIG_PROPERTY_PATTERN.matcher(resolved);
 	}
+
+	// resolve ${startAnchorID
+	matcher = START_ANCHOR_ID_PATTERN.matcher(resolved);
+	while (matcher.find()) {
+	    resolved = matcher.replaceFirst(GlobalState.startAnchorId);
+	    matcher = START_ANCHOR_ID_PATTERN.matcher(resolved);
+	}
+
+	// resolve ${endAnchorID
+	matcher = END_ANCHOR_ID_PATTERN.matcher(resolved);
+	while (matcher.find()) {
+	    resolved = matcher.replaceFirst(GlobalState.endAnchorId);
+	    matcher = END_ANCHOR_ID_PATTERN.matcher(resolved);
+	}
+
+	// resolve ${anchorsContainer
+	matcher = ANCHORS_CONTAINER_PATTERN.matcher(resolved);
+	while (matcher.find()) {
+	    String str = GlobalState.anchorsContainer;
+	    LOGGER.debug("resolved anchors container: {}", str);
+	    resolved = matcher.replaceFirst(Matcher.quoteReplacement(GlobalState.anchorsContainer));
+	    matcher = ANCHORS_CONTAINER_PATTERN.matcher(resolved);
+	}
+
 	return resolved;
     }
 }
