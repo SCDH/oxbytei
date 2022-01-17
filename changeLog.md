@@ -2,10 +2,14 @@
 
 ## dev ##
 
+- fixed a bug in analytic style
 - make generated IDs customizable through redirection to an xsl
   library by an XML catalog:
   - redirect `oxbytei/xsl/generate-id.xsl` to your own implementation
-
+- added regression tests based on XSpec for all markup styles added in
+  0.8.0
+  - they must be driven manually, since the maven plugin does not work
+	with XSLT 3.0
 
 ## 0.8.0 ##
 
