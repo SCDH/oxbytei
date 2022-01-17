@@ -8,8 +8,7 @@
   - redirect `oxbytei/xsl/generate-id.xsl` to your own implementation
 - added regression tests based on XSpec for all markup styles added in
   0.8.0
-  - they must be driven manually, since the maven plugin does not work
-	with XSLT 3.0
+- use XSpec 1.6 and Saxon 10.2 for testing XSLT 3.0
 
 ## 0.8.0 ##
 
