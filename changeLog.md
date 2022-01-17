@@ -1,6 +1,6 @@
 # Change log #
 
-## dev ##
+## 0.8.0 ##
 
 - flexible markup for persons, places and bibliographic references:
 - markup styles available:
