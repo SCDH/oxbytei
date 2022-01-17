@@ -1,5 +1,12 @@
 # Change log #
 
+## dev ##
+
+- make generated IDs customizable through redirection to an xsl
+  library by an XML catalog:
+  - redirect `oxbytei/xsl/generate-id.xsl` to your own implementation
+
+
 ## 0.8.0 ##
 
 - flexible markup for persons, places and bibliographic references:
