@@ -1,5 +1,15 @@
 # Change log #
 
+## dev ##
+
+- fixed a bug in analytic style
+- make generated IDs customizable through redirection to an xsl
+  library by an XML catalog:
+  - redirect `oxbytei/xsl/generate-id.xsl` to your own implementation
+- added regression tests based on XSpec for all markup styles added in
+  0.8.0
+- use XSpec 1.6 and Saxon 10.2 for testing XSLT 3.0
+
 ## 0.8.0 ##
 
 - flexible markup for persons, places and bibliographic references:

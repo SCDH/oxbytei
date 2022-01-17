@@ -46,7 +46,7 @@
 	<test.dir>${project.basedir}/test/xspec</test.dir>
 	<testing.xsl.dir>${project.build.directory}/generated-resources/xml/xslt/</testing.xsl.dir>
 	<oxygen.sdk.version>23.1.0.4</oxygen.sdk.version>
-	<saxon.version>9.9.1-6</saxon.version>
+	<saxon.version>10.2</saxon.version>
 	<!-- take care: after changing the following you have to update the exf-file! -->
         <slf4j.version>1.7.32</slf4j.version>
 	<ediarum.version>3.1.0</ediarum.version>
@@ -182,6 +182,11 @@
 			<groupId>net.sf.saxon</groupId>
 			<artifactId>Saxon-HE</artifactId>
 			<version>${saxon.version}</version>
+		    </dependency>
+		    <dependency>
+			<groupId>io.xspec</groupId>
+			<artifactId>xspec</artifactId>
+			<version>1.6.0</version>
 		    </dependency>
 		</dependencies>
             </plugin>
