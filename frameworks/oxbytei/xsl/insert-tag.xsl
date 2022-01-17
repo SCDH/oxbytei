@@ -53,7 +53,7 @@ action: Replace
     xmlns:xs="http://www.w3.org/2001/XMLSchema"
     xmlns:oxy="http://www.oxygenxml.com/ns/author/xpath-extension-functions"
     xmlns="http://www.tei-c.org/ns/1.0" xmlns:obt="http://scdh.wwu.de/oxbytei"
-    exclude-result-prefixes="xs oxy" version="3.0"
+    exclude-result-prefixes="xs oxy obt" version="3.0"
     xpath-default-namespace="http://www.tei-c.org/ns/1.0">
 
     <xsl:include href="generate-id.xsl"/>
