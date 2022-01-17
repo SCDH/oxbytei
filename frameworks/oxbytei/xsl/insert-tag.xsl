@@ -64,7 +64,8 @@ action: Replace
     <xsl:param name="container" as="xs:string" select="'/*'" required="false"/>
 
     <xsl:variable name="containerNode" as="node()">
-        <xsl:evaluate as="node()" context-item="/" expand-text="yes" xpath="$container"/>
+        <xsl:evaluate as="node()" context-item="/" expand-text="yes" xpath="$container" use-when="element-available('xsl:evaluate')"/>
+        <xsl:value-of select="/*" use-when="not(element-available('xsl:evaluate'))"/>
     </xsl:variable>
 
     <!-- style parameter. See above! -->
