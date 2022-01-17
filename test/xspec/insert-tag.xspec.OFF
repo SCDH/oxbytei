@@ -79,7 +79,7 @@
         <x:param name="container">//*:p[@xml:id eq 'p6']</x:param>
         <x:context href="case1.xml"/>
         <x:expect label="xml output" test="/*" pending="XSpec fails on whitespace!">
-            <t:p xml:id="..."><t:seg xml:id="s6">A <t:seg next="..." xml:id="...">AA</t:seg></t:seg> <t:seg xml:id="s7"><t:seg prev="..." xml:id="...">B${caret}</t:seg> BB</t:seg></t:p>
+            <t:p xml:id="..."><t:seg xml:id="s6">A <t:seg next="..." xml:id="...">AA</t:seg></t:seg>&#x20;<t:seg xml:id="s7"><t:seg prev="..." xml:id="...">B${caret}</t:seg> BB</t:seg></t:p>
         </x:expect>
         <!-- Since the above may fail because of whitespace problems, we also assert the right number of inserted seg elements -->
         <x:expect label="number of seg elements with @next" test="count(//t:seg/@next)" as="xs:integer">1</x:expect>
@@ -94,7 +94,7 @@
         <x:param name="container">//*:p[@xml:id eq 'p6']</x:param>
         <x:context href="case1.xml"/>
         <x:expect label="xml output" test="/*" pending="Whitespace-only text node will be ignored!">
-            <t:p xml:id="..."><t:seg xml:id="s6">A <t:seg next="..." xml:id="...">AA</t:seg></t:seg><seg next="..." prev="..." xml:id="..."> </seg><t:seg xml:id="s7"><t:seg prev="..." xml:id="...">B${caret}</t:seg> BB</t:seg></t:p>
+            <t:p xml:id="..."><t:seg xml:id="s6">A <t:seg next="..." xml:id="...">AA</t:seg></t:seg><seg next="..." prev="..." xml:id="...">&#x20;</seg><t:seg xml:id="s7"><t:seg prev="..." xml:id="...">B${caret}</t:seg> BB</t:seg></t:p>
         </x:expect>
         <!-- Since the above may fail because of whitespace problems, we also assert the right number of inserted seg elements -->
         <x:expect label="number of seg elements with @next" test="count(//t:seg/@next)" as="xs:integer">2</x:expect>
