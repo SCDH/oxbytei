@@ -103,6 +103,102 @@
 
 
 
+
+    <x:scenario label="restricted-aggregative - enclosing text">
+        <x:param name="style">restricted-aggregative</x:param>
+        <x:param name="startId">a1</x:param>
+        <x:param name="endId">a2</x:param>
+        <x:param name="container">//p[@xml:id eq 'p1']</x:param>
+        <x:param name="tag">name</x:param>
+        <x:context href="case1.xml"/>
+        <x:expect label="xml output" test="/*">
+            <t:p xml:id="...">A AA <t:seg xml:id="...">B BB BBB</t:seg><t:name select="...">${caret}</t:name> C CC</t:p>
+        </x:expect>
+    </x:scenario>
+    
+    <x:scenario label="restricted-aggregative - enclosing element">
+        <x:param name="style">restricted-aggregative</x:param>
+        <x:param name="startId">a3</x:param>
+        <x:param name="endId">a4</x:param>
+        <x:param name="container">//p[@xml:id eq 'p2']</x:param>
+        <x:param name="tag">name</x:param>
+        <x:context href="case1.xml"/>
+        <x:expect label="xml output" test="/*">
+            <t:p xml:id="...">A AA <t:seg xml:id="...">B </t:seg><t:seg xml:id="s1">BB</t:seg><t:seg xml:id="..."> BBB</t:seg><t:name select="...">${caret}</t:name> C CC</t:p>
+        </x:expect>
+        <x:expect label="count of selects" test="count(//t:name/@select => tokenize('\s+'))" as="xs:integer">3</x:expect>
+    </x:scenario>
+    
+    <x:scenario label="restricted-aggregative - overlapping front">
+        <x:param name="style">restricted-aggregative</x:param>
+        <x:param name="startId">a5</x:param>
+        <x:param name="endId">a6</x:param>
+        <x:param name="container">//*:p[@xml:id eq 'p3']</x:param>
+        <x:param name="tag">name</x:param>
+        <x:context href="case1.xml"/>
+        <x:expect label="xml output" test="/*">
+            <t:p xml:id="...">A AA <t:seg xml:id="...">B </t:seg><t:seg xml:id="s2"><t:seg xml:id="...">BB</t:seg><t:name select="...">${caret}</t:name> BBB</t:seg> C CC</t:p>
+        </x:expect>
+        <x:expect label="count of selects" test="count(//t:name/@select => tokenize('\s+'))" as="xs:integer">2</x:expect>
+    </x:scenario>
+    
+    <x:scenario label="aresticted-ggregative - overlapping back">
+        <x:param name="style">restricted-aggregative</x:param>
+        <x:param name="startId">a7</x:param>
+        <x:param name="endId">a8</x:param>
+        <x:param name="container">//*:p[@xml:id eq 'p4']</x:param>
+        <x:param name="tag">name</x:param>
+        <x:context href="case1.xml"/>
+        <x:expect label="xml output" test="/*">
+            <t:p xml:id="...">A AA B <t:seg xml:id="s3">BB<t:seg xml:id="..."> BBB</t:seg></t:seg><t:seg xml:id="..."> C</t:seg><t:name select="...">${caret}</t:name> CC</t:p>
+        </x:expect>
+        <x:expect label="count of selects" test="count(//t:name/@select => tokenize('\s+'))" as="xs:integer">2</x:expect>
+    </x:scenario>
+    
+    <x:scenario label="resticted-aggregative - overlapping both">
+        <x:param name="style">restricted-aggregative</x:param>
+        <x:param name="startId">a9</x:param>
+        <x:param name="endId">a10</x:param>
+        <x:param name="tag">name</x:param>
+        <x:param name="container">//*:p[@xml:id eq 'p5']</x:param>
+        <x:context href="case1.xml"/>
+        <x:expect label="xml output" test="/*">
+            <t:p xml:id="..."><t:seg xml:id="s4">A <t:seg xml:id="...">AA</t:seg></t:seg><t:seg xml:id="..."> B BB BBB </t:seg><t:seg xml:id="s5"><t:seg xml:id="...">C</t:seg><t:name select="...">${caret}</t:name> CC</t:seg></t:p>
+        </x:expect>
+        <x:expect label="count of selects" test="count(//t:name/@select => tokenize('\s+'))" as="xs:integer">3</x:expect>        
+    </x:scenario>
+    
+    <x:scenario label="restricted-aggregative - overlapping whitespace">
+        <x:param name="style">restricted-aggregative</x:param>
+        <x:param name="startId">a11</x:param>
+        <x:param name="endId">a12</x:param>
+        <x:param name="container">//*:p[@xml:id eq 'p6']</x:param>
+        <x:param name="tag">name</x:param>
+        <x:context href="case1.xml"/>
+        <x:expect label="xml output" test="/*" pending="XSpec fails on whitespace!">
+            <t:p xml:id="..."><t:seg xml:id="s6">A <t:seg xml:id="...">AA</t:seg></t:seg> <t:seg xml:id="s7"><t:seg xml:id="...">B</t:seg><t:name select="...">${caret}</t:name> BB</t:seg></t:p>
+        </x:expect>
+        <x:expect label="count of selects" test="count(//t:name/@select => tokenize('\s+'))" as="xs:integer">2</x:expect>        
+    </x:scenario>
+    
+    <x:scenario label="restricted-aggregative - wrap whitespace">
+        <x:param name="style">restricted-aggregative</x:param>
+        <x:param name="startId">a11</x:param>
+        <x:param name="endId">a12</x:param>
+        <x:param name="wrap-whitespace">true</x:param>
+        <x:param name="tag">name</x:param>
+        <x:param name="container">//*:p[@xml:id eq 'p6']</x:param>
+        <x:context href="case1.xml"/>
+        <x:expect label="xml output" test="/*" pending="Whitespace-only text node will be ignored!">
+            <t:p xml:id="..."><t:seg xml:id="s6">A <t:seg xml:id="...">AA</t:seg></t:seg><seg xml:id="..."> </seg><t:seg xml:id="s7"><t:seg xml:id="...">B</t:seg><t:name select="...">${caret}</t:name> BB</t:seg></t:p>
+        </x:expect>
+        <x:expect label="count of selects" test="count(//t:name/@select => tokenize('\s+'))" as="xs:integer">3</x:expect>        
+    </x:scenario>
+    
+
+
+
+
     <x:scenario label="toSpan">
         <x:param name="style">spanTo</x:param>
         <x:param name="startId">a1</x:param>
