@@ -1,18 +1,119 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!-- This does NOT run on the maven-xspec-plugin which cannot evaluate XSLT 3.0 -->
 <x:description xmlns:x="http://www.jenitennison.com/xslt/xspec"
-    xmlns:t="http://www.tei-c.org/ns/1.0" stylesheet="../../frameworks/oxbytei/xsl/insert-tag.xsl">
+    xmlns:xs="http://www.w3.org/2001/XMLSchema"
+    xmlns:t="http://www.tei-c.org/ns/1.0" stylesheet="../../frameworks/oxbytei/xsl/insert-tag.xsl"
+    run-as="external">
 
-    <x:param name="style">aggregative</x:param>
-    <x:param name="startId">a1</x:param>
-    <x:param name="endId">a2</x:param>
-    
-    <x:scenario label="aggregative - enclose text" >
-        <x:context>
-            <t:p>A AA <t:anchor xml:id="a1"/>B BB BBB<t:anchor xml:id="a2"/> C CC</t:p>
-        </x:context>
-        <x:expect label="xml output" select="/self::document-node()">
-            <t:p>A AA <t:seg>B BB BBB</t:seg> C CC</t:p>
+
+    <x:scenario label="aggregative - enclosing text">
+        <x:param name="style">aggregative</x:param>
+        <x:param name="startId">a1</x:param>
+        <x:param name="endId">a2</x:param>
+        <x:param name="container">//p[@xml:id eq 'p1']</x:param>
+        <x:context href="case1.xml"/>
+        <x:expect label="xml output">
+            <t:p xml:id="...">A AA <t:seg>${caret}B BB BBB</t:seg> C CC</t:p>
         </x:expect>
     </x:scenario>
+
+    <x:scenario label="aggregative - enclosing element">
+        <x:param name="style">aggregative</x:param>
+        <x:param name="startId">a3</x:param>
+        <x:param name="endId">a4</x:param>
+        <x:param name="container">//p[@xml:id eq 'p2']</x:param>
+        <x:context href="case1.xml"/>
+        <x:expect label="xml output">
+            <t:p xml:id="...">A AA <t:seg>${caret}B <t:seg xml:id="s1">BB</t:seg> BBB</t:seg> C CC</t:p>
+        </x:expect>
+    </x:scenario>
+
+    <x:scenario label="aggregative - overlapping front">
+        <x:param name="style">aggregative</x:param>
+        <x:param name="startId">a5</x:param>
+        <x:param name="endId">a6</x:param>
+        <x:param name="container">//*:p[@xml:id eq 'p3']</x:param>
+        <x:context href="case1.xml"/>
+        <x:expect label="xml output" test="/*">
+            <t:p xml:id="...">A AA <t:seg next="..." xml:id="...">B </t:seg><t:seg xml:id="s2"><t:seg prev="..." xml:id="...">BB${caret}</t:seg> BBB</t:seg> C CC</t:p>
+        </x:expect>
+        <x:expect label="next" test="//t:seg/@next[1] eq concat('#', (//t:seg/@xml:id)[3])"/>
+        <x:expect label="prev" test="//t:seg/@prev[1] eq concat('#', (//t:seg/@xml:id)[1])"/>
+    </x:scenario>
+    
+    <x:scenario label="aggregative - overlapping back">
+        <x:param name="style">aggregative</x:param>
+        <x:param name="startId">a7</x:param>
+        <x:param name="endId">a8</x:param>
+        <x:param name="container">//*:p[@xml:id eq 'p4']</x:param>
+        <x:context href="case1.xml"/>
+        <x:expect label="xml output" test="/*">
+            <t:p xml:id="...">A AA B <t:seg xml:id="s3">BB<t:seg next="..." xml:id="..."> BBB</t:seg></t:seg><t:seg prev="..." xml:id="..."> C${caret}</t:seg> CC</t:p>
+        </x:expect>
+        <x:expect label="next" test="//t:seg/@next[1] eq concat('#', (//t:seg/@xml:id)[3])"/>
+        <x:expect label="prev" test="//t:seg/@prev[1] eq concat('#', (//t:seg/@xml:id)[2])"/>
+    </x:scenario>
+    
+    <x:scenario label="aggregative - overlapping both">
+        <x:param name="style">aggregative</x:param>
+        <x:param name="startId">a9</x:param>
+        <x:param name="endId">a10</x:param>
+        <x:param name="container">//*:p[@xml:id eq 'p5']</x:param>
+        <x:context href="case1.xml"/>
+        <x:expect label="xml output" test="/*">
+            <t:p xml:id="..."><t:seg xml:id="s4">A <t:seg next="..." xml:id="...">AA</t:seg></t:seg><t:seg next="..." prev="..." xml:id="..."> B BB BBB </t:seg><t:seg xml:id="s5"><t:seg prev="..." xml:id="...">C${caret}</t:seg> CC</t:seg></t:p>
+        </x:expect>
+        <x:expect label="next1" test="(//t:seg/@next)[1] eq concat('#', (//t:seg/@xml:id)[3])"/>
+        <x:expect label="prev2" test="(//t:seg/@prev)[1] eq concat('#', (//t:seg/@xml:id)[2])"/>
+        <x:expect label="next2" test="(//t:seg/@next)[2] eq concat('#', (//t:seg/@xml:id)[5])"/>
+        <x:expect label="prev3" test="(//t:seg/@prev)[2] eq concat('#', (//t:seg/@xml:id)[3])"/>
+        <!-- automatically assigned IDs should differ! -->
+        <x:expect label="next differ" test="(//t:seg/@next)[1] ne (//t:seg/@next)[2]"/>
+        <x:expect label="prev differ" test="(//t:seg/@prev)[1] ne (//t:seg/@prev)[2]"/>
+    </x:scenario>
+    
+    <x:scenario label="aggregative - overlapping whitespace">
+        <x:param name="style">aggregative</x:param>
+        <x:param name="startId">a11</x:param>
+        <x:param name="endId">a12</x:param>
+        <x:param name="container">//*:p[@xml:id eq 'p6']</x:param>
+        <x:context href="case1.xml"/>
+        <x:expect label="xml output" test="/*" pending="XSpec fails on whitespace!">
+            <t:p xml:id="..."><t:seg xml:id="s6">A <t:seg next="..." xml:id="...">AA</t:seg></t:seg> <t:seg xml:id="s7"><t:seg prev="..." xml:id="...">B${caret}</t:seg> BB</t:seg></t:p>
+        </x:expect>
+        <!-- Since the above may fail because of whitespace problems, we also assert the right number of inserted seg elements -->
+        <x:expect label="number of seg elements with @next" test="count(//t:seg/@next)" as="xs:integer">1</x:expect>
+        <x:expect label="number of seg elements with @prev" test="count(//t:seg/@prev)" as="xs:integer">1</x:expect>
+    </x:scenario>
+    
+    <x:scenario label="aggregative - wrap whitespace">
+        <x:param name="style">aggregative</x:param>
+        <x:param name="startId">a11</x:param>
+        <x:param name="endId">a12</x:param>
+        <x:param name="wrap-whitespace">true</x:param>
+        <x:param name="container">//*:p[@xml:id eq 'p6']</x:param>
+        <x:context href="case1.xml"/>
+        <x:expect label="xml output" test="/*" pending="Whitespace-only text node will be ignored!">
+            <t:p xml:id="..."><t:seg xml:id="s6">A <t:seg next="..." xml:id="...">AA</t:seg></t:seg><seg next="..." prev="..." xml:id="..."> </seg><t:seg xml:id="s7"><t:seg prev="..." xml:id="...">B${caret}</t:seg> BB</t:seg></t:p>
+        </x:expect>
+        <!-- Since the above may fail because of whitespace problems, we also assert the right number of inserted seg elements -->
+        <x:expect label="number of seg elements with @next" test="count(//t:seg/@next)" as="xs:integer">2</x:expect>
+        <x:expect label="number of seg elements with @prev" test="count(//t:seg/@prev)" as="xs:integer">2</x:expect>
+    </x:scenario>
+
+
+
+    <x:scenario label="toSpan">
+        <x:param name="style">spanTo</x:param>
+        <x:param name="startId">a1</x:param>
+        <x:param name="endId">a2</x:param>
+        <x:param name="container">//p[@xml:id eq 'p1']</x:param>
+        <x:context href="case1.xml"/>
+        <x:expect label="xml output">
+            <t:seg spanTo="#a2"/>
+        </x:expect>
+    </x:scenario>
+
+
 
 </x:description>

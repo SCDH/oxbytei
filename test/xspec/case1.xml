@@ -21,13 +21,14 @@
          <div>
             <div>
                <head>May</head>
-               <p xml:id="p1"><anchor xml:id="a1"/>Lorem ipsum dolor sit amet,<anchor
-                  xml:id="a2"/> consetetur sadipscing elitr<anchor 
-                  xml:id="a3"/>, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea <anchor 
-                     xml:id="a4"/>rebum.</p>
-               <p> Stet<anchor xml:id="a5"/> clita kasd gubergren, <seg>no sea<anchor xml:id="a6"/>
-                     takimata sanctus est <anchor xml:id="anchor_of3_rzk_2sb"/>Lorem ipsum dolor
-                     sit</seg> amet<anchor xml:id="anchor_gkc_wzk_2sb"/>.</p>
+               <p xml:id="p1">A AA <anchor xml:id="a1"/>B BB BBB<anchor
+                  xml:id="a2"/> C CC</p>
+               <p xml:id="p2">A AA <anchor xml:id="a3"/>B <seg xml:id="s1">BB</seg> BBB<anchor
+                  xml:id="a4"/> C CC</p>
+               <p xml:id="p3">A AA <anchor xml:id="a5"/>B <seg xml:id="s2">BB<anchor xml:id="a6"/> BBB</seg> C CC</p>
+               <p xml:id="p4">A AA B <seg xml:id="s3">BB<anchor xml:id="a7"/> BBB</seg> C<anchor xml:id="a8"/> CC</p>
+               <p xml:id="p5"><seg xml:id="s4">A <anchor xml:id="a9"/>AA</seg> B BB BBB <seg xml:id="s5">C<anchor xml:id="a10"/> CC</seg></p>
+               <p xml:id="p6"><seg xml:id="s6">A <anchor xml:id="a11"/>AA</seg> <seg xml:id="s7">B<anchor xml:id="a12"/> BB</seg></p>
             </div>
             <div>
                <head>Be</head>
