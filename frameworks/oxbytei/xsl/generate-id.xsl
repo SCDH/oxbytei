@@ -9,19 +9,19 @@ obt:generate-id(document-node(), xs:string).
     xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:obt="http://scdh.wwu.de/oxbytei"
     exclude-result-prefixes="xs obt" version="3.0">
 
-    <xsl:function name="obt:generate-id" as="xs:ID">
+    <xsl:function name="obt:generate-id" as="xs:string">
         <xsl:param name="context-node" as="node()"/>
         <xsl:sequence select="generate-id($context-node)"/>
     </xsl:function>
 
-    <xsl:function name="obt:generate-id" as="xs:ID">
+    <xsl:function name="obt:generate-id" as="xs:string">
         <xsl:param name="context-node" as="node()"/>
         <xsl:param name="element-name" as="xs:string"/>
         <xsl:param name="element-namespace" as="xs:string"/>
         <xsl:sequence select="generate-id($context-node)"/>
     </xsl:function>
 
-    <xsl:function name="obt:generate-id" as="xs:ID">
+    <xsl:function name="obt:generate-id" as="xs:string">
         <xsl:param name="doc" as="document-node()"/>
         <xsl:param name="context-xpath" as="xs:string"/>
         <xsl:variable name="context-node" as="node()">
