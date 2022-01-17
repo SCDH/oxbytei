@@ -224,7 +224,7 @@ action: Replace
 
     <!-- analytic style -->
     <xsl:template name="analytic-entry">
-        <span from="{$startId}" to="{$endId}">
+        <span from="#{$startId}" to="#{$endId}">
             <xsl:element name="{$tag}" namespace="{$tag-namespace}">
                 <xsl:text>${caret}</xsl:text>
                 <xsl:value-of
