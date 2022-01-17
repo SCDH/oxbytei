@@ -63,10 +63,6 @@ action: Replace
 
     <xsl:param name="container" as="xs:string" select="'/*'" required="false"/>
 
-    <xsl:variable name="containerNode" as="node()">
-        <xsl:evaluate as="node()" context-item="/" expand-text="yes" xpath="$container"/>
-    </xsl:variable>
-
     <!-- style parameter. See above! -->
     <xsl:param name="style" as="xs:string" select="'aggregative'" required="no"/>
 
@@ -96,6 +92,14 @@ action: Replace
             select="generate-id(//*[@xml:id eq $startId]/parent::*)"/>
         <xsl:variable name="end-parent-id" select="generate-id(//*[@xml:id eq $endId]/parent::*)"/>
         <xsl:variable name="same-parent" select="$start-parent-id eq $end-parent-id"/>
+
+        <xsl:variable name="containerNode" as="node()">
+            <xsl:evaluate as="node()" context-item="." expand-text="yes" xpath="$container"
+                use-when="element-available('xsl:evaluate')"/>
+            <xsl:value-of
+                select="descendant-or-self::*[child::*[@xml:id eq $startId] and child::*[@xml:id eq $endId]][last()]"
+                use-when="not(element-available('xsl:evaluate'))"/>
+        </xsl:variable>
 
         <xsl:choose>
             <xsl:when test="$style eq 'analytic'">
@@ -220,7 +224,7 @@ action: Replace
 
     <!-- analytic style -->
     <xsl:template name="analytic-entry">
-        <span from="{$startId}" to="{$endId}">
+        <span from="#{$startId}" to="#{$endId}">
             <xsl:element name="{$tag}" namespace="{$tag-namespace}">
                 <xsl:text>${caret}</xsl:text>
                 <xsl:value-of
