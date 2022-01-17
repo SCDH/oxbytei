@@ -5,33 +5,13 @@
     <x:param name="style">aggregative</x:param>
     <x:param name="startId">a1</x:param>
     <x:param name="endId">a2</x:param>
-<!--
-    <x:param name="debug">true</x:param>
-    <x:param name="container">/t:p</x:param>
--->
-<!--
-    <x:scenario label="#a1 to #a2 - aggregative">
-        <x:context href="case1.xml" select="/*"/>
-        <!-\-x:context href="case1.xml" select="/"/-\->
-        <x:expect
-            label="First">
-            <t:p xml:id="p1"><t:seg>${caret}Lorem ipsum dolor sit amet,</t:seg
-                > consetetur sadipscing elitr<t:anchor xml:id="a3"
-                />, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea <t:anchor
-                    xml:id="a4"/>rebum.</t:p></x:expect>
-    </x:scenario>
--->
     
-    <x:scenario label="aggregative - enclose text">
+    <x:scenario label="aggregative - enclose text" >
         <x:context>
-            <t:p>
-                A AA <t:anchor xml:id="a1"/>B BB BBB<t:anchor xml:id="a2"/> C CC
-            </t:p>
+            <t:p>A AA <t:anchor xml:id="a1"/>B BB BBB<t:anchor xml:id="a2"/> C CC</t:p>
         </x:context>
         <x:expect label="xml output" select="/self::document-node()">
-            <t:p>
-                A AA <t:seg>B BB BBB</t:seg> C CC
-            </t:p>
+            <t:p>A AA <t:seg>B BB BBB</t:seg> C CC</t:p>
         </x:expect>
     </x:scenario>
 
