@@ -52,8 +52,11 @@ action: Replace
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
     xmlns:xs="http://www.w3.org/2001/XMLSchema"
     xmlns:oxy="http://www.oxygenxml.com/ns/author/xpath-extension-functions"
-    xmlns="http://www.tei-c.org/ns/1.0" exclude-result-prefixes="xs oxy" version="3.0"
+    xmlns="http://www.tei-c.org/ns/1.0" xmlns:obt="http://scdh.wwu.de/oxbytei"
+    exclude-result-prefixes="xs oxy" version="3.0"
     xpath-default-namespace="http://www.tei-c.org/ns/1.0">
+
+    <xsl:include href="generate-id.xsl"/>
 
     <xsl:param name="startId" as="xs:ID" required="yes"/>
     <xsl:param name="endId" as="xs:ID" required="yes"/>
@@ -181,7 +184,7 @@ action: Replace
         <xsl:element name="{$tag}" namespace="{$tag-namespace}">
             <!-- we use the @n attribute to temporarily keep track of the elements -->
             <xsl:attribute name="n" select="$startId"/>
-            <xsl:attribute name="xml:id" select="generate-id()"/>
+            <xsl:attribute name="xml:id" select="obt:generate-id(., $tag, $tag-namespace)"/>
             <xsl:value-of select="."/>
         </xsl:element>
     </xsl:template>
@@ -251,14 +254,14 @@ action: Replace
 
     <xsl:template mode="restrictive-aggregative-between"
         match="text()[not(parent::seg[count(child::node()) eq 1])][not(matches(., '^\s+$')) or $wrap-whitespace]">
-        <seg xml:id="{generate-id()}">
+        <seg xml:id="{obt:generate-id(., 'seg', 'http://www.tei-c.org/ns/1.0')}">
             <xsl:value-of select="."/>
         </seg>
     </xsl:template>
 
     <xsl:template mode="restrictive-aggregative-between"
         match="seg[not(@xml:id) and exists(child::text()) and count(child::node()) eq 1]">
-        <seg xml:id="{generate-id()}">
+        <seg xml:id="{obt:generate-id(.)}">
             <xsl:apply-templates select="node()" mode="restrictive-aggregative-between"/>
         </seg>
     </xsl:template>
