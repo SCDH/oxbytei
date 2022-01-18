@@ -236,7 +236,7 @@
 			</transformationSet>
 			<transformationSet>
 			    <!-- sel.language -->
-			    <dir>${framework.dir}/externalAuthorActions</dir>
+			    <dir>${framework.dir}/oxbytei_externalAuthorActions</dir>
 			    <includes>
 				<include>sel-language.xml</include>
 			    </includes>
