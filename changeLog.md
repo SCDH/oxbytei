@@ -1,8 +1,8 @@
 # Change log #
 
-## dev ##
+## 0.8.1 ##
 
-- fixed a bug in analytic style
+- fixed a bug in analytic markup style
 - make generated IDs customizable through redirection to an xsl
   library by an XML catalog:
   - redirect `oxbytei/xsl/generate-id.xsl` to your own implementation
