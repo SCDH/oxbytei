@@ -1,5 +1,9 @@
 # Change log #
 
+## 0.8.2-dev ##
+
+- enable framework inheritance
+
 ## 0.8.1 ##
 
 - fixed a bug in analytic markup style
