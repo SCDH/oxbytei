@@ -27,7 +27,7 @@
 						<String></String>
 					</field>
 					<field name="inputXSLURL">
-						<String>${framework}/xsl/updateHeader.xsl</String>
+						<String>${framework(oXbytei)}/xsl/updateHeader.xsl</String>
 					</field>
 					<field name="inputXMLURL">
 						<String>${currentFileURL}</String>

@@ -6,8 +6,8 @@
   id="add.variant">
   <a:name>Apparatus entry</a:name>
   <a:description>Make a new apparatus entry for the selected text.</a:description>
-  <a:smallIconPath href="${framework}/images/sheetsscript-16.png"/>
-  <a:largeIconPath href="${framework}/images/sheetsscript-24.png"/>
+  <a:smallIconPath href="${framework(oXbytei)}/images/sheetsscript-16.png"/>
+  <a:largeIconPath href="${framework(oXbytei)}/images/sheetsscript-24.png"/>
   <a:operations>
     <a:operation id="ExecuteMultipleActionsOperation">
       <a:xpathCondition>not(ancestor-or-self::app) and //teiHeader/encodingDesc/variantEncoding</a:xpathCondition>

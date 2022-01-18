@@ -11,7 +11,7 @@
       <!-- for location referenced apparatus encoding, we need postprocessing -->
       <a:xpathCondition>ancestor-or-self::app and //teiHeader/encodingDesc/variantEncoding[@method eq 'location-referenced' and @location eq 'internal']</a:xpathCondition>
       <a:arguments>
-        <a:argument name="script">${framework}/xsl/app-locref-postprocess.xsl</a:argument>
+        <a:argument name="script">${framework(oXbytei)}/xsl/app-locref-postprocess.xsl</a:argument>
         <a:argument name="action">Replace</a:argument>
         <a:argument name="sourceLocation">ancestor-or-self::app</a:argument>
         <a:argument name="targetLocation">ancestor-or-self::app</a:argument>

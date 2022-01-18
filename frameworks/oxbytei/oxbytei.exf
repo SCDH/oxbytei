@@ -15,10 +15,10 @@ from the contextual menu.
   <priority>Normal</priority>
 
   <classpath>
-    <addEntry path="${framework}/oxbytei.jar"/>
-    <addEntry path="${framework}/ediarum-3.1.0.jar"/>
-    <addEntry path="${framework}/slf4j-api-1.7.32.jar"/>
-    <addEntry path="${framework}/slf4j-log4j12-1.7.32.jar"/>
+    <addEntry path="${framework(oXbytei)}/oxbytei.jar"/>
+    <addEntry path="${framework(oXbytei)}/ediarum-3.1.0.jar"/>
+    <addEntry path="${framework(oXbytei)}/slf4j-api-1.7.32.jar"/>
+    <addEntry path="${framework(oXbytei)}/slf4j-log4j12-1.7.32.jar"/>
   </classpath>
 
   <extensionPoints>
@@ -27,7 +27,7 @@ from the contextual menu.
   </extensionPoints>
 
   <transformationScenarios>
-    <!-- FIXME: add ${framework}/ after oXygen bug-fix -->
+    <!-- FIXME: add ${framework(oXbytei)}/ after oXygen bug-fix -->
     <addScenarios href="xsl/updateHeader.scenario.xml"/>
   </transformationScenarios>
 
