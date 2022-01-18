@@ -6,8 +6,8 @@
   id="link.bibref">
   <a:name>Bibliographic reference</a:name>
   <a:description>Make a reference to the bibliography.</a:description>
-  <a:largeIconPath href="${framework}/images/bibref-24.png"/>
-  <a:smallIconPath href="${framework}/images/bibref-16.png"/>
+  <a:largeIconPath href="${framework(oXbytei)}/images/bibref-24.png"/>
+  <a:smallIconPath href="${framework(oXbytei)}/images/bibref-16.png"/>
   <a:operations>
     <a:operation id="ExecuteMultipleActionsOperation">
       <a:xpathCondition>(self::bibl | self::biblStruct)</a:xpathCondition>

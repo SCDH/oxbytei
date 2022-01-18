@@ -6,8 +6,8 @@
   id="link.place">
   <a:name>Identify place</a:name>
   <a:description>Link place to norm file.</a:description>
-  <a:largeIconPath href="${framework}/images/pin-24.png"/>
-  <a:smallIconPath href="${framework}/images/pin-16.png"/>
+  <a:largeIconPath href="${framework(oXbytei)}/images/pin-24.png"/>
+  <a:smallIconPath href="${framework(oXbytei)}/images/pin-16.png"/>
   <a:operations>
     <a:operation id="ExecuteMultipleActionsOperation">
       <a:xpathCondition>(self::placeName | self::geogName | self::place | self::region)</a:xpathCondition>
