@@ -25,4 +25,9 @@ public class GlobalState {
      */
     public static String selection = null;
 
+    /**
+     * set by {@link InsertAnchorOperation}
+     */
+    public static String anchorId = null;
+
 }
