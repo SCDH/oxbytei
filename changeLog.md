@@ -1,5 +1,12 @@
 # Change log #
 
+## 0.8.2 ##
+
+- enabled framework inheritance
+  - Please, have a look at [oXbytao](https://github.com/SCDH/oxbytao)
+    for an example!
+- re-arranged menus and toolsbars
+
 ## 0.8.1 ##
 
 - fixed a bug in analytic markup style

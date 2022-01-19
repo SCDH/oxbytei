@@ -6,8 +6,8 @@
   id="sel.wit">
   <a:name>Select witnesses</a:name>
   <a:description>Select witnesses of a reading or the lemma.</a:description>
-  <a:largeIconPath href="${framework}/images/sheetsquestion-24.png"/>
-  <a:smallIconPath href="${framework}/images/sheetsquestion-16.png"/>
+  <a:largeIconPath href="${framework(oXbytei)}/images/sheetsquestion-24.png"/>
+  <a:smallIconPath href="${framework(oXbytei)}/images/sheetsquestion-16.png"/>
   <a:operations>
     <a:operation id="de.wwu.scdh.oxbytei.SelectAttributeValueOperation">
       <a:xpathCondition>self::lem</a:xpathCondition>

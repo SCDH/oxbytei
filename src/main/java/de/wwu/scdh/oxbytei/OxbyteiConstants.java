@@ -29,7 +29,7 @@ public class OxbyteiConstants {
     /**
      * URL of the default plugin configuration
      */
-    public static final String DEFAULT_CONFIG_FILE = "${framework}/config/default.xml";
+    public static final String DEFAULT_CONFIG_FILE = "${framework(oXbytei)}/config/default.xml";
 
     public static String getExtensionRoot() {
 	// get the URL of the configuration file

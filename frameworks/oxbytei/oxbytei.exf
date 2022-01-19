@@ -15,19 +15,21 @@ from the contextual menu.
   <priority>Normal</priority>
 
   <classpath>
-    <addEntry path="${framework}/oxbytei.jar"/>
-    <addEntry path="${framework}/ediarum-3.1.0.jar"/>
-    <addEntry path="${framework}/slf4j-api-1.7.32.jar"/>
-    <addEntry path="${framework}/slf4j-log4j12-1.7.32.jar"/>
+    <addEntry path="${framework(oXbytei)}/oxbytei.jar"/>
+    <addEntry path="${framework(oXbytei)}/ediarum-3.1.0.jar"/>
+    <addEntry path="${framework(oXbytei)}/slf4j-api-1.7.32.jar"/>
+    <addEntry path="${framework(oXbytei)}/slf4j-log4j12-1.7.32.jar"/>
   </classpath>
 
   <extensionPoints>
-    <extension name="schemaManagerFilterExtension" value="de.wwu.scdh.oxbytei.OxbyteiSchemaManagerFilter"/>
-    <extension name="authorExtensionStateListener" value="de.wwu.scdh.oxbytei.OxbyteiStateListener"/>
+    <extension name="schemaManagerFilterExtension"
+      value="de.wwu.scdh.oxbytei.OxbyteiSchemaManagerFilter"/>
+    <extension name="authorExtensionStateListener" value="de.wwu.scdh.oxbytei.OxbyteiStateListener"
+    />
   </extensionPoints>
 
   <transformationScenarios>
-    <!-- FIXME: add ${framework}/ after oXygen bug-fix -->
+    <!-- FIXME: add ${framework(oXbytei)}/ after oXygen bug-fix -->
     <addScenarios href="xsl/updateHeader.scenario.xml"/>
   </transformationScenarios>
 
@@ -40,53 +42,53 @@ from the contextual menu.
       https://www.oxygenxml.com/doc/versions/22.1/ug-editor/topics/dg-create-custom-actions.html#dg-create-custom-actions__section_2
     -->
     <toolbars>
-      <toolbar>
+      <toolbar name="TEI">
+        <separator/>
+        <addAction id="add.variant"/>
+        <addAction id="sel.wit"/>
         <separator/>
         <addAction id="select.language"/>
         <addAction id="link.person"/>
         <addAction id="link.place"/>
         <addAction id="link.bibref"/>
         <addAction id="annotate"/>
-        <separator/>
-        <addAction id="add.variant"/>
-        <addAction id="sel.wit"/>
       </toolbar>
     </toolbars>
 
     <menu>
-      <separator/>
-      <addAction id="select.language"/>
-      <addAction id="link.person"/>
-      <addAction id="link.place"/>
-      <addAction id="link.bibref"/>
-      <addAction id="annotate"/>
-      <separator/>
-      <addAction id="add.variant"/>
-      <addAction id="sel.wit"/>
+      <separator anchor="insert image"/>
+      <addAction anchor="insert image" id="add.variant"/>
+      <addAction anchor="insert image" id="sel.wit"/>
+      <separator anchor="insert image"/>
+      <addAction anchor="insert image" id="select.language"/>
+      <addAction anchor="insert image" id="link.person"/>
+      <addAction anchor="insert image" id="link.place"/>
+      <addAction anchor="insert image" id="link.bibref"/>
+      <addAction anchor="insert image" id="annotate"/>
     </menu>
 
     <contextualMenu>
-      <submenu name="Other actions">
+      <submenu name="TEI">
+        <addAction id="add.variant"/>
+        <addAction id="sel.wit"/>
+        <separator/>
         <addAction id="select.language"/>
         <addAction id="link.person"/>
         <addAction id="link.place"/>
         <addAction id="link.bibref"/>
         <addAction id="annotate"/>
-        <separator/>
-        <addAction id="add.variant"/>
-        <addAction id="sel.wit"/>
       </submenu>
     </contextualMenu>
 
     <contentCompletion>
       <authorActions>
+        <addAction id="add.variant" inElementsView="true" inCCWindow="true"/>
+        <addAction id="sel.wit" inElementsView="true" inCCWindow="true"/>
         <addAction id="select.language" inElementsView="true" inCCWindow="true"/>
         <addAction id="link.person" inElementsView="true" inCCWindow="true"/>
         <addAction id="link.place" inElementsView="true" inCCWindow="true"/>
         <addAction id="link.bibref" inElementsView="true" inCCWindow="true"/>
         <addAction id="annotate" inElementsView="true" inCCWindow="true"/>
-        <addAction id="add.variant" inElementsView="true" inCCWindow="true"/>
-        <addAction id="sel.wit" inElementsView="true" inCCWindow="true"/>
       </authorActions>
     </contentCompletion>
 

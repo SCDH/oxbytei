@@ -3,22 +3,22 @@
 <a:authorAction xmlns:a="http://www.oxygenxml.com/ns/author/external-action"
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://www.oxygenxml.com/ns/author/external-action http://www.oxygenxml.com/ns/author/external-action/authorAction.xsd"
-  id="link.bibref">
-  <a:name>Bibliographic reference</a:name>
-  <a:description>Make a reference to the bibliography.</a:description>
-  <a:largeIconPath href="${framework}/images/bibref-24.png"/>
-  <a:smallIconPath href="${framework}/images/bibref-16.png"/>
+  id="link.place">
+  <a:name>Identify place</a:name>
+  <a:description>Link place to norm file.</a:description>
+  <a:largeIconPath href="${framework(oXbytei)}/images/pin-24.png"/>
+  <a:smallIconPath href="${framework(oXbytei)}/images/pin-16.png"/>
   <a:operations>
     <a:operation id="ExecuteMultipleActionsOperation">
-      <a:xpathCondition>(self::bibl | self::biblStruct)</a:xpathCondition>
+      <a:xpathCondition>(self::placeName | self::geogName | self::place | self::region)</a:xpathCondition>
       <a:arguments>
-        <a:argument name="actionIDs">sel.bibref</a:argument>
+        <a:argument name="actionIDs">sel.place</a:argument>
       </a:arguments>
     </a:operation>
     <a:operation id="ExecuteMultipleActionsOperation">
       <a:xpathCondition>true()</a:xpathCondition>
       <a:arguments>
-        <a:argument name="actionIDs">anchors.bibref, markup.bibref, sel.bibref</a:argument>
+        <a:argument name="actionIDs">anchors.place, markup.place, sel.place</a:argument>
       </a:arguments>
     </a:operation>
   </a:operations>

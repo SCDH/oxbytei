@@ -52,6 +52,14 @@ documents.
   referencing the anchors somewhere else in the document. Also select
   `span/@ana` from `<interp>` elements in the document
   (default). Other sources/references for `@ana` can be configured.
+- **Multiple level inheritance**: Instead of an `oxbytei.framework`
+  file, oXbytei uses an [extension
+  script](https://www.oxygenxml.com/doc/versions/23.1/ug-editor/topics/framework-customization-script.html)
+  as introduced in oXygen 23.1. This makes it possible to inherit from
+  base frameworks on [multiple
+  levels](https://www.youtube.com/watch?v=e8NwqN16p18&t=13m24s). You're
+  able to write your own framework on top of oXbytei, which operates
+  on top of TEI P5.
 
 On the road map:
 
@@ -86,7 +94,10 @@ configuration.
 
 oXbytei requires oXygen >= 23.1, because it makes use of an [extension
 script](https://www.oxygenxml.com/doc/versions/23.1/ug-editor/topics/framework-customization-script.html)
-for framework configuration.
+for framework configuration. With extension scripts you gain multiple
+level inheritance and transparent updates, i.e. updates on lower level
+frameworks can be installed without the need to update the stack of
+frameworks based on it.
 
 ### Installation ###
 

@@ -10,7 +10,7 @@
     <a:operation id="de.wwu.scdh.oxbytei.ExpandingXSLTOperation">
       <a:xpathCondition>true()</a:xpathCondition>
       <a:arguments>
-        <a:argument name="script">${framework}/xsl/insert-tag.xsl</a:argument>
+        <a:argument name="script">${framework(oXbytei)}/xsl/insert-tag.xsl</a:argument>
         <a:argument name="sourceLocation">${teilspProp(oxbytei.action.markup.place.sourceLocation)}</a:argument>
         <a:argument name="targetLocation">${teilspProp(oxbytei.action.markup.place.targetLocation)}</a:argument>
         <a:argument name="action">${teilspProp(oxbytei.action.markup.place.action)}</a:argument>
