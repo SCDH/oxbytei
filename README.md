@@ -17,6 +17,14 @@ oXbytei [ɔx bʌtaj] (greco-english tongue and french ears) is an
 offers high-level functions that facilitate everyday work on TEI
 documents.
 
+- **Multiple level inheritance**: Instead of an `oxbytei.framework`
+  file, oXbytei uses an [extension
+  script](https://www.oxygenxml.com/doc/versions/23.1/ug-editor/topics/framework-customization-script.html)
+  as introduced in oXygen 23.1. This makes it possible to inherit from
+  base frameworks on [multiple
+  levels](https://www.youtube.com/watch?v=e8NwqN16p18&t=13m24s). You're
+  able to write your own framework on top of oXbytei, which operates
+  on top of TEI P5.
 - **Critical apparatus**: According to what is stated in
   [`<variantEncoding>`](https://www.tei-c.org/release/doc/tei-p5-doc/de/html/ref-variantEncoding.html)
   a new apparatus entry is generated from the _user selection_ and
@@ -86,7 +94,10 @@ configuration.
 
 oXbytei requires oXygen >= 23.1, because it makes use of an [extension
 script](https://www.oxygenxml.com/doc/versions/23.1/ug-editor/topics/framework-customization-script.html)
-for framework configuration.
+for framework configuration. With extension scripts you gain multiple
+level inheritance and transparent updates, i.e. updates on lower level
+frameworks can be installed without the need to update the stack of
+frameworks based on it.
 
 ### Installation ###
 
