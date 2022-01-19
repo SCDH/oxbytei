@@ -1,8 +1,11 @@
 # Change log #
 
-## 0.8.2-dev ##
+## 0.8.2 ##
 
-- enable framework inheritance
+- enabled framework inheritance
+  - Please, have a look at [oXbytao](https://github.com/SCDH/oxbytao)
+    for an example!
+- re-arranged menus and toolsbars
 
 ## 0.8.1 ##
 
