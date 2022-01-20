@@ -1,6 +1,6 @@
 # Change log #
 
-## dev ##
+## 0.8.4 ##
 
 - introduced `SelectReferencedOperation` for selecting a portion of
   the currently edited document that is references by a markup
