@@ -1,5 +1,11 @@
 # Change log #
 
+## 0.8.3 ##
+
+- introduced `InsertAnchorOperation` for inserting single anchors
+- introduced `${anchorId}` editor variable to get the xml ID of the
+  last anchor generated with `InsertAnchorOperation`
+
 ## 0.8.2 ##
 
 - enabled framework inheritance

@@ -54,12 +54,20 @@ public class OxbyteiEditorVariables
     public static final Pattern ANCHORS_CONTAINER_PATTERN =
 	Pattern.compile("\\$\\{" + VARIABLE_ANCHORS_CONTAINER.getName() + "\\}");
 
+    public static final EditorVariableDescription VARIABLE_ANCHOR_ID =
+	new EditorVariableDescription("anchorId",
+				      "@xml:id of last inserted single anchor.");
+
+    public static final Pattern ANCHOR_ID_PATTERN =
+	Pattern.compile("\\$\\{" + VARIABLE_ANCHOR_ID.getName() + "\\}");
+
     public List<EditorVariableDescription> getCustomResolverEditorVariableDescriptions() {
 	List<EditorVariableDescription> descriptions = new ArrayList<EditorVariableDescription>();
 	descriptions.add(VARIABLE_CONFIG_PROPERTY);
 	descriptions.add(VARIABLE_ANCHOR_START_ID);
 	descriptions.add(VARIABLE_ANCHOR_END_ID);
 	descriptions.add(VARIABLE_ANCHORS_CONTAINER);
+	descriptions.add(VARIABLE_ANCHOR_ID);
 	return descriptions;
     }
 
@@ -111,6 +119,13 @@ public class OxbyteiEditorVariables
 	    LOGGER.debug("resolved anchors container: {}", str);
 	    resolved = matcher.replaceFirst(Matcher.quoteReplacement(GlobalState.anchorsContainer));
 	    matcher = ANCHORS_CONTAINER_PATTERN.matcher(resolved);
+	}
+
+	// resolve ${anchorId
+	matcher = ANCHOR_ID_PATTERN.matcher(resolved);
+	while (matcher.find()) {
+	    resolved = matcher.replaceFirst(GlobalState.anchorId);
+	    matcher = ANCHOR_ID_PATTERN.matcher(resolved);
 	}
 
 	return resolved;
