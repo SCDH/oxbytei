@@ -1,5 +1,12 @@
 # Change log #
 
+## dev ##
+
+- introduced `SelectReferencedOperation` for selecting a portion of
+  the currently edited document that is references by a markup
+  element, e.g. an external apparatus entry
+  - an example use case is in oXbytao
+
 ## 0.8.3 ##
 
 - introduced `InsertAnchorOperation` for inserting single anchors
