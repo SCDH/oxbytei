@@ -196,7 +196,7 @@ public class SurroundWithAnchorsOperation
 
 	// get XPath of the deepest element, that contains both anchors
 	// (//*[descendant::*[@xml:id = 'a1'] and descendant::*[@xml:id = 'a2']])[last()]
-	String containerXPath = "string-join(for $node in (//*[descendant::*[@xml:id = '" + startId + "'] and descendant::*[@xml:id = '" + endId + "']]) return concat('*:', name($node), '[', count(preceding-sibling::*[name() eq name($node)]) + 1, ']'), '/')";
+	String containerXPath = "string-join(for $node in (//*[descendant::*[@xml:id = '" + startId + "'] and descendant::*[@xml:id = '" + endId + "']]) return concat('*:', name($node), '[', count($node/preceding-sibling::*[name() eq name($node)]) + 1, ']'), '/')";
 	Object[] container =
 	    authorAccess.getDocumentController().evaluateXPath(containerXPath, true, false, false);
 	anchorsContainer = null;
