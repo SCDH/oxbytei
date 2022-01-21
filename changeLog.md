@@ -1,6 +1,11 @@
 # Change log #
 
-## dev ##
+## 0.8.5 ##
+
+- fixed a bug in the calculation of the XPath of the current element or
+  the anchors' container
+
+## 0.8.4 ##
 
 - introduced `SelectReferencedOperation` for selecting a portion of
   the currently edited document that is references by a markup

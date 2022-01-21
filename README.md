@@ -81,6 +81,9 @@ On the road map:
 
 Read more in the [**Wiki**](https://github.com/scdh/oxbytei/wiki).
 
+You should also have a look at
+[oXbytao](https://github.com/scdh/oxbytao), which might already extend
+oXbytei to your project-specific needs.
 
 Note: Yes, there are some little assumptions that have poured into
 this framework. But they are not hard coded into it. They've just been
