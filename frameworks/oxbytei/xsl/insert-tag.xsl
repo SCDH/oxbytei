@@ -87,6 +87,11 @@ action: Replace
     <xsl:mode on-no-match="shallow-copy"/>
 
     <xsl:template match="/ | *">
+
+        <xsl:if test="$debug">
+            <xsl:message>Container: <xsl:value-of select="$container"/></xsl:message>
+        </xsl:if>
+
         <!-- get the node of the current editor position -->
         <xsl:variable name="start-parent-id"
             select="generate-id(//*[@xml:id eq $startId]/parent::*)"/>
