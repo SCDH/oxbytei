@@ -144,7 +144,7 @@ public class FindReferersOperation extends MoveCaretOperation {
 		Span span = new Span();
 		// get the current editing context as an XPath expression
 		Object[] contextPath =
-		    authorAccess.getDocumentController().evaluateXPath(OxbyteiConstants.CONTEXT_XPATH, context, false, false, false, true);
+		    authorAccess.getDocumentController().evaluateXPath(OxbyteiConstants.CONTEXT_XPATH, context, true, true, true, true);
 		span.entryXPath = "/" + (String) contextPath[0];
 		LOGGER.debug("Found potential referer at {}", span.entryXPath);
 
@@ -162,7 +162,7 @@ public class FindReferersOperation extends MoveCaretOperation {
 		// get the label
 		String labelXPath = referingEntry.labelXPath;
 		Object[] lables =
-		    authorAccess.getDocumentController().evaluateXPath(labelXPath, context, true, true, true, true);
+		    authorAccess.getDocumentController().evaluateXPath(labelXPath, context, false, true, true, true);
 		span.label = (String) lables[0];
 
 		// add it to the list of referers, if the caret offset is within the span
