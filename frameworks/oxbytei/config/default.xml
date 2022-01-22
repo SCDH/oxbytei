@@ -16,6 +16,7 @@
         <property name="oxbytei.action.annotate.targetLocation">/TEI/text/back/spanGrp</property>
         <property name="oxbytei.action.annotate.action">Inside as last child</property>
         <property name="oxbytei.action.annotate.externalParams"></property>
+        <property name="oxbytei.action.annotate.attribute">ana</property>
 
         <!-- properties for internal double-end point attached apparatus -->
         <property name="oxbytei.action.app.dep.int.startAnchor">anchor</property>
