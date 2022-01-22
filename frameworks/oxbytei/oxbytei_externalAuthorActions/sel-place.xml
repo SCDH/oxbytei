@@ -13,6 +13,7 @@
         <a:argument name="name">${teilspProp(oxbytei.action.sel.place.name)}</a:argument>
         <a:argument name="elementLocation">self::*</a:argument>
         <a:argument name="message">Choose a place</a:argument>
+        <a:argument name="rollbackOnCancel">true</a:argument>
       </a:arguments>
     </a:operation>
   </a:operations>
