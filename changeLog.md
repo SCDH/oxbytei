@@ -11,8 +11,12 @@
 - These actions greatly simplify the navigation and orientation in
   anchor based markup.
 - Both actions are configurable.
+- push referenced text through XSLT when making an `app` or an `span`
+  - the template can easily be replaced by user through an XML catalog
 - *annotate* action is more configurable now
-  - choose with attribute to write to, default is `@ana`
+  - configure which attribute to write to, default is `@ana`
+  - configure whether or not to reproduce referenced text
+  - configure an element to keep the reproduced text
 
 ## 0.8.5 ##
 
