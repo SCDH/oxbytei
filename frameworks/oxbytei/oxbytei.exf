@@ -47,6 +47,9 @@ from the contextual menu.
         <addAction id="add.variant"/>
         <addAction id="sel.wit"/>
         <separator/>
+        <addAction id="goto.refering"/>
+        <addAction id="highlight.referenced"/>
+        <separator/>
         <addAction id="select.language"/>
         <addAction id="link.person"/>
         <addAction id="link.place"/>
@@ -60,6 +63,9 @@ from the contextual menu.
       <addAction anchor="insert image" id="add.variant"/>
       <addAction anchor="insert image" id="sel.wit"/>
       <separator anchor="insert image"/>
+      <addAction anchor="insert image" id="goto.refering"/>
+      <addAction anchor="insert image" id="highlight.referenced"/>
+      <separator anchor="insert image"/>
       <addAction anchor="insert image" id="select.language"/>
       <addAction anchor="insert image" id="link.person"/>
       <addAction anchor="insert image" id="link.place"/>
@@ -71,6 +77,9 @@ from the contextual menu.
       <submenu name="TEI">
         <addAction id="add.variant"/>
         <addAction id="sel.wit"/>
+        <separator/>
+        <addAction id="goto.refering"/>
+        <addAction id="highlight.referenced"/>
         <separator/>
         <addAction id="select.language"/>
         <addAction id="link.person"/>
