@@ -27,7 +27,7 @@ public class OxbyteiConstants {
 	"string-join(for $node in ancestor-or-self::* return concat('*:', name($node), '[', count($node/preceding-sibling::*[name() eq name($node)]) + 1, ']'), '/')";
 
     // FIXME
-    public static final String NAMESPACE_RE = "[a-zA-Z0-9]+";
+    public static final String NAMESPACE_RE = "[a-zA-Z0-9/\\.:_#\\?&-]+";
 
     // FIXME
     public static final String XPATH_RE = "[\\[\\]\\(\\)\\s@/:.;!?|,*'=>#a-zA-Z0-9_-]+";

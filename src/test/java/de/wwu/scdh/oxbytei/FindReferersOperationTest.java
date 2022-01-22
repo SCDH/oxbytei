@@ -10,11 +10,11 @@ public class FindReferersOperationTest {
 
     @Test
     public void refererPatternTest() {
-	String testString = "app, @from, @to, \"substring(normalize-space(.), 50)\", tei";
+	String testString = "app, @from, @to, \"substring(normalize-space(.), 50)\", http://www.tei-c.org/ns/1.0";
 	Matcher matcher = FindReferersOperation.REFERING_ENTRY_PATTERN.matcher(testString);
 	assertEquals(true, matcher.matches());
 	assertEquals("app", matcher.group("name"));
-	assertEquals("tei", matcher.group("namespace"));
+	assertEquals("http://www.tei-c.org/ns/1.0", matcher.group("namespace"));
 	assertEquals("@from", matcher.group("from"));
 	assertEquals("@to", matcher.group("to"));
 	assertEquals("\"substring(normalize-space(.), 50)\"", matcher.group("label"));
