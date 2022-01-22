@@ -15,7 +15,7 @@ The caret will be on the inserted <span>.
 
     <xsl:param name="reproduce-text" as="xs:boolean" select="false()" required="no"/>
 
-    <xsl:param name="annotation-wrapper" as="xs:string" select="''" required="no"/>
+    <xsl:param name="wrapper" as="xs:string" select="''" required="no"/>
 
     <xsl:param name="insert-caret" as="xs:boolean" select="true()" required="no"/>
 
@@ -36,7 +36,7 @@ The caret will be on the inserted <span>.
         </xsl:if>
         <span from="#{$startId}" to="#{$endId}">
             <xsl:choose>
-                <xsl:when test="$annotation-wrapper eq '' and $reproduce-text">
+                <xsl:when test="$wrapper eq '' and $reproduce-text">
                     <xsl:variable name="extracted">
                         <xsl:apply-templates mode="extract"
                             select="//*[@xml:id eq $startId]/following::node() intersect //*[@xml:id eq $endId]/preceding::node()"
@@ -47,7 +47,7 @@ The caret will be on the inserted <span>.
                     </xsl:call-template>
                 </xsl:when>
                 <xsl:when test="$reproduce-text">
-                    <xsl:element name="{$annotation-wrapper}">
+                    <xsl:element name="{$wrapper}">
                         <xsl:variable name="extracted">
                             <xsl:apply-templates mode="extract"
                                 select="//*[@xml:id eq $startId]/following::node() intersect //*[@xml:id eq $endId]/preceding::node()"
