@@ -3,15 +3,15 @@
 ## dev ##
 
 - New actions for managing anchor based markup:
-  - I) find annotations e.g. an external `app` or a `span` that
+  - I) find annotations e.g. an external `<app>` or a `<span>` that
 	reference the text at the caret, and let the user choose which one
 	she wants to move to
   - II) highlight (select) the span of text referenced by an
-	annotation, e.g. an external `app` or `span`
+	annotation, e.g. an external `<app>` or `<span>`
 - These actions greatly simplify the navigation and orientation in
   anchor based markup.
 - Both actions are configurable.
-- push referenced text through XSLT when making an `app` or an `span`
+- push referenced text through XSLT when making an `<app>` or an `<span>`
   - the template can easily be replaced by user through an XML catalog
 - *annotate* action is more configurable now
   - configure which attribute to write to, default is `@ana`
@@ -29,6 +29,8 @@
   the currently edited document that is references by a markup
   element, e.g. an external apparatus entry
   - an example use case is in oXbytao
+
+PS: this action has been moved to oXbytei in 0.9.0
 
 ## 0.8.3 ##
 
