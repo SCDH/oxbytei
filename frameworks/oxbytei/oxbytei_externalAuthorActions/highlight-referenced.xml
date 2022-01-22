@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- user action -->
+<a:authorAction xmlns:a="http://www.oxygenxml.com/ns/author/external-action"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.oxygenxml.com/ns/author/external-action http://www.oxygenxml.com/ns/author/external-action/authorAction.xsd"
+  id="highlight.referenced">
+  <a:name>Highlight referenced text</a:name>
+  <a:description>Highlight the referenced span of text</a:description>
+  <a:largeIconPath href="${framework(oXbytei)}/images/highlight-referenced-24.png"/>
+  <a:smallIconPath href="${framework(oXbytei)}/images/highlight-referenced-16.png"/>
+  <a:operations>
+    <a:operation id="de.wwu.scdh.oxbytei.SelectReferencedOperation">
+      <a:xpathCondition>ancestor-or-self::app and //variantEncoding[@method eq 'double-end-point' and @location eq 'external']</a:xpathCondition>
+      <a:arguments>
+        <a:argument name="start">${xpath_eval(concat('//*[@xml:id eq ', "'", substring(ancestor-or-self::app/@from, 2), "']"))}</a:argument>
+        <a:argument name="end">${xpath_eval(concat('//*[@xml:id eq ', "'", substring(ancestor-or-self::app/@to, 2), "']"))}</a:argument>
+      </a:arguments>
+    </a:operation>
+    <a:operation id="de.wwu.scdh.oxbytei.SelectReferencedOperation">
+      <a:xpathCondition>ancestor-or-self::app[@from] and //variantEncoding[@method eq 'double-end-point' and @location eq 'internal']</a:xpathCondition>
+      <a:arguments>
+        <a:argument name="start">${xpath_eval(concat('//*[@xml:id eq ', "'", substring(ancestor-or-self::app/@from, 2), "']"))}</a:argument>
+        <a:argument name="end">ancestor-or-self::app</a:argument>
+      </a:arguments>
+    </a:operation>
+    <a:operation id="de.wwu.scdh.oxbytei.SelectReferencedOperation">
+      <a:xpathCondition>ancestor-or-self::app[@to] and //variantEncoding[@method eq 'double-end-point' and @location eq 'internal']</a:xpathCondition>
+      <a:arguments>
+        <a:argument name="start">ancestor-or-self::app</a:argument>
+        <a:argument name="end">${xpath_eval(concat('//*[@xml:id eq ', "'", substring(ancestor-or-self::app/@to, 2), "']"))}</a:argument>
+      </a:arguments>
+    </a:operation>
+    <a:operation id="de.wwu.scdh.oxbytei.SelectReferencedOperation">
+      <a:xpathCondition>ancestor-or-self::span[exists(@from) and exists(@to)]</a:xpathCondition>
+      <a:arguments>
+        <a:argument name="start">${xpath_eval(concat('//*[@xml:id eq ', "'", substring(ancestor-or-self::span/@from, 2), "']"))}</a:argument>
+        <a:argument name="end">${xpath_eval(concat('//*[@xml:id eq ', "'", substring(ancestor-or-self::span/@to, 2), "']"))}</a:argument>
+      </a:arguments>
+    </a:operation>
+  </a:operations>
+  <a:accessKey/>
+</a:authorAction>

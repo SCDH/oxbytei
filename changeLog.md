@@ -1,5 +1,17 @@
 # Change log #
 
+## dev ##
+
+- New actions for managing anchor based markup:
+  - I) find annotations e.g. an external `app` or a `span` that
+	reference the text at the caret, and let the user choose which one
+	she wants to move to
+  - II) highlight (select) the span of text referenced by an
+	annotation, e.g. an external `app` or `span`
+- These actions greatly simplify the navigation and orientation in
+  anchor based markup.
+- Both actions are configurable.
+
 ## 0.8.5 ##
 
 - fixed a bug in the calculation of the XPath of the current element or

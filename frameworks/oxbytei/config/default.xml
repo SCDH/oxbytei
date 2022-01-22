@@ -142,6 +142,11 @@
         <property name="oxbytei.style.note.external.externalParams">style=external</property>
 
 
+        <!-- Properties for the navigation actions -->
+        <property name="oxbytei.action.goto.refering.referers">//app, @from, @to, "concat(name(self::*), ': ', normalize-space(.))", tei, //span, @from, @to, "concat(name((child::*)[1]), ': ', normalize-space(.))", tei</property>
+        <property name="oxbytei.action.goto.refering.position">Inside, at the beginning</property>
+        <property name="oxbytei.action.goto.refering.message">Choose</property>
+
     </properties>
 
     <plugins>
