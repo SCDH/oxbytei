@@ -9,18 +9,18 @@
     <a:operation id="de.wwu.scdh.oxbytei.SurroundWithAnchorsXSLTOperation">
       <a:xpathCondition>true()</a:xpathCondition>
       <a:arguments>
-        <a:argument name="startAnchor">${xpath_eval(doc('${framework(oXbytei)}/config/default.xml')//*:property[@name eq 'oxbytei.action.annotate.startAnchor']/text())}</a:argument>
-        <a:argument name="startAnchorNamespace">${xpath_eval(doc('${framework(oXbytei)}/config/default.xml')//*:property[@name eq 'oxbytei.action.annotate.startAnchorNamespace']/text())}</a:argument>
-        <a:argument name="startId">${xpath_eval(doc('${framework(oXbytei)}/config/default.xml')//*:property[@name eq 'oxbytei.action.annotate.startId']/text())}</a:argument>
+        <a:argument name="startAnchor">${teilspProp(oxbytei.action.annotate.startAnchor)}</a:argument>
+        <a:argument name="startAnchorNamespace">${teilspProp(oxbytei.action.annotate.startAnchorNamespace)}</a:argument>
+        <a:argument name="startId">${teilspProp(oxbytei.action.annotate.startId)}</a:argument>
         <!--a:argument name="startId">${teilspProp(oxbytei.action.annotate.startId)}</a:argument-->
-        <a:argument name="endAnchor">${xpath_eval(doc('${framework(oXbytei)}/config/default.xml')//*:property[@name eq 'oxbytei.action.annotate.endAnchor']/text())}</a:argument>
-        <a:argument name="endAnchorNamespace">${xpath_eval(doc('${framework(oXbytei)}/config/default.xml')//*:property[@name eq 'oxbytei.action.annotate.endAnchorNamespace']/text())}</a:argument>
-        <a:argument name="endId">${xpath_eval(doc('${framework(oXbytei)}/config/default.xml')//*:property[@name eq 'oxbytei.action.annotate.endId']/text())}</a:argument>
+        <a:argument name="endAnchor">${teilspProp(oxbytei.action.annotate.endAnchor)}</a:argument>
+        <a:argument name="endAnchorNamespace">${teilspProp(oxbytei.action.annotate.endAnchorNamespace)}</a:argument>
+        <a:argument name="endId">${teilspProp(oxbytei.action.annotate.endId)}</a:argument>
         <a:argument name="script">${framework(oXbytei)}/xsl/linkedAnnotation.xsl</a:argument>
-        <a:argument name="sourceLocation">${xpath_eval(doc('${framework(oXbytei)}/config/default.xml')//*:property[@name eq 'oxbytei.action.annotate.sourceLocation']/text())}</a:argument>
-        <a:argument name="targetLocation">${xpath_eval(doc('${framework(oXbytei)}/config/default.xml')//*:property[@name eq 'oxbytei.action.annotate.targetLocation']/text())}</a:argument>
-        <a:argument name="action">${xpath_eval(doc('${framework(oXbytei)}/config/default.xml')//*:property[@name eq 'oxbytei.action.annotate.action']/text())}</a:argument>
-        <a:argument name="externalParams">${xpath_eval(doc('${framework(oXbytei)}/config/default.xml')//*:property[@name eq 'oxbytei.action.annotate.externalParams']/text())}</a:argument>
+        <a:argument name="sourceLocation">${teilspProp(oxbytei.action.annotate.sourceLocation)}</a:argument>
+        <a:argument name="targetLocation">${teilspProp(oxbytei.action.annotate.targetLocation)}</a:argument>
+        <a:argument name="action">${teilspProp(oxbytei.action.annotate.action)}</a:argument>
+        <a:argument name="externalParams">${teilspProp(oxbytei.action.annotate.externalParams)}</a:argument>
       </a:arguments>
     </a:operation>
   </a:operations>
