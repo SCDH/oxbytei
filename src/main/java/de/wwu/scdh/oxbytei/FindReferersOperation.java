@@ -99,10 +99,11 @@ public class FindReferersOperation extends MoveCaretOperation {
 	throws AuthorOperationException {
 
 	String message =
-	    OperationArgumentValidator.validateStringArgument(ARGUMENT_MESSAGE.getName(), args);
+	    OperationArgumentValidator.validateStringArgument(ARGUMENT_MESSAGE.getName(), args, authorAccess, true);
 
 	// get referers argument and parse it to a list of referers
-	String referersString = OperationArgumentValidator.validateStringArgument(ARGUMENT_REFERERS.getName(), args);
+	String referersString = OperationArgumentValidator.validateStringArgument(ARGUMENT_REFERERS.getName(), args, authorAccess, true);
+	LOGGER.debug("referers argument: {}", referersString);
 	List<ReferingEntry> referingEntries = new ArrayList<ReferingEntry>();
 	Matcher matcher = REFERING_ENTRY_PATTERN.matcher(referersString);
 	Matcher xpathMatcher;
