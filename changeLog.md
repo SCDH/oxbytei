@@ -17,6 +17,10 @@
   - configure which attribute to write to, default is `@ana`
   - configure whether or not to reproduce referenced text
   - configure an element to keep the reproduced text
+- added a simple rollback mechanism for the cancel event in user
+  actions
+  - this results in a rollback to the previous editor state, no
+    changes by half-done action chains
 
 ## 0.8.5 ##
 
