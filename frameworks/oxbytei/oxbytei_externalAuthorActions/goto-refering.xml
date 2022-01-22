@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- user action -->
+<a:authorAction xmlns:a="http://www.oxygenxml.com/ns/author/external-action"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.oxygenxml.com/ns/author/external-action http://www.oxygenxml.com/ns/author/external-action/authorAction.xsd"
+  id="goto.refering">
+  <a:name>Goto refering annotation</a:name>
+  <a:description>Choose an annotation or apparatus entry refering this portion of the text and goto to it.</a:description>
+  <a:largeIconPath href="${framework(oXbytei)}/images/goto-refering-24.png"/>
+  <a:smallIconPath href="${framework(oXbytei)}/images/goto-refering-16.png"/>
+  <a:operations>
+    <a:operation id="de.wwu.scdh.oxbytei.FindReferersOperation">
+      <a:xpathCondition>true()</a:xpathCondition>
+      <a:arguments>
+        <a:argument name="referers">${teilspProp(oxbytei.action.goto.refering.referers)}</a:argument>
+        <a:argument name="position">${teilspProp(oxbytei.action.goto.refering.position)}</a:argument>
+        <a:argument name="message">${teilspProp(oxbytei.action.goto.refering.message)}</a:argument>
+      </a:arguments>
+    </a:operation>
+    <a:operation id="de.wwu.scdh.oxbytei.ExpandingMoveCaretOperation">
+      <a:xpathCondition>false()</a:xpathCondition>
+      <a:arguments>
+        <a:argument name="position">Inside, at the beginning</a:argument>
+        <a:argument name="xpathLocation">${ask('Choose a refering annotation', combobox, (${xpath_eval(
+          let
+          $current :=  self::node(),
+          $currentXPath := concat('/', string-join(for $node in ancestor-or-self::* return concat('*:', name($node), '[', count($node/preceding-sibling::*[name() eq name($node)]) + 1, ']'), '/')),
+          $referers := //*:app[let $from := @from, $to := @to, $between := (//*[@xml:id eq substring($from, 2)]/following::node() intersect //*[@xml:id eq substring($to, 2)]/preceding::node()) return $between intersect $current]
+          return
+          if (empty($referers))
+          then concat("'", $currentXPath, "':'nothing found'")
+          else string-join(for $referer in $referers return concat("'/", string-join(for $node in $referer/ancestor-or-self::* return concat('*:', name($node), '[', count($node/preceding-sibling::*[name() eq name($node)]) + 1, ']'), '/'), "':'", concat(local-name($referer), ': ', substring(normalize-space($referer), 1, 50)), "'"), ';')          
+          )}))}</a:argument>
+        
+        <!--
+        <a:argument name="xpathLocation">/${ask('Choose a refering annotation', combobox, (${xpath_eval(let $current :=   self::node()    , $currentId := generate-id($current) return string-join(for $referer in //*:app[  let $from := @from, $to := @to, $between := (//*[@xml:id eq substring($from, 2)]/following::node() intersect //*[@xml:id eq substring($to, 2)]/preceding::node()) return $between intersect $current  ] return concat("'", string-join(for $node in $referer/ancestor-or-self::* return concat('*:', name($node), '[', count($node/preceding-sibling::*[name() eq name($node)]) + 1, ']'), '/'), "':'", concat(local-name($referer), ': ', substring(normalize-space($referer), 1, 50)), "'"), ';'))}), '')}</a:argument>
+        <a:argument name="xpathLocation">/${ask('Choose a refering annotation', combobox, (${xpath_eval(let $current :=   self::node()    , $currentId := generate-id($current) return string-join(for $referer in //*:app[let $from := @from, $to := @to, $between := (//*[@xml:id eq substring($from, 2)]/following::node() intersect //*[@xml:id eq substring($to, 2)]/preceding::node()) return $between intersect $current] return concat("'", string-join(for $node in $referer/ancestor-or-self::* return concat('*:', name($node), '[', count($node/preceding-sibling::*[name() eq name($node)]) + 1, ']'), '/'), "':'", concat(local-name($referer), ': ', substring(normalize-space($referer), 1, 50)), "'"), ';'))}), '')}</a:argument>
+        <a:argument name="xpathLocation">/${ask('Choose a refering annotation', combobox, (${xpath_eval(let $current :=   concat('/', string-join(for $node in ancestor-or-self::* return concat('*:', name($node), '[', count($node/preceding-sibling::*[name() eq name($node)]) + 1, ']'), '/'))    , $currentId := generate-id($current) return string-join(for $referer in //*:app[let $from := @from, $to := @to, $between := (//*[@xml:id eq substring($from, 2)]/following::node() intersect //*[@xml:id eq substring($to, 2)]/preceding::node()) return $between intersect $current] return concat("'", string-join(for $node in $referer/ancestor-or-self::* return concat('*:', name($node), '[', count($node/preceding-sibling::*[name() eq name($node)]) + 1, ']'), '/'), "':'", concat(local-name($referer), ': ', normalize-space($referer)), "'"), ';'))}), '')}</a:argument>        
+        <a:argument name="xpathLocation">/${ask('Choose a refering annotation', combobox, ('a':'${xpath_eval(string-join(for $node in ancestor-or-self::* return concat('*:', name($node), '[', count($node/preceding-sibling::*[name() eq name($node)]) + 1, ']'), '/'))}'), '')}</a:argument>
+
+<a:argument name="xpathLocation">/${ask('Choose a refering annotation', combobox, ('':'${xpath_eval(let $current := self::node() return name($current))}'), '')}</a:argument>
+        <a:argument name="xpathLocation">/${ask('Choose a refering annotation', combobox, (${xpath_eval()}), '')}</a:argument>
+        -->
+      </a:arguments>
+    </a:operation>
+  </a:operations>
+  <a:accessKey/>
+</a:authorAction>
