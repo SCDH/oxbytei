@@ -13,7 +13,15 @@ The caret will be on the inserted <span>.
     <xsl:param name="startId" as="xs:ID" required="yes"/>
     <xsl:param name="endId" as="xs:ID" required="yes"/>
 
+    <xsl:param name="reproduce-text" as="xs:boolean" select="false()" required="no"/>
+
+    <xsl:param name="annotation-wrapper" as="xs:string" select="''" required="no"/>
+
+    <xsl:param name="insert-caret" as="xs:boolean" select="true()" required="no"/>
+
     <xsl:param name="debug" as="xs:boolean" select="false()" required="no"/>
+
+    <xsl:include href="extract-referenced.xsl"/>
 
     <xsl:template match="/">
         <xsl:if test="$debug">
@@ -26,7 +34,35 @@ The caret will be on the inserted <span>.
                 <xsl:value-of select="local-name(oxy:current-element())"/>
             </xsl:message>
         </xsl:if>
-        <span from="#{$startId}" to="#{$endId}">${caret}</span>
+        <span from="#{$startId}" to="#{$endId}">
+            <xsl:choose>
+                <xsl:when test="$annotation-wrapper eq '' and $reproduce-text">
+                    <xsl:variable name="extracted">
+                        <xsl:apply-templates mode="extract"
+                            select="//*[@xml:id eq $startId]/following::node() intersect //*[@xml:id eq $endId]/preceding::node()"
+                        />
+                    </xsl:variable>
+                    <xsl:call-template name="finalize-extracted">
+                        <xsl:with-param name="extracted" select="$extracted"/>
+                    </xsl:call-template>
+                </xsl:when>
+                <xsl:when test="$reproduce-text">
+                    <xsl:element name="{$annotation-wrapper}">
+                        <xsl:variable name="extracted">
+                            <xsl:apply-templates mode="extract"
+                                select="//*[@xml:id eq $startId]/following::node() intersect //*[@xml:id eq $endId]/preceding::node()"
+                            />
+                        </xsl:variable>
+                        <xsl:call-template name="finalize-extracted">
+                            <xsl:with-param name="extracted" select="$extracted"/>
+                        </xsl:call-template>
+                    </xsl:element>
+                </xsl:when>
+            </xsl:choose>
+            <xsl:if test="$insert-caret">
+                <xsl:text>${caret}</xsl:text>
+            </xsl:if>
+        </span>
     </xsl:template>
 
 </xsl:stylesheet>
