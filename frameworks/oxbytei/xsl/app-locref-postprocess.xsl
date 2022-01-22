@@ -7,9 +7,17 @@
 
     <xsl:mode on-no-match="shallow-copy"/>
 
+    <xsl:include href="extract-referenced.xsl"/>
+
     <xsl:template match="lem">
+        <xsl:variable name="extracted">
+            <xsl:apply-templates mode="extract" select="."/>
+        </xsl:variable>
         <lem>
-            <xsl:value-of select="normalize-space(.)"/>
+            <xsl:call-template name="finalize-extracted">
+                <xsl:with-param name="extracted" select="$extracted"/>
+            </xsl:call-template>
+            <!--xsl:value-of select="normalize-space(.)"/-->
         </lem>
     </xsl:template>
 
