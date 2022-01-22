@@ -11,6 +11,8 @@
 - These actions greatly simplify the navigation and orientation in
   anchor based markup.
 - Both actions are configurable.
+- *annotate* action is more configurable now
+  - choose with attribute to write to, default is `@ana`
 
 ## 0.8.5 ##
 
