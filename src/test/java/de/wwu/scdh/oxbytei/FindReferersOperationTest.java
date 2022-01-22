@@ -10,7 +10,7 @@ public class FindReferersOperationTest {
 
     @Test
     public void refererPatternTest() {
-	String testString = "app, tei, @from, @to, \"substring(normalize-space(.), 50)\"";
+	String testString = "app, @from, @to, \"substring(normalize-space(.), 50)\", tei";
 	Matcher matcher = FindReferersOperation.REFERING_ENTRY_PATTERN.matcher(testString);
 	assertEquals(true, matcher.matches());
 	assertEquals("app", matcher.group("name"));
@@ -25,7 +25,7 @@ public class FindReferersOperationTest {
 
     //@Test
     public void refererPatternMultipleTest() {
-	String testString = "//back//app, tei, @from, @to, \"substring(normalize-space(.), 50)\", app, tei, @from, self::app, \"substring(normalize-space(.), 50)\"";
+	String testString = "//back//app, @from, @to, \"substring(normalize-space(.), 50)\", tei, app, @from, self::app, \"substring(normalize-space(.), 50)\", tei";
 	Matcher matcher = FindReferersOperation.REFERING_ENTRY_PATTERN.matcher(testString);
 	assertEquals(true, matcher.find());
 	assertEquals("//back//app", matcher.group("name"));

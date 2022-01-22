@@ -35,36 +35,28 @@ public class FindReferersOperation extends MoveCaretOperation {
 	return "Find referers to the current caret offset and let the user select one.";
     }
 
-    public static final String ELEMENT_NAME_RE = "[a-zA-Z0-9]+";
-
-    public static final String ELEMENT_NAMESPACE_RE = "[a-zA-Z0-9]+";
-
-    public static final String XPATH_RE = "[\\[\\]\\(\\)\\s@/:.;!?|,*'=>#a-zA-Z0-9_-]+";
-
-    public static final String XPATH_QUOTED = "\"(" + XPATH_RE + ")\"|("+ XPATH_RE.replaceAll(",", "") + ")";
-
-    public static final Pattern XPATH_PATTERN = Pattern.compile(XPATH_RE);
+    public static final Pattern XPATH_PATTERN = Pattern.compile(OxbyteiConstants.XPATH_RE);
 
     public static final Pattern REFERING_ENTRY_PATTERN =
 	Pattern.compile("(?<name>"
-			+ XPATH_QUOTED
+			+ OxbyteiConstants.XPATH_QUOTED
+			+ ")\\s*,\\s*(?<from>"
+			+ OxbyteiConstants.XPATH_QUOTED
+			+ ")\\s*,\\s*(?<to>"
+			+ OxbyteiConstants.XPATH_QUOTED
+			+ ")\\s*,\\s*(?<label>"
+			+ OxbyteiConstants.XPATH_QUOTED
 			+ ")\\s*,\\s*(?<namespace>"
-			+ ELEMENT_NAMESPACE_RE
-			+ "),\\s*(?<from>"
-			+ XPATH_QUOTED
-			+ "),\\s*(?<to>"
-			+ XPATH_QUOTED
-			+ "),\\s*(?<label>"
-			+ XPATH_QUOTED
-			+"),?");
+			+ OxbyteiConstants.NAMESPACE_RE
+			+")\\s*,?");
 
     private static final ArgumentDescriptor ARGUMENT_REFERERS =
 	new ArgumentDescriptor("referers",
 			      ArgumentDescriptor.TYPE_STRING,
 			      "The form of this is:\n\n"
-			       + "SELECTION, NAMESPACE, FROM, TO, LABEL[, SELECTION, NAMESPACE, FROM, TO, LABEL]*\n\n"
+			       + "SELECTION, FROM, TO, LABEL, NAMESPACE(, SELECTION, FROM, TO, LABEL, NAMESPACE)*\n\n"
 			       + "All of them but NAMESPACE are XPath expressions."
-			       + "If there's a comma in the XPath expression, it must be quoted with double quotes.");
+			       + "If there's a comma in an XPath expression, the whole expression must be quoted with double quotes.");
 
     public static final ArgumentDescriptor ARGUMENT_MESSAGE =
 	new ArgumentDescriptor("message",
