@@ -16,7 +16,7 @@
         <a:argument name="endAnchor">${teilspProp(oxbytei.action.annotate.endAnchor)}</a:argument>
         <a:argument name="endAnchorNamespace">${teilspProp(oxbytei.action.annotate.endAnchorNamespace)}</a:argument>
         <a:argument name="endId">${teilspProp(oxbytei.action.annotate.endId)}</a:argument>
-        <a:argument name="script">${framework(oXbytei)}/xsl/linkedAnnotation.xsl</a:argument>
+        <a:argument name="script">${framework(oXbytei)}/xsl/annotation.xsl</a:argument>
         <a:argument name="sourceLocation">${teilspProp(oxbytei.action.annotate.sourceLocation)}</a:argument>
         <a:argument name="targetLocation">${teilspProp(oxbytei.action.annotate.targetLocation)}</a:argument>
         <a:argument name="action">${teilspProp(oxbytei.action.annotate.action)}</a:argument>
