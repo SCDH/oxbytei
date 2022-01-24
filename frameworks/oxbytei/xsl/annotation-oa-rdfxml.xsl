@@ -36,7 +36,7 @@ USAGE:
     xmlns:oxy="http://www.oxygenxml.com/ns/author/xpath-extension-functions"
     xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
     xmlns:oa="http://www.w3.org/ns/oa#" xmlns:scdh="http://wwu.de/scdh/annotation"
-    exclude-result-prefixes="xs oxy" version="2.0"
+    exclude-result-prefixes="xs oxy" version="3.0"
     xpath-default-namespace="http://www.tei-c.org/ns/1.0">
 
     <xsl:param name="startId" as="xs:ID" required="yes"/>
@@ -124,18 +124,23 @@ USAGE:
     <xsl:template name="oa-hasSource">
         <oa:hasSource>
             <xsl:choose>
+                <!-- We make an entity name from the document identifier.
+                    This is portable. But it needs the entity declared in DOCTYPE -->
                 <xsl:when test="exists(//teiHeader//idno[@type eq $idno-attribute])">
-                    <xsl:value-of
-                        select="concat('&#x26;', //teiHeader//idno[@type eq 'document-identifier'], ';')"
+                    <xsl:variable name="identifier"
+                        select="//teiHeader//idno[@type eq $idno-attribute]"/>
+                    <xsl:value-of select="concat('&#x26;', $identifier, ';')"
                         disable-output-escaping="yes"/>
                 </xsl:when>
                 <xsl:when test="$non-entity-allowed">
+                    <!-- We simply use the local document path. This is not portable. -->
                     <xsl:message>
                         <xsl:text>WARNING: using local path in RDF</xsl:text>
                     </xsl:message>
                     <xsl:value-of select="base-uri()"/>
                 </xsl:when>
                 <xsl:otherwise>
+                    <!-- Terminate with an error message. -->
                     <xsl:message terminate="yes">
                         <xsl:text>ERROR: no &lt;idno type="</xsl:text>
                         <xsl:value-of select="$idno-attribute"/>
