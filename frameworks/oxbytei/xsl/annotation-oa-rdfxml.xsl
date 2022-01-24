@@ -1,8 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- This make an interpretative annotation on markup.annotation linke described in the guidelines:
-https://www.tei-c.org/release/doc/tei-p5-doc/de/html/AI.html#AISP
+<!--
+USAGE:
+1) copy this file into your project
 
-The caret will be on the inserted <span>.
+2) redirect oxbytei/xsl/annotation.xsl with the copied file via an XML catalog.
+
+3) Put something similar into your local oxbytei configuration:
+
+<property name="oxbytei.action.annotate.targetLocation">//xenoData[1]/*[1]</property>
+<property name="oxbytei.action.annotate.externalParams">reproduce-text=true,non-entity-allowed=true</property>
+
+
+4) Put this into your TEI header:
+
+<xenoData>
+  <rdf:RDF
+      xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" 
+      xmlns:oa="http://www.w3.org/ns/oa#"
+      xmlns:scdh="http://wwu.de/scdh/annotation">
+
+  </rdf:RDF>
+</xenoData>
+
+
+5) Optionally: Put something similar into your header:
+
+<idno type="document-identifier">IDENTIFIER</idno>
+
 -->
 <!DOCTYPE stylesheet [
     <!ENTITY oa "http://www.w3.org/ns/oa#">
@@ -17,6 +41,11 @@ The caret will be on the inserted <span>.
 
     <xsl:param name="startId" as="xs:ID" required="yes"/>
     <xsl:param name="endId" as="xs:ID" required="yes"/>
+
+    <xsl:variable name="idno-attribute-default" select="'document-identifier'"/>
+    <xsl:param name="idno-attribute" select="$idno-attribute-default" as="xs:string" required="no"/>
+
+    <xsl:param name="non-entity-allowed" select="false()" as="xs:boolean" required="no"/>
 
     <xsl:param name="reproduce-text" as="xs:boolean" select="false()" required="no"/>
 
@@ -38,9 +67,7 @@ The caret will be on the inserted <span>.
             </xsl:message>
         </xsl:if>
         <rdf:Description>
-            <oa:hasSource>
-                <xsl:apply-templates select="/" mode="canonical-url"/>
-            </oa:hasSource>
+            <xsl:call-template name="oa-hasSource"/>
             <oa:hasSelector>
                 <rdf:Description rdf:type="&oa;rangeSelector">
                     <oa:hasStartSelector>
@@ -94,16 +121,29 @@ The caret will be on the inserted <span>.
         </rdf:Description>
     </xsl:template>
 
-    <xsl:template mode="canonical-urlOFF" match="/|*">
-        <xsl:value-of
-            select="concat('&#x26;', //teiHeader//idno[@type eq 'document-identifier'], ';')"
-            disable-output-escaping="yes"/>
-    </xsl:template>
-
-    <xsl:template mode="canonical-url" match="/|*">
-        <xsl:value-of
-            select="//teiHeader//idno[@type eq 'document-identifier']"
-            disable-output-escaping="yes"/>
+    <xsl:template name="oa-hasSource">
+        <oa:hasSource>
+            <xsl:choose>
+                <xsl:when test="exists(//teiHeader//idno[@type eq $idno-attribute])">
+                    <xsl:value-of
+                        select="concat('&#x26;', //teiHeader//idno[@type eq 'document-identifier'], ';')"
+                        disable-output-escaping="yes"/>
+                </xsl:when>
+                <xsl:when test="$non-entity-allowed">
+                    <xsl:message>
+                        <xsl:text>WARNING: using local path in RDF</xsl:text>
+                    </xsl:message>
+                    <xsl:value-of select="base-uri()"/>
+                </xsl:when>
+                <xsl:otherwise>
+                    <xsl:message terminate="yes">
+                        <xsl:text>ERROR: no &lt;idno type="</xsl:text>
+                        <xsl:value-of select="$idno-attribute"/>
+                        <xsl:text>"&gt; provided and the parameter 'non-entity-allowed' is set to false.</xsl:text>
+                    </xsl:message>
+                </xsl:otherwise>
+            </xsl:choose>
+        </oa:hasSource>
     </xsl:template>
 
 </xsl:stylesheet>
