@@ -52,6 +52,9 @@ documents.
   referencing the anchors somewhere else in the document. Also select
   `span/@ana` from `<interp>` elements in the document
   (default). Other sources/references for `@ana` can be configured.
+- **Navigation in anchor-based markup**: a) Find annotations and
+  apparatus entries for the current position; b) highlight (select)
+  the span of text referenced by an annotation or apparatus entry.
 - **Multiple level inheritance**: Instead of an `oxbytei.framework`
   file, oXbytei uses an [extension
   script](https://www.oxygenxml.com/doc/versions/23.1/ug-editor/topics/framework-customization-script.html)
