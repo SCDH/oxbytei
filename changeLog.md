@@ -1,6 +1,6 @@
 # Change log #
 
-## dev ##
+## 0.9.0 ##
 
 - New actions for managing anchor based markup:
   - I) find annotations e.g. an external `<app>` or a `<span>` that
@@ -13,10 +13,12 @@
 - Both actions are configurable.
 - push referenced text through XSLT when making an `<app>` or an `<span>`
   - the template can easily be replaced by user through an XML catalog
-- *annotate* action is more configurable now
+  - current features: remove notes, replace caesura and verse break
+    with common signs
+- *annotate* action is more configurable now:
   - configure which attribute to write to, default is `@ana`
   - configure whether or not to reproduce referenced text
-  - configure an element to keep the reproduced text
+  - configure an element to keep the reproduced text in
 - added a simple rollback mechanism for the cancel event in user
   actions
   - this results in a rollback to the previous editor state, no
