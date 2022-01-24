@@ -49,17 +49,27 @@ import de.wwu.scdh.oxbytei.commons.OperationArgumentValidator;
 public class SelectLabelledEntryInteraction
     implements InteractiveOperation {
 
-    public static final String[] ARGUMENT_MULTIPLE_ALLOWED_VALUES = new String[] {
+    public static final String[] ARGUMENT_BOOLEAN_VALUES = new String[] {
 	AuthorConstants.ARG_VALUE_FALSE,
 	AuthorConstants.ARG_VALUE_TRUE
     };
+
+    public static final ArgumentDescriptor ARGUMENT_ROLLBACK_ON_CANCEL =
+	new ArgumentDescriptor("rollbackOnCancel",
+			       ArgumentDescriptor.TYPE_CONSTANT_LIST,
+			       "This controls how a cancellation of the user dialog is handled."
+			       + " In chains of multiple actions throwing an error an stopping the chain"
+			       + " is a good idea."
+			       + "\n\nDefaults to true.",
+			       ARGUMENT_BOOLEAN_VALUES,
+			       AuthorConstants.ARG_VALUE_FALSE);
 
     public static final ArgumentDescriptor ARGUMENT_MULTIPLE =
 	new ArgumentDescriptor("multiple",
 			       ArgumentDescriptor.TYPE_CONSTANT_LIST,
 			       "Whether or not multiple selections are allowed."
 			       + " Defaults to false.",
-			       ARGUMENT_MULTIPLE_ALLOWED_VALUES,
+			       ARGUMENT_BOOLEAN_VALUES,
 			       AuthorConstants.ARG_VALUE_FALSE);
 
     public static final ArgumentDescriptor ARGUMENT_MESSAGE =
@@ -93,6 +103,7 @@ public class SelectLabelledEntryInteraction
     public static final ArgumentDescriptor[] getArguments() {
 	return new ArgumentDescriptor[] {
 	    ARGUMENT_DIALOG,
+	    ARGUMENT_ROLLBACK_ON_CANCEL,
 	    ARGUMENT_MESSAGE,
 	    ARGUMENT_MULTIPLE,
 	    ARGUMENT_DELIMITER,
@@ -249,6 +260,9 @@ public class SelectLabelledEntryInteraction
 	String multipleString =
 	    OperationArgumentValidator.validateStringArgument(ARGUMENT_MULTIPLE.getName(), arguments);
 	boolean multiple = multipleString.equals(AuthorConstants.ARG_VALUE_TRUE);
+	String rollbackOnCancelString =
+	    OperationArgumentValidator.validateStringArgument(ARGUMENT_ROLLBACK_ON_CANCEL.getName(), arguments);
+	boolean rollbackOnCancel = rollbackOnCancelString.equals(AuthorConstants.ARG_VALUE_TRUE);
 	String message =
 	    OperationArgumentValidator.validateStringArgument(ARGUMENT_MESSAGE.getName(), arguments);
 	String dialog =
@@ -318,6 +332,9 @@ public class SelectLabelledEntryInteraction
 	    // return
 	    return newValue;
 	} else {
+	    if (rollbackOnCancel) {
+		throw new AuthorOperationException("rolling back");
+	    }
 	    // store in state variable
 	    GlobalState.selection = currentValue; // TODO: OK ???
 	    // return value

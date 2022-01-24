@@ -12,10 +12,11 @@
         <property name="oxbytei.action.annotate.endAnchor">anchor</property>
         <property name="oxbytei.action.annotate.startAnchorNamespace">http://www.tei-c.org/ns/1.0</property>
         <property name="oxbytei.action.annotate.endId">'${id}'</property>
-        <property name="oxbytei.action.annotate.sourceLocation">self::*</property>
+        <property name="oxbytei.action.annotate.sourceLocation">/*</property>
         <property name="oxbytei.action.annotate.targetLocation">/TEI/text/back/spanGrp</property>
         <property name="oxbytei.action.annotate.action">Inside as last child</property>
         <property name="oxbytei.action.annotate.externalParams"></property>
+        <property name="oxbytei.action.annotate.attribute">ana</property>
 
         <!-- properties for internal double-end point attached apparatus -->
         <property name="oxbytei.action.app.dep.int.startAnchor">anchor</property>
@@ -115,6 +116,37 @@
         <property name="oxbytei.action.markup.bibref.action">Replace</property>
         <property name="oxbytei.action.markup.bibref.externalParams">tag=bibl, style=aggregative</property>
         <property name="oxbytei.action.sel.bibref.name">corresp</property>
+
+
+        <!-- properties for inserting single anchors, used by several actions -->
+        <property name="oxbytei.action.anchor.anchor">anchor</property>
+        <property name="oxbytei.action.anchor.anchorNamespace">http://www.tei-c.org/ns/1.0</property>
+        <property name="oxbytei.action.anchor.anchorId">'${id}'</property>
+
+
+        <!-- properties for notes -->
+        <property name="oxbytei.action.note.action">Replace</property>
+        <property name="oxbytei.action.note.sourceLocation">/*</property>
+        <property name="oxbytei.action.note.targetLocation">//*[@xml:id eq '${anchorId}']</property>
+        <property name="oxbytei.action.note.externalParams"></property>
+
+        <!-- Properties for inline notes -->
+        <property name="oxbytei.style.inline.note.action">Replace</property>
+        <property name="oxbytei.style.inline.note.sourceLocation">/*</property>
+        <property name="oxbytei.style.inline.note.targetLocation">//*[@xml:id eq '${anchorId}']</property>
+        <property name="oxbytei.style.inline.note.externalParams"></property>
+
+        <!-- Properties for external notes -->
+        <property name="oxbytei.style.note.external.action">Inside as last child</property>
+        <property name="oxbytei.style.note.external.sourceLocation">/*</property>
+        <property name="oxbytei.style.note.external.targetLocation">following::*:noteGrp[1]</property>
+        <property name="oxbytei.style.note.external.externalParams">style=external</property>
+
+
+        <!-- Properties for the navigation actions -->
+        <property name="oxbytei.action.goto.refering.referers">//app, @from, @to, "concat(name(self::*), ': ', normalize-space(.))", tei, //span, @from, @to, "concat(name((child::*)[1]), ': ', normalize-space(.))", tei</property>
+        <property name="oxbytei.action.goto.refering.position">Inside, at the beginning</property>
+        <property name="oxbytei.action.goto.refering.message">Choose</property>
 
     </properties>
 

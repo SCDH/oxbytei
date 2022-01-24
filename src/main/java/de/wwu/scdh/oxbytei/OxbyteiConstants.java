@@ -26,6 +26,14 @@ public class OxbyteiConstants {
     public static final String CONTEXT_XPATH =
 	"string-join(for $node in ancestor-or-self::* return concat('*:', name($node), '[', count($node/preceding-sibling::*[name() eq name($node)]) + 1, ']'), '/')";
 
+    // FIXME
+    public static final String NAMESPACE_RE = "[a-zA-Z0-9/\\.:_#\\?&-]+";
+
+    // FIXME
+    public static final String XPATH_RE = "[\\[\\]\\(\\)\\s@/:.;!?|,*'=>#a-zA-Z0-9_-]+";
+
+    public static final String XPATH_QUOTED = "\"(" + XPATH_RE + ")\"|("+ XPATH_RE.replaceAll(",", "") + ")";
+
     /**
      * URL of the default plugin configuration
      */

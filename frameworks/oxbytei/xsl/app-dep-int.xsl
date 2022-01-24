@@ -17,6 +17,8 @@ The caret will be on the inserted <rdg>.
 
     <xsl:param name="debug" as="xs:boolean" select="false()" required="no"/>
 
+    <xsl:import href="extract-referenced.xsl"/>
+
     <xsl:mode on-no-match="shallow-copy"/>
 
     <xsl:template match="/">
@@ -26,10 +28,15 @@ The caret will be on the inserted <rdg>.
     <xsl:template match="*[@xml:id eq $endId]">
         <app from="#{$startId}">
             <xsl:if test="$withLemma">
-                <lem>
-                    <xsl:value-of
-                        select="(//*[@xml:id eq $startId]/following::node() intersect //*[@xml:id eq $endId]/preceding::node()) => string-join('') => normalize-space()"
+                <xsl:variable name="extracted">
+                    <xsl:apply-templates mode="extract"
+                        select="//*[@xml:id eq $startId]/following::node() intersect //*[@xml:id eq $endId]/preceding::node()"
                     />
+                </xsl:variable>
+                <lem>
+                    <xsl:call-template name="finalize-extracted">
+                        <xsl:with-param name="extracted" select="$extracted"/>
+                    </xsl:call-template>
                 </lem>
             </xsl:if>
             <rdg>${caret}</rdg>
