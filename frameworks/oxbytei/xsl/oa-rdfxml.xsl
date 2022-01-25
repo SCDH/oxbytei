@@ -34,7 +34,7 @@
     <xsl:include href="extract-referenced.xsl"/>
 
     <!-- Generates an oa:hasSource.
-        @param context   the TEI document
+        @param context   the annotated TEI document
     -->
     <xsl:template name="oa-hasSource">
         <xsl:param name="context" as="node()*"/>
@@ -94,7 +94,7 @@
     </xsl:template>
 
     <!-- Generates a predication scdh:onTextSpan or the like.
-        @param context   the TEI document
+        @param context   the annotated document
         
         Note, that this is not oa:TextSelector, since nodes may be stripped from the annotated span.
         extract-referenced.xsl is used to make the span of text.
@@ -125,6 +125,8 @@
         </xsl:choose>
     </xsl:template>
 
+    <!-- get the text extracted from between the anchors
+        @param context   the annotated document -->
     <xsl:template name="scdh-onTextSpan-text">
         <xsl:param name="context" as="node()*"/>
         <xsl:variable name="extracted">
@@ -133,7 +135,7 @@
             />
         </xsl:variable>
         <!-- coming from finalized, the text may still contain element nodes.
-                        So we store it and then push it to normlized-text() -->
+            So we store it and then push it to normlized-text() -->
         <xsl:variable name="finalized">
             <xsl:call-template name="finalize-extracted">
                 <xsl:with-param name="extracted" select="$extracted"/>
@@ -143,7 +145,7 @@
     </xsl:template>
 
     <!-- make an @xml:lang for the context item
-        @param context    the TEI document -->
+        @param context    the node to get the language for -->
     <xsl:template name="xml-lang">
         <xsl:param name="context" as="node()*"/>
         <xsl:variable name="lang" select="$context/ancestor-or-self::*[@xml:lang][1]/@xml:lang"/>
