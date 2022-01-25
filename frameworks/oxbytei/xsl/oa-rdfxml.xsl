@@ -31,7 +31,8 @@
 
     <xsl:include href="extract-referenced.xsl"/>
 
-    <!-- Generates oa:hasTarget -->
+    <!-- Generates oa:hasTarget 
+        @param context   the annotated TEI document -->
     <xsl:template name="oa-hasTarget">
         <xsl:param name="context" as="node()*"/>
         <oa:hasTarget>
