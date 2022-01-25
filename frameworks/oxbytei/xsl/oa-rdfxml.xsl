@@ -4,11 +4,9 @@
     <!ENTITY oa "http://www.w3.org/ns/oa#">
 ]>
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
-    xmlns:xs="http://www.w3.org/2001/XMLSchema"
-    xmlns:oxy="http://www.oxygenxml.com/ns/author/xpath-extension-functions"
-    xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-    xmlns:oa="http://www.w3.org/ns/oa#" xmlns:scdh="http://wwu.de/scdh/annotation#"
-    exclude-result-prefixes="oxy tei" version="3.0">
+    xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tei="http://www.tei-c.org/ns/1.0"
+    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:oa="http://www.w3.org/ns/oa#"
+    xmlns:scdh="http://wwu.de/scdh/annotation#" exclude-result-prefixes="tei" version="3.0">
 
     <xsl:output method="xml" indent="yes"/>
 
