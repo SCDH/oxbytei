@@ -73,17 +73,23 @@ USAGE:
                 <xsl:value-of select="$endId"/>
             </xsl:message>
         </xsl:if>
-        <rdf:Description>
+        <rdf:Description rdf:type="oa:Annotation">
             <xsl:if test="$annotation-uri ne ''">
                 <xsl:attribute name="rdf:about" select="$annotation-uri"/>
             </xsl:if>
-            <xsl:call-template name="oa-hasSource">
+            <xsl:call-template name="oa-hasTarget">
                 <xsl:with-param name="context" select="/"/>
             </xsl:call-template>
-            <xsl:call-template name="oa-hasRange-anchorsRange"/>
-            <xsl:call-template name="scdh-onTextSpan">
-                <xsl:with-param name="context" select="/"/>
-            </xsl:call-template>
+            <!--rdf:type>
+                <xsl:text disable-output-escaping="yes">&lt;&oa;Annotation&gt;</xsl:text>
+            </rdf:type-->
+            <oa:hasBody>
+                <rdf:Description>
+                    <xsl:call-template name="scdh-onTextSpan">
+                        <xsl:with-param name="context" select="/"/>
+                    </xsl:call-template>
+                </rdf:Description>
+            </oa:hasBody>
         </rdf:Description>
     </xsl:template>
 
