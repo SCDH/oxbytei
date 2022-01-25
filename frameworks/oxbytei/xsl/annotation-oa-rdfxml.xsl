@@ -2,6 +2,8 @@
 <!--
 This can be used instead of annotation.xsl for generating annotations. It will write an RDF annotation into <xenoData>.
 
+This script must be called on the TEI document.
+
 USAGE:
 1) copy this file into your project
 
@@ -44,25 +46,23 @@ USAGE:
 
     <xsl:output method="xml" indent="yes"/>
 
+    <xsl:import href="oa-rdfxml.xsl"/>
+
+    <xsl:param name="annotation-uri" select="'http://example.org/annotation/${uuid}'" as="xs:string"
+        required="no"/>
+
+    <!--
     <xsl:param name="startId" as="xs:ID" required="yes"/>
     <xsl:param name="endId" as="xs:ID" required="yes"/>
-
-    <xsl:variable name="idno-attribute-default" select="'document-identifier'"/>
-    <xsl:param name="idno-attribute" select="$idno-attribute-default" as="xs:string" required="no"/>
-
-    <xsl:param name="annotation-uri" select="'http://example.org/annotation/${uuid}'" as="xs:string" required="no"/>
-
-    <xsl:param name="non-entity-allowed" select="false()" as="xs:boolean" required="no"/>
 
     <xsl:param name="reproduce-text" as="xs:boolean" select="false()" required="no"/>
 
     <xsl:param name="wrapper" as="xs:string" select="''" required="no"/>
 
     <xsl:param name="insert-caret" as="xs:boolean" select="true()" required="no"/>
+    -->
 
     <xsl:param name="debug" as="xs:boolean" select="false()" required="no"/>
-
-    <xsl:include href="extract-referenced.xsl"/>
 
     <xsl:template match="/">
         <xsl:if test="$debug">
@@ -85,92 +85,6 @@ USAGE:
                 <xsl:with-param name="context" select="/"/>
             </xsl:call-template>
         </rdf:Description>
-    </xsl:template>
-
-    <xsl:template name="oa-hasSource">
-        <xsl:param name="context" as="node()"/>
-        <oa:hasSource>
-            <xsl:choose>
-                <!-- We make an entity name from the document identifier.
-                    This is portable. But it needs the entity declared in DOCTYPE -->
-                <xsl:when test="exists($context//teiHeader//idno[@type eq $idno-attribute])">
-                    <xsl:variable name="identifier"
-                        select="$context//teiHeader//idno[@type eq $idno-attribute]"/>
-                    <xsl:value-of select="concat('&#x26;', $identifier, ';')"
-                        disable-output-escaping="yes"/>
-                </xsl:when>
-                <xsl:when test="$non-entity-allowed">
-                    <!-- We simply use the local document path. This is not portable. -->
-                    <xsl:message>
-                        <xsl:text>WARNING: using local path in RDF</xsl:text>
-                    </xsl:message>
-                    <xsl:value-of select="base-uri($context)"/>
-                </xsl:when>
-                <xsl:otherwise>
-                    <!-- Terminate with an error message. -->
-                    <xsl:message terminate="yes">
-                        <xsl:text>ERROR: no &lt;idno type="</xsl:text>
-                        <xsl:value-of select="$idno-attribute"/>
-                        <xsl:text>"&gt; provided and the parameter 'non-entity-allowed' is set to false.</xsl:text>
-                    </xsl:message>
-                </xsl:otherwise>
-            </xsl:choose>
-        </oa:hasSource>
-    </xsl:template>
-
-    <xsl:template name="oa-hasRange-anchorsRange">
-        <oa:hasSelector>
-            <rdf:Description rdf:type="&oa;RangeSelector">
-                <oa:hasStartSelector>
-                    <rdf:Description rdf:type="&oa;XPathSelector">
-                        <xsl:attribute name="rdf:value">
-                            <xsl:text>//*[@xml:id='</xsl:text>
-                            <xsl:value-of select="$startId"/>
-                            <xsl:text>']</xsl:text>
-                        </xsl:attribute>
-                    </rdf:Description>
-                </oa:hasStartSelector>
-                <oa:hasEndSelector>
-                    <rdf:Description rdf:type="&oa;XPathSelector">
-                        <xsl:attribute name="rdf:value">
-                            <xsl:text>//*[@xml:id='</xsl:text>
-                            <xsl:value-of select="$endId"/>
-                            <xsl:text>']</xsl:text>
-                        </xsl:attribute>
-                    </rdf:Description>
-                </oa:hasEndSelector>
-            </rdf:Description>
-        </oa:hasSelector>
-    </xsl:template>
-
-    <xsl:template name="scdh-onTextSpan">
-        <xsl:param name="context"/>
-        <xsl:choose>
-            <xsl:when test="$wrapper eq '' and $reproduce-text">
-                <scdh:onTextSpan>
-                    <xsl:variable name="extracted">
-                        <xsl:apply-templates mode="extract"
-                            select="//*[@xml:id eq $startId]/following::node() intersect //*[@xml:id eq $endId]/preceding::node()"
-                        />
-                    </xsl:variable>
-                    <xsl:call-template name="finalize-extracted">
-                        <xsl:with-param name="extracted" select="$extracted"/>
-                    </xsl:call-template>
-                </scdh:onTextSpan>
-            </xsl:when>
-            <xsl:when test="$reproduce-text">
-                <xsl:element name="{$wrapper}">
-                    <xsl:variable name="extracted">
-                        <xsl:apply-templates mode="extract"
-                            select="//*[@xml:id eq $startId]/following::node() intersect //*[@xml:id eq $endId]/preceding::node()"
-                        />
-                    </xsl:variable>
-                    <xsl:call-template name="finalize-extracted">
-                        <xsl:with-param name="extracted" select="$extracted"/>
-                    </xsl:call-template>
-                </xsl:element>
-            </xsl:when>
-        </xsl:choose>
     </xsl:template>
 
 </xsl:stylesheet>
