@@ -7,6 +7,7 @@ package de.wwu.scdh.oxbytei;
 
 import java.io.File;
 import java.nio.file.Paths;
+import java.net.MalformedURLException;
 import javax.xml.transform.URIResolver;
 import javax.xml.transform.TransformerException;
 
@@ -47,7 +48,13 @@ public class OxbyteiConstants {
     }
 
     public static String getConfigFile() {
-	String defaultConfigFile = Paths.get(getExtensionRoot(), "config", "default.xml").toString();
+	String defaultConfigFile;
+	try {
+	    defaultConfigFile = Paths.get(getExtensionRoot(), "config", "default.xml").toUri().toURL().toString();
+	} catch (MalformedURLException e) {
+	    LOGGER.error("Problem loading config file from {}. - This may cause errors on Windows", getExtensionRoot());
+	    defaultConfigFile = Paths.get(getExtensionRoot(), "config", "default.xml").toString();
+	}
 	URIResolver resolver =
 	    PluginWorkspaceProvider.getPluginWorkspace().getXMLUtilAccess().getURIResolver();
 	String configFile = defaultConfigFile;
