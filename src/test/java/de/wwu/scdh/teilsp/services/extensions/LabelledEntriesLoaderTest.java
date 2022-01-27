@@ -3,7 +3,8 @@ package de.wwu.scdh.teilsp.services.extensions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.condition.DisabledOnOs;
+import org.junit.jupiter.api.condition.OS;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.io.IOException;
@@ -68,7 +69,8 @@ public class LabelledEntriesLoaderTest {
 		     });
     }
 
-    @Disabled("does not work on windows")
+    // FIXME: make runable on windows
+    @DisabledOnOs(OS.WINDOWS)
     @Test
     public void testProvidersForContextPersNameRef() throws ExtensionException, ConfigurationException {
 	List<ILabelledEntriesProvider> providers =
@@ -86,7 +88,8 @@ public class LabelledEntriesLoaderTest {
 	assertEquals(3, providers.get(0).getLabelledEntries("").size());
     }
 
-    @Disabled("does not work on windows")
+    // FIXME: make runable on windows
+    @DisabledOnOs(OS.WINDOWS)
     @Test
     public void testProvidersForContextPersNameType() throws ExtensionException, ConfigurationException {
 	List<ILabelledEntriesProvider> providers =
@@ -102,7 +105,8 @@ public class LabelledEntriesLoaderTest {
 	assertEquals(0, providers.size());
     }
 
-    @Disabled("does not work on windows")
+    // FIXME: make runable on windows
+    @DisabledOnOs(OS.WINDOWS)
     @Test
     public void testProvidersForContextPersonRef() throws ExtensionException, ConfigurationException {
 	List<ILabelledEntriesProvider> providers =
