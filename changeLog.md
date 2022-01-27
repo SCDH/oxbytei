@@ -1,5 +1,9 @@
 # Change log #
 
+## 0.9.1 ##
+
+- try to fix lookup of the config file on windows, issue #1
+
 ## 0.9.0 ##
 
 - New actions for managing anchor based markup:
