@@ -185,7 +185,7 @@ public class FindReferersOperation extends MoveCaretOperation {
 	    if (! pairs.isEmpty()) {
 		pairs += "; ";
 	    }
-	    pairs += "'" + referer.entryXPath + "':'" + referer.label + "'";
+	    pairs += "'" + referer.entryXPath + "':'" + referer.label.replaceAll("'", "") + "'";
 	}
 
 	//AskDescriptor("combobox", title, keys, labels, currentValue);
