@@ -15,7 +15,7 @@
         <property name="oxbytei.action.annotate.sourceLocation">/*</property>
         <property name="oxbytei.action.annotate.targetLocation">/TEI/text/back/spanGrp</property>
         <property name="oxbytei.action.annotate.action">Inside as last child</property>
-        <property name="oxbytei.action.annotate.externalParams"></property>
+        <property name="oxbytei.action.annotate.externalParams">reproduce-text=${ask('Reproduce selected text in the annotation?', combobox, ('true':'yes';'false':'no'), 'no')}</property>
         <property name="oxbytei.action.annotate.attribute">ana</property>
 
         <!-- properties for internal double-end point attached apparatus -->
