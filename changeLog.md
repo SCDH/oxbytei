@@ -1,5 +1,17 @@
 # Change log #
 
+## dev ##
+
+- make annotate action more generic by removing the part for selecting
+  an analytic category
+  - chosing an analytic category and putting it to a target (text node
+    or an attribute) should be an other action and it is simple to
+    configure this in the plugin system
+- improve reproduction of referenced text
+  - do not reproduce variant readings
+  - to not reproduce processing instructions
+  - use this in `analytic` mode for persons, places etc., too
+
 ## 0.9.2 ##
 
 - Bug fix: An apostrophe (ASCII 0x27) in the labels or values
