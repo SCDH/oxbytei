@@ -11,7 +11,7 @@
     <a:operation id="ExecuteMultipleActionsOperation">
       <a:xpathCondition>true()</a:xpathCondition>
       <a:arguments>
-        <a:argument name="actionIDs">markup.annotation, link.annotation</a:argument>
+        <a:argument name="actionIDs">markup.annotation</a:argument>
       </a:arguments>
     </a:operation>
   </a:operations>
