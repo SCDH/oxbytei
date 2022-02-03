@@ -144,7 +144,11 @@
 
 
         <!-- Properties for the navigation actions -->
-        <property name="oxbytei.action.goto.refering.referers">//app, @from, @to, "concat(name(self::*), ': ', normalize-space(.))", tei, //span, @from, @to, "concat(name((child::*)[1]), ': ', normalize-space(.))", tei</property>
+        <property name="oxbytei.action.goto.refering.referers">
+            //app, @from, @to, "concat(name(self::*), ': ', normalize-space(.))", tei,
+            //span[not(child::*)], @from, @to, "concat('span: ', substring(normalize-space(.), 1, 50))", tei,
+            //span, @from, @to, "concat(name((child::*)[1]), ': ', normalize-space(.))", tei
+        </property>
         <property name="oxbytei.action.goto.refering.position">Inside, at the beginning</property>
         <property name="oxbytei.action.goto.refering.message">Choose</property>
 
