@@ -71,7 +71,7 @@ public class OxygenSelectionDialog
 		    if (pairs != "") {
 			pairs += ";";
 		    }
-		    pairs += "'" + entry.getKey() + "':'" + entry.getLabel() + "'";
+		    pairs += "'" + entry.getKey().replaceAll("'", "") + "':'" + entry.getLabel().replaceAll("'", "") + "'";
 		    total++;
 		}
 	    } catch (ExtensionException e) {
