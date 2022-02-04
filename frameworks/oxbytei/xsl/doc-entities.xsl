@@ -16,6 +16,8 @@
     -->
     <xsl:param name="identifier" as="xs:string" required="true"/>
 
+    <xsl:param name="debug" as="xs:boolean" select="false()" required="false"/>
+
     <xsl:template match="/">
         <xsl:variable name="col" select="collection(concat($pdu, '?recurse=yes;select=*', $suffix))"/>
         <xsl:for-each select="$col">
