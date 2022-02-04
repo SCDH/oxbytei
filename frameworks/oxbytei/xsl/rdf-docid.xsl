@@ -1,4 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!-- used for RDF Open Annotation hasSource.
+Rewrite this if you have an other document registry or do not need it for making entities.
+-->
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
     xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:obt="http://scdh.wwu.de/oxbytei"
     xpath-default-namespace="http://www.tei-c.org/ns/1.0" exclude-result-prefixes="xs obt"

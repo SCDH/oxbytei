@@ -11,7 +11,7 @@
 
     <xsl:output method="xml" indent="yes"/>
 
-    <xsl:import href="docid.xsl"/>
+    <xsl:import href="rdf-docid.xsl"/>
 
     <!-- the xml:id of the start anchor -->
     <xsl:param name="startId" as="xs:ID" required="yes"/>
