@@ -152,6 +152,26 @@
         <property name="oxbytei.action.goto.refering.position">Inside, at the beginning</property>
         <property name="oxbytei.action.goto.refering.message">Choose</property>
 
+
+        <!-- Properties for RDF annotations -->
+        <property name="oxbytei.action.anchors.rdf.range.startAnchor">anchor</property>
+        <property name="oxbytei.action.anchors.rdf.range.startAnchorNamespace">http://www.tei-c.org/ns/1.0</property>
+        <property name="oxbytei.action.anchors.rdf.range.startId">'${id}'</property>
+        <property name="oxbytei.action.anchors.rdf.range.endAnchor">anchor</property>
+        <property name="oxbytei.action.anchors.rdf.range.startAnchorNamespace">http://www.tei-c.org/ns/1.0</property>
+        <property name="oxbytei.action.anchors.rdf.range.endId">'${id}'</property>
+        <property name="oxbytei.action.anchors.rdf.range.moveToEnd">false</property>
+        <property name="oxbytei.action.rdf.range.annotations">${pdu}/annotations.xml</property>
+        <property name="oxbytei.action.rdf.range.annotationURI">http://example.com/annot/${uuid}</property>
+        <property name="oxbytei.action.rdf.range.registry">${teilspProp(oxbytei.action.docids.registryFile)}</property>
+
+        <!-- Properties for the document registry and the document identifier entities -->
+        <property name="oxbytei.action.docids.registryFile">${pdu}/registry.xml</property>
+        <property name="oxbytei.action.docids.entityFile">${pdu}/docids.ent</property>
+        <property name="oxbytei.action.docids.idnoType">document-identifier</property>
+        <property name="oxbytei.action.docids.docSuffix">.xml</property>
+
+
     </properties>
 
     <plugins>
