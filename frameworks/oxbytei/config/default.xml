@@ -163,12 +163,17 @@
         <property name="oxbytei.action.anchors.rdf.range.moveToEnd">false</property>
         <property name="oxbytei.action.rdf.range.annotations">${pdu}/annotations.xml</property>
         <property name="oxbytei.action.rdf.range.annotationURI">http://example.com/annot/${uuid}</property>
+        <property name="oxbytei.action.rdf.range.reproduceText">${ask('Reproduce selected text in the annotation?', combobox, ('true':'yes';'false':'no'), 'no')}</property>
+        <property name="oxbytei.action.rdf.range.wrapper"></property>
+        <property name="oxbytei.action.rdf.range.docids">docids.ent</property><!-- rel. path! -->
         <property name="oxbytei.action.rdf.range.registry">${teilspProp(oxbytei.action.docids.registryFile)}</property>
 
         <!-- Properties for the document registry and the document identifier entities -->
         <property name="oxbytei.action.docids.registryFile">${pdu}/registry.xml</property>
         <property name="oxbytei.action.docids.entityFile">${pdu}/docids.ent</property>
-        <property name="oxbytei.action.docids.idnoType">document-identifier</property>
+        <property name="oxbytei.action.docids.docidsSystemId">docids.ent</property>
+        <property name="oxbytei.action.docids.identifierXPath">//teiHeader//idno[@type eq 'document-identifier']</property>
+        <!--property name="oxbytei.action.docids.identifierXPath">tokenize(tokenize(base-uri(/), '/')[last()], '\.')[1]</property-->
         <property name="oxbytei.action.docids.docSuffix">.xml</property>
 
 
