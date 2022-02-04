@@ -36,7 +36,7 @@ It is called after the transformation in 'extract' mode.
         <!-- we make a sequence of the start node's childs and the following nodes etc. before the intersection
             in order to include the demarking nodes -->
         <xsl:apply-templates mode="extract"
-            select="($startNode/node() union $startNode/following::node()) intersect ($endNode/preceding::node() union $endNode/node())"
+            select="$startNode/(following::text() | following::*[empty(child::node())]) intersect $endNode/(preceding::text() | preceding::*[empty(child::node())])"
         />
     </xsl:template>
 
