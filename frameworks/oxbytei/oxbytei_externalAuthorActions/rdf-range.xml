@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- user action -->
+<a:authorAction xmlns:a="http://www.oxygenxml.com/ns/author/external-action"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.oxygenxml.com/ns/author/external-action http://www.oxygenxml.com/ns/author/external-action/authorAction.xsd"
+  id="rdf.range">
+  <a:name>Annotate text range in RDF</a:name>
+  <a:description>Annotate the selected passage using RDF Open Annotations.</a:description>
+  <a:largeIconPath href="${framework(oXbytei)}/images/rdfrange-24.png"/>
+  <a:smallIconPath href="${framework(oXbytei)}/images/rdfrange-16.png"/>
+  <a:operations>
+    <a:operation id="ExecuteMultipleActionsOperation">
+      <a:xpathCondition>true()</a:xpathCondition>
+      <a:arguments>
+        <a:argument name="actionIDs">anchors.rdf.range, transform.rdf.range</a:argument>
+      </a:arguments>
+    </a:operation>
+  </a:operations>
+  <a:accessKey/>
+</a:authorAction>
