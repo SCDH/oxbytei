@@ -4,24 +4,20 @@
     <!ENTITY oa "http://www.w3.org/ns/oa#">
 ]>
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
-    xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tei="http://www.tei-c.org/ns/1.0"
+    xmlns:xs="http://www.w3.org/2001/XMLSchema"
     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:oa="http://www.w3.org/ns/oa#"
-    xmlns:scdh="http://wwu.de/scdh/annotation#" exclude-result-prefixes="tei" version="3.0">
+    xmlns:obt="http://scdh.wwu.de/oxbytei" xmlns:scdh="http://wwu.de/scdh/annotation#"
+    exclude-result-prefixes="obt" version="3.0">
 
     <xsl:output method="xml" indent="yes"/>
+
+    <xsl:import href="docid.xsl"/>
 
     <!-- the xml:id of the start anchor -->
     <xsl:param name="startId" as="xs:ID" required="yes"/>
 
     <!-- the xml:id of the end anchor -->
     <xsl:param name="endId" as="xs:ID" required="yes"/>
-
-    <!-- the @type of the <idno> element where the document identifier is stored.
-        It will be used for making the xml entity. -->
-    <xsl:param name="idno-attribute" select="'document-identifier'" as="xs:string" required="no"/>
-
-    <!-- whether it is allowed to go without entity. -->
-    <xsl:param name="non-entity-allowed" select="false()" as="xs:boolean" required="no"/>
 
     <!-- whether to reproduce the annotated text -->
     <xsl:param name="reproduce-text" as="xs:boolean" select="false()" required="no"/>
@@ -51,31 +47,10 @@
     <xsl:template name="oa-hasSource">
         <xsl:param name="context" as="node()*"/>
         <oa:hasSource>
-            <xsl:choose>
-                <!-- We make an entity name from the document identifier.
-                    This is portable. But it needs the entity declared in DOCTYPE -->
-                <xsl:when test="exists($context//tei:teiHeader//tei:idno[@type eq $idno-attribute])">
-                    <xsl:variable name="identifier"
-                        select="$context//tei:teiHeader//tei:idno[@type eq $idno-attribute]"/>
-                    <xsl:value-of select="concat('&#x26;', $identifier, ';')"
-                        disable-output-escaping="yes"/>
-                </xsl:when>
-                <xsl:when test="$non-entity-allowed">
-                    <!-- We simply use the local document path. This is not portable. -->
-                    <xsl:message>
-                        <xsl:text>WARNING: using local path in RDF</xsl:text>
-                    </xsl:message>
-                    <xsl:value-of select="base-uri($context)"/>
-                </xsl:when>
-                <xsl:otherwise>
-                    <!-- Terminate with an error message. -->
-                    <xsl:message terminate="yes">
-                        <xsl:text>ERROR: no &lt;idno type="</xsl:text>
-                        <xsl:value-of select="$idno-attribute"/>
-                        <xsl:text>"&gt; provided and the parameter 'non-entity-allowed' is set to false.</xsl:text>
-                    </xsl:message>
-                </xsl:otherwise>
-            </xsl:choose>
+            <xsl:call-template name="obt:docid">
+                <xsl:with-param name="filename" select="base-uri($context)"/>
+                <xsl:with-param name="is-default" select="false()"/>
+            </xsl:call-template>
         </oa:hasSource>
     </xsl:template>
 
