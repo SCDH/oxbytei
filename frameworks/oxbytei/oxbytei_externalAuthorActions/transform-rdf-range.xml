@@ -10,7 +10,7 @@
     <a:operation id="ExecuteTransformationScenariosOperation">
       <a:xpathCondition>true()</a:xpathCondition>
       <a:arguments>
-        <a:argument name="scenarioNames">RDF Range Annotation</a:argument>
+        <a:argument name="scenarioNames">oXbytei :: RDF Range Annotation</a:argument>
       </a:arguments>
     </a:operation>
   </a:operations>
