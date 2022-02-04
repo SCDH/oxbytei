@@ -1,13 +1,13 @@
 xquery version "3.1";
 
-declare namespace output = "w3.org/2010/xslt-xquery-serialization";
-(:
-declare output:method "text";
-:)
-
 (: Make document ID entities for the whole project :)
 
-declare default element namespace "http://www.tei-c.org/ns/1.0";
+declare namespace output = "w3.org/2010/xslt-xquery-serialization";
+declare output:method "text";
+(:
+:)
+
+import module namespace obt="http://scdh.wwu.de/oxbytei" at 'docid.xqm';
 
 (: The suffix of the documents, for which document IDs should be generated :)
 declare variable $suffix external := '.tei';
@@ -43,8 +43,8 @@ declare variable $col := collection($colpath);
                 {
                     for $doc in $col
                     let $file := base-uri($doc)
-                        where exists($doc//teiHeader//idno[@type eq $docid])
-                    let $id := $doc//teiHeader//idno[@type eq $docid]/text()
+                        where exists(obt:getDocId($doc))
+                    let $id := obt:getDocId($doc)
                     return
                         <item
                             xml:id="{$id}">
