@@ -26,6 +26,10 @@
     <!-- the name of the file with ENTITIES with document identifiers -->
     <xsl:param name="docids" as="xs:string" select="'docids.ent'" required="no"/>
 
+    <!-- Whether or not the new annotation should be prepended to the existing ones.
+        If false, then the new annotation will be appended. -->
+    <xsl:param name="prepend" as="xs:boolean" select="true()" required="no"/>
+
     <xsl:param name="registry" as="xs:string" select="'registry.xml'" required="no"/>
 
     <xsl:variable name="reg" as="document-node()" select="doc($registry)"/>
@@ -53,12 +57,17 @@
             <xsl:text disable-output-escaping="yes">" &gt;&#xa;%docids;</xsl:text>
             <xsl:text disable-output-escaping="yes">&#xa;]&gt;&#xa;</xsl:text>
         </xsl:if>
+    </xsl:template>
 
+    <xsl:template match="/rdf:RDF">
+        <xsl:call-template name="doctype-decl"/>
         <rdf:RDF>
-            <!-- copy of all nodes -->
-            <xsl:apply-templates/>
 
-            <xsl:text>&#xa;&#xa;</xsl:text>
+            <xsl:if test="not($prepend)">
+                <!-- copy of all nodes -->
+                <xsl:apply-templates/>
+                <xsl:text>&#xa;&#xa;</xsl:text>
+            </xsl:if>
 
             <!-- append new range annotation as last child -->
             <rdf:Description rdf:type="oa:Annotation">
@@ -78,7 +87,10 @@
                 </oa:hasBody>
             </rdf:Description>
 
-            <xsl:text>&#xa;&#xa;</xsl:text>
+            <xsl:if test="$prepend">
+                <xsl:text>&#xa;&#xa;</xsl:text>
+                <xsl:apply-templates/>
+            </xsl:if>
 
         </rdf:RDF>
     </xsl:template>
