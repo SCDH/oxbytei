@@ -118,7 +118,7 @@
         <xsl:param name="context" as="node()*"/>
         <xsl:variable name="extracted">
             <xsl:apply-templates mode="extract"
-                select="//*[@xml:id eq $startId]/following::node() intersect //*[@xml:id eq $endId]/preceding::node()"
+                select="$context//*[@xml:id eq $startId]/following::node() intersect $context//*[@xml:id eq $endId]/preceding::node()"
             />
         </xsl:variable>
         <!-- coming from finalized, the text may still contain element nodes.
