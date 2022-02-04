@@ -55,6 +55,7 @@ from the contextual menu.
         <addAction id="link.place"/>
         <addAction id="link.bibref"/>
         <addAction id="annotate"/>
+        <addAction id="rdf.range"/>
       </toolbar>
     </toolbars>
 
@@ -71,6 +72,7 @@ from the contextual menu.
       <addAction anchor="insert image" id="link.place"/>
       <addAction anchor="insert image" id="link.bibref"/>
       <addAction anchor="insert image" id="annotate"/>
+      <addAction anchor="insert image" id="rdf.range"/>
     </menu>
 
     <contextualMenu>
