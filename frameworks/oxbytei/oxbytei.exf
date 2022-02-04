@@ -30,7 +30,7 @@ from the contextual menu.
 
   <transformationScenarios>
     <!-- FIXME: add ${framework(oXbytei)}/ after oXygen bug-fix -->
-    <addScenarios href="xsl/updateHeader.scenario.xml"/>
+    <addScenarios href="transformation.scenarios"/>
   </transformationScenarios>
 
   <author>
