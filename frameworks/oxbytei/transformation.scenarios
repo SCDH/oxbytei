@@ -9,6 +9,342 @@
 						<null/>
 					</field>
 					<field name="name">
+						<String>oXbytei :: document entities</String>
+					</field>
+					<field name="baseURL">
+						<String></String>
+					</field>
+					<field name="footerURL">
+						<String></String>
+					</field>
+					<field name="fOPMethod">
+						<String>pdf</String>
+					</field>
+					<field name="fOProcessorName">
+						<String>Apache FOP</String>
+					</field>
+					<field name="headerURL">
+						<String></String>
+					</field>
+					<field name="inputXSLURL">
+						<String>${framework(oXbytei)}/xsl/doc-entities.xsl</String>
+					</field>
+					<field name="inputXMLURL">
+						<String>${currentFileURL}</String>
+					</field>
+					<field name="defaultScenario">
+						<Boolean>false</Boolean>
+					</field>
+					<field name="isFOPPerforming">
+						<Boolean>false</Boolean>
+					</field>
+					<field name="type">
+						<String>XSL</String>
+					</field>
+					<field name="saveAs">
+						<Boolean>true</Boolean>
+					</field>
+					<field name="openInBrowser">
+						<Boolean>false</Boolean>
+					</field>
+					<field name="outputResource">
+						<String>${teilspProp(oxbytei.action.docids.entityFile)}</String>
+					</field>
+					<field name="openOtherLocationInBrowser">
+						<Boolean>false</Boolean>
+					</field>
+					<field name="locationToOpenInBrowserURL">
+						<null/>
+					</field>
+					<field name="openInEditor">
+						<Boolean>false</Boolean>
+					</field>
+					<field name="showInHTMLPane">
+						<Boolean>false</Boolean>
+					</field>
+					<field name="showInXMLPane">
+						<Boolean>false</Boolean>
+					</field>
+					<field name="showInSVGPane">
+						<Boolean>false</Boolean>
+					</field>
+					<field name="showInResultSetPane">
+						<Boolean>false</Boolean>
+					</field>
+					<field name="useXSLTInput">
+						<Boolean>true</Boolean>
+					</field>
+					<field name="xsltParams">
+						<list>
+							<transformationParameter>
+								<field name="paramDescription">
+									<paramDescriptor>
+										<field name="localName">
+											<String>identifier</String>
+										</field>
+										<field name="prefix">
+											<null/>
+										</field>
+										<field name="namespace">
+											<null/>
+										</field>
+									</paramDescriptor>
+								</field>
+								<field name="value">
+									<String>${teilspProp(oxbytei.action.docids.identifierXPath)}</String>
+								</field>
+								<field name="hasXPathValue">
+									<Boolean>false</Boolean>
+								</field>
+								<field name="isStatic">
+									<Boolean>false</Boolean>
+								</field>
+							</transformationParameter>
+							<transformationParameter>
+								<field name="paramDescription">
+									<paramDescriptor>
+										<field name="localName">
+											<String>pdu</String>
+										</field>
+										<field name="prefix">
+											<null/>
+										</field>
+										<field name="namespace">
+											<null/>
+										</field>
+									</paramDescriptor>
+								</field>
+								<field name="value">
+									<String>${pdu}</String>
+								</field>
+								<field name="hasXPathValue">
+									<Boolean>false</Boolean>
+								</field>
+								<field name="isStatic">
+									<Boolean>false</Boolean>
+								</field>
+							</transformationParameter>
+							<transformationParameter>
+								<field name="paramDescription">
+									<paramDescriptor>
+										<field name="localName">
+											<String>suffix</String>
+										</field>
+										<field name="prefix">
+											<null/>
+										</field>
+										<field name="namespace">
+											<null/>
+										</field>
+									</paramDescriptor>
+								</field>
+								<field name="value">
+									<String>${teilspProp(oxbytei.action.docids.docSuffix)}</String>
+								</field>
+								<field name="hasXPathValue">
+									<Boolean>false</Boolean>
+								</field>
+								<field name="isStatic">
+									<Boolean>false</Boolean>
+								</field>
+							</transformationParameter>
+						</list>
+					</field>
+					<field name="cascadingStylesheets">
+						<String-array/>
+					</field>
+					<field name="xslTransformer">
+						<String>Saxon-PE</String>
+					</field>
+					<field name="extensionURLs">
+						<String-array/>
+					</field>
+				</scenario>
+				<scenario>
+					<field name="advancedOptionsMap">
+						<null/>
+					</field>
+					<field name="name">
+						<String>oXbytei :: document registry</String>
+					</field>
+					<field name="baseURL">
+						<String></String>
+					</field>
+					<field name="footerURL">
+						<String></String>
+					</field>
+					<field name="fOPMethod">
+						<String>pdf</String>
+					</field>
+					<field name="fOProcessorName">
+						<String>Apache FOP</String>
+					</field>
+					<field name="headerURL">
+						<String></String>
+					</field>
+					<field name="inputXSLURL">
+						<String>${framework(oXbytei)}/xsl/doc-registry.xsl</String>
+					</field>
+					<field name="inputXMLURL">
+						<String>${teilspProp(oxbytei.action.docids.registryFile)}</String>
+					</field>
+					<field name="defaultScenario">
+						<Boolean>false</Boolean>
+					</field>
+					<field name="isFOPPerforming">
+						<Boolean>false</Boolean>
+					</field>
+					<field name="type">
+						<String>XSL</String>
+					</field>
+					<field name="saveAs">
+						<Boolean>true</Boolean>
+					</field>
+					<field name="openInBrowser">
+						<Boolean>false</Boolean>
+					</field>
+					<field name="outputResource">
+						<String>${teilspProp(oxbytei.action.docids.registryFile)}</String>
+					</field>
+					<field name="openOtherLocationInBrowser">
+						<Boolean>false</Boolean>
+					</field>
+					<field name="locationToOpenInBrowserURL">
+						<null/>
+					</field>
+					<field name="openInEditor">
+						<Boolean>true</Boolean>
+					</field>
+					<field name="showInHTMLPane">
+						<Boolean>false</Boolean>
+					</field>
+					<field name="showInXMLPane">
+						<Boolean>false</Boolean>
+					</field>
+					<field name="showInSVGPane">
+						<Boolean>false</Boolean>
+					</field>
+					<field name="showInResultSetPane">
+						<Boolean>false</Boolean>
+					</field>
+					<field name="useXSLTInput">
+						<Boolean>true</Boolean>
+					</field>
+					<field name="xsltParams">
+						<list>
+							<transformationParameter>
+								<field name="paramDescription">
+									<paramDescriptor>
+										<field name="localName">
+											<String>identifier</String>
+										</field>
+										<field name="prefix">
+											<null/>
+										</field>
+										<field name="namespace">
+											<null/>
+										</field>
+									</paramDescriptor>
+								</field>
+								<field name="value">
+									<String>${teilspProp(oxbytei.action.docids.identifierXPath)}</String>
+								</field>
+								<field name="hasXPathValue">
+									<Boolean>false</Boolean>
+								</field>
+								<field name="isStatic">
+									<Boolean>false</Boolean>
+								</field>
+							</transformationParameter>
+							<transformationParameter>
+								<field name="paramDescription">
+									<paramDescriptor>
+										<field name="localName">
+											<String>pdu</String>
+										</field>
+										<field name="prefix">
+											<null/>
+										</field>
+										<field name="namespace">
+											<null/>
+										</field>
+									</paramDescriptor>
+								</field>
+								<field name="value">
+									<String>${pdu}</String>
+								</field>
+								<field name="hasXPathValue">
+									<Boolean>false</Boolean>
+								</field>
+								<field name="isStatic">
+									<Boolean>false</Boolean>
+								</field>
+							</transformationParameter>
+							<transformationParameter>
+								<field name="paramDescription">
+									<paramDescriptor>
+										<field name="localName">
+											<String>suffix</String>
+										</field>
+										<field name="prefix">
+											<null/>
+										</field>
+										<field name="namespace">
+											<null/>
+										</field>
+									</paramDescriptor>
+								</field>
+								<field name="value">
+									<String>${teilspProp(oxbytei.action.docids.docSuffix)}</String>
+								</field>
+								<field name="hasXPathValue">
+									<Boolean>false</Boolean>
+								</field>
+								<field name="isStatic">
+									<Boolean>false</Boolean>
+								</field>
+							</transformationParameter>
+							<transformationParameter>
+								<field name="paramDescription">
+									<paramDescriptor>
+										<field name="localName">
+											<String>docids</String>
+										</field>
+										<field name="prefix">
+											<null/>
+										</field>
+										<field name="namespace">
+											<null/>
+										</field>
+									</paramDescriptor>
+								</field>
+								<field name="value">
+									<String>${teilspProp(oxbytei.action.docids.docidsSystemId)}</String>
+								</field>
+								<field name="hasXPathValue">
+									<Boolean>false</Boolean>
+								</field>
+								<field name="isStatic">
+									<Boolean>false</Boolean>
+								</field>
+							</transformationParameter>
+						</list>
+					</field>
+					<field name="cascadingStylesheets">
+						<String-array/>
+					</field>
+					<field name="xslTransformer">
+						<String>Saxon-PE</String>
+					</field>
+					<field name="extensionURLs">
+						<String-array/>
+					</field>
+				</scenario>
+				<scenario>
+					<field name="advancedOptionsMap">
+						<null/>
+					</field>
+					<field name="name">
 						<String>oXbytei :: update header</String>
 					</field>
 					<field name="baseURL">
