@@ -6,7 +6,7 @@
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
     xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tei="http://www.tei-c.org/ns/1.0"
     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:oa="http://www.w3.org/ns/oa#"
-    xmlns:scdh="http://wwu.de/scdh/annotation#" exclude-result-prefixes="tei" version="2.0">
+    xmlns:scdh="http://wwu.de/scdh/annotation#" exclude-result-prefixes="tei" version="3.0">
 
     <xsl:output method="xml" indent="yes"/>
 
@@ -25,25 +25,44 @@
     <!-- the name of the file with ENTITIES with document identifiers -->
     <xsl:param name="docids" as="xs:string" select="'docids.ent'" required="no"/>
 
+    <xsl:param name="registry" as="xs:string" select="'registry.xml'" required="no"/>
+
+    <xsl:variable name="reg" as="document-node()" select="doc($registry)"/>
+
+    <xsl:mode on-no-match="shallow-copy"/>
+
     <xsl:template match="/processing-instruction()">
         <xsl:copy select="."/>
+    </xsl:template>
+
+    <!-- let's keep the named entities -->
+    <xsl:template match="text()">
+        <xsl:variable name="content" select="."/>
+        <xsl:variable name="id" select="$reg//tei:item[child::tei:ptr[@target eq $content]]/@xml:id"/>
+        <xsl:choose>
+            <xsl:when test="exists($id)">
+                <xsl:value-of select="concat('&amp;', $id, ';')" disable-output-escaping="yes"/>
+            </xsl:when>
+            <xsl:otherwise>
+                <xsl:value-of select="$content"/>
+            </xsl:otherwise>
+        </xsl:choose>
     </xsl:template>
 
     <xsl:template match="/rdf:RDF">
 
         <!-- insert the DOCTYPE declaration with the link to the external entity file -->
         <xsl:if test="$insert-doctype">
-            <xsl:text disable-output-escaping="yes">&lt;DOCTYPE RDF [</xsl:text>
+            <xsl:text disable-output-escaping="yes">&#xa;&lt;!DOCTYPE RDF [</xsl:text>
             <xsl:text disable-output-escaping="yes">&#xa;&lt;!ENTITY % docids SYSTEM "</xsl:text>
             <xsl:value-of select="$docids"/>
             <xsl:text disable-output-escaping="yes">" &gt;&#xa;%docids;</xsl:text>
-            <xsl:text disable-output-escaping="yes">&#xa;]&gt;</xsl:text>
+            <xsl:text disable-output-escaping="yes">&#xa;]&gt;&#xa;</xsl:text>
         </xsl:if>
 
         <rdf:RDF>
-            <!-- deep copy of all nodes -->
-            <xsl:copy-of select="@*"/>
-            <xsl:copy-of select="*"/>
+            <!-- copy of all nodes -->
+            <xsl:apply-templates/>
 
             <xsl:text>&#xa;&#xa;</xsl:text>
 
