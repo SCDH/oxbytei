@@ -2,6 +2,8 @@
 
 ## dev ##
 
+- fix issue #4: Text from enclosed elements was duplicated for
+  e.g. the lemma of an apparatus entry. This was fixed.
 - make annotate action more generic by removing the part for selecting
   an analytic category
   - chosing an analytic category and putting it to a target (text node
