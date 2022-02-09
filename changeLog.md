@@ -1,5 +1,12 @@
 # Change log #
 
+## 0.9.4 ##
+
+- make the actions for inserting an apparatus entry simpler by
+  splitting them up
+- make the actions for making annotations simpler and more
+  configurable by splitting them up
+
 ## 0.9.3 ##
 
 - fix issue #4: Text from enclosed elements was duplicated for

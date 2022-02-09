@@ -12,14 +12,14 @@
     <a:operation id="ExecuteMultipleActionsOperation">
       <a:xpathCondition>not(ancestor-or-self::app) and //teiHeader/encodingDesc/variantEncoding</a:xpathCondition>
       <a:arguments>
-        <a:argument name="actionIDs">markup.apparatus, postprocess.apparatus, sel.wit</a:argument>
+        <a:argument name="actionIDs">anchors.apparatus, markup.apparatus, postprocess.apparatus, sel.wit</a:argument>
       </a:arguments>
     </a:operation>
     <a:operation id="ExecuteMultipleActionsOperation">
       <!-- nested apparatus entries are allowed on parallel segmentation -->
       <a:xpathCondition>not(self::app) and //teiHeader/encodingDesc/variantEncoding[@method eq 'parallel-segmentation' and @location eq 'internal']</a:xpathCondition>
       <a:arguments>
-        <a:argument name="actionIDs">markup.apparatus, postprocess.apparatus, sel.wit</a:argument>
+        <a:argument name="actionIDs">anchors.apparatus, markup.apparatus, postprocess.apparatus, sel.wit</a:argument>
       </a:arguments>
     </a:operation>    
   </a:operations>

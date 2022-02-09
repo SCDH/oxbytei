@@ -19,6 +19,8 @@ The caret will be on the inserted <span>.
 
     <xsl:param name="insert-caret" as="xs:boolean" select="true()" required="no"/>
 
+    <xsl:param name="has-end-anchor" as="xs:boolean" select="true()" required="no"/>
+
     <xsl:param name="debug" as="xs:boolean" select="false()" required="no"/>
 
     <xsl:include href="extract-referenced.xsl"/>
@@ -30,11 +32,12 @@ The caret will be on the inserted <span>.
                 <xsl:value-of select="$startId"/>
                 <xsl:text> and #</xsl:text>
                 <xsl:value-of select="$endId"/>
-                <xsl:text>. Current node: </xsl:text>
-                <xsl:value-of select="local-name(oxy:current-element())"/>
             </xsl:message>
         </xsl:if>
-        <span from="#{$startId}" to="#{$endId}">
+        <span from="#{$startId}">
+            <xsl:if test="$has-end-anchor">
+                <xsl:attribute name="to" select="concat('#', $endId)"/>
+            </xsl:if>
             <xsl:choose>
                 <xsl:when test="$wrapper eq '' and $reproduce-text">
                     <xsl:variable name="extracted">

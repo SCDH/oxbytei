@@ -6,21 +6,14 @@
   <a:name>Markup annotation</a:name>
   <a:description>Add annotation markup to annotate the selected passage.</a:description>
   <a:operations>
-    <a:operation id="de.wwu.scdh.oxbytei.SurroundWithAnchorsXSLTOperation">
+    <a:operation id="de.wwu.scdh.oxbytei.ExpandingXSLTOperation">
       <a:xpathCondition>true()</a:xpathCondition>
       <a:arguments>
-        <a:argument name="startAnchor">${teilspProp(oxbytei.action.annotate.startAnchor)}</a:argument>
-        <a:argument name="startAnchorNamespace">${teilspProp(oxbytei.action.annotate.startAnchorNamespace)}</a:argument>
-        <a:argument name="startId">${teilspProp(oxbytei.action.annotate.startId)}</a:argument>
-        <!--a:argument name="startId">${teilspProp(oxbytei.action.annotate.startId)}</a:argument-->
-        <a:argument name="endAnchor">${teilspProp(oxbytei.action.annotate.endAnchor)}</a:argument>
-        <a:argument name="endAnchorNamespace">${teilspProp(oxbytei.action.annotate.endAnchorNamespace)}</a:argument>
-        <a:argument name="endId">${teilspProp(oxbytei.action.annotate.endId)}</a:argument>
         <a:argument name="script">${framework(oXbytei)}/xsl/annotation.xsl</a:argument>
         <a:argument name="sourceLocation">${teilspProp(oxbytei.action.annotate.sourceLocation)}</a:argument>
         <a:argument name="targetLocation">${teilspProp(oxbytei.action.annotate.targetLocation)}</a:argument>
         <a:argument name="action">${teilspProp(oxbytei.action.annotate.action)}</a:argument>
-        <a:argument name="externalParams">${teilspProp(oxbytei.action.annotate.externalParams)}</a:argument>
+        <a:argument name="externalParams">container=${anchorsContainer},startId=${startAnchorId},endId=${endAnchorId},${teilspProp(oxbytei.action.annotate.externalParams)}</a:argument>
       </a:arguments>
     </a:operation>
   </a:operations>
