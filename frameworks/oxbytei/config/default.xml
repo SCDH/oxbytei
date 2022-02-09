@@ -72,6 +72,12 @@
         <property name="oxbytei.style.aggregative.action">Replace</property>
         <property name="oxbytei.style.aggregative.style">aggregative</property>
 
+        <!-- Properties for internal span annotations -->
+        <property name="oxbytei.style.annotate.internal.targetLocation">//*[@xml:id eq '${endAnchorId}']</property>
+        <property name="oxbytei.style.annotate.internal.action">Replace</property>
+        <property name="oxbytei.style.annotate.internal.externalParams">has-end-anchor=false,reproduce-text=${ask('Reproduce selected text in the annotation?', combobox, ('true':'yes';'false':'no'), 'no')}</property>
+
+
 
         <!-- properties for person linking action -->
         <property name="oxbytei.action.anchors.person.startAnchor">anchor</property>
