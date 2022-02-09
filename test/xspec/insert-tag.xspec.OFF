@@ -223,4 +223,15 @@
         </x:expect>
     </x:scenario>
 
+    <x:scenario label="analytic enclosing">
+        <x:param name="style">analytic</x:param>
+        <x:param name="startId">a3</x:param>
+        <x:param name="endId">a4</x:param>
+        <x:param name="container">//p[@xml:id eq 'p2']</x:param>
+        <x:context href="case1.xml"/>
+        <x:expect label="xml output">
+            <t:span from="#a3" to="#a4"><t:seg>${caret}B BB BBB</t:seg></t:span>
+        </x:expect>
+    </x:scenario>
+
 </x:description>
