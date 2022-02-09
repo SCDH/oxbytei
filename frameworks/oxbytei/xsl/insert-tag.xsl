@@ -57,6 +57,7 @@ action: Replace
     xpath-default-namespace="http://www.tei-c.org/ns/1.0">
 
     <xsl:include href="generate-id.xsl"/>
+    <xsl:include href="extract-referenced.xsl"/>
 
     <xsl:param name="startId" as="xs:ID" required="yes"/>
     <xsl:param name="endId" as="xs:ID" required="yes"/>
@@ -232,9 +233,15 @@ action: Replace
         <span from="#{$startId}" to="#{$endId}">
             <xsl:element name="{$tag}" namespace="{$tag-namespace}">
                 <xsl:text>${caret}</xsl:text>
-                <xsl:value-of
-                    select="(//*[@xml:id eq $startId]/following::node() intersect //*[@xml:id eq $endId]/preceding::node()) => string-join('') => normalize-space()"
-                />
+                <xsl:variable name="nodes-between">
+                    <xsl:call-template name="nodes-between">
+                        <xsl:with-param name="startNodeId" select="$startId"/>
+                        <xsl:with-param name="endNodeId" select="$endId"/>
+                    </xsl:call-template>
+                </xsl:variable>
+                <xsl:call-template name="finalize-extracted">
+                    <xsl:with-param name="extracted" select="$nodes-between"/>
+                </xsl:call-template>
             </xsl:element>
         </span>
     </xsl:template>
