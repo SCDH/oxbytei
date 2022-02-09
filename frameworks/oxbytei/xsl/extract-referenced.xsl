@@ -47,9 +47,12 @@ It is called after the transformation in 'extract' mode.
 
     <!-- do not reproduce apparatus entries if using an other variant encoding than parallel segementation -->
     <xsl:template match="app[//variantEncoding/@method ne 'parallel-segmentation']"/>
+    <xsl:template
+        match="text()[ancestor::app][//variantEncoding/@method ne 'parallel-segmentation']"/>
 
     <!-- do not reproduce variant readings (in parallel segmentation) -->
     <xsl:template match="rdg"/>
+    <xsl:template match="text()[ancestor::rdg]"/>
 
     <!-- do not reproduce both of choice/(sic|corr) -->
     <xsl:template match="choice[child::sic and child::corr]">
