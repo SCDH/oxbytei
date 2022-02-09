@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- editing atom -->
+<a:authorAction xmlns:a="http://www.oxygenxml.com/ns/author/external-action"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.oxygenxml.com/ns/author/external-action http://www.oxygenxml.com/ns/author/external-action/authorAction.xsd"
+  id="anchors.apparatus">
+  <a:name>Surround with anchors</a:name>
+  <a:description>Surround the user selection with empty anchors.</a:description>
+  <a:operations>
+    <a:operation id="de.wwu.scdh.oxbytei.NoOperation">
+      <a:xpathCondition>//teiHeader//encodingDesc/variantEncoding[@method eq 'parallel-segmentation' or @method eq 'location-referenced']</a:xpathCondition>
+    </a:operation>
+    <a:operation id="de.wwu.scdh.oxbytei.SurroundWithAnchorsOperation">
+      <a:xpathCondition>//teiHeader//encodingDesc/variantEncoding</a:xpathCondition>
+      <a:arguments>
+        <a:argument name="startAnchor">${teilspProp(oxbytei.action.app.anchors.startAnchor)}</a:argument>
+        <a:argument name="startAnchorNamespace">${teilspProp(oxbytei.action.app.anchors.startAnchorNamespace)}</a:argument>
+        <a:argument name="startId">${teilspProp(oxbytei.action.app.anchors.startId)}</a:argument>
+        <a:argument name="endAnchor">${teilspProp(oxbytei.action.app.anchors.endAnchor)}</a:argument>
+        <a:argument name="endAnchorNamespace">${teilspProp(oxbytei.action.app.anchors.endAnchorNamespace)}</a:argument>
+        <a:argument name="endId">${teilspProp(oxbytei.action.app.anchors.endId)}</a:argument>
+        <a:argument name="moveToEnd">${teilspProp(oxbytei.action.app.anchors.moveToEnd)}</a:argument>
+      </a:arguments>
+    </a:operation>
+  </a:operations>
+  <a:accessKey/>
+</a:authorAction>

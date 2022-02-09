@@ -19,13 +19,7 @@ The caret will be on the inserted <rdg>.
 
     <xsl:import href="extract-referenced.xsl"/>
 
-    <xsl:mode on-no-match="shallow-copy"/>
-
     <xsl:template match="/">
-        <xsl:apply-templates select="oxy:current-element()"/>
-    </xsl:template>
-
-    <xsl:template match="*[@xml:id eq $endId]">
         <app from="#{$startId}">
             <xsl:if test="$withLemma">
                 <xsl:variable name="extracted">

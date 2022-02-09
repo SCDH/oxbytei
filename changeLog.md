@@ -2,6 +2,11 @@
 
 ## dev ##
 
+- make the actions for inserting an apparatus entry simpler by
+  splitting them up
+
+## 0.9.3 ##
+
 - fix issue #4: Text from enclosed elements was duplicated for
   e.g. the lemma of an apparatus entry. This was fixed.
 - make annotate action more generic by removing the part for selecting
