@@ -23,9 +23,10 @@ The caret will be on the inserted <rdg>.
         <app from="#{$startId}" to="#{$endId}">
             <xsl:if test="$withLemma">
                 <xsl:variable name="extracted">
-                    <xsl:apply-templates mode="extract"
-                        select="//*[@xml:id eq $startId]/following::node() intersect //*[@xml:id eq $endId]/preceding::node()"
-                    />
+                    <xsl:call-template name="nodes-between">
+                        <xsl:with-param name="startNodeId" select="$startId"/>
+                        <xsl:with-param name="endNodeId" select="$endId"/>
+                    </xsl:call-template>
                 </xsl:variable>
                 <lem>
                     <xsl:call-template name="finalize-extracted">
