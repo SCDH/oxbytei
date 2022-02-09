@@ -27,7 +27,7 @@
         <property name="oxbytei.action.app.dep.int.endId">'${id}'</property>
         <property name="oxbytei.action.app.dep.int.moveToEnd">true</property>
         <property name="oxbytei.action.app.dep.int.sourceLocation">/*</property>
-        <property name="oxbytei.action.app.dep.int.targetLocation">self::*</property>
+        <property name="oxbytei.action.app.dep.int.targetLocation">//*[@xml:id eq '${endAnchorId}']</property>
         <property name="oxbytei.action.app.dep.int.action">Replace</property>
         <property name="oxbytei.action.app.dep.int.externalParams"></property>
 
