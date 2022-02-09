@@ -38,9 +38,10 @@ The caret will be on the inserted <span>.
             <xsl:choose>
                 <xsl:when test="$wrapper eq '' and $reproduce-text">
                     <xsl:variable name="extracted">
-                        <xsl:apply-templates mode="extract"
-                            select="//*[@xml:id eq $startId]/following::node() intersect //*[@xml:id eq $endId]/preceding::node()"
-                        />
+                        <xsl:call-template name="nodes-between">
+                            <xsl:with-param name="startNodeId" select="$startId"/>
+                            <xsl:with-param name="endNodeId" select="$endId"/>
+                        </xsl:call-template>
                     </xsl:variable>
                     <xsl:call-template name="finalize-extracted">
                         <xsl:with-param name="extracted" select="$extracted"/>
@@ -49,9 +50,10 @@ The caret will be on the inserted <span>.
                 <xsl:when test="$reproduce-text">
                     <xsl:element name="{$wrapper}">
                         <xsl:variable name="extracted">
-                            <xsl:apply-templates mode="extract"
-                                select="//*[@xml:id eq $startId]/following::node() intersect //*[@xml:id eq $endId]/preceding::node()"
-                            />
+                            <xsl:call-template name="nodes-between">
+                                <xsl:with-param name="startNodeId" select="$startId"/>
+                                <xsl:with-param name="endNodeId" select="$endId"/>
+                            </xsl:call-template>
                         </xsl:variable>
                         <xsl:call-template name="finalize-extracted">
                             <xsl:with-param name="extracted" select="$extracted"/>
