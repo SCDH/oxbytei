@@ -1,5 +1,10 @@
 # Change log #
 
+## dev ##
+
+- make the actions for inserting an apparatus entry simpler by
+  splitting them up
+
 ## 0.9.3 ##
 
 - fix issue #4: Text from enclosed elements was duplicated for
