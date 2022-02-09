@@ -8,7 +8,7 @@
   <a:description>Surround the user selection with empty anchors.</a:description>
   <a:operations>
     <a:operation id="de.wwu.scdh.oxbytei.NoOperation">
-      <a:xpathCondition>//teiHeader//encodingDesc/variantEncoding[@method eq 'parallel-segmentation']</a:xpathCondition>
+      <a:xpathCondition>//teiHeader//encodingDesc/variantEncoding[@method eq 'parallel-segmentation' or @method eq 'location-referenced']</a:xpathCondition>
     </a:operation>
     <a:operation id="de.wwu.scdh.oxbytei.SurroundWithAnchorsOperation">
       <a:xpathCondition>//teiHeader//encodingDesc/variantEncoding</a:xpathCondition>
