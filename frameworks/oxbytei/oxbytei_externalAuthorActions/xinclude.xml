@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- user action -->
+<a:authorAction xmlns:a="http://www.oxygenxml.com/ns/author/external-action"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.oxygenxml.com/ns/author/external-action http://www.oxygenxml.com/ns/author/external-action/authorAction.xsd"
+  id="oxbytei.xinclude">
+  <a:name>XInclude</a:name>
+  <a:description>Inserts an XInclude.</a:description>
+  <a:smallIconPath href="${framework(oXbytei)}/images/EditContent16.png"/>
+  <a:largeIconPath href="${framework(oXbytei)}/images/EditContent24.png"/>
+  <a:operations>
+    <a:operation id="InsertFragmentOperation">
+      <a:xpathCondition>true()</a:xpathCondition>
+      <a:arguments>
+        <a:argument name="fragment"><![CDATA[<include xmlns="http://www.w3.org/2001/XInclude" href="${ask('Choose a file', relative_url, '', @href)}" xpointer="${ask('Choose an target', combobox, (${xpath_eval(string-join((for $id in doc('${answer(@href)}')//*[${teilspProp(oxbytei.action.oxbytei.xinclude.elementXPath)}]/@xml:id return concat("'", $id, "':'", substring(normalize-space($id/parent::*),1, 100), '...', "'")),';'))}), '')}"/>]]></a:argument>
+      </a:arguments>
+    </a:operation>
+  </a:operations>
+  <a:accessKey/>
+</a:authorAction>

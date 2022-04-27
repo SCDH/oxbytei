@@ -55,6 +55,7 @@ from the contextual menu.
         <addAction id="link.place"/>
         <addAction id="link.bibref"/>
         <addAction id="annotate"/>
+        <addAction id="oxbytei.xinclude"/>
       </toolbar>
     </toolbars>
 
@@ -71,6 +72,8 @@ from the contextual menu.
       <addAction anchor="insert image" id="link.place"/>
       <addAction anchor="insert image" id="link.bibref"/>
       <addAction anchor="insert image" id="annotate"/>
+      <separator anchor="insert image"/>
+      <addAction anchor="insert image" id="oxbytei.xinclude"/>
     </menu>
 
     <contextualMenu>
@@ -86,6 +89,8 @@ from the contextual menu.
         <addAction id="link.place"/>
         <addAction id="link.bibref"/>
         <addAction id="annotate"/>
+        <separator/>
+        <addAction id="oxbytei.xinclude"/>
       </submenu>
     </contextualMenu>
 
@@ -98,6 +103,7 @@ from the contextual menu.
         <addAction id="link.place" inElementsView="true" inCCWindow="true"/>
         <addAction id="link.bibref" inElementsView="true" inCCWindow="true"/>
         <addAction id="annotate" inElementsView="true" inCCWindow="true"/>
+        <addAction id="oxbytei.xinclude" inElementsView="true" inCCWindow="true"/>
       </authorActions>
     </contentCompletion>
 
