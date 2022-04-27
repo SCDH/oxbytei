@@ -1,5 +1,10 @@
 # Change log #
 
+## 0.9.5 ##
+
+- add user action for inserting XInclude
+- enable selection of bibliographic reference in other contexts
+
 ## 0.9.4 ##
 
 - make the actions for inserting an apparatus entry simpler by
