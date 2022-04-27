@@ -8,6 +8,24 @@
   <a:description>Select a reference from the bibliography.</a:description>
   <a:operations>
     <a:operation id="de.wwu.scdh.oxbytei.SelectAttributeValueOperation">
+      <a:xpathCondition>self::bibl</a:xpathCondition>
+      <a:arguments>
+        <a:argument name="name">${teilspProp(oxbytei.action.sel.bibref.name)}</a:argument>
+        <a:argument name="elementLocation">self::*</a:argument>
+        <a:argument name="message">Choose a reference</a:argument>
+        <a:argument name="rollbackOnCancel">true</a:argument>
+      </a:arguments>
+    </a:operation>
+    <a:operation id="de.wwu.scdh.oxbytei.SelectAttributeValueOperation">
+      <a:xpathCondition>self::biblScope[ancestor::bibl]</a:xpathCondition>
+      <a:arguments>
+        <a:argument name="name">${teilspProp(oxbytei.action.sel.bibref.name)}</a:argument>
+        <a:argument name="elementLocation">ancestor::bibl</a:argument>
+        <a:argument name="message">Choose a reference</a:argument>
+        <a:argument name="rollbackOnCancel">true</a:argument>
+      </a:arguments>
+    </a:operation>
+    <a:operation id="de.wwu.scdh.oxbytei.SelectAttributeValueOperation">
       <a:xpathCondition>true()</a:xpathCondition>
       <a:arguments>
         <a:argument name="name">${teilspProp(oxbytei.action.sel.bibref.name)}</a:argument>
