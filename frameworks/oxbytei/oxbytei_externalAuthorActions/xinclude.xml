@@ -12,7 +12,7 @@
     <a:operation id="InsertFragmentOperation">
       <a:xpathCondition>true()</a:xpathCondition>
       <a:arguments>
-        <a:argument name="fragment"><![CDATA[<include xmlns="http://www.w3.org/2001/XInclude" href="${ask('Choose a file', relative_url, '', @href)}" xpointer="${ask('Choose an target', combobox, (${xpath_eval(string-join((for $id in doc('${answer(@href)}')//*[${teilspProp(oxbytei.action.oxbytei.xinclude.elementXPath)}]/@xml:id return concat("'", $id, "':'", substring(normalize-space($id/parent::*),1, 100), '...', "'")),';'))}), '')}"/>]]></a:argument>
+        <a:argument name="fragment"><![CDATA[<include xmlns="http://www.w3.org/2001/XInclude" href="${ask('Choose a file', relative_url, '', @href)}" xpointer="${ask('Choose an target', combobox, (${xpath_eval(string-join((for $el in doc('${answer(@href)}')//*[${teilspProp(oxbytei.action.oxbytei.xinclude.elementXPath)} and exists(@xml:id)] return concat("'", $el/@xml:id, "':'", name($el), ': ', substring(replace(normalize-space($el), "'", ''), 1, 100), '...', "'")),';'))}), '')}"/>]]></a:argument>
       </a:arguments>
     </a:operation>
   </a:operations>
