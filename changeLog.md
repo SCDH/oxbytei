@@ -1,5 +1,11 @@
 # Change log #
 
+## dev ##
+
+- user action for generating IDs on an configurable portion of the
+  document using the TEI P5 framework's "Generate IDs" action.
+  - portion defaults `/*`, i.e. the whole document
+
 ## 0.9.6 ##
 
 - fixed issue #5: removed single quotes in selection texts which
