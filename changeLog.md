@@ -1,5 +1,10 @@
 # Change log #
 
+## 0.9.6 ##
+
+- fixed issue #5: removed single quotes in selection texts which
+  interfere with the string generated for the `ask` editor variable
+
 ## 0.9.5 ##
 
 - add user action for inserting XInclude
