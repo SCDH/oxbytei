@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- editing atom -->
+<a:authorAction xmlns:a="http://www.oxygenxml.com/ns/author/external-action"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.oxygenxml.com/ns/author/external-action http://www.oxygenxml.com/ns/author/external-action/authorAction.xsd"
+  id="select.for.ids">
+  <a:name>Select for ID assignment</a:name>
+  <a:description>Make an automatic user selection before generating IDs.</a:description>
+  <a:operations>
+    <a:operation id="de.wwu.scdh.oxbytei.ExpandingMoveCaretOperation">
+      <a:xpathCondition>true()</a:xpathCondition>
+      <a:arguments>
+        <a:argument name="xpathLocation">${teilspProp(oxbytei.action.select.for.ids.xpathLocation)}</a:argument>
+        <a:argument name="selection">Element</a:argument>
+      </a:arguments>
+    </a:operation>
+  </a:operations>
+  <a:accessKey/>
+</a:authorAction>
