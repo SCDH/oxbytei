@@ -5,6 +5,10 @@
         <property name="namespaces">t:http://www.tei-c.org/ns/1.0 xml:http://www.w3.org/XML/1998/namespace</property>
         <property name="oxbytei.id.scheme">'a_${id}'</property>
 
+        <!-- what to select for automatic IDs generation -->
+        <property name="oxbytei.action.select.for.ids.xpathLocation">/*</property>
+
+
         <!-- properties for annotation action -->
         <property name="oxbytei.action.annotate.startAnchor">anchor</property>
         <property name="oxbytei.action.annotate.startAnchorNamespace">http://www.tei-c.org/ns/1.0</property>
