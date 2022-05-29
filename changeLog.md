@@ -5,6 +5,10 @@
 - user action for generating IDs on an configurable portion of the
   document using the TEI P5 framework's "Generate IDs" action.
   - portion defaults `/*`, i.e. the whole document
+- new plugin that provides labelled entries directly from the config
+  file, where they are defined in a CSV-like manner
+- transformation scenario that identifies broken XIncludes and adds a
+  fallback if not present
 
 ## 0.9.6 ##
 
