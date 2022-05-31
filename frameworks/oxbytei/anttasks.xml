@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project basedir="." name="oXbytei">
+
+    <property name="inputFile" value=""/>
+
+    <property name="outputFile" value=""/>
+
+    <property name="oxygenlib" value="..."/>
+
+    <property name="saxon.jar" value="${oxygenlib}/saxon9he.jar"/>
+
+    <echo>basedir: ${basedir}</echo>
+    <echo>using Saxon: ${saxon.jar}</echo>
+
+    <target name="fix-xincludes">
+        <xslt style="xsl/invalidate-xinclude.xsl" in="${inputFile}" out="${inputFile}.temp">
+            <factory name="net.sf.saxon.TransformerFactoryImpl"/>
+            <classpath location="${saxon.jar}"/>
+            <sysproperty key="org.apache.xerces.xni.parser.XMLParserConfiguration"
+                value="org.apache.xerces.parsers.XML11Configuration"/>
+        </xslt>
+        <!-- When inputFile and outputFile are the same file, the xslt task
+            would have to write back to the input. This fails. Hence the temporary target. -->
+        <move file="${inputFile}.temp" toFile="${outputFile}"/>
+    </target>
+
+</project>

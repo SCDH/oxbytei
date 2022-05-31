@@ -30,7 +30,7 @@ from the contextual menu.
 
   <transformationScenarios>
     <!-- FIXME: add ${framework(oXbytei)}/ after oXygen bug-fix -->
-    <addScenarios href="xsl/updateHeader.scenario.xml"/>
+    <addScenarios href="transformation.scenarios"/>
   </transformationScenarios>
 
   <author>
@@ -50,6 +50,7 @@ from the contextual menu.
         <addAction id="goto.refering"/>
         <addAction id="highlight.referenced"/>
         <separator/>
+        <addAction id="oxbytei.generate.ids"/>
         <addAction id="select.language"/>
         <addAction id="link.person"/>
         <addAction id="link.place"/>
