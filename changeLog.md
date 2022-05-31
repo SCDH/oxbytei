@@ -1,8 +1,8 @@
 # Change log #
 
-## dev ##
+## 0.10.0
 
-- user action for generating IDs on an configurable portion of the
+- user action for generating IDs on a configurable portion of the
   document using the TEI P5 framework's "Generate IDs" action.
   - portion defaults `/*`, i.e. the whole document
 - new plugin that provides labelled entries directly from the config
