@@ -33,7 +33,7 @@ import de.wwu.scdh.oxbytei.commons.OperationArgumentValidator;
 public class InsertAnchorOperation
     implements AuthorOperation {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(SurroundWithAnchorsOperation.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(InsertAnchorOperation.class);
 
     @Override
     public String getDescription() {
