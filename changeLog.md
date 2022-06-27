@@ -1,5 +1,12 @@
 # Change log #
 
+## 0.11.0
+
+- added `ExpandingDeleteElementOperation` which does the same as the
+  builtin `DeleteElementOperation` but expands editor variables in the
+  arguments.
+- fixed the logger for `InsertAnchorOperation`
+
 ## 0.10.0
 
 - user action for generating IDs on a configurable portion of the
