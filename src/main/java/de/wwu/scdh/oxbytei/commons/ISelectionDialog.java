@@ -33,13 +33,18 @@ public interface ISelectionDialog {
 	throws AuthorOperationException;
 
     /**
-     * This actually does the user interaction and returns the key
-     * selected by the user. {@code null} should be returned in case
-     * of cancellation by the user.
+     * This actually does the user interaction. To get its result,
+     * call {@link getSelection()}.
+     */
+    public void doUserInteraction() throws AuthorOperationException;
+
+    /**
+     * This returns the key selected by the user.
+     * {@link doUserInteraction} must be called first.
      *
      * @return The keys of the items selected by the user. It must
      * return {@code null} in case of cancellation by the user.
      */
-    public List<String> doUserInteraction() throws AuthorOperationException;
+    public List<String> getSelection() throws AuthorOperationException;
 
 }
