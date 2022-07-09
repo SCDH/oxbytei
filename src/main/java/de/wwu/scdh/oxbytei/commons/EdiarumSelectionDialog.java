@@ -16,9 +16,6 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import ro.sync.ecss.extensions.api.AuthorAccess;
-import ro.sync.ecss.extensions.api.AuthorOperationException;
-
 import org.bbaw.telota.ediarum.InsertRegisterDialog;
 
 import de.wwu.scdh.teilsp.services.extensions.ILabelledEntriesProvider;
@@ -29,10 +26,9 @@ import de.wwu.scdh.teilsp.services.extensions.ExtensionException;
 public class EdiarumSelectionDialog
     implements ISelectionDialog {
 
-    Frame frame = null;
-    AuthorAccess authorAccess;
+    Frame frame;
+    boolean MULTIPLE = true;
     String title;
-    boolean multiple;
     List<String> currentValue, result;
     List<ILabelledEntriesProvider> providers;
 
@@ -40,14 +36,10 @@ public class EdiarumSelectionDialog
 	this.frame = frame;
     }
 
-    public void init(AuthorAccess access,
-		     String tit,
-		     boolean multi,
+    public void init(String tit,
 		     List<String> currentVal,
 		     List<ILabelledEntriesProvider> configured) {
-	authorAccess = access;
 	title = tit;
-	multiple = multi;
 	currentValue = currentVal;
 	providers = configured;
     }
@@ -57,7 +49,7 @@ public class EdiarumSelectionDialog
      *
      */
     public void doUserInteraction()
-	throws AuthorOperationException {
+	throws ExtensionException {
 
 	// TODO
 	//
@@ -90,8 +82,8 @@ public class EdiarumSelectionDialog
 		for (Map.Entry<String, String> argument : provider.getArguments().entrySet()) {
 		    report += argument.getKey() + " = " + argument.getValue() + "\n";
 		}
-		throw new AuthorOperationException("Error reading entries\n\n"
-						   + report + "\n\n" + e);
+		throw new ExtensionException("Error reading entries\n\n"
+					     + report + "\n\n" + e);
 	    }
 
 	    // String report = "";
@@ -111,17 +103,11 @@ public class EdiarumSelectionDialog
 
 
 	// Ask the user for selection
-	if (frame == null) {
-	    frame = (Frame) authorAccess.getWorkspaceAccess().getParentFrame();
-	}
 	InsertRegisterDialog dialog =
-	    new InsertRegisterDialog(frame,
-				     labelsArray,
-				     keysArray,
-					multiple);
+	    new InsertRegisterDialog(frame, labelsArray, keysArray, MULTIPLE);
 
 	// get selected value. Right on multiple?
-	if (multiple) {
+	if (MULTIPLE) {
 	    result = Arrays.asList(dialog.getSelectedIDs());
 	} else {
 	    result = new ArrayList<String>();
