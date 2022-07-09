@@ -7,9 +7,8 @@ package de.wwu.scdh.oxbytei.commons;
 
 import java.util.List;
 
-import ro.sync.ecss.extensions.api.AuthorAccess;
-import ro.sync.ecss.extensions.api.AuthorOperationException;
-
+import de.wwu.scdh.teilsp.exceptions.UIException;
+import de.wwu.scdh.teilsp.services.extensions.ExtensionException;
 import de.wwu.scdh.teilsp.services.extensions.ILabelledEntriesProvider;
 
 
@@ -19,24 +18,20 @@ public interface ISelectionDialog {
      * This must be called after construction in order to pass
      * initialization data.
      *
-     * @param access access to the oXygen editor
-     * @param multi {@code true} indicates that multiple selection
-     * should be offered to the user
+     * @param title the title of the dialog
      * @param currentVal current value
      * @param configured a list of initialized {@link ILabelledEntriesProvider}s
      */
-    public void init(AuthorAccess access,
-		     String title,
-		     boolean multi,
+    public void init(String title,
 		     List<String> currentVal,
 		     List<ILabelledEntriesProvider> configured)
-	throws AuthorOperationException;
+	throws UIException, ExtensionException;
 
     /**
      * This actually does the user interaction. To get its result,
      * call {@link getSelection()}.
      */
-    public void doUserInteraction() throws AuthorOperationException;
+    public void doUserInteraction() throws UIException, ExtensionException;
 
     /**
      * This returns the key selected by the user.
@@ -45,6 +40,6 @@ public interface ISelectionDialog {
      * @return The keys of the items selected by the user. It must
      * return {@code null} in case of cancellation by the user.
      */
-    public List<String> getSelection() throws AuthorOperationException;
+    public List<String> getSelection() throws UIException;
 
 }
