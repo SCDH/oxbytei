@@ -1,4 +1,4 @@
-package de.wwu.scdh.oxbytei.commons;
+package de.wwu.scdh.teilsp.ui;
 
 import java.awt.*;
 import javax.swing.*;

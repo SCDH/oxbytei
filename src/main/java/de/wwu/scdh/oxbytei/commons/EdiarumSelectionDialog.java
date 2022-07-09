@@ -21,6 +21,7 @@ import org.bbaw.telota.ediarum.InsertRegisterDialog;
 import de.wwu.scdh.teilsp.services.extensions.ILabelledEntriesProvider;
 import de.wwu.scdh.teilsp.services.extensions.LabelledEntry;
 import de.wwu.scdh.teilsp.services.extensions.ExtensionException;
+import de.wwu.scdh.teilsp.ui.ISelectionDialog;
 
 
 public class EdiarumSelectionDialog

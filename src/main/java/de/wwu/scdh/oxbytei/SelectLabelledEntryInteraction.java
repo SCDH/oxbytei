@@ -30,9 +30,10 @@ import de.wwu.scdh.teilsp.services.extensions.ILabelledEntriesProvider;
 import de.wwu.scdh.teilsp.services.extensions.LabelledEntriesLoader;
 import de.wwu.scdh.teilsp.services.extensions.ExtensionException;
 import de.wwu.scdh.oxbytei.commons.EditorVariablesExpanderImpl;
-import de.wwu.scdh.oxbytei.commons.ISelectionDialog;
 import de.wwu.scdh.oxbytei.commons.OperationArgumentValidator;
 import de.wwu.scdh.teilsp.exceptions.UIException;
+import de.wwu.scdh.teilsp.ui.ISelectionDialog;
+
 
 
 /**
@@ -84,7 +85,7 @@ public class SelectLabelledEntryInteraction
 	new ArgumentDescriptor("dialog",
 			       ArgumentDescriptor.TYPE_STRING,
 			       "The user dialogue used for this operation.",
-			       "de.wwu.scdh.oxbytei.commons.ComboBoxSelectDialog");
+			       "de.wwu.scdh.teilsp.ui.ComboBoxSelectDialog");
 
     public static final ArgumentDescriptor ARGUMENT_DELIMITER =
 	new ArgumentDescriptor("valuesDelimiter",

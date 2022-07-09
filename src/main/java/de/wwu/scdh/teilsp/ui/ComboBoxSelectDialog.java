@@ -4,7 +4,7 @@
  * tutorial, see
  * {@link https://docs.oracle.com/javase/tutorial/uiswing/layout/box.html}.
  */
-package de.wwu.scdh.oxbytei.commons;
+package de.wwu.scdh.teilsp.ui;
 
 import java.util.Map;
 import java.util.List;

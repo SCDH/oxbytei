@@ -1,7 +1,7 @@
 /*
  * A {@link JCheckBox} Check Box from an {@link LabelledEntry}
  */
-package de.wwu.scdh.oxbytei.commons;
+package de.wwu.scdh.teilsp.ui;
 
 import javax.swing.JCheckBox;
 

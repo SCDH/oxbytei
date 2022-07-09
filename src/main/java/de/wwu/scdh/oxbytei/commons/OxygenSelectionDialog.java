@@ -21,6 +21,7 @@ import de.wwu.scdh.teilsp.services.extensions.ILabelledEntriesProvider;
 import de.wwu.scdh.teilsp.services.extensions.LabelledEntry;
 import de.wwu.scdh.teilsp.services.extensions.ExtensionException;
 import de.wwu.scdh.teilsp.exceptions.UIException;
+import de.wwu.scdh.teilsp.ui.ISelectionDialog;
 
 
 public class OxygenSelectionDialog
