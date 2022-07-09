@@ -1,5 +1,7 @@
 package de.wwu.scdh.oxbytei;
 
+import java.awt.Frame;
+import java.lang.reflect.InvocationTargetException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -286,13 +288,21 @@ public class SelectLabelledEntryInteraction
 
 	// do user interaction
 	try {
+	    Frame frame = (Frame) authorAccess.getWorkspaceAccess().getParentFrame();
 	    // get user dialog from configuration
 	    ISelectionDialog dialogView;
 	    Class dialogClass = Class.forName(dialog);
-	    if (ISelectionDialog.class.isAssignableFrom(dialogClass)) {
-		dialogView = (ISelectionDialog) dialogClass.newInstance();
+	    // for some reason isAssignableFrom does not work, so we use getInterfaces()
+	    //if (ISelectionDialog.class.isAssignableFrom(dialogClass)) {
+	    boolean implementsISelectionDialog = false;
+	    for (Class iface : dialogClass.getInterfaces()) {
+		implementsISelectionDialog = implementsISelectionDialog || ISelectionDialog.class.equals(iface);
+	    }
+	    if (implementsISelectionDialog) {
+		dialogView = (ISelectionDialog) dialogClass.getDeclaredConstructor(Frame.class).newInstance(frame);
 		dialogView.init(authorAccess, message, multiple, currentSelection, providers);
-		selected = dialogView.doUserInteraction();
+		dialogView.doUserInteraction();
+		selected = dialogView.getSelection();
 	    } else {
 		throw new AuthorOperationException("Configuration ERROR: ISelectionDialog not implemented by "
 						   + dialog);
@@ -306,6 +316,12 @@ public class SelectLabelledEntryInteraction
 					       + dialog + "\n\n" + e);
 	} catch (IllegalAccessException e) {
 	    throw new AuthorOperationException("Error accessing user dialog class "
+					       + dialog + "\n\n" + e);
+	} catch (NoSuchMethodException e) {
+	    throw new AuthorOperationException("Error loading dialog class "
+					       + dialog + "\n\n" + e);
+	} catch (InvocationTargetException e) {
+	    throw new AuthorOperationException("Error loading dialog class "
 					       + dialog + "\n\n" + e);
 	}
 
