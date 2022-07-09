@@ -32,6 +32,7 @@ import de.wwu.scdh.teilsp.services.extensions.ExtensionException;
 import de.wwu.scdh.oxbytei.commons.EditorVariablesExpanderImpl;
 import de.wwu.scdh.oxbytei.commons.ISelectionDialog;
 import de.wwu.scdh.oxbytei.commons.OperationArgumentValidator;
+import de.wwu.scdh.teilsp.exceptions.UIException;
 
 
 /**
@@ -300,14 +301,20 @@ public class SelectLabelledEntryInteraction
 	    }
 	    if (implementsISelectionDialog) {
 		dialogView = (ISelectionDialog) dialogClass.getDeclaredConstructor(Frame.class).newInstance(frame);
-		dialogView.init(authorAccess, message, multiple, currentSelection, providers);
+		dialogView.init(message, currentSelection, providers);
 		dialogView.doUserInteraction();
 		selected = dialogView.getSelection();
 	    } else {
 		throw new AuthorOperationException("Configuration ERROR: ISelectionDialog not implemented by "
-						   + dialog);
+				      + dialog);
 	    }
 
+	} catch (ExtensionException e) {
+	    throw new AuthorOperationException("Error in user extension (provider) loaded in user dialog class "
+					       + dialog + "\n\n" + e);
+	} catch (UIException e) {
+	    throw new AuthorOperationException("Error in user dialog class "
+					       + dialog + "\n\n" + e);
 	} catch (ClassNotFoundException e) {
 	    throw new AuthorOperationException("Error loading user dialog class "
 					       + dialog + "\n\n" + e);
