@@ -1,5 +1,7 @@
 package de.wwu.scdh.oxbytei;
 
+import java.awt.Frame;
+import java.lang.reflect.InvocationTargetException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -28,8 +30,10 @@ import de.wwu.scdh.teilsp.services.extensions.ILabelledEntriesProvider;
 import de.wwu.scdh.teilsp.services.extensions.LabelledEntriesLoader;
 import de.wwu.scdh.teilsp.services.extensions.ExtensionException;
 import de.wwu.scdh.oxbytei.commons.EditorVariablesExpanderImpl;
-import de.wwu.scdh.oxbytei.commons.ISelectionDialog;
 import de.wwu.scdh.oxbytei.commons.OperationArgumentValidator;
+import de.wwu.scdh.teilsp.exceptions.UIException;
+import de.wwu.scdh.teilsp.ui.ISelectionDialog;
+
 
 
 /**
@@ -64,14 +68,6 @@ public class SelectLabelledEntryInteraction
 			       ARGUMENT_BOOLEAN_VALUES,
 			       AuthorConstants.ARG_VALUE_FALSE);
 
-    public static final ArgumentDescriptor ARGUMENT_MULTIPLE =
-	new ArgumentDescriptor("multiple",
-			       ArgumentDescriptor.TYPE_CONSTANT_LIST,
-			       "Whether or not multiple selections are allowed."
-			       + " Defaults to false.",
-			       ARGUMENT_BOOLEAN_VALUES,
-			       AuthorConstants.ARG_VALUE_FALSE);
-
     public static final ArgumentDescriptor ARGUMENT_MESSAGE =
 	new ArgumentDescriptor("message",
 			       ArgumentDescriptor.TYPE_STRING,
@@ -81,7 +77,7 @@ public class SelectLabelledEntryInteraction
 	new ArgumentDescriptor("dialog",
 			       ArgumentDescriptor.TYPE_STRING,
 			       "The user dialogue used for this operation.",
-			       "de.wwu.scdh.oxbytei.commons.OxygenSelectionDialog");
+			       "de.wwu.scdh.teilsp.ui.ComboBoxSelectDialog");
 
     public static final ArgumentDescriptor ARGUMENT_DELIMITER =
 	new ArgumentDescriptor("valuesDelimiter",
@@ -105,7 +101,6 @@ public class SelectLabelledEntryInteraction
 	    ARGUMENT_DIALOG,
 	    ARGUMENT_ROLLBACK_ON_CANCEL,
 	    ARGUMENT_MESSAGE,
-	    ARGUMENT_MULTIPLE,
 	    ARGUMENT_DELIMITER,
 	    ARGUMENT_DELIMITER_REGEX
 	};
@@ -257,9 +252,6 @@ public class SelectLabelledEntryInteraction
 	throws AuthorOperationException  {
 
 	// get arguments from arguments map
-	String multipleString =
-	    OperationArgumentValidator.validateStringArgument(ARGUMENT_MULTIPLE.getName(), arguments);
-	boolean multiple = multipleString.equals(AuthorConstants.ARG_VALUE_TRUE);
 	String rollbackOnCancelString =
 	    OperationArgumentValidator.validateStringArgument(ARGUMENT_ROLLBACK_ON_CANCEL.getName(), arguments);
 	boolean rollbackOnCancel = rollbackOnCancelString.equals(AuthorConstants.ARG_VALUE_TRUE);
@@ -286,18 +278,32 @@ public class SelectLabelledEntryInteraction
 
 	// do user interaction
 	try {
+	    Frame frame = (Frame) authorAccess.getWorkspaceAccess().getParentFrame();
 	    // get user dialog from configuration
 	    ISelectionDialog dialogView;
 	    Class dialogClass = Class.forName(dialog);
-	    if (ISelectionDialog.class.isAssignableFrom(dialogClass)) {
-		dialogView = (ISelectionDialog) dialogClass.newInstance();
-		dialogView.init(authorAccess, message, multiple, currentSelection, providers);
-		selected = dialogView.doUserInteraction();
+	    // for some reason isAssignableFrom does not work, so we use getInterfaces()
+	    //if (ISelectionDialog.class.isAssignableFrom(dialogClass)) {
+	    boolean implementsISelectionDialog = false;
+	    for (Class iface : dialogClass.getInterfaces()) {
+		implementsISelectionDialog = implementsISelectionDialog || ISelectionDialog.class.equals(iface);
+	    }
+	    if (implementsISelectionDialog) {
+		dialogView = (ISelectionDialog) dialogClass.getDeclaredConstructor(Frame.class).newInstance(frame);
+		dialogView.init(message, currentSelection, providers);
+		dialogView.doUserInteraction();
+		selected = dialogView.getSelection();
 	    } else {
 		throw new AuthorOperationException("Configuration ERROR: ISelectionDialog not implemented by "
-						   + dialog);
+				      + dialog);
 	    }
 
+	} catch (ExtensionException e) {
+	    throw new AuthorOperationException("Error in user extension (provider) loaded in user dialog class "
+					       + dialog + "\n\n" + e);
+	} catch (UIException e) {
+	    throw new AuthorOperationException("Error in user dialog class "
+					       + dialog + "\n\n" + e);
 	} catch (ClassNotFoundException e) {
 	    throw new AuthorOperationException("Error loading user dialog class "
 					       + dialog + "\n\n" + e);
@@ -307,12 +313,18 @@ public class SelectLabelledEntryInteraction
 	} catch (IllegalAccessException e) {
 	    throw new AuthorOperationException("Error accessing user dialog class "
 					       + dialog + "\n\n" + e);
+	} catch (NoSuchMethodException e) {
+	    throw new AuthorOperationException("Error loading dialog class "
+					       + dialog + "\n\n" + e);
+	} catch (InvocationTargetException e) {
+	    throw new AuthorOperationException("Error loading dialog class "
+					       + dialog + "\n\n" + e);
 	}
 
 	// // TODO: dialog make pluggable
 	// ISelectionDialog dialog = new OxygenSelectionDialog();
 	// //ISelectionDialog dialog = new EdiarumSelectionDialog();
-	// dialog.init(authorAccess, message, multiple, current, providers);
+	// dialog.init(message, current, providers);
 	// List<String> selected = dialog.doUserInteraction();
 
 	// set the value, if not null returned form

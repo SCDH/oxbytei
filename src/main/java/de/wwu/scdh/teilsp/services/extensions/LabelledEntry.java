@@ -21,4 +21,9 @@ public class LabelledEntry {
     public String getLabel() {
 	return label;
     }
+
+    @Override
+    public String toString() {
+	return key;
+    }
 }
