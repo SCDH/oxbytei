@@ -68,14 +68,6 @@ public class SelectLabelledEntryInteraction
 			       ARGUMENT_BOOLEAN_VALUES,
 			       AuthorConstants.ARG_VALUE_FALSE);
 
-    public static final ArgumentDescriptor ARGUMENT_MULTIPLE =
-	new ArgumentDescriptor("multiple",
-			       ArgumentDescriptor.TYPE_CONSTANT_LIST,
-			       "Whether or not multiple selections are allowed."
-			       + " Defaults to false.",
-			       ARGUMENT_BOOLEAN_VALUES,
-			       AuthorConstants.ARG_VALUE_FALSE);
-
     public static final ArgumentDescriptor ARGUMENT_MESSAGE =
 	new ArgumentDescriptor("message",
 			       ArgumentDescriptor.TYPE_STRING,
@@ -109,7 +101,6 @@ public class SelectLabelledEntryInteraction
 	    ARGUMENT_DIALOG,
 	    ARGUMENT_ROLLBACK_ON_CANCEL,
 	    ARGUMENT_MESSAGE,
-	    ARGUMENT_MULTIPLE,
 	    ARGUMENT_DELIMITER,
 	    ARGUMENT_DELIMITER_REGEX
 	};
@@ -261,9 +252,6 @@ public class SelectLabelledEntryInteraction
 	throws AuthorOperationException  {
 
 	// get arguments from arguments map
-	String multipleString =
-	    OperationArgumentValidator.validateStringArgument(ARGUMENT_MULTIPLE.getName(), arguments);
-	boolean multiple = multipleString.equals(AuthorConstants.ARG_VALUE_TRUE);
 	String rollbackOnCancelString =
 	    OperationArgumentValidator.validateStringArgument(ARGUMENT_ROLLBACK_ON_CANCEL.getName(), arguments);
 	boolean rollbackOnCancel = rollbackOnCancelString.equals(AuthorConstants.ARG_VALUE_TRUE);
@@ -336,7 +324,7 @@ public class SelectLabelledEntryInteraction
 	// // TODO: dialog make pluggable
 	// ISelectionDialog dialog = new OxygenSelectionDialog();
 	// //ISelectionDialog dialog = new EdiarumSelectionDialog();
-	// dialog.init(authorAccess, message, multiple, current, providers);
+	// dialog.init(message, current, providers);
 	// List<String> selected = dialog.doUserInteraction();
 
 	// set the value, if not null returned form
