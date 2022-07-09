@@ -29,12 +29,16 @@ import de.wwu.scdh.teilsp.services.extensions.ExtensionException;
 public class EdiarumSelectionDialog
     implements ISelectionDialog {
 
+    Frame frame = null;
     AuthorAccess authorAccess;
     String title;
     boolean multiple;
-    List<String> currentValue;
+    List<String> currentValue, result;
     List<ILabelledEntriesProvider> providers;
 
+    public EdiarumSelectionDialog(Frame frame) {
+	this.frame = frame;
+    }
 
     public void init(AuthorAccess access,
 		     String tit,
@@ -52,7 +56,7 @@ public class EdiarumSelectionDialog
      * Do the user interaction part.
      *
      */
-    public List<String> doUserInteraction()
+    public void doUserInteraction()
 	throws AuthorOperationException {
 
 	// TODO
@@ -107,21 +111,25 @@ public class EdiarumSelectionDialog
 
 
 	// Ask the user for selection
+	if (frame == null) {
+	    frame = (Frame) authorAccess.getWorkspaceAccess().getParentFrame();
+	}
 	InsertRegisterDialog dialog =
-	    new InsertRegisterDialog((Frame) authorAccess.getWorkspaceAccess().getParentFrame(),
+	    new InsertRegisterDialog(frame,
 				     labelsArray,
 				     keysArray,
 					multiple);
 
 	// get selected value. Right on multiple?
-	List<String> result;
 	if (multiple) {
 	    result = Arrays.asList(dialog.getSelectedIDs());
 	} else {
 	    result = new ArrayList<String>();
 	    result.add(dialog.getSelectedID());
 	}
-	return result;
     }
 
+    public List<String> getSelection() {
+    	return result;
+    }
 }

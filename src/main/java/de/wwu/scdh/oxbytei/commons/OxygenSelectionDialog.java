@@ -8,6 +8,7 @@
  */
 package de.wwu.scdh.oxbytei.commons;
 
+import java.awt.Frame;
 import java.util.Map;
 import java.util.List;
 import java.util.ArrayList;
@@ -26,9 +27,12 @@ public class OxygenSelectionDialog
     AuthorAccess authorAccess;
     String title;
     boolean multiple;
-    List<String> currentValue;
+    List<String> currentValue, result;
     List<ILabelledEntriesProvider> providers;
 
+    public OxygenSelectionDialog(Frame frame) {}
+
+    public OxygenSelectionDialog() {}
 
     public void init(AuthorAccess access,
 		     String tit,
@@ -47,7 +51,7 @@ public class OxygenSelectionDialog
      * Do the user interaction part.
      *
      */
-    public List<String> doUserInteraction()
+    public void doUserInteraction()
 	throws AuthorOperationException {
 
 	// TODO
@@ -114,12 +118,14 @@ public class OxygenSelectionDialog
 	// string is returned. In this case we set the selection to
 	// the empty string.
 	if (selectedId.startsWith("${ask(")) {
-	    return null;
+	    result = null;
 	} else {
-	    List<String> result = new ArrayList<String>();
+	    result = new ArrayList<String>();
 	    result.add(selectedId);
-	    return result;
 	}
     }
 
+    public List<String> getSelection() {
+    	return result;
+    }
 }
