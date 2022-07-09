@@ -83,7 +83,7 @@ public class SelectLabelledEntryInteraction
 	new ArgumentDescriptor("dialog",
 			       ArgumentDescriptor.TYPE_STRING,
 			       "The user dialogue used for this operation.",
-			       "de.wwu.scdh.oxbytei.commons.OxygenSelectionDialog");
+			       "de.wwu.scdh.oxbytei.commons.ComboBoxSelectDialog");
 
     public static final ArgumentDescriptor ARGUMENT_DELIMITER =
 	new ArgumentDescriptor("valuesDelimiter",
