@@ -14,6 +14,7 @@
         <a:argument name="elementLocation">self::*</a:argument>
         <a:argument name="message">Choose a place</a:argument>
         <a:argument name="rollbackOnCancel">true</a:argument>
+        <a:argument name="icon">${framework(oXbytei)}/images/pin-24.png</a:argument>
       </a:arguments>
     </a:operation>
   </a:operations>

@@ -14,6 +14,7 @@
         <a:argument name="elementLocation">self::*</a:argument>
         <a:argument name="message">Choose a reference</a:argument>
         <a:argument name="rollbackOnCancel">true</a:argument>
+        <a:argument name="icon">${framework(oXbytei)}/images/bibref-24.png</a:argument>
       </a:arguments>
     </a:operation>
     <a:operation id="de.wwu.scdh.oxbytei.SelectAttributeValueOperation">
@@ -23,6 +24,7 @@
         <a:argument name="elementLocation">ancestor::bibl</a:argument>
         <a:argument name="message">Choose a reference</a:argument>
         <a:argument name="rollbackOnCancel">true</a:argument>
+        <a:argument name="icon">${framework(oXbytei)}/images/bibref-24.png</a:argument>
       </a:arguments>
     </a:operation>
     <a:operation id="de.wwu.scdh.oxbytei.SelectAttributeValueOperation">
@@ -32,6 +34,7 @@
         <a:argument name="elementLocation">self::*</a:argument>
         <a:argument name="message">Choose a reference</a:argument>
         <a:argument name="rollbackOnCancel">true</a:argument>
+        <a:argument name="icon">${framework(oXbytei)}/images/bibref-24.png</a:argument>
       </a:arguments>
     </a:operation>
   </a:operations>
