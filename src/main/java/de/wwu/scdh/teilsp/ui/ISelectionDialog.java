@@ -5,6 +5,7 @@
  */
 package de.wwu.scdh.teilsp.ui;
 
+import java.net.URL;
 import java.util.List;
 
 import de.wwu.scdh.teilsp.exceptions.UIException;
@@ -23,6 +24,7 @@ public interface ISelectionDialog {
      * @param configured a list of initialized {@link ILabelledEntriesProvider}s
      */
     public void init(String title,
+		     URL icon,
 		     List<String> currentVal,
 		     List<ILabelledEntriesProvider> configured)
 	throws UIException, ExtensionException;

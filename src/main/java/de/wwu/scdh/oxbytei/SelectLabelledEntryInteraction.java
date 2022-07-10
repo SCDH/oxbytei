@@ -3,6 +3,7 @@ package de.wwu.scdh.oxbytei;
 import java.awt.Frame;
 import java.lang.reflect.InvocationTargetException;
 import java.net.URL;
+import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -79,6 +80,15 @@ public class SelectLabelledEntryInteraction
 			       "The user dialogue used for this operation.",
 			       "de.wwu.scdh.teilsp.ui.ComboBoxSelectDialog");
 
+    public static final URL DEFAULT_ICON =
+	SelectLabelledEntryInteraction.class.getResource("/images/ask-24.png");
+
+    public static final ArgumentDescriptor ARGUMENT_ICON =
+	new ArgumentDescriptor("icon",
+			       ArgumentDescriptor.TYPE_STRING,
+			       "The icon displayed in the user dialogue.",
+			       DEFAULT_ICON.toString());
+
     public static final ArgumentDescriptor ARGUMENT_DELIMITER =
 	new ArgumentDescriptor("valuesDelimiter",
 			       ArgumentDescriptor.TYPE_STRING,
@@ -101,6 +111,7 @@ public class SelectLabelledEntryInteraction
 	    ARGUMENT_DIALOG,
 	    ARGUMENT_ROLLBACK_ON_CANCEL,
 	    ARGUMENT_MESSAGE,
+	    ARGUMENT_ICON,
 	    ARGUMENT_DELIMITER,
 	    ARGUMENT_DELIMITER_REGEX
 	};
@@ -257,6 +268,14 @@ public class SelectLabelledEntryInteraction
 	boolean rollbackOnCancel = rollbackOnCancelString.equals(AuthorConstants.ARG_VALUE_TRUE);
 	String message =
 	    OperationArgumentValidator.validateStringArgument(ARGUMENT_MESSAGE.getName(), arguments);
+	String iconString =
+	    OperationArgumentValidator.validateStringArgument(ARGUMENT_ICON.getName(), arguments);
+	URL icon;
+	try {
+	    icon = new URL(iconString);
+	} catch (MalformedURLException e) {
+	    icon = DEFAULT_ICON;
+	}
 	String dialog =
 	    OperationArgumentValidator.validateStringArgument(ARGUMENT_DIALOG.getName(), arguments);
 	String valuesDelimiter =
@@ -290,7 +309,7 @@ public class SelectLabelledEntryInteraction
 	    }
 	    if (implementsISelectionDialog) {
 		dialogView = (ISelectionDialog) dialogClass.getDeclaredConstructor(Frame.class).newInstance(frame);
-		dialogView.init(message, currentSelection, providers);
+		dialogView.init(message, icon, currentSelection, providers);
 		dialogView.doUserInteraction();
 		selected = dialogView.getSelection();
 	    } else {

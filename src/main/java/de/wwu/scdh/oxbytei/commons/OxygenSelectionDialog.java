@@ -9,6 +9,7 @@
 package de.wwu.scdh.oxbytei.commons;
 
 import java.awt.Frame;
+import java.net.URL;
 import java.util.Map;
 import java.util.List;
 import java.util.ArrayList;
@@ -29,6 +30,7 @@ public class OxygenSelectionDialog
 
     AuthorAccess authorAccess;
     String title;
+    URL icon;
     boolean multiple;
     List<String> currentValue, result;
     List<ILabelledEntriesProvider> providers;
@@ -38,9 +40,11 @@ public class OxygenSelectionDialog
     public OxygenSelectionDialog() {}
 
     public void init(String tit,
+		     URL icon,
 		     List<String> currentVal,
 		     List<ILabelledEntriesProvider> configured) {
 	title = tit;
+	this.icon = icon;
 	currentValue = currentVal;
 	providers = configured;
     }

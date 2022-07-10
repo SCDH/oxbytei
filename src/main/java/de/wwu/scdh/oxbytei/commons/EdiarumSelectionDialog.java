@@ -11,6 +11,7 @@
 package de.wwu.scdh.oxbytei.commons;
 
 import java.awt.Frame;
+import java.net.URL;
 import java.util.Map;
 import java.util.List;
 import java.util.ArrayList;
@@ -30,6 +31,7 @@ public class EdiarumSelectionDialog
     Frame frame;
     boolean MULTIPLE = true;
     String title;
+    URL icon;
     List<String> currentValue, result;
     List<ILabelledEntriesProvider> providers;
 
@@ -38,9 +40,11 @@ public class EdiarumSelectionDialog
     }
 
     public void init(String tit,
+		     URL icon,
 		     List<String> currentVal,
 		     List<ILabelledEntriesProvider> configured) {
 	title = tit;
+	this.icon = icon;
 	currentValue = currentVal;
 	providers = configured;
     }

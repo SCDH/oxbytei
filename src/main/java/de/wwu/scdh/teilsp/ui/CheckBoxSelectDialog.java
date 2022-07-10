@@ -6,6 +6,7 @@
  */
 package de.wwu.scdh.teilsp.ui;
 
+import java.net.URL;
 import java.util.Map;
 import java.util.List;
 import java.util.ArrayList;
@@ -20,6 +21,7 @@ import javax.swing.AbstractAction;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
+import javax.swing.ImageIcon;
 import javax.swing.JComponent;
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -27,6 +29,7 @@ import javax.swing.KeyStroke;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.SwingConstants;
 
 import de.wwu.scdh.teilsp.services.extensions.ILabelledEntriesProvider;
 import de.wwu.scdh.teilsp.services.extensions.LabelledEntry;
@@ -44,6 +47,7 @@ public class CheckBoxSelectDialog
     static Dimension MAXIMUM_SIZE = new Dimension(800, 400);
 
     String title;
+    URL icon;
     List<String> currentValue, selection;
     List<ILabelledEntriesProvider> providers;
 
@@ -56,9 +60,11 @@ public class CheckBoxSelectDialog
     }
 
     public void init(String tit,
+		     URL icon,
 		     List<String> currentVal,
 		     List<ILabelledEntriesProvider> configured) {
 	title = tit;
+	this.icon = icon;
 	currentValue = currentVal;
 	providers = configured;
 
@@ -136,7 +142,13 @@ public class CheckBoxSelectDialog
 	// label and scroller into the entry pane
 	JPanel entryPane = new JPanel();
 	entryPane.setLayout(new BoxLayout(entryPane, BoxLayout.PAGE_AXIS));
-	JLabel label = new JLabel(title);
+	JLabel label;
+	try {
+	    ImageIcon askIcon = new ImageIcon(icon);
+	    label = new JLabel(title, askIcon, SwingConstants.LEFT);
+	} catch (Exception e) {
+	    label = new JLabel(title);
+	}
 	label.setLabelFor(entryPane);
 	entryPane.add(label);
 	entryPane.add(Box.createRigidArea(new Dimension(0,5)));
