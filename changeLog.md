@@ -1,5 +1,25 @@
 # Change log #
 
+## dev
+
+- added **selection dialogs**
+  - multiple select through check boxes:
+    `de.wwu.scdh.teilsp.ui.CheckBoxSelectDialog`
+	- setup for `@wit`
+  - singleton select through combo box:
+    `de.wwu.scdh.teilsp.ui.ComboBoxSelectDialog`
+	which is the new default dialog
+- **change of API** `ISelectDialog`
+  - removed oXygen-specific classes
+  - split `doUserInteraction` into `doUserInteraction()` and
+    `getSelection()` in order to make UI writing simple, because
+    otherwise we would need a loop to wait for user interaction to
+    finish.
+  - pass icon URL into dialog
+  - moved to package `de.wuu.scdh.teilsp.ui` which contains UI code
+    which does not need anything from oXygen
+  - old dialog classes are still in place and work as before
+
 ## 0.11.0
 
 - added `ExpandingDeleteElementOperation` which does the same as the
