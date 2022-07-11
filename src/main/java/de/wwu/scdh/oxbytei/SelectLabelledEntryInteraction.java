@@ -12,33 +12,33 @@ import javax.xml.transform.URIResolver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import org.w3c.dom.Element;
 import org.w3c.dom.Document;
-import org.w3c.dom.Text;
 
 import org.xml.sax.EntityResolver;
 
 import ro.sync.ecss.extensions.api.ArgumentDescriptor;
 import ro.sync.ecss.extensions.api.ArgumentsMap;
 import ro.sync.ecss.extensions.api.AuthorAccess;
-import ro.sync.ecss.extensions.api.AuthorOperationException;
 import ro.sync.ecss.extensions.api.AuthorConstants;
 
 import de.wwu.scdh.teilsp.config.EditorVariablesExpander;
-import de.wwu.scdh.teilsp.config.ExtensionConfiguration;
 import de.wwu.scdh.teilsp.exceptions.ConfigurationException;
 import de.wwu.scdh.teilsp.services.extensions.ILabelledEntriesProvider;
 import de.wwu.scdh.teilsp.services.extensions.LabelledEntriesLoader;
 import de.wwu.scdh.teilsp.services.extensions.ExtensionException;
 import de.wwu.scdh.oxbytei.commons.EditorVariablesExpanderImpl;
+import de.wwu.scdh.oxbytei.commons.WSDocumentReader;
+import de.wwu.scdh.oxbytei.commons.DocumentReaderException;
+import de.wwu.scdh.oxbytei.commons.AuthorDocumentReader;
 import de.wwu.scdh.oxbytei.commons.OperationArgumentValidator;
+import de.wwu.scdh.oxbytei.commons.RollbackException;
 import de.wwu.scdh.teilsp.exceptions.UIException;
 import de.wwu.scdh.teilsp.ui.ISelectionDialog;
 
 
 
 /**
- * {@link SelectLabelledEntryHelper} provides plugin lookup and
+ * {@link SelectLabelledEntryInteraction} provides plugin lookup and
  * interaction with the user.  It is intended to be mixed into a
  * derived {@link AuthorOperation} by composition.
  *
@@ -140,16 +140,15 @@ public class SelectLabelledEntryInteraction
      */
     protected String location;
 
-    /**
-     * A map of arguments passed in to the author mode operation
-     */
-    protected ArgumentsMap arguments;
+    protected WSDocumentReader documentReader;
+    protected URIResolver uriResolver;
+    protected EntityResolver entityResolver;
+    protected URL currentFileURL;
+    protected EditorVariablesExpander expander;
+    protected Frame frame;
 
-    private AuthorAccess authorAccess;
-
-    private List<ILabelledEntriesProvider> providers;
-
-    private String currentValue;
+    protected List<ILabelledEntriesProvider> providers;
+    protected int providersCount;
 
     /**
      * The current editing context as an XPath expression.
@@ -161,129 +160,104 @@ public class SelectLabelledEntryInteraction
      * context and configures them based on the config file.
      *
      * @param authorAccess {@link AuthorAccess} from the author operation
+     * current caret position that identifies the element
+     */
+    public SelectLabelledEntryInteraction (AuthorAccess authorAccess) {
+	// authorAccess is not accessible from outside of this
+	// constructor because we want to make this class re-usable in
+	// other editor modes!
+
+	documentReader = new AuthorDocumentReader(authorAccess);
+
+    	// get the uri resolver, entity resolver used by oxygen and editing context
+	uriResolver = authorAccess.getXMLUtilAccess().getURIResolver();
+	entityResolver = authorAccess.getXMLUtilAccess().getEntityResolver();
+	currentFileURL = authorAccess.getEditorAccess().getEditorLocation();
+
+	// get an expander for editor variables
+	expander = new EditorVariablesExpanderImpl(authorAccess, currentFileURL, true);
+
+	frame = (Frame) authorAccess.getWorkspaceAccess().getParentFrame();
+    }
+
+    /**
+     * This loads the plugins for the current editing
+     * context and configures them based on the config file.
+     *
      * @param nodeType the type of the node to be edited
      * @param nodeName the local name of the node to be edited
      * @param nodeNamespace the namespace part of the node's name
      * @param location the relative XPath location with respect to the
      * current caret position that identifies the element
-     * @param argumentsMap the map of arguments, passed to the author
-     * mode operation
      */
-    public SelectLabelledEntryInteraction
-	(AuthorAccess authorAccess,
-	 final String nodeType,
+    public int init
+	(final String nodeType,
 	 final String nodeName,
 	 final String nodeNamespace,
-	 final String location,
-	 final ArgumentsMap argumentsMap)
-	throws AuthorOperationException {
+	 final String location)
+	throws ConfigurationException, ExtensionException, DocumentReaderException {
 
-	this.authorAccess = authorAccess;
 	this.nodeType = nodeType;
 	this.nodeName = nodeName;
 	this.nodeNamespace = nodeNamespace;
 	this.location = location;
-	this.arguments = argumentsMap;
-
-	// get the uri resolver, entity resolver used by oxygen and editing context
-	URIResolver uriResolver = authorAccess.getXMLUtilAccess().getURIResolver();
-	EntityResolver entityResolver = authorAccess.getXMLUtilAccess().getEntityResolver();
-	URL currentFileURL = authorAccess.getEditorAccess().getEditorLocation();
 
 	// get the URL of the configuration file
 	String configFile = OxbyteiConstants.getConfigFile();
 
-	// get an expander for editor variables
-	EditorVariablesExpander expander = new EditorVariablesExpanderImpl(authorAccess, currentFileURL, true);
+	Document document = documentReader.getDocument();
+	context = documentReader.getContextXPath();
 
-	providers = null;
-	try {
-	    // get the document DOM object
-	    Object[] docNodes =
-		authorAccess.getDocumentController().evaluateXPath(OxbyteiConstants.DOCUMENT_XPATH, false, false, false, true);
-	    Document document = (Document) docNodes[0];
+	LOGGER.debug("Loading providers for {} {} on context {}", nodeType, nodeName, context);
+	providers = new ArrayList<ILabelledEntriesProvider>();
+	providers = LabelledEntriesLoader.providersForContext
+	    (document,
+	     currentFileURL.toString(),
+	     context,
+	     nodeType,
+	     nodeName,
+	     uriResolver,
+	     entityResolver,
+	     null,
+	     configFile,
+	     expander);
 
-	    // get the current editing context as an XPath expression
-	    // TODO: reflect relative 'location'
-	    Object[] contxt =
-		authorAccess.getDocumentController().evaluateXPath(OxbyteiConstants.CONTEXT_XPATH, true, false, false, true);
-	    context = (String) contxt[0];
-
-	    LOGGER.debug("Loading providers for {} {} on context {}", nodeType, nodeName, context);
-
-	    providers =
-		LabelledEntriesLoader.providersForContext(document,
-							  currentFileURL.toString(),
-							  context,
-							  nodeType,
-							  nodeName,
-							  uriResolver,
-							  entityResolver,
-							  null,
-							  configFile,
-							  expander);
-	} catch (IndexOutOfBoundsException e) {
-	    throw new AuthorOperationException("No document node found");
-	} catch (ConfigurationException e) {
-	    throw new AuthorOperationException("" + e);
-	} catch (ExtensionException e) {
-	    throw new AuthorOperationException("" + e);
-	}
-
-	// get current value
-	if (nodeType == ExtensionConfiguration.ATTRIBUTE_VALUE) {
-	    Object[] elementNodes =
-		authorAccess.getDocumentController().evaluateXPath(location,
-								   false, true, true, false);
-	    if (nodeNamespace == null) {
-		currentValue = ((Element) elementNodes[0]).getAttribute(nodeName);
-	    } else {
-		currentValue = ((Element) elementNodes[0]).getAttributeNS(nodeNamespace, nodeName);
-	    }
-	    LOGGER.debug("Current attribute value: {}", currentValue);
-	} else {
-	    if (nodeType == ExtensionConfiguration.TEXT_NODE) {
-		// is that xpath correct?
-		Object[] elementNodes =
-		    authorAccess.getDocumentController().evaluateXPath(context,
-								       false, true, true, false);
-		currentValue = ((Text) elementNodes[0]).getWholeText();
-	    } else {
-		// TODO: what to do in other cases?
-		currentValue = null;
-	    }
-	}
-
+	providersCount = providers.size();
+	return providersCount;
     }
 
     /**
      * Do the actual user interaction.
      */
-    public String doUserInteraction()
-	throws AuthorOperationException  {
+    public String doUserInteraction(final ArgumentsMap arguments)
+	throws UIException, ExtensionException, RollbackException  {
+
+	// get current value
+	String currentValue = documentReader.lookupNode(nodeType, location, nodeName, nodeNamespace);
 
 	// get arguments from arguments map
-	String rollbackOnCancelString =
-	    OperationArgumentValidator.validateStringArgument(ARGUMENT_ROLLBACK_ON_CANCEL.getName(), arguments);
-	boolean rollbackOnCancel = rollbackOnCancelString.equals(AuthorConstants.ARG_VALUE_TRUE);
-	String message =
-	    OperationArgumentValidator.validateStringArgument(ARGUMENT_MESSAGE.getName(), arguments);
-	String iconString =
-	    OperationArgumentValidator.validateStringArgument(ARGUMENT_ICON.getName(), arguments);
+	String rollbackOnCancelString, message, iconString, dialog, valuesDelimiter, valuesDelimiterRegex;
 	URL icon;
+	boolean rollbackOnCancel;
+	rollbackOnCancelString =
+	    OperationArgumentValidator.validateStringArgument(ARGUMENT_ROLLBACK_ON_CANCEL.getName(), arguments);
+	rollbackOnCancel = rollbackOnCancelString.equals(AuthorConstants.ARG_VALUE_TRUE);
+	message =
+	    OperationArgumentValidator.validateStringArgument(ARGUMENT_MESSAGE.getName(), arguments);
+	iconString =
+	    OperationArgumentValidator.validateStringArgument(ARGUMENT_ICON.getName(), arguments);
 	try {
 	    icon = new URL(iconString);
 	} catch (MalformedURLException e) {
 	    icon = DEFAULT_ICON;
 	}
-	String dialog =
+	dialog =
 	    OperationArgumentValidator.validateStringArgument(ARGUMENT_DIALOG.getName(), arguments);
-	String valuesDelimiter =
+	valuesDelimiter =
 	    OperationArgumentValidator.validateStringArgument(ARGUMENT_DELIMITER.getName(), arguments);
-	String valuesDelimiterRegex =
+	valuesDelimiterRegex =
 	    OperationArgumentValidator.validateStringArgument(ARGUMENT_DELIMITER_REGEX.getName(), arguments);
 
-	
 	// split current string value by delimiter regex
 	List<String> currentSelection;
 	if (valuesDelimiter != null && currentValue != null) {
@@ -297,7 +271,6 @@ public class SelectLabelledEntryInteraction
 
 	// do user interaction
 	try {
-	    Frame frame = (Frame) authorAccess.getWorkspaceAccess().getParentFrame();
 	    // get user dialog from configuration
 	    ISelectionDialog dialogView;
 	    Class dialogClass = Class.forName(dialog);
@@ -313,31 +286,25 @@ public class SelectLabelledEntryInteraction
 		dialogView.doUserInteraction();
 		selected = dialogView.getSelection();
 	    } else {
-		throw new AuthorOperationException("Configuration ERROR: ISelectionDialog not implemented by "
+		throw new UIException("Configuration ERROR: ISelectionDialog not implemented by "
 				      + dialog);
 	    }
 
-	} catch (ExtensionException e) {
-	    throw new AuthorOperationException("Error in user extension (provider) loaded in user dialog class "
-					       + dialog + "\n\n" + e);
-	} catch (UIException e) {
-	    throw new AuthorOperationException("Error in user dialog class "
-					       + dialog + "\n\n" + e);
 	} catch (ClassNotFoundException e) {
-	    throw new AuthorOperationException("Error loading user dialog class "
-					       + dialog + "\n\n" + e);
+	    throw new UIException("Error loading user dialog class "
+				  + dialog + "\n\n" + e);
 	} catch (InstantiationException e) {
-	    throw new AuthorOperationException("Error instantiating user dialog class "
-					       + dialog + "\n\n" + e);
+	    throw new UIException("Error instantiating user dialog class "
+				  + dialog + "\n\n" + e);
 	} catch (IllegalAccessException e) {
-	    throw new AuthorOperationException("Error accessing user dialog class "
-					       + dialog + "\n\n" + e);
+	    throw new UIException("Error accessing user dialog class "
+				  + dialog + "\n\n" + e);
 	} catch (NoSuchMethodException e) {
-	    throw new AuthorOperationException("Error loading dialog class "
-					       + dialog + "\n\n" + e);
+	    throw new UIException("Error loading dialog class "
+				  + dialog + "\n\n" + e);
 	} catch (InvocationTargetException e) {
-	    throw new AuthorOperationException("Error loading dialog class "
-					       + dialog + "\n\n" + e);
+	    throw new UIException("Error loading dialog class "
+				  + dialog + "\n\n" + e);
 	}
 
 	// // TODO: dialog make pluggable
@@ -364,7 +331,7 @@ public class SelectLabelledEntryInteraction
 	    return newValue;
 	} else {
 	    if (rollbackOnCancel) {
-		throw new AuthorOperationException("rolling back");
+		throw new RollbackException("rolling back");
 	    }
 	    // store in state variable
 	    GlobalState.selection = currentValue; // TODO: OK ???
