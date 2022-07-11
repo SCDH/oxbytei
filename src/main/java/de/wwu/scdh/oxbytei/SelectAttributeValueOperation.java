@@ -13,7 +13,12 @@ import ro.sync.ecss.extensions.commons.operations.ChangeAttributeOperation;
 
 import de.wwu.scdh.oxbytei.commons.OperationArgumentValidator;
 import de.wwu.scdh.oxbytei.commons.UpdatableArgumentsMap;
+import de.wwu.scdh.oxbytei.commons.RollbackException;
+import de.wwu.scdh.oxbytei.commons.DocumentReaderException;
 import de.wwu.scdh.teilsp.config.ExtensionConfiguration;
+import de.wwu.scdh.teilsp.exceptions.UIException;
+import de.wwu.scdh.teilsp.exceptions.ConfigurationException;
+import de.wwu.scdh.teilsp.services.extensions.ExtensionException;
 
 
 /**
@@ -67,17 +72,29 @@ public class SelectAttributeValueOperation
 	String attributeNamespace = OperationArgumentValidator.validateStringArgument("namespace", args, null);
 	String location = OperationArgumentValidator.validateStringArgument("elementLocation", args);
 
-	// use helper class to load the plugins und initialize them
-	InteractiveOperation contextInteraction =
-	    new SelectLabelledEntryInteraction(authorAccess,
-					       ExtensionConfiguration.ATTRIBUTE_VALUE,
-					       attributeName,
-					       attributeNamespace,
-					       location,
-					       args);
+	// use helper classes to load the plugins und initialize them
+	InteractiveOperation contextInteraction = new SelectLabelledEntryInteraction(authorAccess);
+	String selection;
+	try {
+	    contextInteraction.init
+		(ExtensionConfiguration.ATTRIBUTE_VALUE,
+		 attributeName,
+		 attributeNamespace,
+		 location);
+	    // do the user interaction
+	    selection = contextInteraction.doUserInteraction(args);
+	} catch (ExtensionException e) {
+	    throw new AuthorOperationException(e.toString());
+	} catch (DocumentReaderException e) {
+	    throw new AuthorOperationException(e.toString());
+	} catch (ConfigurationException e) {
+	    throw new AuthorOperationException(e.toString());
+	} catch (RollbackException e) {
+	    throw new AuthorOperationException("rolling back");
+	} catch (UIException e) {
+	    throw new AuthorOperationException(e.toString());
+	}
 
-	// do the user interaction
-	String selection = contextInteraction.doUserInteraction();
 	LOGGER.debug("Selected value {}", selection);
 
 	// write to the argument value by passing it to super class
