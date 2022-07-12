@@ -23,6 +23,14 @@ public class AuthorDocumentReader implements WSDocumentReader {
     }
 
     /**
+     * see {@link WSTextBasedEditorPage#getCaretOffset()}
+     *
+     */
+    public int getCaretOffset() {
+	return authorAccess.getEditorAccess().getCaretOffset();
+    }
+
+    /**
      * @param location The XPath location relative to the current
      * editing position that identifies the element.
      */
