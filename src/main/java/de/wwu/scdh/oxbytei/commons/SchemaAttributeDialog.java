@@ -43,6 +43,8 @@ import de.wwu.scdh.teilsp.services.extensions.LabelledEntry;
 import de.wwu.scdh.teilsp.services.extensions.ExtensionException;
 import de.wwu.scdh.teilsp.ui.ISelectionDialog;
 import de.wwu.scdh.teilsp.ui.KeySelectionRenderer;
+import de.wwu.scdh.oxbytei.commons.WSDocumentReader;
+
 
 /**
  * A dialog using a combo box to select a single value.
@@ -55,10 +57,9 @@ public class SchemaAttributeDialog
     static Dimension MAXIMUM_SIZE = new Dimension(800, 400);
     static String TITLE = "Attribute Editor";
 
-    String title;
     URL icon;
     Vector<CIAttribute> attributes;
-    String attributeName, attributeNamespace, attributePrefix;
+    String attributeName, attributeNamespace, attributePrefix, currentValue;
     List<String> attributeValue;
     boolean attributeRemoved;
 
@@ -67,17 +68,22 @@ public class SchemaAttributeDialog
     JTextArea valueArea;
     JScrollPane valueScroller;
 
+    WSDocumentReader documentReader;
+    String location;
+
     public SchemaAttributeDialog() {
 	super();
     }
 
     public SchemaAttributeDialog
 	(Frame frame,
-	 String title,
+	 WSDocumentReader documentReader,
+	 String location,
 	 URL icon,
 	 Vector<CIAttribute> attributes) {
 	super(frame, true);
-	this.title = title;
+	this.documentReader = documentReader;
+	this.location = location;
 	this.icon = icon;
 	this.attributes = attributes;
 
@@ -193,23 +199,39 @@ public class SchemaAttributeDialog
         contentPane.add(entryPane, BorderLayout.CENTER);
         contentPane.add(buttons, BorderLayout.PAGE_END);
 
+	// set values according to default state of combo box
+	updateSelectedAttribute();
+
 	this.pack();
 	setVisible(true);
     }
 
+    protected void updateSelectedAttribute() {
+	CIAttribute attr = (CIAttribute) comboBox.getSelectedItem();
+	attributeName = attr.getName();
+	attributeNamespace = attr.getNamespace();
+	attributePrefix = attr.getPrefix();
+	if (attributeName.contains(":")) {
+	    attributeNamespace = null;
+	}
+	currentValue = documentReader.lookupAttributeValue(location, attributeName, attributeNamespace);
+	if (currentValue == null) {
+	    currentValue = "";
+	}
+	valueArea.setText(currentValue);
+	valueArea.setForeground(Color.DARK_GRAY);
+	valueArea.validate();
+    }
+
     public void actionPerformed(ActionEvent e) {
 	if (comboBox.equals(e.getSource())) {
-	    CIAttribute attr = (CIAttribute) comboBox.getSelectedItem();
-	    attributeName = attr.getName();
-	    attributeNamespace = attr.getNamespace();
-	    attributePrefix = attr.getPrefix();
-	    valueArea.setText("@" + attributeName);
-	    valueArea.setForeground(Color.DARK_GRAY);
-	    valueArea.validate();
+	    updateSelectedAttribute();
 	    //valueScroller.setVisible(true);
 	    this.pack();
 	    this.validate();
-	    System.out.println("Attribute selected: " + attributeName);
+	    System.out.println("Attribute selected: " + attributeName
+			       + " in namespace " + attributeNamespace
+			       + " with prefix " + attributePrefix);
 	} else if ("Edit".equals(e.getActionCommand())) {
 	    // TODO
 	    dispose();
