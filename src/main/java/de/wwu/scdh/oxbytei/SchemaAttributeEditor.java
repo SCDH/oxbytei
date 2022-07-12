@@ -14,22 +14,18 @@ import ro.sync.ecss.extensions.api.ArgumentsMap;
 import ro.sync.ecss.extensions.api.AuthorAccess;
 import ro.sync.ecss.extensions.api.AuthorConstants;
 import ro.sync.ecss.extensions.api.AuthorOperationException;
-import ro.sync.exml.workspace.api.PluginWorkspaceProvider;
-import ro.sync.exml.workspace.api.PluginWorkspace;
-import ro.sync.contentcompletion.xml.WhatAttributesCanGoHereContext;
 import ro.sync.contentcompletion.xml.CIAttribute;
 
-import de.wwu.scdh.teilsp.config.EditorVariablesExpander;
-import de.wwu.scdh.teilsp.config.ExtensionConfiguration;
 import de.wwu.scdh.teilsp.exceptions.ConfigurationException;
 import de.wwu.scdh.teilsp.services.extensions.ILabelledEntriesProvider;
-import de.wwu.scdh.teilsp.services.extensions.LabelledEntriesLoader;
 import de.wwu.scdh.teilsp.services.extensions.ExtensionException;
-import de.wwu.scdh.oxbytei.commons.EditorVariablesExpanderImpl;
-import de.wwu.scdh.oxbytei.commons.OperationArgumentValidator;
 import de.wwu.scdh.teilsp.exceptions.UIException;
-import de.wwu.scdh.teilsp.ui.ISelectionDialog;
+import de.wwu.scdh.oxbytei.commons.AuthorDocumentReader;
+import de.wwu.scdh.oxbytei.commons.WSDocumentReader;
+import de.wwu.scdh.oxbytei.commons.DocumentReaderException;
 import de.wwu.scdh.oxbytei.commons.WSSchemaManager;
+import de.wwu.scdh.oxbytei.commons.AuthorSchemaManagerImpl;
+import de.wwu.scdh.oxbytei.commons.RollbackException;
 import de.wwu.scdh.oxbytei.commons.SchemaAttributeDialog;
 
 
@@ -99,7 +95,7 @@ public class SchemaAttributeEditor
 	};
     }
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(SelectLabelledEntryInteraction.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(SchemaAttributeEditor.class);
 
     /**
      * The type of the node to be edited.
@@ -127,8 +123,6 @@ public class SchemaAttributeEditor
      */
     protected ArgumentsMap arguments;
 
-    private AuthorAccess authorAccess;
-
     private List<ILabelledEntriesProvider> providers;
 
     private String currentValue;
@@ -138,65 +132,72 @@ public class SchemaAttributeEditor
      */
     private String context;
 
+
+    protected Frame frame;
+    protected WSDocumentReader documentReader;
+    protected WSSchemaManager schemaManager;
+
+
     /**
      * The constructor loads the plugins for the current editing
      * context and configures them based on the config file.
      *
      * @param authorAccess {@link AuthorAccess} from the author operation
+     */
+    public SchemaAttributeEditor (AuthorAccess authorAccess)
+	throws AuthorOperationException {
+
+	documentReader = new AuthorDocumentReader(authorAccess);
+	schemaManager = new AuthorSchemaManagerImpl(authorAccess);
+	frame = (Frame) authorAccess.getWorkspaceAccess().getParentFrame();
+
+    }
+
+    /**
+     * <code>init</code> loads the plugins for the current editing
+     * context and configures them based on the config file.
+     *
      * @param nodeType the type of the node to be edited
      * @param nodeName the local name of the node to be edited
      * @param nodeNamespace the namespace part of the node's name
      * @param location the relative XPath location with respect to the
      * current caret position that identifies the element
-     * @param argumentsMap the map of arguments, passed to the author
-     * mode operation
      */
-    public SchemaAttributeEditor
-	(AuthorAccess authorAccess,
-	 final String nodeType,
+    public int init
+	(final String nodeType,
 	 final String nodeName,
 	 final String nodeNamespace,
-	 final String location,
-	 final ArgumentsMap argumentsMap)
-	throws AuthorOperationException {
+	 final String location)
+	throws ExtensionException, ConfigurationException, DocumentReaderException {
 
-	this.authorAccess = authorAccess;
+	// only fake
 	this.nodeType = nodeType;
 	this.nodeName = nodeName;
 	this.nodeNamespace = nodeNamespace;
-	this.location = location;
-	this.arguments = argumentsMap;
 
+	// location is important
+	this.location = location;
+
+	// fake
+	return 0;
     }
 
     /**
      * Do the actual user interaction.
      */
-    public String doUserInteraction()
-	throws AuthorOperationException {
+    public String doUserInteraction(final ArgumentsMap arguments)
+	throws ExtensionException, UIException, RollbackException {
 
 	// get attributes allowed in the editing context
-	List<CIAttribute> ciattributes = WSSchemaManager.whatAttributesCanGoHere();
-	//Vector<String> attributes = new Vector<String>();
+	// i.e. the one that are already present and the
+	// ones that can still go here
+	List<CIAttribute> potentialAttributes = schemaManager.whatAttributesCanGoHere(location);
+	List<CIAttribute> ciattributes = schemaManager.whatAttributesAreHere(location);
+	ciattributes.addAll(potentialAttributes);
 	Vector<CIAttribute> attributes = new Vector<CIAttribute>(ciattributes);
-	// for (CIAttribute attr : ciattributes) {
-	//     String prefix = "";
-	//     if (attr.getPrefix() != null) {
-	// 	if (!attr.getPrefix().isEmpty()) {
-	// 	    prefix = ":" + attr.getPrefix();
-	// 	}
-	//     }
-	//     //attributes.add(prefix + attr.getName());
-	//     attributes.add(attr.toString());
-	// }
 
-	// System.out.println("Allowed attributes");
-	// for (String name : attributes) {
-	//     System.out.println(name);
-	// }
-
-	Frame frame = (Frame) authorAccess.getWorkspaceAccess().getParentFrame();
-	SchemaAttributeDialog schemaDialog = new SchemaAttributeDialog(frame, context, DEFAULT_ICON, attributes);
+	SchemaAttributeDialog schemaDialog =
+	    new SchemaAttributeDialog(frame, documentReader, location, DEFAULT_ICON, attributes);
 	try {
 	    schemaDialog.doUserInteraction();
 	} catch (ExtensionException e) {
