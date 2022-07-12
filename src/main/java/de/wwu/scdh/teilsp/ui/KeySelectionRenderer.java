@@ -15,7 +15,7 @@ import javax.swing.plaf.basic.*;
  *  JComboBox. The same String will be used to do key selection of an
  *  item in the ComboBoxModel.
  */
-abstract class KeySelectionRenderer extends BasicComboBoxRenderer
+public abstract class KeySelectionRenderer extends BasicComboBoxRenderer
 	implements JComboBox.KeySelectionManager
 {
         // private static final long serialVersionUID = -1540437133982739282L;

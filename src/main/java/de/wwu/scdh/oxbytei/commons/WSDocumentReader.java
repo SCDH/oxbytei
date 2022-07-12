@@ -16,6 +16,12 @@ import org.w3c.dom.Document;
 public interface WSDocumentReader {
 
     /**
+     * see {@link WSTextBasedEditorPage#getCaretOffset()}
+     */
+    public int getCaretOffset();
+
+
+    /**
      * This returns a text node.
      *
      * @param location The XPath location relative to the current
