@@ -37,13 +37,18 @@ import javax.swing.JTextArea;
 import javax.swing.SwingConstants;
 
 import ro.sync.contentcompletion.xml.CIAttribute;
+import ro.sync.ecss.extensions.api.ArgumentsMap;
+import ro.sync.ecss.extensions.api.AuthorOperationException;
 
+import de.wwu.scdh.teilsp.config.ExtensionConfiguration;
+import de.wwu.scdh.teilsp.exceptions.*;
 import de.wwu.scdh.teilsp.services.extensions.ILabelledEntriesProvider;
 import de.wwu.scdh.teilsp.services.extensions.LabelledEntry;
 import de.wwu.scdh.teilsp.services.extensions.ExtensionException;
 import de.wwu.scdh.teilsp.ui.ISelectionDialog;
 import de.wwu.scdh.teilsp.ui.KeySelectionRenderer;
 import de.wwu.scdh.oxbytei.commons.WSDocumentReader;
+import de.wwu.scdh.oxbytei.InteractiveOperation;
 
 
 /**
@@ -60,7 +65,7 @@ public class SchemaAttributeDialog
     URL icon;
     Vector<CIAttribute> attributes;
     String attributeName, attributeNamespace, attributePrefix, currentValue;
-    List<String> attributeValue;
+    String attributeValue;
     boolean attributeRemoved;
 
     // UI components that we want to access
@@ -71,6 +76,9 @@ public class SchemaAttributeDialog
     WSDocumentReader documentReader;
     String location;
 
+    InteractiveOperation selectValueOperation;
+    ArgumentsMap arguments;
+
     public SchemaAttributeDialog() {
 	super();
     }
@@ -80,12 +88,14 @@ public class SchemaAttributeDialog
 	 WSDocumentReader documentReader,
 	 String location,
 	 URL icon,
-	 Vector<CIAttribute> attributes) {
+	 Vector<CIAttribute> attributes,
+	 InteractiveOperation selectValueOperation) {
 	super(frame, true);
 	this.documentReader = documentReader;
 	this.location = location;
 	this.icon = icon;
 	this.attributes = attributes;
+	this.selectValueOperation = selectValueOperation;
 
 	// default values
 	this.attributeName = null;
@@ -118,8 +128,9 @@ public class SchemaAttributeDialog
      * Do the user interaction part.
      *
      */
-    public void doUserInteraction()
+    public void doUserInteraction(ArgumentsMap arguments)
 	throws ExtensionException {
+	this.arguments = arguments;
 
 	// create buttons
 	JButton edit = new JButton("Edit");
@@ -233,8 +244,54 @@ public class SchemaAttributeDialog
 			       + " in namespace " + attributeNamespace
 			       + " with prefix " + attributePrefix);
 	} else if ("Edit".equals(e.getActionCommand())) {
-	    // TODO
-	    dispose();
+	    try {
+		int providers = selectValueOperation.init
+		    (ExtensionConfiguration.ATTRIBUTE_VALUE,
+		     attributeName,
+		     attributeNamespace,
+		     location);
+		if (providers == 0) {
+		    // FIXME: use a fallback dialog which does not need any providers
+		    // we cannot throw an exception here
+		    //throw new AuthorOperationException("");
+		}
+		attributeValue = selectValueOperation.doUserInteraction(arguments);
+		valueArea.setText(attributeValue);
+		valueArea.setForeground(Color.DARK_GRAY);
+		System.out.println("Attribute selected: " + attributeName
+				   + " in namespace " + attributeNamespace
+				   + " with prefix " + attributePrefix
+				   + " value " + attributeValue);
+		valueArea.validate();
+		//this.pack();
+		//this.validate();
+		this.dispose(); // close this dialog, too
+	    } catch (RollbackException et) {
+		// behave like in cancel event
+		attributeValue = null;
+		attributeRemoved = false;
+		dispose();
+	    } catch (UIException et) {
+		// TODO: behave like in cancel event?
+		attributeValue = null;
+		attributeRemoved = false;
+		dispose();
+	    } catch (DocumentReaderException et) {
+		// TODO: behave like in cancel event?
+		attributeValue = null;
+		attributeRemoved = false;
+		dispose();
+	    } catch (ConfigurationException et) {
+		// TODO: behave like in cancel event?
+		attributeValue = null;
+		attributeRemoved = false;
+		dispose();
+	    } catch (ExtensionException et) {
+		// TODO: behave like in cancel event?
+		attributeValue = null;
+		attributeRemoved = false;
+		dispose();
+	    }
 	} else if ("Remove".equals(e.getActionCommand())) {
 	    attributeRemoved = true;
 	    dispose();
@@ -257,7 +314,7 @@ public class SchemaAttributeDialog
 	return attributePrefix;
     }
 
-    public List<String> getAttributeValue() {
+    public String getAttributeValue() {
     	return attributeValue;
     }
 
