@@ -50,7 +50,8 @@ public class SchemaAttributeEditor
     public static final ArgumentDescriptor ARGUMENT_MESSAGE =
 	new ArgumentDescriptor("message",
 			       ArgumentDescriptor.TYPE_STRING,
-			       "The message in the user dialog.");
+			       "The message in the user dialog.",
+			       "New value");
 
     public static final ArgumentDescriptor ARGUMENT_DIALOG =
 	new ArgumentDescriptor("dialog",
@@ -136,7 +137,7 @@ public class SchemaAttributeEditor
     protected Frame frame;
     protected WSDocumentReader documentReader;
     protected WSSchemaManager schemaManager;
-
+    protected InteractiveOperation attributeValueDialog;
 
     /**
      * The constructor loads the plugins for the current editing
@@ -150,6 +151,8 @@ public class SchemaAttributeEditor
 	documentReader = new AuthorDocumentReader(authorAccess);
 	schemaManager = new AuthorSchemaManagerImpl(authorAccess);
 	frame = (Frame) authorAccess.getWorkspaceAccess().getParentFrame();
+
+	attributeValueDialog = new SelectLabelledEntryInteraction(authorAccess);
 
     }
 
@@ -197,14 +200,27 @@ public class SchemaAttributeEditor
 	Vector<CIAttribute> attributes = new Vector<CIAttribute>(ciattributes);
 
 	SchemaAttributeDialog schemaDialog =
-	    new SchemaAttributeDialog(frame, documentReader, location, DEFAULT_ICON, attributes);
+	    new SchemaAttributeDialog(frame, documentReader, location, DEFAULT_ICON, attributes, attributeValueDialog);
 	try {
-	    schemaDialog.doUserInteraction();
+	    schemaDialog.doUserInteraction(arguments);
 	} catch (ExtensionException e) {
 	    //
 	}
 
-	return null;
+	// we need some encoding of the attribute name and value
+	if (schemaDialog.getAttributeRemoved() && schemaDialog.getAttributeName() != null) {
+	    return schemaDialog.getAttributeName();
+	} else if (schemaDialog.getAttributeName() != null && schemaDialog.getAttributeValue() != null) {
+	    String ns = schemaDialog.getAttributeNamespace();
+	    if (ns == null) {
+		ns = "null";
+	    } else if (ns.equals("")) {
+		ns = "null";
+	    }
+	    return schemaDialog.getAttributeName() + " " + ns + " " + schemaDialog.getAttributeValue();
+	} else {
+	    return null;
+	}
     }
 
 }

@@ -75,7 +75,7 @@ public class SchemaAttributeEditorOperation
 
 	// use helper class to load the plugins und initialize them
 	InteractiveOperation contextInteraction = new SchemaAttributeEditor(authorAccess);
-	String selection;
+	String attribute; // encoding of name and value
 	try {
 	    contextInteraction.init
 		(ExtensionConfiguration.ATTRIBUTE_VALUE,
@@ -83,7 +83,7 @@ public class SchemaAttributeEditorOperation
 		 attributeNamespace,
 		 location);
 	    // do the user interaction
-	    selection = contextInteraction.doUserInteraction(args);
+	    attribute = contextInteraction.doUserInteraction(args);
 	} catch (ExtensionException e) {
 	    throw new AuthorOperationException(e.toString());
 	} catch (DocumentReaderException e) {
@@ -96,12 +96,22 @@ public class SchemaAttributeEditorOperation
 	    throw new AuthorOperationException(e.toString());
 	}
 
-	LOGGER.debug("Selected value {}", selection);
+	LOGGER.debug("New attribute {}", attribute);
 
 	// write to the argument value by passing it to super class
-	if (selection != null) {
+	if (attribute != null) {
+	    // name and value are encoded in attribute
+	    String[] parts = attribute.split(" ", 3);
+	    attributeName = parts[0];
+	    attributeNamespace = parts[1];
+	    if (attributeNamespace.equals("null")) {
+		attributeNamespace = null;
+	    }
+	    String attributeValue = parts[2];
 	    UpdatableArgumentsMap newArgs = new UpdatableArgumentsMap(args, super.getArguments());
-	    newArgs.update("value", (Object) selection);
+	    newArgs.update("name", (Object) attributeName);
+	    newArgs.update("namespace", (Object) attributeNamespace);
+	    newArgs.update("value", (Object) attributeValue);
 	    super.doOperation(authorAccess, newArgs);
 	}
     }
