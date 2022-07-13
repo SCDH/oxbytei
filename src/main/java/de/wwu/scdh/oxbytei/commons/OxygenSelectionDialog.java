@@ -30,21 +30,25 @@ public class OxygenSelectionDialog
 
     AuthorAccess authorAccess;
     String title;
-    URL icon;
     boolean multiple;
     List<String> currentValue, result;
     List<ILabelledEntriesProvider> providers;
 
     public OxygenSelectionDialog(Frame frame) {}
 
-    public OxygenSelectionDialog() {}
+    public OxygenSelectionDialog() {
+    }
 
-    public void init(String tit,
-		     URL icon,
-		     List<String> currentVal,
-		     List<ILabelledEntriesProvider> configured) {
-	title = tit;
-	this.icon = icon;
+    public void init(Map<String, String> arguments) {
+	if (arguments.containsKey("title")) {
+	    title = arguments.get("title");
+	} else {
+	    title = "Select";
+	}
+    }
+
+    public void setup(List<String> currentVal,
+		      List<ILabelledEntriesProvider> configured) {
 	currentValue = currentVal;
 	providers = configured;
     }
@@ -112,7 +116,7 @@ public class OxygenSelectionDialog
 		current = currentValue.get(0);
 	    }
 	}
-	
+
 	//AskDescriptor("combobox", title, keys, labels, currentValue);
 	String ask = "${ask('" + title + "', combobox, (" + pairs + "), '" + current + "')}";
 	PluginWorkspace ws = PluginWorkspaceProvider.getPluginWorkspace();

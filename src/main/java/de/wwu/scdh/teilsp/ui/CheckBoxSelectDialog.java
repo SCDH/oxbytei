@@ -46,10 +46,10 @@ public class CheckBoxSelectDialog
     static Dimension MINIMUM_SIZE = new Dimension(400, 300);
     static Dimension MAXIMUM_SIZE = new Dimension(800, 400);
 
-    String title;
-    URL icon;
     List<String> currentValue, selection;
     List<ILabelledEntriesProvider> providers;
+
+    JLabel label;
 
     public CheckBoxSelectDialog() {
 	super();
@@ -59,14 +59,24 @@ public class CheckBoxSelectDialog
 	super(frame, true);
     }
 
-    public void init(String tit,
-		     URL icon,
-		     List<String> currentVal,
-		     List<ILabelledEntriesProvider> configured) {
-	title = tit;
-	this.icon = icon;
-	currentValue = currentVal;
-	providers = configured;
+    public void init(Map<String, String> arguments) {
+	String title;
+	if (arguments.containsKey("title")) {
+	    title = arguments.get("title");
+	} else {
+	    title = "Select";
+	}
+	if (arguments.containsKey("icon")) {
+	    try {
+		URL icon = new URL(arguments.get("icon"));
+		ImageIcon askIcon = new ImageIcon(icon);
+		label = new JLabel(title, askIcon, SwingConstants.LEFT);
+	    } catch (Exception e) {
+		label = new JLabel(title);
+	    }
+	} else {
+	    label = new JLabel(title);
+	}
 
 	setTitle(title);
 	setLocationRelativeTo(null);
@@ -85,7 +95,12 @@ public class CheckBoxSelectDialog
 		dispose();
             }
        });
+    }
 
+    public void setup(List<String> currentVal,
+		      List<ILabelledEntriesProvider> providers) {
+	currentValue = currentVal;
+	this.providers = providers;
     }
 
     /**
@@ -142,13 +157,6 @@ public class CheckBoxSelectDialog
 	// label and scroller into the entry pane
 	JPanel entryPane = new JPanel();
 	entryPane.setLayout(new BoxLayout(entryPane, BoxLayout.PAGE_AXIS));
-	JLabel label;
-	try {
-	    ImageIcon askIcon = new ImageIcon(icon);
-	    label = new JLabel(title, askIcon, SwingConstants.LEFT);
-	} catch (Exception e) {
-	    label = new JLabel(title);
-	}
 	label.setLabelFor(entryPane);
 	entryPane.add(label);
 	entryPane.add(Box.createRigidArea(new Dimension(0,5)));

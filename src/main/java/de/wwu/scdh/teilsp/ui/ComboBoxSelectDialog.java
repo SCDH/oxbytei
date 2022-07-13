@@ -49,12 +49,11 @@ public class ComboBoxSelectDialog
     static Dimension MINIMUM_SIZE = new Dimension(400, 300);
     static Dimension MAXIMUM_SIZE = new Dimension(800, 400);
 
-    String title;
-    URL icon;
     List<String> currentValue, selection;
     List<ILabelledEntriesProvider> providers;
     JComboBox<LabelledEntry> comboBox;
-    
+    JLabel label;
+
     public ComboBoxSelectDialog() {
 	super();
     }
@@ -63,14 +62,24 @@ public class ComboBoxSelectDialog
 	super(frame, true);
     }
 
-    public void init(String tit,
-		     URL icon,
-		     List<String> currentVal,
-		     List<ILabelledEntriesProvider> configured) {
-	title = tit;
-	this.icon = icon;
-	currentValue = currentVal;
-	providers = configured;
+    public void init(Map<String, String> arguments) {
+	String title;
+	if (arguments.containsKey("title")) {
+	    title = arguments.get("title");
+	} else {
+	    title = "Select";
+	}
+	if (arguments.containsKey("icon")) {
+	    try {
+		URL icon = new URL(arguments.get("icon"));
+		ImageIcon askIcon = new ImageIcon(icon);
+		label = new JLabel(title, askIcon, SwingConstants.LEFT);
+	    } catch (Exception e) {
+		label = new JLabel(title);
+	    }
+	} else {
+	    label = new JLabel(title);
+	}
 
 	setTitle(title);
 	setLocationRelativeTo(null);
@@ -89,7 +98,12 @@ public class ComboBoxSelectDialog
 		dispose();
             }
        });
+    }
 
+    public void setup(List<String> currentVal,
+		      List<ILabelledEntriesProvider> configured) {
+	currentValue = currentVal;
+	providers = configured;
     }
 
     /**
@@ -148,7 +162,7 @@ public class ComboBoxSelectDialog
 	    comboBox.setSelectedItem(selected);
 	}
 	comboBoxes.add(comboBox);
-	
+
 	KeySelectionRenderer renderer = new KeySelectionRenderer(comboBox) {
 		@Override
 		public String getDisplayValue(Object value)
@@ -166,13 +180,6 @@ public class ComboBoxSelectDialog
 	// label and scroller into the entry pane
 	JPanel entryPane = new JPanel();
 	entryPane.setLayout(new BoxLayout(entryPane, BoxLayout.PAGE_AXIS));
-	JLabel label;
-	try {
-	    ImageIcon askIcon = new ImageIcon(icon);
-	    label = new JLabel(title, askIcon, SwingConstants.LEFT);
-	} catch (Exception e) {
-	    label = new JLabel(title);
-	}
 	label.setLabelFor(entryPane);
 	entryPane.add(label);
 	entryPane.add(Box.createRigidArea(new Dimension(0,5)));
