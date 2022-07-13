@@ -1,4 +1,5 @@
 de.wwu.scdh.teilsp.ui.CheckBoxSelectDialog
 de.wwu.scdh.teilsp.ui.ComboBoxSelectDialog
+de.wwu.scdh.teilsp.ui.EditableComboBoxSelectDialog
 de.wwu.scdh.oxbytei.commons.OxygenSelectionDialog
 de.wwu.scdh.oxbytei.commons.EdiarumSelectionDialog

@@ -14,6 +14,14 @@ public class LabelledEntry {
 	label = l;
     }
 
+    /**
+     * If casting from String, this constructor is used.
+     */
+    public LabelledEntry(String k) {
+	key = k;
+	label = k;
+    }
+
     public String getKey() {
 	return key;
     }
