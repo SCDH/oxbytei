@@ -4,8 +4,10 @@
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://www.oxygenxml.com/ns/author/external-action http://www.oxygenxml.com/ns/author/external-action/authorAction.xsd"
   id="oxbytei.schema.attribute.editor">
-  <a:name>@attr</a:name>
-  <a:description>Edit an attribute allowed in the context.</a:description>
+  <a:name>Attribute Editor</a:name>
+  <a:description>Edit any attribute allowed in the current context.</a:description>
+  <a:smallIconPath href="${framework(oXbytei)}/images/attribute-editor-24.png"/>
+  <a:largeIconPath href="${framework(oXbytei)}/images/attribute-editor-16.png"/>
   <a:operations>
     <a:operation id="de.wwu.scdh.oxbytei.SchemaAttributeEditorOperation">
       <a:xpathCondition>true()</a:xpathCondition>
