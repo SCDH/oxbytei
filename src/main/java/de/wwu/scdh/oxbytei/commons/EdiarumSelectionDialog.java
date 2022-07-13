@@ -31,20 +31,27 @@ public class EdiarumSelectionDialog
     Frame frame;
     boolean MULTIPLE = true;
     String title;
-    URL icon;
     List<String> currentValue, result;
     List<ILabelledEntriesProvider> providers;
+
+    public EdiarumSelectionDialog() {
+	frame = new Frame();
+    }
 
     public EdiarumSelectionDialog(Frame frame) {
 	this.frame = frame;
     }
 
-    public void init(String tit,
-		     URL icon,
-		     List<String> currentVal,
-		     List<ILabelledEntriesProvider> configured) {
-	title = tit;
-	this.icon = icon;
+    public void init(Map<String, String> arguments) {
+	if (arguments.containsKey("title")) {
+	    title = arguments.get("title");
+	} else {
+	    title = "Select";
+	}
+    }
+
+    public void setup(List<String> currentVal,
+		      List<ILabelledEntriesProvider> configured) {
 	currentValue = currentVal;
 	providers = configured;
     }

@@ -5,8 +5,8 @@
  */
 package de.wwu.scdh.teilsp.ui;
 
-import java.net.URL;
 import java.util.List;
+import java.util.Map;
 
 import de.wwu.scdh.teilsp.exceptions.UIException;
 import de.wwu.scdh.teilsp.services.extensions.ExtensionException;
@@ -16,17 +16,23 @@ import de.wwu.scdh.teilsp.services.extensions.ILabelledEntriesProvider;
 public interface ISelectionDialog {
 
     /**
-     * This must be called after construction in order to pass
+     * This must be called after constructor in order to pass
      * initialization data.
      *
      * @param title the title of the dialog
-     * @param currentVal current value
-     * @param configured a list of initialized {@link ILabelledEntriesProvider}s
+     * @param icon an URL to the icon displayed in the dialog
      */
-    public void init(String title,
-		     URL icon,
-		     List<String> currentVal,
-		     List<ILabelledEntriesProvider> configured)
+    public void init(Map<String, String> arguments);
+
+    /**
+     * This must be called after {@link init} in order to pass
+     * in content completion data.
+     *
+     * @param currentVal current value
+     * @param labelledEntriesProviders a list of initialized {@link ILabelledEntriesProvider}s
+     */
+    public void setup(List<String> currentVal,
+		      List<ILabelledEntriesProvider> labelledEntriesProviders)
 	throws UIException, ExtensionException;
 
     /**

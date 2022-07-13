@@ -43,6 +43,6 @@ public interface InteractiveOperation {
      */
     public String doUserInteraction
 	(ArgumentsMap argumentsMap)
-	throws ExtensionException, UIException, RollbackException;
+	throws ExtensionException, ConfigurationException, UIException, RollbackException;
 
 }
