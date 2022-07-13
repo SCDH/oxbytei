@@ -1,24 +1,34 @@
 # Change log #
 
-## dev
+## 0.12.0
 
 - added **selection dialogs**
+  - added editable combo box
+    `de.wwu.scdh.teilsp.ui.EditableComboBoxDialog` as default dialog
   - multiple select through check boxes:
     `de.wwu.scdh.teilsp.ui.CheckBoxSelectDialog`
 	- setup for `@wit`
   - singleton select through combo box:
     `de.wwu.scdh.teilsp.ui.ComboBoxSelectDialog`
-	which is the new default dialog
 - **change of API** `ISelectDialog`
+  - make `ISelectionDialog` an SPI interface and load dialogs as
+    plugins which are configured through plugin config for arbitrary
+    editing contexts
   - removed oXygen-specific classes
   - split `doUserInteraction` into `doUserInteraction()` and
     `getSelection()` in order to make UI writing simple, because
     otherwise we would need a loop to wait for user interaction to
     finish.
+  - split `init()` into `init()` and `setup()` so that we can call
+    `init()` from SPI loader
   - pass icon URL into dialog
   - moved to package `de.wuu.scdh.teilsp.ui` which contains UI code
     which does not need anything from oXygen
   - old dialog classes are still in place and work as before
+- added generic schema attribute editor which uses the above
+  configurable dialogs
+- configuration
+  - added some basic config for dialogs
 
 ## 0.11.0
 
