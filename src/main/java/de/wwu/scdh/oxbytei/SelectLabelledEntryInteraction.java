@@ -7,7 +7,10 @@ import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 import javax.xml.transform.URIResolver;
+//import java.nio.file.ProviderNotFoundException;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,6 +29,7 @@ import de.wwu.scdh.teilsp.exceptions.ConfigurationException;
 import de.wwu.scdh.teilsp.services.extensions.ILabelledEntriesProvider;
 import de.wwu.scdh.teilsp.services.extensions.LabelledEntriesLoader;
 import de.wwu.scdh.teilsp.services.extensions.ExtensionException;
+import de.wwu.scdh.teilsp.services.extensions.SelectionDialogLoader;
 import de.wwu.scdh.oxbytei.commons.EditorVariablesExpanderImpl;
 import de.wwu.scdh.oxbytei.commons.WSDocumentReader;
 import de.wwu.scdh.oxbytei.commons.DocumentReaderException;
@@ -33,6 +37,7 @@ import de.wwu.scdh.oxbytei.commons.AuthorDocumentReader;
 import de.wwu.scdh.oxbytei.commons.OperationArgumentValidator;
 import de.wwu.scdh.oxbytei.commons.RollbackException;
 import de.wwu.scdh.teilsp.exceptions.UIException;
+import de.wwu.scdh.teilsp.exceptions.ProviderNotFoundException;
 import de.wwu.scdh.teilsp.ui.ISelectionDialog;
 
 
@@ -150,6 +155,9 @@ public class SelectLabelledEntryInteraction
     protected List<ILabelledEntriesProvider> providers;
     protected int providersCount;
 
+    protected Document document;
+    protected String configFile;
+
     /**
      * The current editing context as an XPath expression.
      */
@@ -203,9 +211,9 @@ public class SelectLabelledEntryInteraction
 	this.location = location;
 
 	// get the URL of the configuration file
-	String configFile = OxbyteiConstants.getConfigFile();
+	configFile = OxbyteiConstants.getConfigFile();
 
-	Document document = documentReader.getDocument();
+	document = documentReader.getDocument();
 	context = documentReader.getContextXPath();
 
 	LOGGER.debug("Loading providers for {} {} on context {}", nodeType, nodeName, context);
@@ -230,32 +238,30 @@ public class SelectLabelledEntryInteraction
      * Do the actual user interaction.
      */
     public String doUserInteraction(final ArgumentsMap arguments)
-	throws UIException, ExtensionException, RollbackException  {
+	throws UIException, ConfigurationException, ExtensionException, RollbackException  {
 
 	// get current value
 	String currentValue = documentReader.lookupNode(nodeType, location, nodeName, nodeNamespace);
 
 	// get arguments from arguments map
-	String rollbackOnCancelString, message, iconString, dialog, valuesDelimiter, valuesDelimiterRegex;
-	URL icon;
-	boolean rollbackOnCancel;
-	rollbackOnCancelString =
+	String rollbackOnCancelString =
 	    OperationArgumentValidator.validateStringArgument(ARGUMENT_ROLLBACK_ON_CANCEL.getName(), arguments);
-	rollbackOnCancel = rollbackOnCancelString.equals(AuthorConstants.ARG_VALUE_TRUE);
-	message =
+	boolean rollbackOnCancel = rollbackOnCancelString.equals(AuthorConstants.ARG_VALUE_TRUE);
+	String message =
 	    OperationArgumentValidator.validateStringArgument(ARGUMENT_MESSAGE.getName(), arguments);
-	iconString =
+	String iconString =
 	    OperationArgumentValidator.validateStringArgument(ARGUMENT_ICON.getName(), arguments);
+	URL icon;
 	try {
 	    icon = new URL(iconString);
 	} catch (MalformedURLException e) {
 	    icon = DEFAULT_ICON;
 	}
-	dialog =
+	String dialog =
 	    OperationArgumentValidator.validateStringArgument(ARGUMENT_DIALOG.getName(), arguments);
-	valuesDelimiter =
+	String valuesDelimiter =
 	    OperationArgumentValidator.validateStringArgument(ARGUMENT_DELIMITER.getName(), arguments);
-	valuesDelimiterRegex =
+	String valuesDelimiterRegex =
 	    OperationArgumentValidator.validateStringArgument(ARGUMENT_DELIMITER_REGEX.getName(), arguments);
 
 	// split current string value by delimiter regex
@@ -267,51 +273,42 @@ public class SelectLabelledEntryInteraction
 	    currentSelection.add(currentValue);
 	}
 
-	List<String> selected = null;
-
-	// do user interaction
-	try {
-	    // get user dialog from configuration
-	    ISelectionDialog dialogView;
-	    Class dialogClass = Class.forName(dialog);
-	    // for some reason isAssignableFrom does not work, so we use getInterfaces()
-	    //if (ISelectionDialog.class.isAssignableFrom(dialogClass)) {
-	    boolean implementsISelectionDialog = false;
-	    for (Class iface : dialogClass.getInterfaces()) {
-		implementsISelectionDialog = implementsISelectionDialog || ISelectionDialog.class.equals(iface);
-	    }
-	    if (implementsISelectionDialog) {
-		dialogView = (ISelectionDialog) dialogClass.getDeclaredConstructor(Frame.class).newInstance(frame);
-		dialogView.init(message, icon, currentSelection, providers);
-		dialogView.doUserInteraction();
-		selected = dialogView.getSelection();
+	// get the dialog
+	ISelectionDialog dialogView;
+	if (providersCount == 0) {
+	    // use fallback dialog
+	    // TODO: this prevents us from configuring dialogs in
+	    // contexts without providers. Is this wanted?
+	    dialogView = fallbackDialog();
+	} else {
+	    LOGGER.debug("Loading providers for {} {} on context {}", nodeType, nodeName, context);
+	    List<ISelectionDialog> dialogs = new ArrayList<ISelectionDialog>();
+	    dialogs = SelectionDialogLoader.providersForContext
+		(document,
+		 currentFileURL.toString(),
+		 context,
+		 nodeType,
+		 nodeName,
+		 uriResolver,
+		 entityResolver,
+		 null,
+		 configFile,
+		 frame,
+		 expander);
+	    if (dialogs.size() == 0) {
+		dialogView = fallbackDialog();
 	    } else {
-		throw new UIException("Configuration ERROR: ISelectionDialog not implemented by "
-				      + dialog);
+		// we take the first dialog found in the config
+		dialogView = dialogs.get(0);
+		// TODO: should we dispose all plugins or does GC the job?
 	    }
-
-	} catch (ClassNotFoundException e) {
-	    throw new UIException("Error loading user dialog class "
-				  + dialog + "\n\n" + e);
-	} catch (InstantiationException e) {
-	    throw new UIException("Error instantiating user dialog class "
-				  + dialog + "\n\n" + e);
-	} catch (IllegalAccessException e) {
-	    throw new UIException("Error accessing user dialog class "
-				  + dialog + "\n\n" + e);
-	} catch (NoSuchMethodException e) {
-	    throw new UIException("Error loading dialog class "
-				  + dialog + "\n\n" + e);
-	} catch (InvocationTargetException e) {
-	    throw new UIException("Error loading dialog class "
-				  + dialog + "\n\n" + e);
 	}
 
-	// // TODO: dialog make pluggable
-	// ISelectionDialog dialog = new OxygenSelectionDialog();
-	// //ISelectionDialog dialog = new EdiarumSelectionDialog();
-	// dialog.init(message, current, providers);
-	// List<String> selected = dialog.doUserInteraction();
+	// envoke the dialog and get the selection/input
+	List<String> selected;
+	dialogView.setup(currentSelection, providers);
+	dialogView.doUserInteraction();
+	selected = dialogView.getSelection();
 
 	// set the value, if not null returned form
 	// doUserInteraction(), because null means cancellation
@@ -340,4 +337,46 @@ public class SelectLabelledEntryInteraction
 	}
     }
 
+    protected ISelectionDialog fallbackDialog()
+	throws ConfigurationException, ExtensionException {
+	ISelectionDialog dialog, dialogView;
+	try {
+	    dialog = SelectionDialogLoader.provider();
+	    Class dialogClass = dialog.getClass();
+	    dialogView = (ISelectionDialog) dialogClass.getDeclaredConstructor(Frame.class).newInstance(frame);
+
+	    Map<String, String> arguments = new HashMap<String, String>();
+	    arguments.put("title", "New value");
+	    arguments.put("icon", null);
+	    dialogView.init(arguments);
+	} catch (ProviderNotFoundException e) {
+	    throw new ConfigurationException
+		("Default dialog view "
+		 + SelectionDialogLoader.DEFAULT_PROVIDER
+		 + " not found");
+	} catch (InstantiationException e) {
+	    throw new ExtensionException
+		("Error instantiating user dialog class "
+		 + SelectionDialogLoader.DEFAULT_PROVIDER
+		 + "\n\n" + e);
+	} catch (IllegalAccessException e) {
+	    throw new ExtensionException
+		("Error accessing user dialog class "
+		 + SelectionDialogLoader.DEFAULT_PROVIDER
+		 + "\n\n" + e);
+	} catch (NoSuchMethodException e) {
+	    throw new ExtensionException
+		("Error loading dialog class "
+		 + SelectionDialogLoader.DEFAULT_PROVIDER
+		 + "\n\n" + e);
+	} catch (InvocationTargetException e) {
+	    throw new ExtensionException
+		("Error loading dialog class "
+		 + SelectionDialogLoader.DEFAULT_PROVIDER
+		 + "\n\n" + e);
+	}
+
+	// TODO dispose dialog
+	return dialogView;
+    }
 }
