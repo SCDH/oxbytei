@@ -258,6 +258,80 @@
                 </configuration>
             </configurations>
         </plugin>
+        
+        <!-- UI -->
+        <plugin>
+            <class>de.wwu.scdh.teilsp.ui.CheckBoxSelectDialog</class>
+            <type>de.wwu.scdh.teilsp.ui.ISelectionDialog</type>
+            <configurations>
+                <configuration>
+                    <conditions>
+                        <condition domain="context">self::*:lem | self::*:rdg</condition>
+                        <condition domain="priority">10</condition>
+                        <condition domain="nodeName">wit</condition>
+                        <condition domain="nodeType">attributeValue</condition>
+                    </conditions>
+                    <arguments>
+                        <argument name="title">Select witnesses</argument>
+                        <argument name="icon">${framework(oXbytei)}/images/sheetsquestion-24.png</argument>
+                    </arguments>
+                </configuration>
+            </configurations>
+        </plugin>
+        <plugin>
+            <class>de.wwu.scdh.teilsp.ui.ComboBoxSelectDialog</class>
+            <type>de.wwu.scdh.teilsp.ui.ISelectionDialog</type>
+            <configurations>
+                <configuration>
+                    <conditions>
+                        <condition domain="context">self::*:bibl</condition>
+                        <condition domain="priority">10</condition>
+                        <condition domain="nodeName">corresp</condition>
+                        <condition domain="nodeType">attributeValue</condition>
+                    </conditions>
+                    <arguments>
+                        <argument name="title">Select bibliographic item</argument>
+                        <argument name="icon">${framework(oXbytei)}/images/bibref-24.png</argument>
+                    </arguments>
+                </configuration>
+            </configurations>
+        </plugin>
+        <plugin>
+            <class>de.wwu.scdh.teilsp.ui.ComboBoxSelectDialog</class>
+            <type>de.wwu.scdh.teilsp.ui.ISelectionDialog</type>
+            <configurations>
+                <configuration>
+                    <conditions>
+                        <condition domain="context">self::*:persName</condition>
+                        <condition domain="priority">10</condition>
+                        <condition domain="nodeName">ref</condition>
+                        <condition domain="nodeType">attributeValue</condition>
+                    </conditions>
+                    <arguments>
+                        <argument name="title">Select person</argument>
+                        <argument name="icon">${framework(oXbytei)}/images/person-24.png</argument>
+                    </arguments>
+                </configuration>
+            </configurations>
+        </plugin>
+        <plugin>
+            <class>de.wwu.scdh.teilsp.ui.ComboBoxSelectDialog</class>
+            <type>de.wwu.scdh.teilsp.ui.ISelectionDialog</type>
+            <configurations>
+                <configuration>
+                    <conditions>
+                        <condition domain="context">self::*:placeName</condition>
+                        <condition domain="priority">10</condition>
+                        <condition domain="nodeName">ref</condition>
+                        <condition domain="nodeType">attributeValue</condition>
+                    </conditions>
+                    <arguments>
+                        <argument name="title">Select person</argument>
+                        <argument name="icon">${framework(oXbytei)}/images/pin-24.png</argument>
+                    </arguments>
+                </configuration>
+            </configurations>
+        </plugin>
 
     </plugins>
 </teilspConfiguration>

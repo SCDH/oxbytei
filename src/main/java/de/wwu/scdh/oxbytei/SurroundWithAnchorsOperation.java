@@ -167,8 +167,6 @@ public class SurroundWithAnchorsOperation
 	    String endTagLName =
 		OperationArgumentValidator.validateStringArgument(ARGUMENT_END_ANCHOR.getName(), arguments, authorAccess, true);
 		endTagQName = makeQName(endTagNamespace, endTagLName);
-	} catch (AuthorOperationException e) {
-	    // do nothing, we take the value from the start tag
 	} catch (IllegalArgumentException e) {
 	    // do nothing, we take the value from the start tag
 	}

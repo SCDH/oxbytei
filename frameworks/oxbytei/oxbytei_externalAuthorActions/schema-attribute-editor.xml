@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- editing atom -->
+<!-- user action -->
 <a:authorAction xmlns:a="http://www.oxygenxml.com/ns/author/external-action"
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://www.oxygenxml.com/ns/author/external-action http://www.oxygenxml.com/ns/author/external-action/authorAction.xsd"
-  id="sel.person">
-  <a:name>Select Person</a:name>
-  <a:description>Select a person from suggestions.</a:description>
+  id="oxbytei.schema.attribute.editor">
+  <a:name>Attribute Editor</a:name>
+  <a:description>Edit any attribute allowed in the current context.</a:description>
+  <a:smallIconPath href="${framework(oXbytei)}/images/attribute-editor-24.png"/>
+  <a:largeIconPath href="${framework(oXbytei)}/images/attribute-editor-16.png"/>
   <a:operations>
-    <a:operation id="de.wwu.scdh.oxbytei.SelectAttributeValueOperation">
+    <a:operation id="de.wwu.scdh.oxbytei.SchemaAttributeEditorOperation">
       <a:xpathCondition>true()</a:xpathCondition>
       <a:arguments>
-        <a:argument name="name">${teilspProp(oxbytei.action.sel.person.name)}</a:argument>
+        <a:argument name="name">NN</a:argument>
+        <a:argument name="namespace">NN</a:argument>
         <a:argument name="elementLocation">self::*</a:argument>
-        <a:argument name="message">Choose a person</a:argument>
-        <a:argument name="rollbackOnCancel">true</a:argument>
-        <a:argument name="icon">${framework(oXbytei)}/images/person-24.png</a:argument>
       </a:arguments>
     </a:operation>
   </a:operations>

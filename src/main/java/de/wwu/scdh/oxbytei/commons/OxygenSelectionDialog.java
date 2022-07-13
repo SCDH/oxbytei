@@ -8,16 +8,21 @@
  */
 package de.wwu.scdh.oxbytei.commons;
 
+import java.awt.Frame;
+import java.net.URL;
 import java.util.Map;
 import java.util.List;
 import java.util.ArrayList;
 
 import ro.sync.ecss.extensions.api.AuthorAccess;
-import ro.sync.ecss.extensions.api.AuthorOperationException;
+import ro.sync.exml.workspace.api.PluginWorkspaceProvider;
+import ro.sync.exml.workspace.api.PluginWorkspace;
 
 import de.wwu.scdh.teilsp.services.extensions.ILabelledEntriesProvider;
 import de.wwu.scdh.teilsp.services.extensions.LabelledEntry;
 import de.wwu.scdh.teilsp.services.extensions.ExtensionException;
+import de.wwu.scdh.teilsp.exceptions.UIException;
+import de.wwu.scdh.teilsp.ui.ISelectionDialog;
 
 
 public class OxygenSelectionDialog
@@ -26,19 +31,24 @@ public class OxygenSelectionDialog
     AuthorAccess authorAccess;
     String title;
     boolean multiple;
-    List<String> currentValue;
+    List<String> currentValue, result;
     List<ILabelledEntriesProvider> providers;
 
+    public OxygenSelectionDialog(Frame frame) {}
 
-    public void init(AuthorAccess access,
-		     String tit,
-		     boolean multi,
-		     List<String> currentVal,
-		     List<ILabelledEntriesProvider> configured)
-    throws AuthorOperationException {
-	authorAccess = access;
-	title = tit;
-	multiple = multi;
+    public OxygenSelectionDialog() {
+    }
+
+    public void init(Map<String, String> arguments) {
+	if (arguments.containsKey("title")) {
+	    title = arguments.get("title");
+	} else {
+	    title = "Select";
+	}
+    }
+
+    public void setup(List<String> currentVal,
+		      List<ILabelledEntriesProvider> configured) {
 	currentValue = currentVal;
 	providers = configured;
     }
@@ -47,8 +57,8 @@ public class OxygenSelectionDialog
      * Do the user interaction part.
      *
      */
-    public List<String> doUserInteraction()
-	throws AuthorOperationException {
+    public void doUserInteraction()
+	throws UIException, ExtensionException {
 
 	// TODO
 	//
@@ -79,8 +89,8 @@ public class OxygenSelectionDialog
 		for (Map.Entry<String, String> argument : provider.getArguments().entrySet()) {
 		    report += argument.getKey() + " = " + argument.getValue() + "\n";
 		}
-		throw new AuthorOperationException("Error reading entries\n\n"
-						   + report + "\n\n" + e);
+		throw new ExtensionException("Error reading entries\n\n"
+					     + report + "\n\n" + e);
 	    }
 	}
 
@@ -96,7 +106,7 @@ public class OxygenSelectionDialog
 		}
 		report += "\n\n";
 	    }
-	    throw new AuthorOperationException(report);
+	    throw new UIException(report);
 	}
 
 	// get first of current values
@@ -106,20 +116,23 @@ public class OxygenSelectionDialog
 		current = currentValue.get(0);
 	    }
 	}
-	
+
 	//AskDescriptor("combobox", title, keys, labels, currentValue);
 	String ask = "${ask('" + title + "', combobox, (" + pairs + "), '" + current + "')}";
-	String selectedId = authorAccess.getUtilAccess().expandEditorVariables(ask, null, true);
+	PluginWorkspace ws = PluginWorkspaceProvider.getPluginWorkspace();
+	String selectedId = ws.getUtilAccess().expandEditorVariables(ask, null, true);
 	// When "Cancel" is pressed in the dialog, the unexpanded
 	// string is returned. In this case we set the selection to
 	// the empty string.
 	if (selectedId.startsWith("${ask(")) {
-	    return null;
+	    result = null;
 	} else {
-	    List<String> result = new ArrayList<String>();
+	    result = new ArrayList<String>();
 	    result.add(selectedId);
-	    return result;
 	}
     }
 
+    public List<String> getSelection() {
+    	return result;
+    }
 }

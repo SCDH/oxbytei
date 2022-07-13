@@ -7,7 +7,6 @@
 package de.wwu.scdh.oxbytei.commons;
 
 import ro.sync.ecss.extensions.api.ArgumentsMap;
-import ro.sync.ecss.extensions.api.AuthorOperationException;
 import ro.sync.ecss.extensions.api.AuthorAccess;
 
 public class OperationArgumentValidator {
@@ -17,10 +16,10 @@ public class OperationArgumentValidator {
      * @param name
      * @param args
      * @return String value of argument
-     * @throws AuthorOperationException
+     * @throws IllegalArgumentException
      */
     public static String validateStringArgument(String name, ArgumentsMap args)
-	throws AuthorOperationException, IllegalArgumentException {
+	throws IllegalArgumentException {
 
 	Object val = args.getArgumentValue(name);
 
@@ -39,12 +38,12 @@ public class OperationArgumentValidator {
      * @param authorAccess access to author mode utilities
      * @param expandAsk whether the ask editor variable should be expanded
      * @return String value of argument
-     * @throws AuthorOperationException
+     * @throws IllegalArgumentException
      */
     public static String validateStringArgument
 	(String name, ArgumentsMap args,
 	 AuthorAccess authorAccess, boolean expandAsk)
-	throws AuthorOperationException, IllegalArgumentException {
+	throws IllegalArgumentException {
 
 	Object val = args.getArgumentValue(name);
 
@@ -75,8 +74,7 @@ public class OperationArgumentValidator {
      * @param def default value
      * @return String value of argument
      */
-    public static String validateStringArgument(String name, ArgumentsMap args, String def)
-	throws AuthorOperationException {
+    public static String validateStringArgument(String name, ArgumentsMap args, String def) {
 
 	Object val = args.getArgumentValue(name);
 
