@@ -38,7 +38,7 @@ import de.wwu.scdh.teilsp.xpath.XPathUtil;
  */
 public class SelectionDialogLoader {
 
-    public static final String DEFAULT_PROVIDER = "de.wwu.scdh.teilsp.ui.CheckBoxSelectDialog";
+    public static final String DEFAULT_PROVIDER = "de.wwu.scdh.teilsp.ui.EditableComboBoxSelectDialog";
 
     /**
      * Returns all providers in the classpath.
