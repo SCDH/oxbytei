@@ -46,6 +46,8 @@ public class ComboBoxSelectDialog
     extends JDialog
     implements ActionListener, ISelectionDialog {
 
+    protected boolean EDITABLE = false;
+
     static Dimension MINIMUM_SIZE = new Dimension(400, 300);
     static Dimension MAXIMUM_SIZE = new Dimension(800, 400);
 
@@ -53,6 +55,7 @@ public class ComboBoxSelectDialog
     List<ILabelledEntriesProvider> providers;
     JComboBox<LabelledEntry> comboBox;
     JLabel label;
+    JPanel comboBoxes;
 
     public ComboBoxSelectDialog() {
 	super();
@@ -124,53 +127,10 @@ public class ComboBoxSelectDialog
 	cancel.addActionListener(this);
 
 	// a container for all our entries
-	JPanel comboBoxes = new JPanel();
+	comboBoxes = new JPanel();
 	comboBoxes.setLayout(new BoxLayout(comboBoxes, BoxLayout.Y_AXIS));
-	int i;
-	Vector<LabelledEntry> entriesVector = new Vector<LabelledEntry>();
-	for (i = 0; i < providers.size(); i++) {
-	    ILabelledEntriesProvider provider = providers.get(i);
-	    try {
-		// TODO: We just pass the empty string here.
-		List<LabelledEntry> entries = provider.getLabelledEntries("");
-		entriesVector.addAll(entries);
-	    } catch (ExtensionException e) {
-		String report = "";
-		for (Map.Entry<String, String> argument : provider.getArguments().entrySet()) {
-		    report += argument.getKey() + " = " + argument.getValue() + "\n";
-		}
-		throw new ExtensionException("Error reading entries\n\n"
-					     + report + "\n\n" + e);
-	    }
-	}
-	// look up current value
-	boolean found = false;
-	LabelledEntry selected = null;
-	Iterator<LabelledEntry> iter = entriesVector.iterator();
-	while (iter.hasNext() && (! found)) {
-	    for (String c : currentValue) {
-		LabelledEntry entry = iter.next();
-		if (c.equals(entry.getKey())) {
-			found = true;
-			selected = entry;
-			break;
-		    }
-	    }
-	}
-	comboBox = new JComboBox<LabelledEntry>(entriesVector);
-	if (found) {
-	    comboBox.setSelectedItem(selected);
-	}
-	comboBoxes.add(comboBox);
 
-	KeySelectionRenderer renderer = new KeySelectionRenderer(comboBox) {
-		@Override
-		public String getDisplayValue(Object value)
-		{
-		    LabelledEntry entry = (LabelledEntry) value;
-		    return entry.getLabel();
-		}
-	    };
+	setupComboBox();
 
 	// put the check boxes into a scroll pane
 	JScrollPane entryScroller = new JScrollPane(comboBoxes);
@@ -207,12 +167,68 @@ public class ComboBoxSelectDialog
     public void actionPerformed(ActionEvent e) {
 	if ("OK".equals(e.getActionCommand())) {
 	    selection = new ArrayList<String>();
-	    selection.add(((LabelledEntry) comboBox.getSelectedItem()).getKey());
+	    selection.add(getComboBoxSelection());
 	    dispose();
 	} else if ("Cancel".equals(e.getActionCommand())) {
 	    selection = null;
 	    dispose();
 	}
+    }
+
+    protected String getComboBoxSelection() {
+	return ((LabelledEntry) comboBox.getSelectedItem()).getKey();
+    }
+
+    protected void setupComboBox()
+	throws ExtensionException {
+	int i;
+	Vector<LabelledEntry> entriesVector = new Vector<LabelledEntry>();
+	for (i = 0; i < providers.size(); i++) {
+	    ILabelledEntriesProvider provider = providers.get(i);
+	    try {
+		// TODO: We just pass the empty string here.
+		List<LabelledEntry> entries = provider.getLabelledEntries("");
+		entriesVector.addAll(entries);
+	    } catch (ExtensionException e) {
+		String report = "";
+		for (Map.Entry<String, String> argument : provider.getArguments().entrySet()) {
+		    report += argument.getKey() + " = " + argument.getValue() + "\n";
+		}
+		throw new ExtensionException("Error reading entries\n\n"
+					     + report + "\n\n" + e);
+	    }
+	}
+	// look up current value
+	boolean found = false;
+	LabelledEntry selected = null;
+	Iterator<LabelledEntry> iter = entriesVector.iterator();
+	while (iter.hasNext() && (! found)) {
+	    for (String c : currentValue) {
+		LabelledEntry entry = iter.next();
+		if (c.equals(entry.getKey())) {
+			found = true;
+			selected = entry;
+			break;
+		    }
+	    }
+	}
+	comboBox = new JComboBox<LabelledEntry>(entriesVector);
+	comboBox.setEditable(EDITABLE);
+	if (found) {
+	    comboBox.setSelectedItem(selected);
+	}
+
+	KeySelectionRenderer renderer = new KeySelectionRenderer(comboBox) {
+		@Override
+		public String getDisplayValue(Object value)
+		{
+		    LabelledEntry entry = (LabelledEntry) value;
+		    return entry.getLabel();
+		}
+	    };
+
+	// add the box to the pane
+	comboBoxes.add(comboBox);
     }
 
     public List<String> getSelection() {
