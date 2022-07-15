@@ -33,6 +33,7 @@ public class OxygenSelectionDialog
     boolean multiple;
     List<String> currentValue, result;
     List<ILabelledEntriesProvider> providers;
+    Map<String, String> arguments;
 
     public OxygenSelectionDialog(Frame frame) {}
 
@@ -40,11 +41,16 @@ public class OxygenSelectionDialog
     }
 
     public void init(Map<String, String> arguments) {
+	this.arguments = arguments;
 	if (arguments.containsKey("title")) {
 	    title = arguments.get("title");
 	} else {
 	    title = "Select";
 	}
+    }
+
+    public Map<String, String> getArguments() {
+	return arguments;
     }
 
     public void setup(List<String> currentVal,
