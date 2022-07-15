@@ -6,23 +6,14 @@
 package de.wwu.scdh.teilsp.ui;
 
 import java.util.List;
-import java.util.Map;
 
 import de.wwu.scdh.teilsp.exceptions.UIException;
 import de.wwu.scdh.teilsp.services.extensions.ExtensionException;
 import de.wwu.scdh.teilsp.services.extensions.ILabelledEntriesProvider;
+import de.wwu.scdh.teilsp.services.extensions.ConfigurablePlugin;
 
 
-public interface ISelectionDialog {
-
-    /**
-     * This must be called after constructor in order to pass
-     * initialization data.
-     *
-     * @param title the title of the dialog
-     * @param icon an URL to the icon displayed in the dialog
-     */
-    public void init(Map<String, String> arguments);
+public interface ISelectionDialog extends ConfigurablePlugin {
 
     /**
      * This must be called after {@link init} in order to pass
