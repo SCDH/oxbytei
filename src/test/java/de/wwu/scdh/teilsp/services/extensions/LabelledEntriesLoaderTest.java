@@ -30,6 +30,11 @@ import de.wwu.scdh.teilsp.config.NoExpander;
 
 public class LabelledEntriesLoaderTest {
 
+    private static final String DEFAULT_PLUGIN = "de.wwu.scdh.teilsp.extensions.LabelledEntriesFromXML";
+
+    private static final ConfiguredPluginLoader<ILabelledEntriesProvider> loader =
+	new ConfiguredPluginLoader<>(ILabelledEntriesProvider.class, DEFAULT_PLUGIN);
+
     String configFile, currentFile;
     Document document;
     EditorVariablesExpander expander;
@@ -52,20 +57,20 @@ public class LabelledEntriesLoaderTest {
 
     @Test
     public void testAtLeastDefaultProvider() {
-	List<ILabelledEntriesProvider> providers = LabelledEntriesLoader.providers();
+	List<ILabelledEntriesProvider> providers = loader.providers();
 	assertTrue(providers.size() > 0);
     }
 
     @Test
     public void testDefaultProvider() throws ExtensionException, ProviderNotFoundException {
 	assertEquals("de.wwu.scdh.teilsp.extensions.LabelledEntriesFromXML",
-		     LabelledEntriesLoader.provider().getClass().getName());
+		     loader.provider().getClass().getName());
     }
 
     @Test
     public void testProviderNotFound() throws ExtensionException {
 	assertThrows(ProviderNotFoundException.class,
-		     () -> { LabelledEntriesLoader.provider("unknown");
+		     () -> { loader.provider("unknown");
 		     });
     }
 
@@ -73,18 +78,21 @@ public class LabelledEntriesLoaderTest {
     @DisabledOnOs(OS.WINDOWS)
     @Test
     public void testProvidersForContextPersNameRef() throws ExtensionException, ConfigurationException {
+	String context = "/*:TEI[1]/*:text[1]/*:body[1]/*:p[1]/*:persName[1]";
 	List<ILabelledEntriesProvider> providers =
-	    LabelledEntriesLoader.providersForContext(document,
-						      currentFile,
-						      "/*:TEI[1]/*:text[1]/*:body[1]/*:p[1]/*:persName[1]",
-						      ExtensionConfiguration.ATTRIBUTE_VALUE,
-						      "ref",
-						      new SimpleURIResolver(), null, null,
-						      configFile,
-						      expander);
+	    loader.providersForContext
+	    (document,
+	     context,
+	     ExtensionConfiguration.ATTRIBUTE_VALUE,
+	     "ref",
+	     null,
+	     configFile,
+	     expander);
 	// one provider for this context
 	assertEquals(1, providers.size());
 	// there are 3 persons suggested
+	ILabelledEntriesProvider p0 = providers.get(0);
+	p0.setup(new SimpleURIResolver(), null, document, currentFile, context);
 	assertEquals(3, providers.get(0).getLabelledEntries("").size());
     }
 
@@ -93,14 +101,14 @@ public class LabelledEntriesLoaderTest {
     @Test
     public void testProvidersForContextPersNameType() throws ExtensionException, ConfigurationException {
 	List<ILabelledEntriesProvider> providers =
-	    LabelledEntriesLoader.providersForContext(document,
-						      currentFile,
-						      "/*:TEI[1]/*:text[1]/*:body[1]/*:p[1]/*:persName[1]",
-						      ExtensionConfiguration.ATTRIBUTE_VALUE,
-						      "type",
-						      new SimpleURIResolver(), null, null,
-						      configFile,
-						      expander);
+	    loader.providersForContext
+	    (document,
+	     "/*:TEI[1]/*:text[1]/*:body[1]/*:p[1]/*:persName[1]",
+	     ExtensionConfiguration.ATTRIBUTE_VALUE,
+	     "type",
+	     null,
+	     configFile,
+	     expander);
 	// one provider for this context
 	assertEquals(0, providers.size());
     }
@@ -110,14 +118,14 @@ public class LabelledEntriesLoaderTest {
     @Test
     public void testProvidersForContextPersonRef() throws ExtensionException, ConfigurationException {
 	List<ILabelledEntriesProvider> providers =
-	    LabelledEntriesLoader.providersForContext(document,
-						      currentFile,
-						      "/*:TEI[1]/*:text[1]/*:body[1]/*:p[1]/*:person[1]",
-						      ExtensionConfiguration.ATTRIBUTE_VALUE,
-						      "ref",
-						      new SimpleURIResolver(), null, null,
-						      configFile,
-						      expander);
+	    loader.providersForContext
+	    (document,
+	     "/*:TEI[1]/*:text[1]/*:body[1]/*:p[1]/*:person[1]",
+	     ExtensionConfiguration.ATTRIBUTE_VALUE,
+	     "ref",
+	     null,
+	     configFile,
+	     expander);
 	// one provider for this context
 	assertEquals(0, providers.size());
     }
