@@ -8,6 +8,7 @@ import javax.xml.transform.URIResolver;
 import org.xml.sax.EntityResolver;
 import org.w3c.dom.Document;
 
+import de.wwu.scdh.teilsp.exceptions.ConfigurationException;
 import de.wwu.scdh.teilsp.services.extensions.ILabelledEntriesProvider;
 import de.wwu.scdh.teilsp.services.extensions.ExtensionException;
 import de.wwu.scdh.teilsp.services.extensions.ArgumentDescriptor;
@@ -20,7 +21,7 @@ public class LabelledEntriesFromConfig
     private Map<String, String> arguments;
 
     private List<LabelledEntry> labelledEntries;
-    
+
     private static final ArgumentDescriptor ARGUMENT_KEYS =
 	new ArgumentDescriptor("keys",
 			       ArgumentDescriptor.TYPE_STRING,
@@ -38,7 +39,7 @@ public class LabelledEntriesFromConfig
 			       ",");
 
 
-    
+
     /**
      * The array of arguments, this author operation takes.
      */
@@ -49,18 +50,14 @@ public class LabelledEntriesFromConfig
 	};
 
     /**
-     * 
+     *
      */
     public ArgumentDescriptor[] getArgumentDescriptor() {
 	return ARGUMENTS;
     }
 
-    public void init(Map<String, String> args,
-		     URIResolver uriResolver,
-		     EntityResolver entityResolver,
-		     Document doc,
-		     String systemId)
-	throws ExtensionException {
+    public void init(Map<String, String> args)
+	throws ConfigurationException {
 
 	arguments = args;
 
@@ -74,7 +71,14 @@ public class LabelledEntriesFromConfig
 	for (int i = 0; i < l; i++) {
 	    labelledEntries.add(new LabelledEntry(keys[i].trim(), labels[i].trim()));
 	}
+    }
 
+    public void setup
+	(URIResolver uriResolver,
+	 EntityResolver entityResolver,
+	 Document doc,
+	 String systemId,
+	 String context) {
     }
 
     public Map<String, String> getArguments() {
@@ -85,5 +89,4 @@ public class LabelledEntriesFromConfig
 	throws ExtensionException {
 	return labelledEntries;
     }
-    
 }

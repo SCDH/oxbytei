@@ -27,6 +27,7 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
+import de.wwu.scdh.teilsp.exceptions.ConfigurationException;
 import de.wwu.scdh.teilsp.services.extensions.ILabelledEntriesProvider;
 import de.wwu.scdh.teilsp.services.extensions.ExtensionException;
 import de.wwu.scdh.teilsp.services.extensions.ArgumentDescriptor;
@@ -110,30 +111,54 @@ public class LabelledEntriesFromXMLByPrefixDef
 	return ARGUMENTS;
     }
 
-    public void init(Map<String, String> args,
-		     URIResolver uriResolver,
-		     EntityResolver entityResolver,
-		     Document currentDoc,
-		     String systemId)
-	throws ExtensionException {
+    private String prefixDefXPath;
+    private String hrefXPath;
+    
+    public void init(Map<String, String> args)
+	throws ConfigurationException {
 
 	// get the XPath to the <prefixDef> element
-	String prefixDefXPath = args.get("prefixDef");
+	prefixDefXPath = args.get("prefixDef");
 	if (prefixDefXPath == null) {
-	    throw new ExtensionException("Error: 'prefixDef' not set for "
-					 + getClass().getCanonicalName());
+	    throw new ConfigurationException("Error: 'prefixDef' not set for "
+					     + getClass().getCanonicalName());
 	}
 
 	// get XPath for getting the href out of replacement pattern
-	String hrefXPath = args.getOrDefault("prefixDefRef", DEFAULT_REF_XPATH);
+	hrefXPath = args.getOrDefault("prefixDefRef", DEFAULT_REF_XPATH);
 
 	// store namespace context declaration
 	if (args.get("namespaces") != null) {
 	    namespaceDecl = new NamespaceContextImpl(args.get("namespaces"));
 	} else {
-	    throw new ExtensionException("Argument 'namespaces' is required");
+	    throw new ConfigurationException("Argument 'namespaces' is required");
 	}
 	
+	selectionXPath = args.get("selection");
+	if (selectionXPath == null) {
+	    throw new ConfigurationException("Argument 'selection' is required");
+	}
+	keyXPath = args.get("key");
+	if (keyXPath == null) {
+	    throw new ConfigurationException("Argument 'key' is required");
+	}
+	labelXPath = args.get("label");
+	if (labelXPath == null) {
+	    throw new ConfigurationException("Argument 'label' is required");
+	}
+
+	arguments = args;
+
+    }
+
+    public void setup
+	(URIResolver uriResolver,
+	 EntityResolver entityResolver,
+	 Document currentDoc,
+	 String systemId,
+	 String context)
+	throws ExtensionException {
+
 	// get url from prefixDef
 	String ident = null;
 	String href = null;
@@ -187,7 +212,7 @@ public class LabelledEntriesFromXMLByPrefixDef
 		document = builder.parse(inputSource);
 		inputStream.close();
 	    } catch (MalformedURLException e) {
-		throw new ExtensionException("Error opening URL " + args.get("url") + "\n" + e);
+		throw new ExtensionException("Error opening URL " + arguments.get("url") + "\n" + e);
 	    } catch (TransformerException e) {
 		throw new ExtensionException(e);
 	    } catch (ParserConfigurationException e) {
@@ -202,21 +227,6 @@ public class LabelledEntriesFromXMLByPrefixDef
 	}
 
 	prefix = ident + ":";
-
-	selectionXPath = args.get("selection");
-	if (selectionXPath == null) {
-	    throw new ExtensionException("Argument 'selection' is required");
-	}
-	keyXPath = args.get("key");
-	if (keyXPath == null) {
-	    throw new ExtensionException("Argument 'key' is required");
-	}
-	labelXPath = args.get("label");
-	if (labelXPath == null) {
-	    throw new ExtensionException("Argument 'label' is required");
-	}
-
-	arguments = args;
 
     }
 
