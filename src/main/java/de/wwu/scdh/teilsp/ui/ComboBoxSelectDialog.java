@@ -56,6 +56,7 @@ public class ComboBoxSelectDialog
     JComboBox<LabelledEntry> comboBox;
     JLabel label;
     JPanel comboBoxes;
+    Map<String, String> arguments;
 
     public ComboBoxSelectDialog() {
 	super();
@@ -66,6 +67,7 @@ public class ComboBoxSelectDialog
     }
 
     public void init(Map<String, String> arguments) {
+	this.arguments = arguments;
 	String title;
 	if (arguments.containsKey("title")) {
 	    title = arguments.get("title");
@@ -101,6 +103,10 @@ public class ComboBoxSelectDialog
 		dispose();
             }
        });
+    }
+
+    public Map<String, String> getArguments() {
+	return arguments;
     }
 
     public void setup(List<String> currentVal,

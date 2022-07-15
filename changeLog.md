@@ -1,5 +1,16 @@
 # Change log #
 
+## dev
+
+- **changes of API**:
+  - introduced `IConfigurablePlugin` for plugins that get
+    context-sensitive config from the config file
+  - `ILabelledEntriesProvider` and `ISelectionDialog` are derived from
+    this new interface now
+  - `ILabelledEntriesProvider` gets the current editing context now via
+    `setup(...)`
+  - introduced a common loader for configurable plugins
+
 ## 0.12.0
 
 - added **selection dialogs**

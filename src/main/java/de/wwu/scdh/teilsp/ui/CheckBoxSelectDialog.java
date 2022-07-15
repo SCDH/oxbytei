@@ -48,6 +48,7 @@ public class CheckBoxSelectDialog
 
     List<String> currentValue, selection;
     List<ILabelledEntriesProvider> providers;
+    Map<String, String> arguments;
 
     JLabel label;
 
@@ -60,6 +61,7 @@ public class CheckBoxSelectDialog
     }
 
     public void init(Map<String, String> arguments) {
+	this.arguments = arguments;
 	String title;
 	if (arguments.containsKey("title")) {
 	    title = arguments.get("title");
@@ -95,6 +97,10 @@ public class CheckBoxSelectDialog
 		dispose();
             }
        });
+    }
+
+    public Map<String, String> getArguments() {
+	return arguments;
     }
 
     public void setup(List<String> currentVal,

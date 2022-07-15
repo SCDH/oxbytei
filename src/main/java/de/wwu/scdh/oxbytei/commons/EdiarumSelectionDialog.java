@@ -11,7 +11,6 @@
 package de.wwu.scdh.oxbytei.commons;
 
 import java.awt.Frame;
-import java.net.URL;
 import java.util.Map;
 import java.util.List;
 import java.util.ArrayList;
@@ -28,11 +27,12 @@ import de.wwu.scdh.teilsp.ui.ISelectionDialog;
 public class EdiarumSelectionDialog
     implements ISelectionDialog {
 
-    Frame frame;
-    boolean MULTIPLE = true;
-    String title;
-    List<String> currentValue, result;
-    List<ILabelledEntriesProvider> providers;
+    private Frame frame;
+    private boolean MULTIPLE = true;
+    private String title;
+    private List<String> currentValue, result;
+    private List<ILabelledEntriesProvider> providers;
+    private Map<String, String> arguments;
 
     public EdiarumSelectionDialog() {
 	frame = new Frame();
@@ -43,11 +43,16 @@ public class EdiarumSelectionDialog
     }
 
     public void init(Map<String, String> arguments) {
+	this.arguments = arguments;
 	if (arguments.containsKey("title")) {
 	    title = arguments.get("title");
 	} else {
 	    title = "Select";
 	}
+    }
+
+    public Map<String, String> getArguments() {
+	return arguments;
     }
 
     public void setup(List<String> currentVal,

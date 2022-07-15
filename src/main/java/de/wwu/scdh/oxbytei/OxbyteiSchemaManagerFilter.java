@@ -25,7 +25,7 @@ import ro.sync.exml.workspace.api.PluginWorkspaceProvider;
 
 import de.wwu.scdh.teilsp.config.EditorVariablesExpander;
 import de.wwu.scdh.teilsp.services.extensions.ILabelledEntriesProvider;
-import de.wwu.scdh.teilsp.services.extensions.LabelledEntriesLoader;
+import de.wwu.scdh.teilsp.services.extensions.ConfiguredPluginLoader;
 import de.wwu.scdh.teilsp.services.extensions.LabelledEntry;
 import de.wwu.scdh.teilsp.services.extensions.ExtensionException;
 import de.wwu.scdh.teilsp.exceptions.ConfigurationException;
@@ -80,6 +80,7 @@ public class OxbyteiSchemaManagerFilter
 	    EditorVariablesExpander expander = new EditorVariablesExpanderImpl(currentFileURL, true);
 
 	    List<Object> docNodes = context.executeXPath(OxbyteiConstants.DOCUMENT_XPATH, namespaces, true);
+	    Document document = (Document) docNodes.get(0);
 	    String ctx =
 		context.computeContextXPathExpression().replaceAll("/", "/*:"); //.substring(1);
 
@@ -89,18 +90,29 @@ public class OxbyteiSchemaManagerFilter
 			 ((Document) docNodes.get(0)).getDocumentElement().getLocalName());
 
 	    // get the initialized providers
+	    ConfiguredPluginLoader<ILabelledEntriesProvider> providerLoader =
+		new ConfiguredPluginLoader<ILabelledEntriesProvider>
+		(ILabelledEntriesProvider.class, OxbyteiConstants.DEFAULT_LABELLED_ENTRIES_PROVIDER);
 	    List<ILabelledEntriesProvider> providers =
-		LabelledEntriesLoader.providersForContext((Document) docNodes.get(0),
-							  context.getSystemID(),
-							  ctx,
-							  nodeType,
-							  nodeName,
-							  uriResolver,
-							  entityResolver,
-							  null,
-							  configFile,
-							  expander);
+		providerLoader.providersForContext
+		(document,
+		 ctx,
+		 nodeType,
+		 nodeName,
+		 null,
+		 configFile,
+		 expander);
 
+	    // setup each provider
+	    for (ILabelledEntriesProvider provider : providers) {
+		provider.setup
+		    (uriResolver,
+		     entityResolver,
+		     document,
+		     currentFileURL.toString(),
+		     ctx);
+	    }
+	    
 	    return providers;
 	} catch (MalformedURLException e) {
 	    LOGGER.error("Path to current edited file is not a valid URL: {}", context.getSystemID());

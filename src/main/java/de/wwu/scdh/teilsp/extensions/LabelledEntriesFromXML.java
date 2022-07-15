@@ -6,6 +6,7 @@ import javax.xml.transform.URIResolver;
 import org.xml.sax.EntityResolver;
 import org.w3c.dom.Document;
 
+import de.wwu.scdh.teilsp.exceptions.ConfigurationException;
 import de.wwu.scdh.teilsp.services.extensions.ILabelledEntriesProvider;
 import de.wwu.scdh.teilsp.services.extensions.ExtensionException;
 import de.wwu.scdh.teilsp.services.extensions.ArgumentDescriptor;
@@ -83,37 +84,41 @@ public class LabelledEntriesFromXML
 	return ARGUMENTS;
     }
 
-    public void init(Map<String, String> args,
-		     URIResolver uriResolver,
-		     EntityResolver entityResolver,
-		     Document doc,
-		     String systemId)
-	throws ExtensionException {
-
-	document = doc;
+    public void init(Map<String, String> args)
+	throws ConfigurationException {
 
 	prefix = args.getOrDefault("prefix", "");
 
 	selectionXPath = args.get("selection");
 	if (selectionXPath == null) {
-	    throw new ExtensionException("Argument 'selection' is required");
+	    throw new ConfigurationException("Argument 'selection' is required");
 	}
 	keyXPath = args.get("key");
 	if (keyXPath == null) {
-	    throw new ExtensionException("Argument 'key' is required");
+	    throw new ConfigurationException("Argument 'key' is required");
 	}
 	labelXPath = args.get("label");
 	if (labelXPath == null) {
-	    throw new ExtensionException("Argument 'label' is required");
+	    throw new ConfigurationException("Argument 'label' is required");
 	}
 	if (args.get("namespaces") != null) {
 	    namespaceDecl = new NamespaceContextImpl(args.get("namespaces"));
 	} else {
-	    throw new ExtensionException("Argument 'namespaces' is required");
+	    throw new ConfigurationException("Argument 'namespaces' is required");
 	}
-
 	arguments = args;
+    }
 
+    
+    public void setup
+	(URIResolver uriResolver,
+	 EntityResolver entityResolver,
+	 Document doc,
+	 String systemId,
+	 String context)
+	throws ExtensionException {
+
+	document = doc;
     }
 
     public Map<String, String> getArguments() {
