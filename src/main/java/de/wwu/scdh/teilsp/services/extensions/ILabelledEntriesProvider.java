@@ -42,7 +42,7 @@ public interface ILabelledEntriesProvider extends ConfigurablePlugin {
 	 Document document,
 	 String systemId,
 	 String context)
-	throws ConfigurationException;
+	throws ExtensionException;
 
     /**
      * {@link getLabelledEntries} returns an ordered collection of labelled
