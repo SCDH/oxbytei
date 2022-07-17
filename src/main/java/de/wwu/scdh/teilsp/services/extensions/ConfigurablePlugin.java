@@ -12,9 +12,9 @@ import de.wwu.scdh.teilsp.exceptions.ConfigurationException;
 public interface ConfigurablePlugin {
 
     /**
-     * {@link init} initializes the provider with a setup from
-     * configuration and the current editing context. It is once
-     * called during the initialization phase.
+     * {@link init} initializes the provider with a arguments from
+     * configuration. It is once called during the initialization
+     * phase.
      *
      * @param  kwargs      key value pairs with configuration parameters
      */
@@ -26,4 +26,13 @@ public interface ConfigurablePlugin {
      */
     public Map<String, String> getArguments();
 
+    /**
+     * This returns an array of argument descriptors implementing
+     * {@link ArgumentDescriptor}s. These can be used to validate the
+     * configuration, get the values or get a description of the
+     * arguments.
+     *
+     * @return an array of argument descriptors
+     */
+    public ArgumentDescriptor<?>[] getArgumentDescriptor();
 }

@@ -2,6 +2,7 @@ package de.wwu.scdh.teilsp.extensions;
 
 import java.util.Map;
 import javax.xml.transform.URIResolver;
+import javax.xml.namespace.NamespaceContext;
 
 import org.xml.sax.EntityResolver;
 import org.w3c.dom.Document;
@@ -10,7 +11,10 @@ import de.wwu.scdh.teilsp.exceptions.ConfigurationException;
 import de.wwu.scdh.teilsp.services.extensions.ILabelledEntriesProvider;
 import de.wwu.scdh.teilsp.services.extensions.ExtensionException;
 import de.wwu.scdh.teilsp.services.extensions.ArgumentDescriptor;
+import de.wwu.scdh.teilsp.services.extensions.ArgumentDescriptorImpl;
+import de.wwu.scdh.teilsp.services.extensions.URLArgumentDescriptor;
 import de.wwu.scdh.teilsp.xml.NamespaceContextImpl;
+import de.wwu.scdh.teilsp.xml.TEINamespaceContext;
 
 
 /**
@@ -25,50 +29,53 @@ public class LabelledEntriesFromXML
 
     private Map<String, String> arguments;
 
-    private static final ArgumentDescriptor ARGUMENT_URL =
-	new ArgumentDescriptor("url",
-			       ArgumentDescriptor.TYPE_STRING,
-			       "The URL pointing to the referatory."
-			       + "\nIf not set, this defaults to the currently edited file.");
+    private static final URLArgumentDescriptor ARGUMENT_URL =
+	new URLArgumentDescriptor
+	("url",
+	 "The URL pointing to the referatory."
+	 + "\nIf not set, this defaults to the currently edited file.",
+	 null);
 
-    private static final ArgumentDescriptor ARGUMENT_PREFIX =
-	new ArgumentDescriptor("prefix",
-			       ArgumentDescriptor.TYPE_STRING,
-			       "The prefix of the returned keys.");
+    private static final ArgumentDescriptor<String> ARGUMENT_PREFIX =
+	new ArgumentDescriptorImpl<String>
+	(String.class, "prefix",
+	 "The prefix of the returned keys.",
+	 "");
 
-    private static final ArgumentDescriptor ARGUMENT_SELECTION =
-	new ArgumentDescriptor("selection",
-			       ArgumentDescriptor.TYPE_XPATH_EXPRESSION,
-			       "The XPath expression to use for finding selection values."
-			       + " This should regard the structure of the referred XML document.",
-			       "//*[@xml:id]");
+    private static final ArgumentDescriptor<String> ARGUMENT_SELECTION =
+	new ArgumentDescriptorImpl<String>
+	(String.class, "selection",
+	 "The XPath expression to use for finding selection values."
+	 + " This should regard the structure of the referred XML document.",
+	 "//*[@xml:id]");
 
-    private static final ArgumentDescriptor ARGUMENT_KEY =
-	new ArgumentDescriptor("key",
-			       ArgumentDescriptor.TYPE_XPATH_EXPRESSION,
-			       "The XPath expression to use for generating key values of the selection items."
-			       + " This should regard the structure of the referred XML document."
-			       + " Default: @xml:id",
-			       "@xml:id");
+    private static final ArgumentDescriptor<String> ARGUMENT_KEY =
+	new ArgumentDescriptorImpl<String>
+	(String.class, "key",
+	 "The XPath expression to use for generating key values of the selection items."
+	 + " This should regard the structure of the referred XML document."
+	 + " Default: @xml:id",
+	 "@xml:id");
 
-    private static final ArgumentDescriptor ARGUMENT_LABEL =
-	new ArgumentDescriptor("label",
-			       ArgumentDescriptor.TYPE_XPATH_EXPRESSION,
-			       "The XPath expression to use for generating the labels of the selection items."
-			       + " This should regard the structure of the referred XML document.",
-			       "self::*");
+    private static final ArgumentDescriptor<String> ARGUMENT_LABEL =
+	new ArgumentDescriptorImpl<String>
+	(String.class, "label",
+	 "The XPath expression to use for generating the labels of the selection items."
+	 + " This should regard the structure of the referred XML document.",
+	 "self::*");
 
-    private static final ArgumentDescriptor ARGUMENT_NAMESPACE =
-	new ArgumentDescriptor("namespace",
-			       ArgumentDescriptor.TYPE_STRING,
-			       "A space-separated list of prefix:namespace-name tuples for use in the XPath expressions for accessing the target documents."
-			       + " This should regard the structure of the referred XML document.",
-			       "t:http://www.tei-c.org/ns/1.0 xml:http://www.w3.org/XML/1998/namespace");
+    private static final ArgumentDescriptor<? extends NamespaceContext> ARGUMENT_NAMESPACE =
+	new ArgumentDescriptorImpl<NamespaceContextImpl>
+	(NamespaceContextImpl.class, "namespace",
+	 "A space-separated list of prefix:namespace-name tuples for"
+	 + " use in the XPath expressions for accessing the target documents."
+	 + " This should regard the structure of the referred XML document.",
+	 new TEINamespaceContext());
 
     /**
      * The array of arguments, this author operation takes.
      */
-    private static final ArgumentDescriptor[] ARGUMENTS = new ArgumentDescriptor[] {
+    private static final ArgumentDescriptor<?>[] ARGUMENTS = new ArgumentDescriptor<?>[] {
 	ARGUMENT_URL,
 	ARGUMENT_PREFIX,
 	ARGUMENT_SELECTION,
@@ -78,38 +85,24 @@ public class LabelledEntriesFromXML
 	};
 
     /**
-     * 
+     *
      */
-    public ArgumentDescriptor[] getArgumentDescriptor() {
+    public ArgumentDescriptor<?>[] getArgumentDescriptor() {
 	return ARGUMENTS;
     }
 
     public void init(Map<String, String> args)
 	throws ConfigurationException {
 
-	prefix = args.getOrDefault("prefix", "");
+	prefix = ARGUMENT_PREFIX.getValue(args);
+	selectionXPath = ARGUMENT_SELECTION.getValue(args);
+	keyXPath = ARGUMENT_KEY.getValue(args);
+	labelXPath = ARGUMENT_LABEL.getValue(args);
+	namespaceDecl = ARGUMENT_NAMESPACE.getValue(args);
 
-	selectionXPath = args.get("selection");
-	if (selectionXPath == null) {
-	    throw new ConfigurationException("Argument 'selection' is required");
-	}
-	keyXPath = args.get("key");
-	if (keyXPath == null) {
-	    throw new ConfigurationException("Argument 'key' is required");
-	}
-	labelXPath = args.get("label");
-	if (labelXPath == null) {
-	    throw new ConfigurationException("Argument 'label' is required");
-	}
-	if (args.get("namespaces") != null) {
-	    namespaceDecl = new NamespaceContextImpl(args.get("namespaces"));
-	} else {
-	    throw new ConfigurationException("Argument 'namespaces' is required");
-	}
 	arguments = args;
     }
 
-    
     public void setup
 	(URIResolver uriResolver,
 	 EntityResolver entityResolver,

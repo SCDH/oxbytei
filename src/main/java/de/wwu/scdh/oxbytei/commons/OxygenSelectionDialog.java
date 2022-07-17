@@ -18,11 +18,13 @@ import ro.sync.ecss.extensions.api.AuthorAccess;
 import ro.sync.exml.workspace.api.PluginWorkspaceProvider;
 import ro.sync.exml.workspace.api.PluginWorkspace;
 
+import de.wwu.scdh.teilsp.exceptions.ConfigurationException;
 import de.wwu.scdh.teilsp.services.extensions.ILabelledEntriesProvider;
 import de.wwu.scdh.teilsp.services.extensions.LabelledEntry;
 import de.wwu.scdh.teilsp.services.extensions.ExtensionException;
 import de.wwu.scdh.teilsp.exceptions.UIException;
 import de.wwu.scdh.teilsp.ui.ISelectionDialog;
+import de.wwu.scdh.teilsp.services.extensions.ArgumentDescriptor;
 
 
 public class OxygenSelectionDialog
@@ -40,13 +42,21 @@ public class OxygenSelectionDialog
     public OxygenSelectionDialog() {
     }
 
-    public void init(Map<String, String> arguments) {
+    private static final ArgumentDescriptor<String> ARGUMENT_TITLE =
+	ISelectionDialog.ARGUMENT_TITLE;
+
+    private static final ArgumentDescriptor<?>[] ARGUMENTS = new ArgumentDescriptor<?>[] {
+	ARGUMENT_TITLE
+	    };
+	
+    public ArgumentDescriptor<?>[] getArgumentDescriptor() {
+	return ARGUMENTS;
+    }	
+
+    public void init(Map<String, String> arguments)
+	throws ConfigurationException {
 	this.arguments = arguments;
-	if (arguments.containsKey("title")) {
-	    title = arguments.get("title");
-	} else {
-	    title = "Select";
-	}
+	title = ARGUMENT_TITLE.getValue(arguments);
     }
 
     public Map<String, String> getArguments() {
