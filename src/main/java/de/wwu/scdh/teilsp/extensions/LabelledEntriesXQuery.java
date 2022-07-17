@@ -43,7 +43,7 @@ public class LabelledEntriesXQuery
 	new URLArgumentDescriptor("xquery", "The URL of the XQuery file.");
 
     private static final ArgumentDescriptor<Map<String, String>> ARGUMENT_EXTERNAL =
-	new ArgumentsExtractor
+	new ArgumentsExtractor<Map<String,String>>
 	("external",
 	 "External variables passed into the XQuery.",
 	 new HashMap<String, String>());

@@ -13,23 +13,20 @@ import de.wwu.scdh.teilsp.exceptions.ConfigurationException;
  * This class offers also a static method to parse such key value
  * pairs.
  */
-public class ArgumentsExtractor extends ArgumentDescriptorImpl<Map<String, String>>  {
-
-    private static final Class<Map<String, String>> clazz =
-	(Class<Map<String, String>>) new HashMap<String, String>().getClass();
+public class ArgumentsExtractor<M extends Map<String, String>> extends ArgumentDescriptorImpl<M>  {
 
     public ArgumentsExtractor(String name, String description) {
-    	super(clazz, name, description);
+    	super((Class<M>) new HashMap<String, String>().getClass(), name, description);
     }
 
-    public ArgumentsExtractor(String name, String description, Map<String, String> defaultValue) {
-    	super(clazz, name, description, defaultValue);
+    public ArgumentsExtractor(String name, String description, M defaultValue) {
+    	super((Class<M>) new HashMap<String, String>().getClass(), name, description, defaultValue);
     }
 
     @Override
-    public Map<String, String> fromString(String value)
+    public M fromString(String value)
 	throws ConfigurationException{
-	return ArgumentsExtractor.arguments(value);
+	return (M) ArgumentsExtractor.arguments(value);
     }
 
     /**
