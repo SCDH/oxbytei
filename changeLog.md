@@ -9,7 +9,17 @@
     this new interface now
   - `ILabelledEntriesProvider` gets the current editing context now via
     `setup(...)`
+  - configurable plugins are required to provide a method to describe
+    their configuration arguments now
   - introduced a common loader for configurable plugins
+- made `de.wwu.scdh.teilsp.services.extensions.ArgumentDescriptor` a
+  polymorphic interface and `ArgumentDescriptorImpl` an implementation
+  of it
+  - this makes evaluating, getting and converting arguments for plugins
+    from the configuration super straight forward
+- introduced `de.wwu.scdh.teilsp.extensions.LabelledEntriesXQuery`, a
+  provider for labelled entries which produces its collection via
+  XQuery
 
 ## 0.12.0
 
