@@ -1,6 +1,6 @@
 # Change log #
 
-## dev
+## 0.14.0
 
 - **changes of API**:
   - introduced `IConfigurablePlugin` for plugins that get
