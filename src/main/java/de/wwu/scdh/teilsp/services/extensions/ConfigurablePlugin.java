@@ -26,4 +26,13 @@ public interface ConfigurablePlugin {
      */
     public Map<String, String> getArguments();
 
+    /**
+     * This returns an array of argument descriptors implementing
+     * {@link ArgumentDescriptor}s. These can be used to validate the
+     * configuration, get the values or get a description of the
+     * arguments.
+     *
+     * @return an array of argument descriptors
+     */
+    public ArgumentDescriptor<?>[] getArgumentDescriptor();
 }
