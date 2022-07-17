@@ -18,10 +18,12 @@ import java.util.Arrays;
 
 import org.bbaw.telota.ediarum.InsertRegisterDialog;
 
+import de.wwu.scdh.teilsp.exceptions.ConfigurationException;
 import de.wwu.scdh.teilsp.services.extensions.ILabelledEntriesProvider;
 import de.wwu.scdh.teilsp.services.extensions.LabelledEntry;
 import de.wwu.scdh.teilsp.services.extensions.ExtensionException;
 import de.wwu.scdh.teilsp.ui.ISelectionDialog;
+import de.wwu.scdh.teilsp.services.extensions.ArgumentDescriptor;
 
 
 public class EdiarumSelectionDialog
@@ -42,13 +44,21 @@ public class EdiarumSelectionDialog
 	this.frame = frame;
     }
 
-    public void init(Map<String, String> arguments) {
+    private static final ArgumentDescriptor<String> ARGUMENT_TITLE =
+	ISelectionDialog.ARGUMENT_TITLE;
+
+    private static final ArgumentDescriptor<?>[] ARGUMENTS = new ArgumentDescriptor<?>[] {
+	ARGUMENT_TITLE
+	    };
+
+    public ArgumentDescriptor<?>[] getArgumentDescriptor() {
+	return ARGUMENTS;
+    }
+
+    public void init(Map<String, String> arguments)
+	throws ConfigurationException {
 	this.arguments = arguments;
-	if (arguments.containsKey("title")) {
-	    title = arguments.get("title");
-	} else {
-	    title = "Select";
-	}
+	title = ARGUMENT_TITLE.getValue(arguments);
     }
 
     public Map<String, String> getArguments() {
