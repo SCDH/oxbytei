@@ -12,9 +12,9 @@ import de.wwu.scdh.teilsp.exceptions.ConfigurationException;
 public interface ConfigurablePlugin {
 
     /**
-     * {@link init} initializes the provider with a setup from
-     * configuration and the current editing context. It is once
-     * called during the initialization phase.
+     * {@link init} initializes the provider with a arguments from
+     * configuration. It is once called during the initialization
+     * phase.
      *
      * @param  kwargs      key value pairs with configuration parameters
      */
