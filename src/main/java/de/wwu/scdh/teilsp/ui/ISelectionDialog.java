@@ -103,6 +103,6 @@ public interface ISelectionDialog extends ConfigurablePlugin {
     public static final URLArgumentDescriptor ARGUMENT_ICON =
 	new URLArgumentDescriptor
 	("icon", "The icon that is shown on the dialog",
-	 null);
+	 ISelectionDialog.class.getResource("/images/ask-24.png"));
 
 }
