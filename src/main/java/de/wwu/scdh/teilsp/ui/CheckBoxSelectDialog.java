@@ -31,9 +31,11 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.SwingConstants;
 
+import de.wwu.scdh.teilsp.exceptions.ConfigurationException;
 import de.wwu.scdh.teilsp.services.extensions.ILabelledEntriesProvider;
 import de.wwu.scdh.teilsp.services.extensions.LabelledEntry;
 import de.wwu.scdh.teilsp.services.extensions.ExtensionException;
+import de.wwu.scdh.teilsp.services.extensions.ArgumentDescriptor;
 
 
 /**
@@ -48,6 +50,7 @@ public class CheckBoxSelectDialog
 
     List<String> currentValue, selection;
     List<ILabelledEntriesProvider> providers;
+    Map<String, String> arguments;
 
     JLabel label;
 
@@ -59,16 +62,32 @@ public class CheckBoxSelectDialog
 	super(frame, true);
     }
 
-    public void init(Map<String, String> arguments) {
-	String title;
-	if (arguments.containsKey("title")) {
-	    title = arguments.get("title");
-	} else {
-	    title = "Select";
-	}
+    private static final ArgumentDescriptor<String> ARGUMENT_TITLE =
+	ISelectionDialog.ARGUMENT_TITLE;
+
+    private static final ArgumentDescriptor<URL> ARGUMENT_ICON =
+	ISelectionDialog.ARGUMENT_ICON;
+
+    public Map<String, String> getArguments() {
+	return arguments;
+    }
+
+    private static final ArgumentDescriptor<?>[] ARGUMENTS = new ArgumentDescriptor<?>[] {
+	ARGUMENT_TITLE,
+	    ARGUMENT_ICON
+	    };
+    
+    public ArgumentDescriptor<?>[] getArgumentDescriptor() {
+	return ARGUMENTS;
+    }	
+
+    public void init(Map<String, String> arguments)
+	throws ConfigurationException {
+	this.arguments = arguments;
+	String title = ARGUMENT_TITLE.getValue(arguments);
+	URL icon = ARGUMENT_ICON.getValue(arguments);
 	if (arguments.containsKey("icon")) {
 	    try {
-		URL icon = new URL(arguments.get("icon"));
 		ImageIcon askIcon = new ImageIcon(icon);
 		label = new JLabel(title, askIcon, SwingConstants.LEFT);
 	    } catch (Exception e) {
@@ -96,6 +115,8 @@ public class CheckBoxSelectDialog
             }
        });
     }
+
+    
 
     public void setup(List<String> currentVal,
 		      List<ILabelledEntriesProvider> providers) {

@@ -11,6 +11,7 @@ import javax.xml.transform.TransformerException;
 
 import org.xml.sax.EntityResolver;
 
+import javax.xml.namespace.NamespaceContext;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -27,15 +28,18 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
+import de.wwu.scdh.teilsp.exceptions.ConfigurationException;
 import de.wwu.scdh.teilsp.services.extensions.ILabelledEntriesProvider;
 import de.wwu.scdh.teilsp.services.extensions.ExtensionException;
 import de.wwu.scdh.teilsp.services.extensions.ArgumentDescriptor;
+import de.wwu.scdh.teilsp.services.extensions.ArgumentDescriptorImpl;
 import de.wwu.scdh.teilsp.xml.NamespaceContextImpl;
+import de.wwu.scdh.teilsp.xml.TEINamespaceContext;
 import de.wwu.scdh.teilsp.xpath.XPathUtil;
 
 
 /**
- * {@link LabelledEntriesFromXML} is a plugin for reading a list of
+ * {@link LabelledEntriesFromXMLByPrefixDef} is a plugin for reading a list of
  * {@link de.wwu.scdh.teilsp.services.extensions.LabelledEntry}
  * objects from a given XML file.
  *
@@ -49,52 +53,52 @@ public class LabelledEntriesFromXMLByPrefixDef
     private Map<String, String> arguments;
 
     private static final String DEFAULT_REF_XPATH = "tokenize(@replacementPattern, '#')[1]";
-    
-    private static final ArgumentDescriptor ARGUMENT_PREFIX =
-	new ArgumentDescriptor("prefixDef",
-			       ArgumentDescriptor.TYPE_XPATH_EXPRESSION,
-			       "The XPath to the <prefixDef> element in the currently edited file.");
 
-    private static final ArgumentDescriptor ARGUMENT_PREFIX_REF =
-	new ArgumentDescriptor("prefixDefHref",
-			       ArgumentDescriptor.TYPE_XPATH_EXPRESSION,
-			       "The XPath to the <prefixDef> element in the currently edited file.",
-			       DEFAULT_REF_XPATH);
+    private static final ArgumentDescriptor<String> ARGUMENT_PREFIX =
+	new ArgumentDescriptorImpl<String>
+	(String.class, "prefixDef",
+	 "The XPath to the <prefixDef> element in the currently edited file.");
 
-    private static final ArgumentDescriptor ARGUMENT_SELECTION =
-	new ArgumentDescriptor("selection",
-			       ArgumentDescriptor.TYPE_XPATH_EXPRESSION,
-			       "The XPath expression to use for finding selection values."
-			       + " This should regard the structure of the referred XML document.",
-			       "//*[@xml:id]");
+    private static final ArgumentDescriptor<String> ARGUMENT_PREFIX_REF =
+	new ArgumentDescriptorImpl<String>
+	(String.class, "prefixDefHref",
+	 "The XPath to the <prefixDef> element in the currently edited file.",
+	 DEFAULT_REF_XPATH);
 
-    private static final ArgumentDescriptor ARGUMENT_KEY =
-	new ArgumentDescriptor("key",
-			       ArgumentDescriptor.TYPE_XPATH_EXPRESSION,
-			       "The XPath expression to use for generating key values of the selection items."
-			       + " This should regard the structure of the referred XML document."
-			       + " Default: @xml:id",
-			       "@xml:id");
+    private static final ArgumentDescriptor<String> ARGUMENT_SELECTION =
+	new ArgumentDescriptorImpl<String>
+	(String.class, "selection",
+	 "The XPath expression to use for finding selection values."
+	 + " This should regard the structure of the referred XML document.",
+	 "//*[@xml:id]");
 
-    private static final ArgumentDescriptor ARGUMENT_LABEL =
-	new ArgumentDescriptor("label",
-			       ArgumentDescriptor.TYPE_XPATH_EXPRESSION,
-			       "The XPath expression to use for generating the labels of the selection items."
-			       + " This should regard the structure of the referred XML document.",
-			       "self::*");
+    private static final ArgumentDescriptor<String> ARGUMENT_KEY =
+	new ArgumentDescriptorImpl<String>
+	(String.class, "key",
+	 "The XPath expression to use for generating key values of the selection items."
+	 + " This should regard the structure of the referred XML document."
+	 + " Default: @xml:id",
+	 "@xml:id");
 
-    private static final ArgumentDescriptor ARGUMENT_NAMESPACE =
-	new ArgumentDescriptor("namespace",
-			       ArgumentDescriptor.TYPE_STRING,
-			       "A space-separated list of prefix:namespace-name tuples for"
-			       + " use in the XPath expressions for accessing the target documents."
-			       + " This should regard the structure of the referred XML document.",
-			       "t:http://www.tei-c.org/ns/1.0 xml:http://www.w3.org/XML/1998/namespace");
+    private static final ArgumentDescriptor<String> ARGUMENT_LABEL =
+	new ArgumentDescriptorImpl<String>
+	(String.class, "label",
+	 "The XPath expression to use for generating the labels of the selection items."
+	 + " This should regard the structure of the referred XML document.",
+	 "self::*");
+
+    private static final ArgumentDescriptor<? extends NamespaceContext> ARGUMENT_NAMESPACE =
+	new ArgumentDescriptorImpl<NamespaceContextImpl>
+	(NamespaceContextImpl.class, "namespace",
+	 "A space-separated list of prefix:namespace-name tuples for"
+	 + " use in the XPath expressions for accessing the target documents."
+	 + " This should regard the structure of the referred XML document.",
+	 new TEINamespaceContext());
 
     /**
      * The array of arguments, this author operation takes.
      */
-    private static final ArgumentDescriptor[] ARGUMENTS = new ArgumentDescriptor[] {
+    private static final ArgumentDescriptor<?>[] ARGUMENTS = new ArgumentDescriptor<?>[] {
 	ARGUMENT_PREFIX,
 	ARGUMENT_PREFIX_REF,
 	ARGUMENT_SELECTION,
@@ -104,36 +108,36 @@ public class LabelledEntriesFromXMLByPrefixDef
 	};
 
     /**
-     * 
+     *
      */
-    public ArgumentDescriptor[] getArgumentDescriptor() {
+    public ArgumentDescriptor<?>[] getArgumentDescriptor() {
 	return ARGUMENTS;
     }
 
-    public void init(Map<String, String> args,
-		     URIResolver uriResolver,
-		     EntityResolver entityResolver,
-		     Document currentDoc,
-		     String systemId)
+    private String prefixDefXPath;
+    private String hrefXPath;
+
+    public void init(Map<String, String> args)
+	throws ConfigurationException {
+
+	prefixDefXPath = ARGUMENT_PREFIX.getValue(args);
+	hrefXPath = ARGUMENT_PREFIX_REF.getValue(args);
+	namespaceDecl = ARGUMENT_NAMESPACE.getValue(args);
+	selectionXPath = ARGUMENT_SELECTION.getValue(args);
+	keyXPath = ARGUMENT_KEY.getValue(args);
+	labelXPath = ARGUMENT_LABEL.getValue(args);
+
+	arguments = args;
+    }
+
+    public void setup
+	(URIResolver uriResolver,
+	 EntityResolver entityResolver,
+	 Document currentDoc,
+	 String systemId,
+	 String context)
 	throws ExtensionException {
 
-	// get the XPath to the <prefixDef> element
-	String prefixDefXPath = args.get("prefixDef");
-	if (prefixDefXPath == null) {
-	    throw new ExtensionException("Error: 'prefixDef' not set for "
-					 + getClass().getCanonicalName());
-	}
-
-	// get XPath for getting the href out of replacement pattern
-	String hrefXPath = args.getOrDefault("prefixDefRef", DEFAULT_REF_XPATH);
-
-	// store namespace context declaration
-	if (args.get("namespaces") != null) {
-	    namespaceDecl = new NamespaceContextImpl(args.get("namespaces"));
-	} else {
-	    throw new ExtensionException("Argument 'namespaces' is required");
-	}
-	
 	// get url from prefixDef
 	String ident = null;
 	String href = null;
@@ -187,7 +191,7 @@ public class LabelledEntriesFromXMLByPrefixDef
 		document = builder.parse(inputSource);
 		inputStream.close();
 	    } catch (MalformedURLException e) {
-		throw new ExtensionException("Error opening URL " + args.get("url") + "\n" + e);
+		throw new ExtensionException("Error opening URL " + arguments.get("url") + "\n" + e);
 	    } catch (TransformerException e) {
 		throw new ExtensionException(e);
 	    } catch (ParserConfigurationException e) {
@@ -202,21 +206,6 @@ public class LabelledEntriesFromXMLByPrefixDef
 	}
 
 	prefix = ident + ":";
-
-	selectionXPath = args.get("selection");
-	if (selectionXPath == null) {
-	    throw new ExtensionException("Argument 'selection' is required");
-	}
-	keyXPath = args.get("key");
-	if (keyXPath == null) {
-	    throw new ExtensionException("Argument 'key' is required");
-	}
-	labelXPath = args.get("label");
-	if (labelXPath == null) {
-	    throw new ExtensionException("Argument 'label' is required");
-	}
-
-	arguments = args;
 
     }
 

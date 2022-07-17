@@ -22,6 +22,12 @@ public class OxbyteiConstants {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(OxbyteiConstants.class);
 
+    public static final String DEFAULT_SELECTION_DIALOG =
+	"de.wwu.scdh.teilsp.ui.EditableComboBoxSelectDialog";
+
+    public static final String DEFAULT_LABELLED_ENTRIES_PROVIDER =
+	"de.wwu.scdh.teilsp.extensions.LabelledEntriesFromXML";
+
     public static final String DOCUMENT_XPATH = "root(/)";
 
     public static final String CONTEXT_XPATH =

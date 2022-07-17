@@ -11,7 +11,6 @@
 package de.wwu.scdh.oxbytei.commons;
 
 import java.awt.Frame;
-import java.net.URL;
 import java.util.Map;
 import java.util.List;
 import java.util.ArrayList;
@@ -19,20 +18,23 @@ import java.util.Arrays;
 
 import org.bbaw.telota.ediarum.InsertRegisterDialog;
 
+import de.wwu.scdh.teilsp.exceptions.ConfigurationException;
 import de.wwu.scdh.teilsp.services.extensions.ILabelledEntriesProvider;
 import de.wwu.scdh.teilsp.services.extensions.LabelledEntry;
 import de.wwu.scdh.teilsp.services.extensions.ExtensionException;
 import de.wwu.scdh.teilsp.ui.ISelectionDialog;
+import de.wwu.scdh.teilsp.services.extensions.ArgumentDescriptor;
 
 
 public class EdiarumSelectionDialog
     implements ISelectionDialog {
 
-    Frame frame;
-    boolean MULTIPLE = true;
-    String title;
-    List<String> currentValue, result;
-    List<ILabelledEntriesProvider> providers;
+    private Frame frame;
+    private boolean MULTIPLE = true;
+    private String title;
+    private List<String> currentValue, result;
+    private List<ILabelledEntriesProvider> providers;
+    private Map<String, String> arguments;
 
     public EdiarumSelectionDialog() {
 	frame = new Frame();
@@ -42,12 +44,25 @@ public class EdiarumSelectionDialog
 	this.frame = frame;
     }
 
-    public void init(Map<String, String> arguments) {
-	if (arguments.containsKey("title")) {
-	    title = arguments.get("title");
-	} else {
-	    title = "Select";
-	}
+    private static final ArgumentDescriptor<String> ARGUMENT_TITLE =
+	ISelectionDialog.ARGUMENT_TITLE;
+
+    private static final ArgumentDescriptor<?>[] ARGUMENTS = new ArgumentDescriptor<?>[] {
+	ARGUMENT_TITLE
+	    };
+
+    public ArgumentDescriptor<?>[] getArgumentDescriptor() {
+	return ARGUMENTS;
+    }
+
+    public void init(Map<String, String> arguments)
+	throws ConfigurationException {
+	this.arguments = arguments;
+	title = ARGUMENT_TITLE.getValue(arguments);
+    }
+
+    public Map<String, String> getArguments() {
+	return arguments;
     }
 
     public void setup(List<String> currentVal,

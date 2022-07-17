@@ -1,7 +1,6 @@
 package de.wwu.scdh.oxbytei;
 
 import java.awt.Frame;
-import java.lang.reflect.InvocationTargetException;
 import java.net.URL;
 import java.net.MalformedURLException;
 import java.util.ArrayList;
@@ -10,7 +9,6 @@ import java.util.List;
 import java.util.HashMap;
 import java.util.Map;
 import javax.xml.transform.URIResolver;
-//import java.nio.file.ProviderNotFoundException;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,9 +25,8 @@ import ro.sync.ecss.extensions.api.AuthorConstants;
 import de.wwu.scdh.teilsp.config.EditorVariablesExpander;
 import de.wwu.scdh.teilsp.exceptions.ConfigurationException;
 import de.wwu.scdh.teilsp.services.extensions.ILabelledEntriesProvider;
-import de.wwu.scdh.teilsp.services.extensions.LabelledEntriesLoader;
+import de.wwu.scdh.teilsp.services.extensions.ConfiguredPluginLoader;
 import de.wwu.scdh.teilsp.services.extensions.ExtensionException;
-import de.wwu.scdh.teilsp.services.extensions.SelectionDialogLoader;
 import de.wwu.scdh.oxbytei.commons.EditorVariablesExpanderImpl;
 import de.wwu.scdh.oxbytei.commons.WSDocumentReader;
 import de.wwu.scdh.oxbytei.commons.DocumentReaderException;
@@ -218,18 +215,28 @@ public class SelectLabelledEntryInteraction
 
 	LOGGER.debug("Loading providers for {} {} on context {}", nodeType, nodeName, context);
 	providers = new ArrayList<ILabelledEntriesProvider>();
-	providers = LabelledEntriesLoader.providersForContext
+	ConfiguredPluginLoader<ILabelledEntriesProvider> providerLoader =
+	    new ConfiguredPluginLoader<ILabelledEntriesProvider>
+	    (ILabelledEntriesProvider.class, OxbyteiConstants.DEFAULT_LABELLED_ENTRIES_PROVIDER);
+	providers = providerLoader.providersForContext
 	    (document,
-	     currentFileURL.toString(),
 	     context,
 	     nodeType,
 	     nodeName,
-	     uriResolver,
-	     entityResolver,
 	     null,
 	     configFile,
 	     expander);
 
+	// setup each provider
+	for (ILabelledEntriesProvider provider : providers) {
+	    provider.setup
+		(uriResolver,
+		 entityResolver,
+		 document,
+		 currentFileURL.toString(),
+		 context);
+	}
+	
 	providersCount = providers.size();
 	return providersCount;
     }
@@ -247,8 +254,6 @@ public class SelectLabelledEntryInteraction
 	String rollbackOnCancelString =
 	    OperationArgumentValidator.validateStringArgument(ARGUMENT_ROLLBACK_ON_CANCEL.getName(), arguments);
 	boolean rollbackOnCancel = rollbackOnCancelString.equals(AuthorConstants.ARG_VALUE_TRUE);
-	String message =
-	    OperationArgumentValidator.validateStringArgument(ARGUMENT_MESSAGE.getName(), arguments);
 	String iconString =
 	    OperationArgumentValidator.validateStringArgument(ARGUMENT_ICON.getName(), arguments);
 	URL icon;
@@ -274,7 +279,7 @@ public class SelectLabelledEntryInteraction
 	}
 
 	// get the dialog
-	ISelectionDialog dialogView;
+	ISelectionDialog dialogView, dialogViewWithoutFrame;
 	if (providersCount == 0) {
 	    // use fallback dialog
 	    // TODO: this prevents us from configuring dialogs in
@@ -282,28 +287,34 @@ public class SelectLabelledEntryInteraction
 	    dialogView = fallbackDialog();
 	} else {
 	    LOGGER.debug("Loading providers for {} {} on context {}", nodeType, nodeName, context);
-	    List<ISelectionDialog> dialogs = new ArrayList<ISelectionDialog>();
-	    dialogs = SelectionDialogLoader.providersForContext
+	    List<ISelectionDialog> dialogs;
+	    ConfiguredPluginLoader<ISelectionDialog> dialogLoader =
+		new ConfiguredPluginLoader<ISelectionDialog>
+		(ISelectionDialog.class, OxbyteiConstants.DEFAULT_SELECTION_DIALOG);
+	    dialogs = dialogLoader.providersForContext
 		(document,
-		 currentFileURL.toString(),
 		 context,
 		 nodeType,
 		 nodeName,
-		 uriResolver,
-		 entityResolver,
 		 null,
 		 configFile,
-		 frame,
 		 expander);
+
 	    if (dialogs.size() == 0) {
 		dialogView = fallbackDialog();
 	    } else {
 		// we take the first dialog found in the config
-		dialogView = dialogs.get(0);
+		dialogViewWithoutFrame = dialogs.get(0);
+
+		// reinstantiate because we have to pass the frame to the constructor
+		dialogView = ISelectionDialog.reinstantiate(dialogViewWithoutFrame, frame);
+		dialogView.init(dialogViewWithoutFrame.getArguments());
+
 		// TODO: should we dispose all plugins or does GC the job?
 	    }
 	}
 
+	
 	// envoke the dialog and get the selection/input
 	List<String> selected;
 	dialogView.setup(currentSelection, providers);
@@ -341,9 +352,12 @@ public class SelectLabelledEntryInteraction
 	throws ConfigurationException, ExtensionException {
 	ISelectionDialog dialog, dialogView;
 	try {
-	    dialog = SelectionDialogLoader.provider();
-	    Class dialogClass = dialog.getClass();
-	    dialogView = (ISelectionDialog) dialogClass.getDeclaredConstructor(Frame.class).newInstance(frame);
+	    ConfiguredPluginLoader<ISelectionDialog> dialogLoader =
+		new ConfiguredPluginLoader<ISelectionDialog>
+		(ISelectionDialog.class, OxbyteiConstants.DEFAULT_SELECTION_DIALOG);
+	    dialog = dialogLoader.provider();
+
+	    dialogView = ISelectionDialog.reinstantiate(dialog, frame);
 
 	    Map<String, String> arguments = new HashMap<String, String>();
 	    arguments.put("title", "New value");
@@ -352,28 +366,8 @@ public class SelectLabelledEntryInteraction
 	} catch (ProviderNotFoundException e) {
 	    throw new ConfigurationException
 		("Default dialog view "
-		 + SelectionDialogLoader.DEFAULT_PROVIDER
+		 + OxbyteiConstants.DEFAULT_SELECTION_DIALOG
 		 + " not found");
-	} catch (InstantiationException e) {
-	    throw new ExtensionException
-		("Error instantiating user dialog class "
-		 + SelectionDialogLoader.DEFAULT_PROVIDER
-		 + "\n\n" + e);
-	} catch (IllegalAccessException e) {
-	    throw new ExtensionException
-		("Error accessing user dialog class "
-		 + SelectionDialogLoader.DEFAULT_PROVIDER
-		 + "\n\n" + e);
-	} catch (NoSuchMethodException e) {
-	    throw new ExtensionException
-		("Error loading dialog class "
-		 + SelectionDialogLoader.DEFAULT_PROVIDER
-		 + "\n\n" + e);
-	} catch (InvocationTargetException e) {
-	    throw new ExtensionException
-		("Error loading dialog class "
-		 + SelectionDialogLoader.DEFAULT_PROVIDER
-		 + "\n\n" + e);
 	}
 
 	// TODO dispose dialog
