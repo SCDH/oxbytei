@@ -3,8 +3,8 @@
                xmlns:xt="http://www.oxygenxml.com/ns/extension"
                xsi:schemaLocation="http://www.oxygenxml.com/ns/extension http://www.oxygenxml.com/ns/extension/extensions.xsd">
    <xt:extension id="oxbytei">
-      <xt:location href="https://github.com/SCDH/oxbytei/releases/download/0.12.0/oxbytei-0.12.0-package.zip"/>
-      <xt:version>0.12.0</xt:version>
+      <xt:location href="https://github.com/SCDH/oxbytei/releases/download/0.13.0/oxbytei-0.13.0-package.zip"/>
+      <xt:version>0.13.0</xt:version>
       <xt:oxy_version>23.1+</xt:oxy_version>
       <xt:type>framework</xt:type>
       <xt:author>Christian Lück</xt:author>
@@ -20,7 +20,7 @@
 									developed at SCDH, Westfälische Wilhelms-Universität Münster. It
 									is configured by the document's header and offers high level
 									functions.</p>
-                  <p>Visit the <a href="https://github.com/SCDH/oxbytei/releases/tag/0.12.0">release page</a> to see what's new.</p>
+                  <p>Visit the <a href="https://github.com/SCDH/oxbytei/releases/tag/0.13.0">release page</a> to see what's new.</p>
                   <p>Copyright (c) 2021, 2022 Christian Lück</p>
                   <p>This program is free software: you can redistribute it and/or
 									modify it under the terms of the GNU General Public License as
