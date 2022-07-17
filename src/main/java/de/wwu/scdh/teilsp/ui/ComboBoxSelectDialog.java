@@ -37,6 +37,8 @@ import javax.swing.SwingConstants;
 import de.wwu.scdh.teilsp.services.extensions.ILabelledEntriesProvider;
 import de.wwu.scdh.teilsp.services.extensions.LabelledEntry;
 import de.wwu.scdh.teilsp.services.extensions.ExtensionException;
+import de.wwu.scdh.teilsp.services.extensions.ArgumentDescriptor;
+
 
 
 /**
@@ -65,6 +67,25 @@ public class ComboBoxSelectDialog
     public ComboBoxSelectDialog(Frame frame) {
 	super(frame, true);
     }
+
+    private static final ArgumentDescriptor<String> ARGUMENT_TITLE =
+	ISelectionDialog.ARGUMENT_TITLE;
+
+    private static final ArgumentDescriptor<URL> ARGUMENT_ICON =
+	ISelectionDialog.ARGUMENT_ICON;
+
+    public Map<String, String> getArguments() {
+	return arguments;
+    }
+
+    private static final ArgumentDescriptor<?>[] ARGUMENTS = new ArgumentDescriptor<?>[] {
+	ARGUMENT_TITLE,
+	    ARGUMENT_ICON
+	    };
+    
+    public ArgumentDescriptor<?>[] getArgumentDescriptor() {
+	return ARGUMENTS;
+    }	
 
     public void init(Map<String, String> arguments) {
 	this.arguments = arguments;
@@ -103,10 +124,6 @@ public class ComboBoxSelectDialog
 		dispose();
             }
        });
-    }
-
-    public Map<String, String> getArguments() {
-	return arguments;
     }
 
     public void setup(List<String> currentVal,

@@ -9,6 +9,10 @@ import de.wwu.scdh.teilsp.services.extensions.ExtensionException;
 import de.wwu.scdh.teilsp.services.extensions.ILabelledEntriesProvider;
 import de.wwu.scdh.teilsp.services.extensions.ConfigurablePlugin;
 
+import de.wwu.scdh.teilsp.services.extensions.ArgumentDescriptor;
+import de.wwu.scdh.teilsp.services.extensions.ArgumentDescriptorImpl;
+import de.wwu.scdh.teilsp.services.extensions.URLArgumentDescriptor;
+
 
 /**
  * {@link ISelectionDialog} is an interface for user dialogues which
@@ -84,5 +88,21 @@ public interface ISelectionDialog extends ConfigurablePlugin {
 	}
 	return dialogView;
     }
+
+    /**
+     * An argument descriptor usually needed.
+     */
+    public static final ArgumentDescriptor<String> ARGUMENT_TITLE =
+	new ArgumentDescriptorImpl<String>
+	(String.class, "title", "The title or message that is shown on the dialog",
+	 "Select an item");
+
+    /**
+     * An argument descriptor usually needed.
+     */
+    public static final URLArgumentDescriptor ARGUMENT_ICON =
+	new URLArgumentDescriptor
+	("icon", "The icon that is shown on the dialog",
+	 null);
 
 }
