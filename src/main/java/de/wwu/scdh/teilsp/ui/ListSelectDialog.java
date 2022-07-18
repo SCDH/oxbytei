@@ -33,6 +33,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.SwingConstants;
+import javax.swing.ListSelectionModel;
 
 import static ca.odell.glazedlists.swing.GlazedListsSwing.eventListModelWithThreadProxyList;
 import ca.odell.glazedlists.BasicEventList;
@@ -66,6 +67,7 @@ public class ListSelectDialog
     protected JPanel comboBoxes;
     protected Map<String, String> arguments;
     protected JList<LabelledEntry> jList;
+    protected boolean isMultipleAllowed;
 
 
     public ListSelectDialog() {
@@ -82,13 +84,17 @@ public class ListSelectDialog
     private static final ArgumentDescriptor<URL> ARGUMENT_ICON =
 	ISelectionDialog.ARGUMENT_ICON;
 
+    private static final ArgumentDescriptor<Boolean> ARGUMENT_MULTIPLE =
+	ISelectionDialog.ARGUMENT_MULTIPLE;
+
     public Map<String, String> getArguments() {
 	return arguments;
     }
 
     private static final ArgumentDescriptor<?>[] ARGUMENTS = new ArgumentDescriptor<?>[] {
 	ARGUMENT_TITLE,
-        ARGUMENT_ICON};
+	ARGUMENT_ICON,
+	ARGUMENT_MULTIPLE};
 
     public ArgumentDescriptor<?>[] getArgumentDescriptor() {
 	return ARGUMENTS;
@@ -107,6 +113,7 @@ public class ListSelectDialog
 	    label = new JLabel(title);
 	}
 
+
 	setTitle(title);
 	setLocationRelativeTo(null);
 	setDefaultCloseOperation(DISPOSE_ON_CLOSE);
@@ -117,13 +124,15 @@ public class ListSelectDialog
 	getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0),
 			"Escape");
 	getRootPane().getActionMap().put("Escape", new AbstractAction()
-        {
-            public void actionPerformed(ActionEvent e)
-            {
-		selection = null;
-		dispose();
-            }
-       });
+	    {
+		public void actionPerformed(ActionEvent e)
+		{
+		    selection = null;
+		    dispose();
+		}
+	    });
+
+	isMultipleAllowed = ARGUMENT_MULTIPLE.getValue(arguments);
     }
 
     public void setup(List<String> currentVal,
@@ -240,6 +249,11 @@ public class ListSelectDialog
 	jList = new JList<LabelledEntry>(listModel);
 	jList.setSelectedIndices(selectedIndices);
 	jList.setCellRenderer(new LabelledEntryListCellRenderer());
+	if (isMultipleAllowed) {
+	    jList.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+	} else {
+	    jList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+	}
 	comboBoxes.add(jList);
     }
 
