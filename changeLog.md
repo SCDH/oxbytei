@@ -1,5 +1,16 @@
 # Change log #
 
+## 0.13.1
+
+- plugin `de.wwu.scdh.teilsp.extensions.LabelledEntriesXQuery` calls a
+  function from XQuery script, not the whole script. This makes
+  developing and debugging XQuery much easier.
+  - The name of the function is configurable (local name, prefix and
+	namespace), defaults to
+	`Q{http://scdh.wwu.de/oxbytei}generate-entries`.
+  - The arity of the function must be 0.
+  - The return value must be `map(xs:string, xs:string)*`.
+
 ## 0.13.0
 
 - **changes of API**:

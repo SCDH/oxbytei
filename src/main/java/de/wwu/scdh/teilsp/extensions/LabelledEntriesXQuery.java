@@ -19,6 +19,7 @@ import org.slf4j.LoggerFactory;
 import de.wwu.scdh.teilsp.exceptions.ConfigurationException;
 import de.wwu.scdh.teilsp.services.extensions.ILabelledEntriesProvider;
 import de.wwu.scdh.teilsp.services.extensions.ArgumentDescriptor;
+import de.wwu.scdh.teilsp.services.extensions.ArgumentDescriptorImpl;
 import de.wwu.scdh.teilsp.services.extensions.BooleanArgumentDescriptor;
 import de.wwu.scdh.teilsp.services.extensions.URLArgumentDescriptor;
 import de.wwu.scdh.teilsp.services.extensions.ArgumentsExtractor;
@@ -62,6 +63,25 @@ public class LabelledEntriesXQuery
 	 + " Defaults to true",
 	 true);
 
+    private static final ArgumentDescriptor<String> ARGUMENT_FUNCTION_LNAME =
+	new ArgumentDescriptorImpl<String>
+	(String.class, "functionLName",
+	 "Local name of the XQuery function to call for generating the entries.",
+	 "generate-entries");
+
+    private static final ArgumentDescriptor<String> ARGUMENT_FUNCTION_PREFIX =
+	new ArgumentDescriptorImpl<String>
+	(String.class, "functionPrefix",
+	 "Prefix to the name of the XQuery function to call for generating the entries.",
+	 "obt");
+
+    private static final ArgumentDescriptor<String> ARGUMENT_FUNCTION_NAMESPACE =
+	new ArgumentDescriptorImpl<String>
+	(String.class, "functionNamespace",
+	 "Namespace name of the XQuery function to call for generating the entries.",
+	 "http://scdh.wwu.de/oxbytei");
+
+
     /**
      * The array of arguments, this author operation takes.
      */
@@ -69,7 +89,10 @@ public class LabelledEntriesXQuery
 	ARGUMENT_XQUERY,
 	ARGUMENT_EXTERNAL,
         ARGUMENT_FAIL_EMPTY_KEY,
-	ARGUMENT_DROP_EMPTY_KEYS};
+	ARGUMENT_DROP_EMPTY_KEYS,
+	ARGUMENT_FUNCTION_LNAME,
+	ARGUMENT_FUNCTION_PREFIX,
+	ARGUMENT_FUNCTION_NAMESPACE};
 
     public ArgumentDescriptor<?>[] getArgumentDescriptor() {
 	return ARGUMENTS;
@@ -82,6 +105,8 @@ public class LabelledEntriesXQuery
     protected Map<String, String> external;
     protected boolean failOnEmptyKey;
     protected boolean dropEmptyKeys;
+    protected String functionLName, functionPrefix, functionNamespace;
+    protected QName functionQName;
 
     public void init(Map<String, String> arguments)
 	throws ConfigurationException {
@@ -90,6 +115,11 @@ public class LabelledEntriesXQuery
 	external = ARGUMENT_EXTERNAL.getValue(arguments);
 	dropEmptyKeys = ARGUMENT_DROP_EMPTY_KEYS.getValue(arguments);
 	failOnEmptyKey = ARGUMENT_FAIL_EMPTY_KEY.getValue(arguments);
+	functionLName = ARGUMENT_FUNCTION_LNAME.getValue(arguments);
+	functionPrefix = ARGUMENT_FUNCTION_PREFIX.getValue(arguments);
+	functionNamespace = ARGUMENT_FUNCTION_NAMESPACE.getValue(arguments);
+
+	functionQName = new QName(functionPrefix, functionNamespace, functionLName);
 
 	// we can setup the XQuery evaluator
 	Processor proc = new Processor(false);
@@ -128,7 +158,9 @@ public class LabelledEntriesXQuery
 
 	XdmValue result;
 	try {
-	    result = qe.evaluate();
+	    //result = qe.evaluate();
+	    XdmValue[] params = new XdmValue[] {}; // empty array of function parameters
+	    result = qe.callFunction(functionQName, params);
 	} catch (SaxonApiException e) {
 	    throw new ExtensionException(e);
 	}
