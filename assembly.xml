@@ -49,6 +49,7 @@
 		<include>ediarum-${ediarum.version}.jar</include>
 		<include>slf4j-api-${slf4j.version}.jar</include>
 		<include>slf4j-log4j12-${slf4j.version}.jar</include>
+		<include>glazedlists-1.11.0.jar</include>
 	    </includes>
 	</fileSet>
     </fileSets>
