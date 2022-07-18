@@ -63,9 +63,24 @@ documents.
   levels](https://www.youtube.com/watch?v=e8NwqN16p18&t=13m24s). You're
   able to write your own framework on top of oXbytei, which operates
   on top of TEI P5.
+- **Configurable user dialogs**: oXygen's `${ask(...)}` editor
+  variable lets you define only combo boxes and editable combo
+  boxes. With oXbytei you can simply declare by configuration which
+  type of dialog you want to have for a specific editing context,
+  e.g. a multiple select dialog for `@wit` on `<rdg>`. Dialogs are
+  plugins that implement an interface for communicating with plugins
+  that provide suggestions for content completion. There're combo
+  boxes, editable combo boxes, multi select dialogs based on check
+  boxes etc.
+- **Attribute editor**: These configurable dialogs are also used in a
+  generic schema-aware attribute editor.
 
 On the road map:
 
+- a plugin for getting content completion suggestions from RDF
+  endpoints
+- editor operations for generating RDF/OWL based annotations (see
+  branch `annotation-rdf`)
 - **Melt and cristallize anchors**: The anchors inserted for your
   double end-point attached apparatus, for your annotations or for
   other markup, will pollute your edited text. Melting is the process
@@ -74,11 +89,7 @@ On the road map:
   process of giving a referring element back its own anchors, after
   there was a melting. This is needed when a reference point to the
   edited text has to be moved.
-- **Update lemma**: The content of `<lem>` may become outdated, when
-  using a double end-point attached or location referenced apparatus.
-- **Metre**: Selecting `@met` based on `<metDecl>` and other things
-  related to lyrics.
-- exploit `<tagsDecl>` etc. 
+- exploit `<tagsDecl>` etc.
 - **Index**
 - ...
 
