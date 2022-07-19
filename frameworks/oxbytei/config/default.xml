@@ -167,6 +167,23 @@
     </properties>
 
     <plugins>
+
+        <plugin>
+            <class>de.wwu.scdh.oxbytei.extensions.SchemaAttributeValuesProvider</class>
+            <type>de.wwu.scdh.teilsp.services.extensions.ILabelledEntriesProvider</type>
+            <configurations>
+                <configuration>
+                    <conditions>
+                        <condition domain="context">true()</condition>
+                        <condition domain="priority">10</condition>
+                        <condition domain="nodeType">attributeValue</condition>
+                        <condition domain="nodeName">*</condition>
+                    </conditions>
+                    <arguments/>
+                </configuration>
+            </configurations>
+        </plugin>
+
         <plugin>
             <class>de.wwu.scdh.teilsp.extensions.LabelledEntriesFromXMLByPrefixDef</class>
             <type>de.wwu.scdh.teilsp.services.extensions.ILabelledEntriesProvider</type>
