@@ -9,6 +9,15 @@ public class ExtensionConfiguration {
     public static final String TEXT_NODE = "text";
     public static final String ATTRIBUTE_VALUE = "attributeValue";
 
+    /**
+     * An exhaustive array of node types.
+     */
+    public static final String[] NODE_TYPES = new String[] {
+	ELEMENT_NODE,
+	ATTRIBUTE_NODE,
+	TEXT_NODE,
+	ATTRIBUTE_VALUE};
+
     private String className;
     private String type;
     private List<ArgumentsConditionsPair> specification;
