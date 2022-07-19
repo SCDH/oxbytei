@@ -1,5 +1,9 @@
 # Change log #
 
+## dev
+
+- new list dialog for selecting singelton or multiple values
+
 ## 0.13.1
 
 - plugin `de.wwu.scdh.teilsp.extensions.LabelledEntriesXQuery` calls a
