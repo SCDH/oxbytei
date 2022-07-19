@@ -191,10 +191,15 @@ public class ConfiguredPluginLoader <T extends ConfigurablePlugin> {
 				// configured for attribute?
 				&& spec.getConditions().get("nodeType").equals(nodeType)
 				// matching attribute name?
-				&& spec.getConditions().get("nodeName").equals(nodeName)
+				&& (spec.getConditions().get("nodeName").equals(nodeName) ||
+				    // * wildcard on nodeName
+				    "*".equals(spec.getConditions().get("nodeName")))
 				) {
 				// we make a new instance of the map, because we might set some values of it
 				Map<String, String> arguments = new HashMap<String, String>(spec.getArguments());
+				// we always store nodeType and nodeName as special arguments
+				arguments.put(ConfigurablePlugin.SPECIAL_ARGUMENT_NODE_TYPE.getName(), nodeType);
+				arguments.put(ConfigurablePlugin.SPECIAL_ARGUMENT_NODE_NAME.getName(), nodeName);
 				// we make a new instance of the
 				// provider, because we do not want to
 				// configure the same several times.
