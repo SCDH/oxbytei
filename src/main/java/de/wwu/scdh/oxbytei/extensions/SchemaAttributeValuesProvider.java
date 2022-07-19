@@ -20,7 +20,7 @@ import de.wwu.scdh.teilsp.services.extensions.ExtensionException;
 import de.wwu.scdh.teilsp.services.extensions.LabelledEntry;
 import de.wwu.scdh.teilsp.services.extensions.ConfigurablePlugin;
 
-
+import de.wwu.scdh.oxbytei.commons.OxygenBasedSchemaProvider;
 import de.wwu.scdh.oxbytei.commons.StaticSchemaManager;
 
 
@@ -38,7 +38,7 @@ import de.wwu.scdh.oxbytei.commons.StaticSchemaManager;
  * avoid this.
  */
 public class SchemaAttributeValuesProvider
-    implements ILabelledEntriesProvider {
+    implements ILabelledEntriesProvider, OxygenBasedSchemaProvider {
 
     protected String nodeName;
 
