@@ -15,11 +15,10 @@ import ro.sync.contentcompletion.xml.CIValue;
 
 import de.wwu.scdh.teilsp.services.extensions.ILabelledEntriesProvider;
 import de.wwu.scdh.teilsp.services.extensions.ArgumentDescriptor;
-import de.wwu.scdh.teilsp.services.extensions.ArgumentDescriptorImpl;
 import de.wwu.scdh.teilsp.exceptions.ConfigurationException;
 import de.wwu.scdh.teilsp.services.extensions.ExtensionException;
 import de.wwu.scdh.teilsp.services.extensions.LabelledEntry;
-import de.wwu.scdh.teilsp.services.extensions.ConfiguredPluginLoader;
+import de.wwu.scdh.teilsp.services.extensions.ConfigurablePlugin;
 
 
 import de.wwu.scdh.oxbytei.commons.StaticSchemaManager;
@@ -32,22 +31,20 @@ import de.wwu.scdh.oxbytei.commons.StaticSchemaManager;
  *
  * This implements {@link ILabelledEntriesProvider} and should be
  * registered for the SPI.
+ *
+ * Note: Take care about not setting up infinite loops when this is
+ * combined with a SchemaManagerFilter. See the implementation of
+ * {@link de.wwu.scdh.oxbytei.OxbyteiSchemaManagerFilter} on how to
+ * avoid this.
  */
 public class SchemaAttributeValuesProvider
     implements ILabelledEntriesProvider {
 
     protected String nodeName;
 
-    private static final ArgumentDescriptor<String> ARGUMENT_NODE_NAME =
-	new ArgumentDescriptorImpl<String>
-	(String.class,
-	 // we use the special argument that's allways present!
-	 ConfiguredPluginLoader.SPECIAL_ARGUMENT_NODE_NAME,
-	 "The name of the attribute to get valid values for.");
-
     private static final ArgumentDescriptor<?>[] ARGUMENTS =
 	new ArgumentDescriptor<?>[] {
-	ARGUMENT_NODE_NAME};
+	ConfigurablePlugin.SPECIAL_ARGUMENT_NODE_NAME};
 
     public ArgumentDescriptor<?>[] getArgumentDescriptor () {
 	return ARGUMENTS;
@@ -55,16 +52,10 @@ public class SchemaAttributeValuesProvider
 
     private Map<String, String> arguments;
 
-    // public SchemaAttributeValuesProvider() {
-    // 	// nothing to do
-    // 	System.out.println(SchemaAttributeValuesProvider.class.toString());
-    // }
-
     public void init(Map<String, String> arguments)
 	throws ConfigurationException {
 	this.arguments = arguments;
-	nodeName = ARGUMENT_NODE_NAME.getValue(arguments);
-	System.out.println("SchemaAttributeValueProvider initialized for attribute " + nodeName);
+	nodeName = ConfigurablePlugin.SPECIAL_ARGUMENT_NODE_NAME.getValue(arguments);
     }
 
     public Map<String, String> getArguments() {
@@ -79,28 +70,18 @@ public class SchemaAttributeValuesProvider
 	 String context)
 	throws ExtensionException {
 	// nothing to do
-	System.out.println("setup() called");
     }
 
     public List<LabelledEntry> getLabelledEntries(String userInput) {
 	List<LabelledEntry> entries = new ArrayList<LabelledEntry>();
 
-	System.out.println("getLabelledEntries() called");
-
 	WSEditorPage page = StaticSchemaManager.getWsEditorPage();
 	if (WSAuthorEditorPage.class.isAssignableFrom(page.getClass())) {
 	    // we are in author mode
-	    System.out.println("in author mode");
-	    if (false) {
-		return entries;
-	    }
 	    List<CIValue> ciValues = StaticSchemaManager.whatPossibleValuesHasAttribute(nodeName);
-	    System.out.print("Number of allowed values from schema: ");
-	    System.out.println(ciValues.size());
 	    for (CIValue ciValue : ciValues) {
-		String label = ciValue.toString(); //+ "\t" + ciValue.getAnnotation();
+		String label = ciValue.toString() + "\t" + ciValue.getAnnotation();
 		LabelledEntry entry = new LabelledEntry(ciValue.toString(), label);
-		System.out.println(entry.getLabel());
 		entries.add(entry);
 	    }
 	} else if (WSXMLTextEditorPage.class.isAssignableFrom(page.getClass())) {
