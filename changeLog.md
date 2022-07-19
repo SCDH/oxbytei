@@ -3,6 +3,10 @@
 ## dev
 
 - new list dialog for selecting singelton or multiple values
+- new plugin that generates suggestions for attribute values from the
+  XML schema
+  - this was added to the default configuration and activated
+	everywhere
 
 ## 0.13.1
 
