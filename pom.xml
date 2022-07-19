@@ -112,6 +112,11 @@
             <version>5.7.2</version>
             <scope>test</scope>
         </dependency>
+	<dependency>
+	   <groupId>com.glazedlists</groupId>
+	   <artifactId>glazedlists</artifactId>
+	   <version>1.11.0</version>
+	</dependency>
     </dependencies>
 
     <build>
@@ -281,7 +286,7 @@
 			</goals>
 			<configuration>
 			    <outputDirectory>${project.build.directory}/lib</outputDirectory>
-			    <includeArtifactIds>slf4j-log4j12,slf4j-api</includeArtifactIds>
+			    <includeArtifactIds>slf4j-log4j12,slf4j-api,glazedlists</includeArtifactIds>
 			</configuration>
 		    </execution>
                 </executions>
