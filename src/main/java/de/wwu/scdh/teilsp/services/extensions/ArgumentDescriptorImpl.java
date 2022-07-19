@@ -46,6 +46,15 @@ public class ArgumentDescriptorImpl<T> implements ArgumentDescriptor<T> {
 	this.allowedValues = allowedValues;
     }
 
+    public ArgumentDescriptorImpl(Class<T> type, String name, String description, T[] allowedValues) {
+	this.name = name;
+	this.type = type;
+	this.description = description;
+	this.required = false;
+	this.defaultValue = null;
+	this.allowedValues = allowedValues;
+    }
+
     public String getName() {
 	return name;
     }
