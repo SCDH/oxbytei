@@ -1,37 +1,27 @@
-/**
- * LabelledEntry is a simple class that stores labelled entries from
- * an external file.
- *
- */
 package de.wwu.scdh.teilsp.services.extensions;
 
-public class LabelledEntry {
-    private final String label;
-    private final String key;
-
-    public LabelledEntry(String k, String l) {
-	key = k;
-	label = l;
-    }
+/**
+ * A {@link LabelledEntry} is basically a pair of key and label. The
+ * key is the technical value used in the XML file and the label is a
+ * human readable explanation about this value.
+ *
+ * Labelled entries are used e.g. for content completion.
+ */
+public interface LabelledEntry {
 
     /**
-     * If casting from String, this constructor is used.
+     * Get the key of the entry.
      */
-    public LabelledEntry(String k) {
-	key = k;
-	label = k;
-    }
+    public String getKey();
 
-    public String getKey() {
-	return key;
-    }
+    /**
+     * Get the label of the entry.
+     */
+    public String getLabel();
 
-    public String getLabel() {
-	return label;
-    }
+    /**
+     * This should even return the key of the entry.
+     */
+    public String toString();
 
-    @Override
-    public String toString() {
-	return key;
-    }
 }

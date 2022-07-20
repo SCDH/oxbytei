@@ -14,6 +14,7 @@ import de.wwu.scdh.teilsp.services.extensions.ExtensionException;
 import de.wwu.scdh.teilsp.services.extensions.ArgumentDescriptor;
 import de.wwu.scdh.teilsp.services.extensions.ArgumentDescriptorImpl;
 import de.wwu.scdh.teilsp.services.extensions.LabelledEntry;
+import de.wwu.scdh.teilsp.services.extensions.LabelledEntryImpl;
 
 
 public class LabelledEntriesFromConfig
@@ -63,7 +64,7 @@ public class LabelledEntriesFromConfig
 
 	int l = Math.min(keys.length, labels.length);
 	for (int i = 0; i < l; i++) {
-	    labelledEntries.add(new LabelledEntry(keys[i].trim(), labels[i].trim()));
+	    labelledEntries.add(new LabelledEntryImpl(keys[i].trim(), labels[i].trim()));
 	}
     }
 

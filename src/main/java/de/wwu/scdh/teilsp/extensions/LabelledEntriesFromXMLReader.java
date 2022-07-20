@@ -27,6 +27,7 @@ import org.xml.sax.SAXException;
 import de.wwu.scdh.teilsp.exceptions.DocumentReaderException;
 import de.wwu.scdh.teilsp.xml.NamespaceContextImpl;
 import de.wwu.scdh.teilsp.services.extensions.LabelledEntry;
+import de.wwu.scdh.teilsp.services.extensions.LabelledEntryImpl;
 import de.wwu.scdh.teilsp.services.extensions.ExtensionException;
 import de.wwu.scdh.teilsp.xpath.XPathUtil;
 
@@ -121,7 +122,7 @@ public class LabelledEntriesFromXMLReader {
 		    String label = xpath.evaluate(labelXPath, item);
 
 		    // store them away
-		    entries.add(new LabelledEntry(this.prefix + key, label));
+		    entries.add(new LabelledEntryImpl(this.prefix + key, label));
 		}
 	    } catch (XPathExpressionException e) {
 		throw new ExtensionException(e);
