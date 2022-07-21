@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+    xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:obt="http://scdh.wwu.de/oxbytei"
+    xmlns:map="http://www.w3.org/2005/xpath-functions/map" exclude-result-prefixes="xs obt map"
+    xpath-default-namespace="http://www.tei-c.org/ns/1.0" version="3.0">
+
+    <xsl:param name="witness-catalog" as="xs:string" select="'../../WitnessCatalogue.xml'"/>
+
+    <xsl:template name="obt:generate-entries" as="map(xs:string, xs:string)*">
+        <xsl:apply-templates select="doc($witness-catalog)//text//witness[@xml:id]" mode="entries"/>
+    </xsl:template>
+
+    <xsl:template match="witness" as="map(xs:string, xs:string)*" mode="entries">
+        <xsl:variable name="label" as="xs:string*">
+            <xsl:apply-templates mode="label"/>
+        </xsl:variable>
+        <xsl:sequence select="
+                map {
+                    'key': concat('#', @xml:id),
+                    'label': string-join($label, '') => normalize-space()
+                }"/>
+    </xsl:template>
+
+    <xsl:template match="*" mode="label">
+        <xsl:apply-templates mode="label"/>
+    </xsl:template>
+
+    <xsl:template match="text()" mode="label">
+        <xsl:value-of select="."/>
+    </xsl:template>
+
+</xsl:stylesheet>
