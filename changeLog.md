@@ -7,6 +7,7 @@
   XML schema
   - this was added to the default configuration and activated
 	everywhere
+- `LabelledEntry` is an interface now
 
 ## 0.13.1
 
