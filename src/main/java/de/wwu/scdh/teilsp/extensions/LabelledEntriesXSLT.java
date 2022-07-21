@@ -14,6 +14,7 @@ import org.xml.sax.EntityResolver;
 import org.w3c.dom.Document;
 
 import net.sf.saxon.s9api.*;
+import net.sf.saxon.Configuration;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -110,6 +111,7 @@ public class LabelledEntriesXSLT
     protected boolean dropEmptyKeys;
     protected String templateLName, templatePrefix, templateNamespace;
     protected QName templateQName;
+    protected Configuration saxonConfig = new SaxonConfiguration();
 
     public void init(Map<String, String> arguments)
 	throws ConfigurationException {
@@ -123,21 +125,6 @@ public class LabelledEntriesXSLT
 	templateNamespace = ARGUMENT_TEMPLATE_NAMESPACE.getValue(arguments);
 
 	templateQName = new QName(templatePrefix, templateNamespace, templateLName);
-
-	// we can setup the XSL transformer
-	Processor proc = new Processor(false);
-	XsltCompiler comp = proc.newXsltCompiler();
-	XsltExecutable exec;
-	try {
-	    InputStream scriptStream = script.openStream();
-	    StreamSource scriptSource = new StreamSource(scriptStream);
-	    exec = comp.compile(scriptSource);
-	    transformer = exec.load30();
-	} catch (SaxonApiException e) {
-	    throw new ConfigurationException(e);
-	} catch (IOException e) {
-	    throw new ConfigurationException(e);
-	}
 
 	// make a map of parameters
 	for (String key : parameters.keySet()) {
@@ -155,12 +142,29 @@ public class LabelledEntriesXSLT
 	 Document document,
 	 String systemId,
 	 String context) {
-	// nothing to do here
+	// use the URI resolver from the editor
+	saxonConfig.setURIResolver(uriResolver);
     }
 
     public List<LabelledEntry> getLabelledEntries(String userInput)
 	throws ExtensionException {
 	List<LabelledEntry> entries = new ArrayList<LabelledEntry>();
+
+	// setup the XSL transformer
+	Processor proc = new Processor(saxonConfig);
+	//saxonConfig = proc.getUnderlyingConfiguration();
+	XsltCompiler comp = proc.newXsltCompiler();
+	XsltExecutable exec;
+	try {
+	    InputStream scriptStream = script.openStream();
+	    StreamSource scriptSource = new StreamSource(scriptStream);
+	    exec = comp.compile(scriptSource);
+	    transformer = exec.load30();
+	} catch (SaxonApiException e) {
+	    throw new ExtensionException(e);
+	} catch (IOException e) {
+	    throw new ExtensionException(e);
+	}
 
 	XdmValue result;
 	try {
