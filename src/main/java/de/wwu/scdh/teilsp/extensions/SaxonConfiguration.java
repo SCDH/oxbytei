@@ -11,6 +11,7 @@ public class SaxonConfiguration extends Configuration {
 	super();
     }
 
-    // TODO: make xsl:evaluate available
+    // Note about xsl:evaluate
+    // In oxygen 23.1 this is not available, in 24.1 it is.
 
 }
