@@ -141,7 +141,8 @@ public class LabelledEntriesXSLT
 	 EntityResolver entityResolver,
 	 Document document,
 	 String systemId,
-	 String context) {
+	 String context)
+	throws ExtensionException {
 	// use the URI resolver from the editor
 	saxonConfig.setURIResolver(uriResolver);
     }
