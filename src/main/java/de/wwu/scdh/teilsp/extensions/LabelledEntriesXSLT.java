@@ -4,7 +4,6 @@ import java.io.InputStream;
 import java.io.IOException;
 import java.net.URL;
 import java.util.List;
-import java.util.ArrayList;
 import java.util.Map;
 import java.util.HashMap;
 import javax.xml.transform.URIResolver;
@@ -23,7 +22,6 @@ import de.wwu.scdh.teilsp.exceptions.ConfigurationException;
 import de.wwu.scdh.teilsp.services.extensions.ILabelledEntriesProvider;
 import de.wwu.scdh.teilsp.services.extensions.ArgumentDescriptor;
 import de.wwu.scdh.teilsp.services.extensions.ArgumentDescriptorImpl;
-import de.wwu.scdh.teilsp.services.extensions.BooleanArgumentDescriptor;
 import de.wwu.scdh.teilsp.services.extensions.URLArgumentDescriptor;
 import de.wwu.scdh.teilsp.services.extensions.ArgumentsExtractor;
 import de.wwu.scdh.teilsp.services.extensions.LabelledEntry;
@@ -39,6 +37,7 @@ import de.wwu.scdh.teilsp.services.extensions.ExtensionException;
  * faster and makes caching possible in the future.
  */
 public class LabelledEntriesXSLT
+    extends AbstractLabelledEntriesX
     implements ILabelledEntriesProvider {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(LabelledEntriesXSLT.class);
@@ -51,20 +50,6 @@ public class LabelledEntriesXSLT
 	("parameters",
 	 "External parameters passed into the XSL transformation.",
 	 new HashMap<String, String>());
-
-    private static final ArgumentDescriptor<Boolean> ARGUMENT_DROP_EMPTY_KEYS =
-	new BooleanArgumentDescriptor
-	("dropEmptyKeys",
-	 "Whether or not to drop entries with empty keys from the transformation result."
-	 + " Defaults to true",
-	 true);
-
-    private static final ArgumentDescriptor<Boolean> ARGUMENT_FAIL_EMPTY_KEY =
-	new BooleanArgumentDescriptor
-	("failOnEmptyKey",
-	 "Whether or not to fail when there are entries with empty keys in the XQuery result."
-	 + " Defaults to true",
-	 true);
 
     private static final ArgumentDescriptor<String> ARGUMENT_TEMPLATE_LNAME =
 	new ArgumentDescriptorImpl<String>
@@ -107,19 +92,16 @@ public class LabelledEntriesXSLT
     protected Xslt30Transformer transformer;
     protected Map<String, String> parameters;
     protected Map<QName, XdmValue> xdmParameters = new HashMap<QName, XdmValue>();
-    protected boolean failOnEmptyKey;
-    protected boolean dropEmptyKeys;
     protected String templateLName, templatePrefix, templateNamespace;
     protected QName templateQName;
     protected Configuration saxonConfig = new SaxonConfiguration();
 
     public void init(Map<String, String> arguments)
 	throws ConfigurationException {
+	super.init(arguments);
 	this.arguments = arguments;
 	script = ARGUMENT_SCRIPT.getValue(arguments);
 	parameters = ARGUMENT_PARAMETERS.getValue(arguments);
-	dropEmptyKeys = ARGUMENT_DROP_EMPTY_KEYS.getValue(arguments);
-	failOnEmptyKey = ARGUMENT_FAIL_EMPTY_KEY.getValue(arguments);
 	templateLName = ARGUMENT_TEMPLATE_LNAME.getValue(arguments);
 	templatePrefix = ARGUMENT_TEMPLATE_PREFIX.getValue(arguments);
 	templateNamespace = ARGUMENT_TEMPLATE_NAMESPACE.getValue(arguments);
@@ -149,7 +131,6 @@ public class LabelledEntriesXSLT
 
     public List<LabelledEntry> getLabelledEntries(String userInput)
 	throws ExtensionException {
-	List<LabelledEntry> entries = new ArrayList<LabelledEntry>();
 
 	// setup the XSL transformer
 	Processor proc = new Processor(saxonConfig);
@@ -176,29 +157,8 @@ public class LabelledEntriesXSLT
 	} catch (SaxonApiException e) {
 	    throw new ExtensionException(e);
 	}
-	XdmAtomicValue key = new XdmAtomicValue("key");
-	XdmAtomicValue label = new XdmAtomicValue("label");
-	// read the result
-	for (XdmItem item : result) {
-	    Map<XdmAtomicValue, XdmValue> keyValue = item.asMap();
-	    LabelledEntry entry =
-		new LabelledEntryImpl(keyValue.get(key).toString(),
-				      keyValue.get(label).toString());
-	    if (!failOnEmptyKey) {
-		entries.add(entry);
-	    } else {
-		if (null == entry.getKey() || "".equals(entry.getKey())) {
-		    if (dropEmptyKeys) {
-			LOGGER.info("Dropping entry with empty key. Label is: %s", entry.getLabel());
-		    } else {
-			entries.add(entry);
-		    }
-		} else {
-		    entries.add(entry);
-		}
-	    }
-	}
-	return entries;
+
+	return getEntries(result);
     }
 
 }
