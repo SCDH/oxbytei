@@ -63,7 +63,7 @@ public class LabelledEntriesFromConfig
 
 	int l = Math.min(keys.length, labels.length);
 	for (int i = 0; i < l; i++) {
-	    labelledEntries.add(new LabelledEntry(keys[i].trim(), labels[i].trim()));
+	    labelledEntries.add(new LabelledEntryImpl(keys[i].trim(), labels[i].trim()));
 	}
     }
 

@@ -169,8 +169,8 @@ public class LabelledEntriesXQuery
 	for (XdmItem item : result) {
 	    Map<XdmAtomicValue, XdmValue> keyValue = item.asMap();
 	    LabelledEntry entry =
-		new LabelledEntry(keyValue.get(key).toString(),
-				  keyValue.get(label).toString());
+		new LabelledEntryImpl(keyValue.get(key).toString(),
+				      keyValue.get(label).toString());
 	    if (!failOnEmptyKey) {
 		entries.add(entry);
 	    } else {

@@ -121,7 +121,7 @@ public class LabelledEntriesFromXMLReader {
 		    String label = xpath.evaluate(labelXPath, item);
 
 		    // store them away
-		    entries.add(new LabelledEntry(this.prefix + key, label));
+		    entries.add(new LabelledEntryImpl(this.prefix + key, label));
 		}
 	    } catch (XPathExpressionException e) {
 		throw new ExtensionException(e);

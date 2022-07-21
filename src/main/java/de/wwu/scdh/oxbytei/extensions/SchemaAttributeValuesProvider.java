@@ -18,6 +18,7 @@ import de.wwu.scdh.teilsp.services.extensions.ArgumentDescriptor;
 import de.wwu.scdh.teilsp.exceptions.ConfigurationException;
 import de.wwu.scdh.teilsp.services.extensions.ExtensionException;
 import de.wwu.scdh.teilsp.services.extensions.LabelledEntry;
+import de.wwu.scdh.teilsp.extensions.LabelledEntryImpl;
 import de.wwu.scdh.teilsp.services.extensions.ConfigurablePlugin;
 
 import de.wwu.scdh.oxbytei.commons.OxygenBasedSchemaProvider;
@@ -81,7 +82,7 @@ public class SchemaAttributeValuesProvider
 	    List<CIValue> ciValues = StaticSchemaManager.whatPossibleValuesHasAttribute(nodeName);
 	    for (CIValue ciValue : ciValues) {
 		String label = ciValue.toString() + "\t" + ciValue.getAnnotation();
-		LabelledEntry entry = new LabelledEntry(ciValue.toString(), label);
+		LabelledEntry entry = new LabelledEntryImpl(ciValue.toString(), label);
 		entries.add(entry);
 	    }
 	} else if (WSXMLTextEditorPage.class.isAssignableFrom(page.getClass())) {
