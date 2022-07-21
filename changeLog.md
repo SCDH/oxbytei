@@ -8,6 +8,16 @@
   - this was added to the default configuration and activated
 	everywhere
 - `LabelledEntry` is an interface now
+- new plugins for generating labelled entries
+  - `de.wwu.scdh.teilsp.extensions.LabelledEntriesXSLT` for generating
+    labelled entries via XSLT. This plugin does not get the current
+    editing context.
+  - `de.wwu.scdh.teilsp.extensions.LabelledEntriesXSLTWithContext` for
+    generating labelled entries via XSLT. This plugin passes the
+    document node and an XPath expression, that identifies the currently
+    edited node, as stylesheet parameters.
+  - the URI resolvers are passed to these plugins so that XML catalogs
+    are in force.
 
 ## 0.13.1
 
