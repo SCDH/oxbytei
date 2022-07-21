@@ -93,6 +93,7 @@ public class LabelledEntriesXQuery
 
     public void init(Map<String, String> arguments)
 	throws ConfigurationException {
+	super.init(arguments);
 	this.arguments = arguments;
 	xq = ARGUMENT_XQUERY.getValue(arguments);
 	external = ARGUMENT_EXTERNAL.getValue(arguments);
