@@ -3,4 +3,5 @@ de.wwu.scdh.teilsp.extensions.LabelledEntriesFromXMLByPrefixDef
 de.wwu.scdh.teilsp.extensions.LabelledEntriesFromConfig
 de.wwu.scdh.teilsp.extensions.LabelledEntriesXQuery
 de.wwu.scdh.teilsp.extensions.LabelledEntriesXSLT
+de.wwu.scdh.teilsp.extensions.LabelledEntriesXSLTWithContext
 de.wwu.scdh.oxbytei.extensions.SchemaAttributeValuesProvider
