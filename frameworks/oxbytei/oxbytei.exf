@@ -20,6 +20,7 @@ from the contextual menu.
     <addEntry path="${framework(oXbytei)}/slf4j-api-1.7.32.jar"/>
     <addEntry path="${framework(oXbytei)}/slf4j-log4j12-1.7.32.jar"/>
     <addEntry path="${framework(oXbytei)}/glazedlists-1.11.0.jar"/>
+    <addEntry path="${framework(oXbytei)}/commons-csv-1.9.0.jar"/>
   </classpath>
 
   <extensionPoints>
