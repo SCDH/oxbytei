@@ -3,10 +3,6 @@
 ## dev
 
 - new list dialog for selecting singelton or multiple values
-- new plugin that generates suggestions for attribute values from the
-  XML schema
-  - this was added to the default configuration and activated
-	everywhere
 - `LabelledEntry` is an interface now
 - new plugins for generating labelled entries
   - `de.wwu.scdh.teilsp.extensions.LabelledEntriesXSLT` for generating
@@ -16,8 +12,16 @@
     generating labelled entries via XSLT. This plugin passes the
     document node and an XPath expression, that identifies the currently
     edited node, as stylesheet parameters.
-  - the URI resolvers are passed to these plugins so that XML catalogs
-    are in force.
+    - the URI resolvers are passed to these plugins so that XML
+      catalogs are in force.
+  - `de.wwu.scdh.teilsp.extensions.LabelledEntryCSV` for generating
+    labelled entries from CSV data.
+    - CSV data may be in a variety of formats: CSV, TDF, Excel,
+      numerous database outfile formats
+  - `de.wwu.oxbytei.extensions.SchemaAttributeValuesProvider` for
+	generating suggestions for attribute values from the XML schema
+	- this was added to the default configuration and activated
+	  everywhere
 
 ## 0.13.1
 
