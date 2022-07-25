@@ -22,9 +22,18 @@ configuration file.
 
 ## Why to try ##
 
-Are you tired of framework development, where you define tons of
-author actions for setting attribute values and where you have to
-hard-code content into `${ask(...)}` or write nested
+Novice oXygen users: You want to customize a bit, e.g. provide a
+select box for an attribute like `rdg/@wit` and add some CSS. However,
+you don't want to invest into framework customization but stay with X
+technologies like XQuery or XSLT.
+
+Then the configurable plugin system of oXbytei will give you what you
+need and [oXbytao](https://github.com/scdh/oxbytao) will offer you
+simple CSS customization on a project/user basis.
+
+Experienced users: Are you tired of framework development, where you
+define tons of author actions for setting attribute values and where
+you have to hard-code content into `${ask(...)}` or write nested
 `${ask(...${xpath_eval(...)}...}` which are so complicated that you
 don't understand them any more on the next day? Or, are you sick of
 coding form components with hard-coded content or complex XPath
