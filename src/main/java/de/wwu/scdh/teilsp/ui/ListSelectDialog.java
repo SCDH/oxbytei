@@ -64,7 +64,7 @@ public class ListSelectDialog
     protected List<ILabelledEntriesProvider> providers;
     protected EventList<LabelledEntry> entriesEventList;
     protected JLabel label;
-    protected JPanel comboBoxes;
+    protected JPanel selectionComponent;
     protected Map<String, String> arguments;
     protected JList<LabelledEntry> jList;
     protected boolean isMultipleAllowed;
@@ -159,13 +159,13 @@ public class ListSelectDialog
 	cancel.addActionListener(this);
 
 	// a container for all our entries
-	comboBoxes = new JPanel();
-	comboBoxes.setLayout(new BoxLayout(comboBoxes, BoxLayout.Y_AXIS));
+	selectionComponent = new JPanel();
+	selectionComponent.setLayout(new BoxLayout(selectionComponent, BoxLayout.Y_AXIS));
 
 	setupSelectionComponent();
 
 	// put the check boxes into a scroll pane
-	JScrollPane entryScroller = new JScrollPane(comboBoxes);
+	JScrollPane entryScroller = new JScrollPane(selectionComponent);
 	//entryScroller.setMaximumSize(MAXIMUM_SIZE);
 	entryScroller.setAlignmentX(LEFT_ALIGNMENT);
 
@@ -254,7 +254,7 @@ public class ListSelectDialog
 	} else {
 	    jList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 	}
-	comboBoxes.add(jList);
+	selectionComponent.add(jList);
     }
 
     public List<String> getSelection() {
