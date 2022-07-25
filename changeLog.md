@@ -1,5 +1,12 @@
 # Change log #
 
+## 0.14.1
+
+- experimental dialog
+  `de.wwu.scdh.teilsp.ui.FilteringListSelectDialog`
+  - introduces filtering based on event list
+  - does not yet scroll to the selected item
+
 ## 0.14.0
 
 - new list dialog for selecting singelton or multiple values
