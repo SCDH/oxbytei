@@ -1,9 +1,8 @@
 # Change log #
 
-## dev
+## 0.14.0
 
 - new list dialog for selecting singelton or multiple values
-- `LabelledEntry` is an interface now
 - new plugins for generating labelled entries
   - `de.wwu.scdh.teilsp.extensions.LabelledEntriesXSLT` for generating
     labelled entries via XSLT. This plugin does not get the current
@@ -22,6 +21,11 @@
 	generating suggestions for attribute values from the XML schema
 	- this was added to the default configuration and activated
 	  everywhere
+- `LabelledEntry` is an interface now
+  - see `de.wwu.scdh.teilsp.extensions.LabelledEntryImpl` for an
+    implementation
+  - `LabelledEntryWithColumns` is an extension of this interface for
+    future implementations of column views etc.
 
 ## 0.13.1
 
