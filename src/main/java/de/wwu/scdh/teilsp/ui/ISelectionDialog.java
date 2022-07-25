@@ -11,6 +11,7 @@ import de.wwu.scdh.teilsp.services.extensions.ConfigurablePlugin;
 
 import de.wwu.scdh.teilsp.services.extensions.ArgumentDescriptor;
 import de.wwu.scdh.teilsp.services.extensions.ArgumentDescriptorImpl;
+import de.wwu.scdh.teilsp.services.extensions.BooleanArgumentDescriptor;
 import de.wwu.scdh.teilsp.services.extensions.URLArgumentDescriptor;
 
 
@@ -104,5 +105,14 @@ public interface ISelectionDialog extends ConfigurablePlugin {
 	new URLArgumentDescriptor
 	("icon", "The icon that is shown on the dialog",
 	 ISelectionDialog.class.getResource("/images/ask-24.png"));
+
+	/**
+     * An argument descriptor needed for some dialogs.
+     */
+    public static final ArgumentDescriptor<Boolean> ARGUMENT_MULTIPLE =
+	new BooleanArgumentDescriptor
+	("multiple",
+	 "Whether or not multiple selection is possible.",
+	 false);
 
 }

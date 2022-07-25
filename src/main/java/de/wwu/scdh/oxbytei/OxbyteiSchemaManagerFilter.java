@@ -22,6 +22,11 @@ import ro.sync.contentcompletion.xml.WhatAttributesCanGoHereContext;
 import ro.sync.contentcompletion.xml.WhatElementsCanGoHereContext;
 import ro.sync.contentcompletion.xml.WhatPossibleValuesHasAttributeContext;
 import ro.sync.exml.workspace.api.PluginWorkspaceProvider;
+import ro.sync.exml.workspace.api.PluginWorkspace;
+import ro.sync.exml.workspace.api.editor.page.WSEditorPage;
+//import ro.sync.exml.workspace.api.editor.page.author.WSAuthorEditorPage;
+import ro.sync.exml.workspace.api.editor.page.text.xml.WSXMLTextEditorPage;
+
 
 import de.wwu.scdh.teilsp.config.EditorVariablesExpander;
 import de.wwu.scdh.teilsp.services.extensions.ILabelledEntriesProvider;
@@ -31,6 +36,8 @@ import de.wwu.scdh.teilsp.services.extensions.ExtensionException;
 import de.wwu.scdh.teilsp.exceptions.ConfigurationException;
 import de.wwu.scdh.teilsp.config.ExtensionConfiguration;
 import de.wwu.scdh.oxbytei.commons.EditorVariablesExpanderImpl;
+import de.wwu.scdh.oxbytei.commons.OxygenBasedSchemaProvider;
+
 
 /**
  * A schema manager filter that provides the user with content
@@ -112,7 +119,7 @@ public class OxbyteiSchemaManagerFilter
 		     currentFileURL.toString(),
 		     ctx);
 	    }
-	    
+
 	    return providers;
 	} catch (MalformedURLException e) {
 	    LOGGER.error("Path to current edited file is not a valid URL: {}", context.getSystemID());
@@ -127,37 +134,57 @@ public class OxbyteiSchemaManagerFilter
 
     }
 
+    private static WSEditorPage getWsEditorPage() {
+	// we can get a schema manager either in text mode or in author mode
+	PluginWorkspace ws = PluginWorkspaceProvider.getPluginWorkspace();
+	WSEditorPage page = ws.getCurrentEditorAccess(PluginWorkspace.MAIN_EDITING_AREA).getCurrentPage();
+	return page;
+    }
+
+
     @Override
     public List<CIValue> filterAttributeValues(List<CIValue> list, WhatPossibleValuesHasAttributeContext context) {
 
-	// get some relevant context information
-	String attributeName = context.getAttributeName();
-	String alreadyTyped = context.getCurrentValuePrefix();
+	// only for text mode
+	if (WSXMLTextEditorPage.class.isAssignableFrom(getWsEditorPage().getClass())) {
+	    // get some relevant context information
+	    String attributeName = context.getAttributeName();
+	    String alreadyTyped = context.getCurrentValuePrefix();
 
-	List<ILabelledEntriesProvider> providers =
-	    providersForContext(context, ExtensionConfiguration.ATTRIBUTE_VALUE, attributeName);
+	    List<ILabelledEntriesProvider> providers =
+		providersForContext(context, ExtensionConfiguration.ATTRIBUTE_VALUE, attributeName);
 
-	List<CIValue> suggestions = new ArrayList<CIValue>();
-	for (ILabelledEntriesProvider provider : providers) {
-	    try {
-		List<LabelledEntry> entries = provider.getLabelledEntries(alreadyTyped);
-		for (LabelledEntry entry : entries) {
-		    suggestions.add(new CIValue(entry.getKey(), entry.getLabel()));
+	    List<CIValue> suggestions = new ArrayList<CIValue>();
+	    for (ILabelledEntriesProvider provider : providers) {
+		if (OxygenBasedSchemaProvider.class.isAssignableFrom(provider.getClass())) {
+		    // we filter out all plugins based on oxygen
+		    // schema manager because asking them for
+		    // suggestions would result in an infinite loop.
+		    continue;
 		}
-	    } catch (ExtensionException e) {
-		LOGGER.error("Error getting values from plugin {}:\n{}",
-			     provider.getClass().getCanonicalName(), e);
+		try {
+		    List<LabelledEntry> entries = provider.getLabelledEntries(alreadyTyped);
+		    for (LabelledEntry entry : entries) {
+			suggestions.add(new CIValue(entry.getKey(), entry.getLabel()));
+		    }
+		} catch (ExtensionException e) {
+		    LOGGER.error("Error getting values from plugin {}:\n{}",
+				 provider.getClass().getCanonicalName(), e);
+		}
 	    }
+	    suggestions.addAll(list);
+
+	    // // Dummy implementation
+	    // suggestions.add(new CIValue("Hello", "There is a description.\n\n"
+	    // 			    + contextXPath
+	    // 			    + "\n\nYou typed: "
+	    // 			    + alreadyTyped));
+
+	    return suggestions;
+	} else {
+	    // in all other modes we do not add suggestions from the plugins
+	    return list;
 	}
-	suggestions.addAll(list);
-
-	// // Dummy implementation
-	// suggestions.add(new CIValue("Hello", "There is a description.\n\n"
-	// 			    + contextXPath
-	// 			    + "\n\nYou typed: "
-	// 			    + alreadyTyped));
-
-	return suggestions;
     }
 
     @Override
@@ -174,5 +201,5 @@ public class OxbyteiSchemaManagerFilter
     public List<CIValue> filterElementValues(final List<CIValue> list, final Context context) {
         return list;
     }
-    
+
 }

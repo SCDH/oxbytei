@@ -26,7 +26,7 @@ public class OxbyteiConstants {
 	"de.wwu.scdh.teilsp.ui.EditableComboBoxSelectDialog";
 
     public static final String DEFAULT_LABELLED_ENTRIES_PROVIDER =
-	"de.wwu.scdh.teilsp.extensions.LabelledEntriesFromXML";
+	"de.wwu.scdh.oxbytei.extensions.SchemaAttributeValuesProvider";
 
     public static final String DOCUMENT_XPATH = "root(/)";
 

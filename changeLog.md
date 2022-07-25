@@ -1,5 +1,32 @@
 # Change log #
 
+## 0.14.0
+
+- new list dialog for selecting singelton or multiple values
+- new plugins for generating labelled entries
+  - `de.wwu.scdh.teilsp.extensions.LabelledEntriesXSLT` for generating
+    labelled entries via XSLT. This plugin does not get the current
+    editing context.
+  - `de.wwu.scdh.teilsp.extensions.LabelledEntriesXSLTWithContext` for
+    generating labelled entries via XSLT. This plugin passes the
+    document node and an XPath expression, that identifies the currently
+    edited node, as stylesheet parameters.
+    - the URI resolvers are passed to these plugins so that XML
+      catalogs are in force.
+  - `de.wwu.scdh.teilsp.extensions.LabelledEntryCSV` for generating
+    labelled entries from CSV data.
+    - CSV data may be in a variety of formats: CSV, TDF, Excel,
+      numerous database outfile formats
+  - `de.wwu.oxbytei.extensions.SchemaAttributeValuesProvider` for
+	generating suggestions for attribute values from the XML schema
+	- this was added to the default configuration and activated
+	  everywhere
+- `LabelledEntry` is an interface now
+  - see `de.wwu.scdh.teilsp.extensions.LabelledEntryImpl` for an
+    implementation
+  - `LabelledEntryWithColumns` is an extension of this interface for
+    future implementations of column views etc.
+
 ## 0.13.1
 
 - plugin `de.wwu.scdh.teilsp.extensions.LabelledEntriesXQuery` calls a

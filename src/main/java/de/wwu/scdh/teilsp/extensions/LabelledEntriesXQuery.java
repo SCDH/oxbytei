@@ -3,7 +3,6 @@ package de.wwu.scdh.teilsp.extensions;
 import java.io.IOException;
 import java.net.URL;
 import java.util.List;
-import java.util.ArrayList;
 import java.util.Map;
 import java.util.HashMap;
 import javax.xml.transform.URIResolver;
@@ -20,7 +19,6 @@ import de.wwu.scdh.teilsp.exceptions.ConfigurationException;
 import de.wwu.scdh.teilsp.services.extensions.ILabelledEntriesProvider;
 import de.wwu.scdh.teilsp.services.extensions.ArgumentDescriptor;
 import de.wwu.scdh.teilsp.services.extensions.ArgumentDescriptorImpl;
-import de.wwu.scdh.teilsp.services.extensions.BooleanArgumentDescriptor;
 import de.wwu.scdh.teilsp.services.extensions.URLArgumentDescriptor;
 import de.wwu.scdh.teilsp.services.extensions.ArgumentsExtractor;
 import de.wwu.scdh.teilsp.services.extensions.LabelledEntry;
@@ -36,6 +34,7 @@ import de.wwu.scdh.teilsp.services.extensions.ExtensionException;
  * faster and makes caching possible in the future.
  */
 public class LabelledEntriesXQuery
+    extends AbstractLabelledEntriesX
     implements ILabelledEntriesProvider {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(LabelledEntriesXQuery.class);
@@ -48,20 +47,6 @@ public class LabelledEntriesXQuery
 	("external",
 	 "External variables passed into the XQuery.",
 	 new HashMap<String, String>());
-
-    private static final ArgumentDescriptor<Boolean> ARGUMENT_DROP_EMPTY_KEYS =
-	new BooleanArgumentDescriptor
-	("dropEmptyKeys",
-	 "Whether or not to drop entries with empty keys from the XQuery result."
-	 + " Defaults to true",
-	 true);
-
-    private static final ArgumentDescriptor<Boolean> ARGUMENT_FAIL_EMPTY_KEY =
-	new BooleanArgumentDescriptor
-	("failOnEmptyKey",
-	 "Whether or not to fail when there are entries with empty keys in the XQuery result."
-	 + " Defaults to true",
-	 true);
 
     private static final ArgumentDescriptor<String> ARGUMENT_FUNCTION_LNAME =
 	new ArgumentDescriptorImpl<String>
@@ -103,18 +88,15 @@ public class LabelledEntriesXQuery
     protected URL xq;
     protected XQueryEvaluator qe;
     protected Map<String, String> external;
-    protected boolean failOnEmptyKey;
-    protected boolean dropEmptyKeys;
     protected String functionLName, functionPrefix, functionNamespace;
     protected QName functionQName;
 
     public void init(Map<String, String> arguments)
 	throws ConfigurationException {
+	super.init(arguments);
 	this.arguments = arguments;
 	xq = ARGUMENT_XQUERY.getValue(arguments);
 	external = ARGUMENT_EXTERNAL.getValue(arguments);
-	dropEmptyKeys = ARGUMENT_DROP_EMPTY_KEYS.getValue(arguments);
-	failOnEmptyKey = ARGUMENT_FAIL_EMPTY_KEY.getValue(arguments);
 	functionLName = ARGUMENT_FUNCTION_LNAME.getValue(arguments);
 	functionPrefix = ARGUMENT_FUNCTION_PREFIX.getValue(arguments);
 	functionNamespace = ARGUMENT_FUNCTION_NAMESPACE.getValue(arguments);
@@ -154,7 +136,6 @@ public class LabelledEntriesXQuery
 
     public List<LabelledEntry> getLabelledEntries(String userInput)
 	throws ExtensionException {
-	List<LabelledEntry> entries = new ArrayList<LabelledEntry>();
 
 	XdmValue result;
 	try {
@@ -164,28 +145,8 @@ public class LabelledEntriesXQuery
 	} catch (SaxonApiException e) {
 	    throw new ExtensionException(e);
 	}
-	XdmAtomicValue key = new XdmAtomicValue("key");
-	XdmAtomicValue label = new XdmAtomicValue("label");
-	for (XdmItem item : result) {
-	    Map<XdmAtomicValue, XdmValue> keyValue = item.asMap();
-	    LabelledEntry entry =
-		new LabelledEntry(keyValue.get(key).toString(),
-				  keyValue.get(label).toString());
-	    if (!failOnEmptyKey) {
-		entries.add(entry);
-	    } else {
-		if (null == entry.getKey() || "".equals(entry.getKey())) {
-		    if (dropEmptyKeys) {
-			LOGGER.info("Dropping entry with empty key. Label is: %s", entry.getLabel());
-		    } else {
-			entries.add(entry);
-		    }
-		} else {
-		    entries.add(entry);
-		}
-	    }
-	}
-	return entries;
+
+	return getEntries(result);
     }
 
 }
