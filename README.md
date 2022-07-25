@@ -20,35 +20,6 @@ configure the framework's actions. But since the header's information
 is not sufficient for most editing actions, oXbytei also uses a
 configuration file.
 
-## Why to try ##
-
-Novice oXygen users: You want to customize a bit, e.g. provide a
-select box for an attribute like `rdg/@wit` and add some CSS. However,
-you don't want to invest into framework customization but stay with X
-technologies like XQuery or XSLT.
-
-Then the configurable plugin system of oXbytei will give you what you
-need and [oXbytao](https://github.com/scdh/oxbytao) will offer you
-simple CSS customization on a project/user basis.
-
-Experienced users: Are you tired of framework development, where you
-define tons of author actions for setting attribute values and where
-you have to hard-code content into `${ask(...)}` or write nested
-`${ask(...${xpath_eval(...)}...}` which are so complicated that you
-don't understand them any more on the next day? Or, are you sick of
-coding form components with hard-coded content or complex XPath
-expressions in them into a flavoured CSS?
-
-Then you should give oXbytei a try: It lets you generate the values
-for selection for a specific editing context like `rdg/@wit` with a
-plugin that e.g. evaluates one of your XQuery scripts. And it lets you
-declare which UI form (free type, single select, multiple select) you
-want to have for an editing context, e.g. multiple select for
-`rdg/@wit`. In the config file you can just tie the generation of
-selection options and the appropriate UI form together for a specific
-editing context. oXbytei's design is all about separation of concerns
-and consistent interfaces.
-
 
 ## Features / Functions #
 
@@ -61,16 +32,17 @@ and consistent interfaces.
   can be selected based on the witnesses supplied via
   [`sourceDesc/listWit//witness`](https://www.tei-c.org/release/doc/tei-p5-doc/de/html/TC.html#TCAPWL).
 - **Suggestions**: A flexible and extensible plugin system generates
-  options for selections of attribute values etc. in a context-aware
+  suggestions for attribute values etc. in a context-aware
   manner. E.g. the framework by default sets up suggestions for `@ref`
   of `<persName>`, `<placeName>` or `@corresp` of `<bibl>` by
   evaluating [prefix
   definitions](https://www.tei-c.org/release/doc/tei-p5-doc/de/html/ref-listPrefixDef.html)
+  in the document header.
   The plugin system is flexible enough to add plugins for querying
   RESTful webservices.
 - **Configurable user dialogs**: Simply declare by configuration which
   type of dialog you want to have for a specific editing context,
-  e.g. a multiple select dialog for `@wit` on `<persName>`. Dialogs
+  e.g. a multiple select dialog for `@wit` on `<rdg>`. Dialogs
   are plugins that implement an interface for communicating with
   plugins that provide suggestions for content completion. There're
   combo boxes, editable combo boxes, multi select dialogs based on
@@ -135,6 +107,34 @@ You should also have a look at
 [oXbytao](https://github.com/scdh/oxbytao), which might already extend
 oXbytei to your project-specific needs.
 
+## Why to try ##
+
+Novice oXygen users: You want to customize a bit, e.g. provide a
+select box for an attribute like `rdg/@wit` and add some CSS. However,
+you don't want to invest into framework customization but stay with X
+technologies like XQuery or XSLT.
+
+Then the configurable plugin system of oXbytei will give you what you
+need and [oXbytao](https://github.com/scdh/oxbytao) will offer you
+simple CSS customization on a project/user basis.
+
+Experienced users: Are you tired of framework development, where you
+define tons of author actions for setting attribute values and where
+you have to hard-code content into `${ask(...)}` or write nested
+`${ask(...${xpath_eval(...)}...}` which are so complicated that you
+don't understand them any more on the next day? Or, are you sick of
+coding form components with hard-coded content or complex XPath
+expressions in them into a flavoured CSS?
+
+Then you should give oXbytei a try: It lets you generate the values
+for selection for a specific editing context like `rdg/@wit` with a
+plugin that e.g. evaluates one of your XQuery scripts. And it lets you
+declare which UI form (free type, single select, multiple select) you
+want to have for an editing context, e.g. multiple select for
+`rdg/@wit`. In the config file you can just tie the generation of
+selection options and the appropriate UI form together for a specific
+editing context. oXbytei's design is all about separation of concerns
+and consistent interfaces.
 
 
 ## Package ##
