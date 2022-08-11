@@ -1,6 +1,7 @@
 package de.wwu.scdh.teilsp.extensions;
 
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.AfterEach;
 import static org.junit.jupiter.api.Assertions.*;
@@ -24,7 +25,7 @@ public class LabelledEntriesXQueryTest {
         Map<String, String> args;
 
     String resources;
-    String personsUrl, keylabelUrl, missingUrl, personography;
+    String personsUrl, persons2Url, keylabelUrl, missingUrl, personography;
 
     List<LabelledEntry> result;
 
@@ -37,6 +38,7 @@ public class LabelledEntriesXQueryTest {
 	resources = Paths.get("src", "test", "resources").toAbsolutePath().toUri().toString();
 	missingUrl = Paths.get("src", "test", "resources", "missing.xql").toAbsolutePath().toUri().toString();
 	personsUrl = Paths.get("src", "test", "resources", "persons.xql").toAbsolutePath().toUri().toString();
+	persons2Url = Paths.get("src", "test", "resources", "more", "persons2.xql").toAbsolutePath().toUri().toString();
 	personography = Paths.get("src", "test", "resources", "teigraphy.xml").toAbsolutePath().toUri().toString();
 	keylabelUrl = Paths.get("src", "test", "resources", "keylabel.xql").toAbsolutePath().toUri().toString();
     }
@@ -77,6 +79,20 @@ public class LabelledEntriesXQueryTest {
     void testPersonsKeyLabel()
 	throws ConfigurationException, ExtensionException {
 	args.put("xquery", personsUrl);
+	args.put("external", "personography=" + personography);
+	plugin.init(args);
+	plugin.setup(null, null, null, null, null);
+	result = plugin.getLabelledEntries("");
+	assertEquals(3, result.size());
+	assertEquals("#FCSavigny", result.get(0).getKey());
+	assertEquals("Friedrich Carl Savigny", result.get(0).getLabel());
+    }
+
+    @Test
+    @Disabled("Pending namespace problem in XQuery")
+    void testImportModule()
+	throws ConfigurationException, ExtensionException {
+	args.put("xquery", persons2Url);
 	args.put("external", "personography=" + personography);
 	plugin.init(args);
 	plugin.setup(null, null, null, null, null);
