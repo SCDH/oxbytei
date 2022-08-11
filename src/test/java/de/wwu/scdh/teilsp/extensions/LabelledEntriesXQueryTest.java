@@ -34,11 +34,11 @@ public class LabelledEntriesXQueryTest {
 	plugin = new LabelledEntriesXQuery();
 	args = new HashMap<String, String>();
 
-	resources = Paths.get("src", "test", "resources").toFile().getAbsolutePath();
-	missingUrl = "file:" + Paths.get("src", "test", "resources", "missing.xql").toFile().getAbsolutePath();
-	personsUrl = "file:" + Paths.get("src", "test", "resources", "persons.xql").toFile().getAbsolutePath();
-	personography = "file:" + Paths.get("src", "test", "resources", "teigraphy.xml").toFile().getAbsolutePath();
-	keylabelUrl = "file:" + Paths.get("src", "test", "resources", "keylabel.xql").toFile().getAbsolutePath();
+	resources = Paths.get("src", "test", "resources").toAbsolutePath().toUri().toString();
+	missingUrl = Paths.get("src", "test", "resources", "missing.xql").toAbsolutePath().toUri().toString();
+	personsUrl = Paths.get("src", "test", "resources", "persons.xql").toAbsolutePath().toUri().toString();
+	personography = Paths.get("src", "test", "resources", "teigraphy.xml").toAbsolutePath().toUri().toString();
+	keylabelUrl = Paths.get("src", "test", "resources", "keylabel.xql").toAbsolutePath().toUri().toString();
     }
 
     @AfterEach

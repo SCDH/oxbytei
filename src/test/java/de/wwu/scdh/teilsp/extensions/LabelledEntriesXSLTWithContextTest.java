@@ -43,11 +43,11 @@ public class LabelledEntriesXSLTWithContextTest {
 	plugin = new LabelledEntriesXSLTWithContext();
 	args = new HashMap<String, String>();
 
-	resources = Paths.get("src", "test", "resources").toFile().getAbsolutePath();
-	missing = "file:" + Paths.get("src", "test", "resources", "missing.xsl").toFile().getAbsolutePath();
-	persons = "file:" + Paths.get("src", "test", "resources", "persons.xsl").toFile().getAbsolutePath();
-	personography = "file:" + Paths.get("src", "test", "resources", "teigraphy.xml").toFile().getAbsolutePath();
-	keylabel = "file:" + Paths.get("src", "test", "resources", "keylabel.xsl").toFile().getAbsolutePath();
+	resources = Paths.get("src", "test", "resources").toAbsolutePath().toUri().toString();
+	missing = Paths.get("src", "test", "resources", "missing.xsl").toAbsolutePath().toUri().toString();
+	persons = Paths.get("src", "test", "resources", "persons.xsl").toAbsolutePath().toUri().toString();
+	personography = Paths.get("src", "test", "resources", "teigraphy.xml").toAbsolutePath().toUri().toString();
+	keylabel = Paths.get("src", "test", "resources", "keylabel.xsl").toAbsolutePath().toUri().toString();
 
 	DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
         DocumentBuilder builder = dbf.newDocumentBuilder();
