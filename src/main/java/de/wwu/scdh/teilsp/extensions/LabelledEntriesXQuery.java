@@ -2,6 +2,7 @@ package de.wwu.scdh.teilsp.extensions;
 
 import java.io.IOException;
 import java.net.URL;
+import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Map;
 import java.util.HashMap;
@@ -108,7 +109,10 @@ public class LabelledEntriesXQuery
 	XQueryCompiler comp = proc.newXQueryCompiler();
 	XQueryExecutable exp;
 	try {
+	    comp.setBaseURI(this.xq.toURI()); // for resolving relative imports
 	    exp = comp.compile(this.xq.openStream());
+	} catch (URISyntaxException e) {
+	    throw new ConfigurationException(e);
 	} catch (SaxonApiException e) {
 	    throw new ConfigurationException(e);
 	} catch (IOException e) {
