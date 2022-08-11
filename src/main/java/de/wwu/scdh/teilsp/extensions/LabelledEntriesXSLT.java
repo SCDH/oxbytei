@@ -139,7 +139,7 @@ public class LabelledEntriesXSLT
 	XsltExecutable exec;
 	try {
 	    InputStream scriptStream = script.openStream();
-	    StreamSource scriptSource = new StreamSource(scriptStream);
+	    StreamSource scriptSource = new StreamSource(scriptStream, script.toString());
 	    exec = comp.compile(scriptSource);
 	    transformer = exec.load30();
 	} catch (SaxonApiException e) {
