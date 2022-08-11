@@ -1,7 +1,7 @@
 package de.wwu.scdh.teilsp.testutils;
 
-import java.nio.file.Path;
-import java.nio.file.Paths;
+import java.net.URI;
+import java.net.URISyntaxException;
 
 import javax.xml.transform.URIResolver;
 import javax.xml.transform.Source;
@@ -17,14 +17,19 @@ import org.xml.sax.InputSource;
 public class SimpleURIResolver implements URIResolver {
 
     /**
-     * We only resolve files in the same directory.
+     * Resolve based on {@link URI#resolve(String)}.
      */
     public Source resolve(String href, String base) throws TransformerException {
-	Path basePath = Paths.get(base);
-	String resultString = basePath.resolveSibling(href).toString();
-	InputSource resultSource = new InputSource(resultString);
+	URI baseUri;
+	try {
+	    baseUri = new URI(base);
+	} catch (URISyntaxException e) {
+	    throw new TransformerException(e);
+	}
+	URI resolved = baseUri.resolve(href);
+	InputSource resultSource = new InputSource(resolved.toString());
 	SAXSource saxSource = new SAXSource(resultSource);
 	return (Source) saxSource;
     }
-    
+
 }
