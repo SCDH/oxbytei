@@ -1,5 +1,11 @@
 # Change log #
 
+## 0.14.2
+
+- fixed issue #6
+- fixed incorrect argument description reported by a reviewer of a
+  proposal for the TEI 2022 conference.
+
 ## 0.14.1
 
 - experimental dialog
