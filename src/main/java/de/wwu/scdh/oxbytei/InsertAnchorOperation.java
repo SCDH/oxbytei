@@ -48,7 +48,7 @@ public class InsertAnchorOperation
     public static final ArgumentDescriptor ARGUMENT_ANCHOR_NAMESPACE =
 	new ArgumentDescriptor("anchorNamespace",
 			       ArgumentDescriptor.TYPE_STRING,
-			       "The local name of the anchor element.");
+			       "The namespace of the anchor element.");
 
     public static final ArgumentDescriptor ARGUMENT_ID_XPATH =
 	new ArgumentDescriptor("anchorId",
