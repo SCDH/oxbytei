@@ -82,12 +82,15 @@ from the contextual menu.
     </menu>
 
     <contextualMenu>
+      <addAction id="oxbytei.schema.attribute.editor"/>
       <submenu name="TEI">
         <addAction id="add.variant"/>
         <addAction id="sel.wit"/>
         <separator/>
         <addAction id="goto.refering"/>
         <addAction id="highlight.referenced"/>
+        <separator/>
+        <addAction id="oxbytei.schema.attribute.editor"/>
         <separator/>
         <addAction id="select.language"/>
         <addAction id="link.person"/>
