@@ -164,6 +164,13 @@ public class SchemaAttributeDialog
 		}
 	    };
 
+	JPanel attributeChooser = new JPanel();
+	attributeChooser.setLayout(new BoxLayout(attributeChooser, BoxLayout.LINE_AXIS));
+	JLabel attributeChooserLabel = new JLabel("Name", SwingConstants.LEFT);
+	attributeChooser.add(attributeChooserLabel);
+	attributeChooser.add(Box.createRigidArea(new Dimension(3,0)));
+	attributeChooser.add(comboBox);
+
 	// text area for displaying the value, make it scrollable
 	// the scroll bar takes up a row, so we intialize with 2 rows
 	valueArea = new JTextArea("no attribute selected", 1, 30);
@@ -175,6 +182,24 @@ public class SchemaAttributeDialog
 	//valueScroller.setAlignmentX(LEFT_ALIGNMENT);
 	// invisible as long as no attribute is selected
 	//valueScroller.setVisible(false);
+	JPanel valueDisplay = new JPanel();
+	valueDisplay.setLayout(new BoxLayout(valueDisplay, BoxLayout.LINE_AXIS));
+	JLabel valueDisplayLabel = new JLabel("Value", SwingConstants.LEFT);
+	valueDisplay.add(valueDisplayLabel);
+	valueDisplay.add(Box.createRigidArea(new Dimension(3,0)));
+	valueDisplay.add(valueScroller);
+
+
+	// notice about the current element
+	String contextElement = "";
+	try {
+	    String[] ctx = documentReader.getContextXPath().split("/");
+	    contextElement = ctx[ctx.length - 1];
+	    ctx = contextElement.split("\\[");
+	    contextElement = ctx[0];
+	} catch (DocumentReaderException e) {
+	}
+	JLabel contextInfo = new JLabel("Element: " + contextElement, SwingConstants.LEFT);
 
 	// label and scroller into the entry pane
 	JPanel entryPane = new JPanel();
@@ -184,14 +209,16 @@ public class SchemaAttributeDialog
 	    ImageIcon askIcon = new ImageIcon(icon);
 	    label = new JLabel(TITLE, askIcon, SwingConstants.LEFT);
 	} catch (Exception e) {
-	    label = new JLabel(TITLE);
+	    label = new JLabel(TITLE, SwingConstants.LEFT);
 	}
 	label.setLabelFor(entryPane);
 	entryPane.add(label);
 	entryPane.add(Box.createRigidArea(new Dimension(0,5)));
-	entryPane.add(comboBox);
+	entryPane.add(contextInfo);
 	entryPane.add(Box.createRigidArea(new Dimension(0,5)));
-	entryPane.add(valueScroller);
+	entryPane.add(attributeChooser);
+	entryPane.add(Box.createRigidArea(new Dimension(0,5)));
+	entryPane.add(valueDisplay);
 	entryPane.setBorder(BorderFactory.createEmptyBorder(10,10,10,10));
 
 	// arrange buttons in buttons pane
