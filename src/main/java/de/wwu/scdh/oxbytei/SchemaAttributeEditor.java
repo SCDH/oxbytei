@@ -60,7 +60,7 @@ public class SchemaAttributeEditor
 			       "de.wwu.scdh.teilsp.ui.ComboBoxSelectDialog");
 
     public static final URL DEFAULT_ICON =
-	SelectLabelledEntryInteraction.class.getResource("/images/ask-24.png");
+	SelectLabelledEntryInteraction.class.getResource("/images/attribute-editor-24.png");
 
     public static final ArgumentDescriptor ARGUMENT_ICON =
 	new ArgumentDescriptor("icon",
