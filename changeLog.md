@@ -1,5 +1,12 @@
 # Change log #
 
+## next
+
+- schema attribute editor
+  - added to contextual menu
+  - added info about the current element to the editor dialog
+  - added its icon
+
 ## 0.14.2
 
 - fixed issue #6
