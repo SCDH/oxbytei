@@ -31,6 +31,17 @@
         <a:argument name="icon">${framework(oXbytei)}/images/sheetsquestion-24.png</a:argument>
       </a:arguments>
     </a:operation>
+    <a:operation id="de.wwu.scdh.oxbytei.SelectAttributeValueOperation">
+      <a:xpathCondition>self::witDetail</a:xpathCondition>
+      <a:arguments>
+        <a:argument name="name">wit</a:argument>
+        <a:argument name="elementLocation">self::*</a:argument>
+        <a:argument name="message">Select witnesses</a:argument>
+        <a:argument name="rollbackOnCancel">true</a:argument>
+        <a:argument name="dialog">de.wwu.scdh.teilsp.ui.CheckBoxSelectDialog</a:argument>
+        <a:argument name="icon">${framework(oXbytei)}/images/sheetsquestion-24.png</a:argument>
+      </a:arguments>
+    </a:operation>
   </a:operations>
   <a:accessKey/>
 </a:authorAction>
