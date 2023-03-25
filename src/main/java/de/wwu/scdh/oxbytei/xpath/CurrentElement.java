@@ -1,22 +1,15 @@
 package de.wwu.scdh.oxbytei.xpath;
 
 import java.net.URL;
-import java.io.IOException;
-
-import javax.swing.text.BadLocationException;
 
 import ro.sync.exml.workspace.api.PluginWorkspace;
 import ro.sync.exml.workspace.api.PluginWorkspaceProvider;
-import ro.sync.ecss.extensions.api.node.AuthorDocumentProvider;
 import ro.sync.ecss.extensions.api.AuthorDocumentController;
 import ro.sync.exml.workspace.api.editor.WSEditor;
 import ro.sync.exml.workspace.api.editor.page.WSEditorPage;
-import ro.sync.exml.workspace.api.editor.page.WSTextBasedEditorPage;
 import ro.sync.exml.workspace.api.editor.page.author.WSAuthorEditorPage;
 import ro.sync.exml.workspace.api.editor.page.text.xml.WSXMLTextEditorPage;
-import ro.sync.ecss.extensions.api.node.AuthorNode;
-import ro.sync.ecss.extensions.api.node.AuthorElement;
-import ro.sync.ecss.extensions.api.node.AuthorDocument;
+import ro.sync.ecss.extensions.api.AuthorOperationException;
 
 import net.sf.saxon.lib.ExtensionFunctionCall;
 import net.sf.saxon.lib.ExtensionFunctionDefinition;
@@ -31,13 +24,26 @@ import net.sf.saxon.value.EmptySequence;
 
 import org.w3c.dom.Element;
 import org.w3c.dom.Document;
+import org.w3c.dom.NodeList;
+import org.w3c.dom.Node;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import de.wwu.scdh.oxbytei.OxbyteiConstants;
 
-
+/**
+ * This class defines a new XPath function
+ *
+ * <code>obt:current-element(url as xs:string) as node()*</code><P/>
+ *
+ * If the document given by URL is opened in the editor, the element
+ * the caret is located in, is returned. If the caret is on the
+ * prolog, the root element is returned.<P/>
+ *
+ * This function is handy if you want to transform only a part of the
+ * currently edited document.
+ */
 public class CurrentElement extends ExtensionFunctionDefinition {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(CurrentElement.class);
@@ -89,20 +95,20 @@ public class CurrentElement extends ExtensionFunctionDefinition {
 	    @Override
             public Sequence call(XPathContext context, Sequence[] arguments)
 		throws XPathException {
-		URL url = XPathUtils.getUrlArgument(arguments[0]);
-		LOGGER.error("getting current element on {}", url.toString());
 
-		// get access to oxygen editor workspace
-		PluginWorkspace pluginWorkspace = PluginWorkspaceProvider.getPluginWorkspace();
+		// get the URL of document from the arguments
+		URL url = XPathUtils.getUrlArgument(arguments[0]);
+		LOGGER.debug("getting current element on {}", url.toString());
 
 		try {
-		    // the current caret position is accessible
-		    // through WSTextBasedEditorPage.getCaretOffset()
-		    // but it may differ in text or author mode
-		    int offset;
-		    AuthorDocumentController documentController;
-		    
-		    // we first need to get access to the editor and the editor page 
+		    // DOM objects we need to store
+		    Element elementNode;
+		    Document documentNode;
+
+		    // get access to oxygen editor workspace
+		    PluginWorkspace pluginWorkspace = PluginWorkspaceProvider.getPluginWorkspace();
+
+		    // we first need to get access to the editor and the editor page
 		    WSEditor wsEditor = pluginWorkspace.getEditorAccess(url, PluginWorkspace.MAIN_EDITING_AREA);
 		    if (wsEditor == null) {
 			// the document is not edited or something else prevents editor access
@@ -115,72 +121,76 @@ public class CurrentElement extends ExtensionFunctionDefinition {
 		    // offset and the document controller
 		    if (WSXMLTextEditorPage.class.isAssignableFrom(editorPage.getClass())) {
 			// the document is edited in text mode
-			offset = ((WSXMLTextEditorPage) editorPage).getCaretOffset();
-			LOGGER.error("document is opened in text mode, caret offset {}", offset);
-			// expand=flase seems to result in a document without text nodes and PIs
-			// expand=true 
-			AuthorDocumentProvider documentProvider = pluginWorkspace.createAuthorDocumentProvider(url, null, true);
-			documentController = documentProvider.getAuthorDocumentController();
+			WSXMLTextEditorPage page = (WSXMLTextEditorPage) editorPage;
+			LOGGER.debug("document is opened in text mode, caret offset {}", page.getCaretOffset());
+			// use the evaluateXPath method of the editor page
+			Object[] xpathDocument = page.evaluateXPath("root()");
+			Object[] xpathElement = page.evaluateXPath("ancestor-or-self::*[1]");
+			documentNode = (Document) xpathDocument[0];
+			elementNode = getElementFromXPathResult(xpathElement, documentNode);
 		    } else if (WSAuthorEditorPage.class.isAssignableFrom(editorPage.getClass())) {
 			// the document is edited in author mode
-			offset = ((WSAuthorEditorPage) editorPage).getCaretOffset();
-			LOGGER.error("document is opened in author mode, caret offset {}", offset);
-			documentController = ((WSAuthorEditorPage) editorPage).getDocumentController();
+			WSAuthorEditorPage page = (WSAuthorEditorPage) editorPage;
+			LOGGER.debug("document is opened in author mode, caret offset {}", page.getCaretOffset());
+			// use the evaluateXPath method of the document controller
+			AuthorDocumentController documentController = page.getDocumentController();
+			Object[] xpathDocument = documentController.evaluateXPath("root()", true, true, true);
+			Object[] xpathElement = documentController.evaluateXPath("ancestor-or-self::*[1]", true, true, true);
+			documentNode = (Document) xpathDocument[0];
+			elementNode = getElementFromXPathResult(xpathElement, documentNode);
 		    } else {
 			// the document is edited in an other mode (grid)
-			LOGGER.error("no access to editor offset");
-			throw new XPathException("no access to editor offset");
+			LOGGER.error("no access to current editor location");
+			throw new XPathException("No access to the current editor location in this editing mode. Try text mode or author mode.");
 		    }
 
-		    // the node at the caret position is accessible through AuthorDocumentController.getNodeAtOffset()
-		    AuthorNode currentNode = documentController.getNodeAtOffset(offset);
-
-		    // get the current element node
-		    AuthorElement currentElement;
-		    if (currentNode.getType() == AuthorNode.NODE_TYPE_DOCUMENT) {
-			// the caret is on the prolog, the root element or the epilog
-			LOGGER.error("on document node");
-			currentElement = ((AuthorDocument) currentNode).getRootElement();
-		    } else if (currentNode.getType() == AuthorNode.NODE_TYPE_ELEMENT) {
-			// we are on an element already
-			LOGGER.error("on element node");
-			currentElement = (AuthorElement) currentNode;
-		    } else {
-			// walk the ancestor axis up to the first element
-			LOGGER.error("in tree");
-			while (!(currentNode.getType() == AuthorNode.NODE_TYPE_ELEMENT || currentNode.getType() == AuthorNode.NODE_TYPE_DOCUMENT)) {
-			    currentNode = currentNode.getParent();
-			}
-			if (currentNode.getType() == AuthorNode.NODE_TYPE_DOCUMENT) {
-			    currentElement = ((AuthorDocument) currentNode).getRootElement();
-			} else {
-			    currentElement = (AuthorElement) currentNode;
-			}
-		    }
-		    AuthorDocument authorDocument = currentNode.getOwnerDocument();
-		    LOGGER.error("root: {}, current element: {}",
-				 authorDocument.getRootElement().getName(),
-				 currentElement.getName());
-
-		    // cast to DOM nodes
-		    Element element = (Element) currentElement;
-		    Document documentNode = (Document) authorDocument;
+		    LOGGER.debug("root: {}, current element: {}",
+				 getRootElement(documentNode).getLocalName(),
+				 elementNode.getLocalName());
 
 		    // wrap DOM nodes into Saxon's node types
 		    DocumentWrapper docWrapper = new DocumentWrapper(documentNode, url.toString(), context.getConfiguration());
-		    DOMNodeWrapper elementWrapper = docWrapper.wrap(element);
+		    DOMNodeWrapper elementWrapper = docWrapper.wrap(elementNode);
 
 		    // materialize() returns a GroundedValue, i.e. a Sequence
 		    return elementWrapper.materialize();
-
-		} catch (IOException e) {
+		} catch (IndexOutOfBoundsException e) {
 		    LOGGER.error(e.getMessage());
 		    throw new XPathException(e);
-		} catch (BadLocationException e) {
+		} catch (ro.sync.exml.workspace.api.editor.page.text.xml.XPathException e) {
+		    LOGGER.error(e.getMessage());
+		    throw new XPathException(e);
+		} catch (AuthorOperationException e) {
 		    LOGGER.error(e.getMessage());
 		    throw new XPathException(e);
 		}
 	    }
 	};
+    }
+
+    private Element getElementFromXPathResult(Object[] result, Document document) throws XPathException {
+	if (result.length > 0) {
+	    // we have an element in the result sequence
+	    return (Element) result[0];
+	} else {
+	    Element root = getRootElement(document);
+	    if (root != null) {
+		return root;
+	    } else {
+		LOGGER.error("no element found");
+		throw new XPathException("no element found");
+	    }
+	}
+    }
+
+    private Element getRootElement(Document document) {
+	NodeList nodes = document.getChildNodes();
+	for (int i = 0; i < nodes.getLength(); i++) {
+	    if (nodes.item(i).getNodeType() == Node.ELEMENT_NODE) {
+		return (Element) nodes.item(i);
+	    }
+	}
+	LOGGER.debug("no root element found in ", document.getBaseURI());
+	return null;
     }
 }
