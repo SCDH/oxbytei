@@ -14,6 +14,13 @@
     <name>oXbytei framework</name>
     <url>https://github.com/scdh/oxbytei</url>
 
+    <properties>
+	<framework.dir>${project.basedir}/frameworks/oxbytei</framework.dir>
+	<test.dir>${project.basedir}/test/xspec</test.dir>
+	<testing.xsl.dir>${project.build.directory}/generated-resources/xml/xslt/</testing.xsl.dir>
+	<framework.url>https://github.com/SCDH/oxbytei/releases/download/${project.version}/</framework.url>
+    </properties>
+
     <dependencies>
         <dependency>
 	   <groupId>${project.groupId}</groupId>
@@ -48,6 +55,25 @@
                 <artifactId>maven-failsafe-plugin</artifactId>
                 <version>2.22.2</version>
             </plugin>
+
+	    <plugin>
+               <artifactId>maven-antrun-plugin</artifactId>
+               <version>3.1.0</version>
+               <executions>
+		  <execution>
+		     <phase>generate-sources</phase>
+		     <goals>
+			<goal>run</goal>
+		     </goals>
+		     <configuration>
+			<target>
+			   <loadfile property="license" srcFile="../LICENSE"/>
+			</target>
+			<exportAntProperties>true</exportAntProperties>
+		     </configuration>
+		  </execution>
+               </executions>
+	    </plugin>
 
 	    <!-- run XSpec regression tests -->
 	    <plugin>
@@ -104,6 +130,32 @@
 		</executions>
 	    </plugin>
 
+            <plugin>
+                <artifactId>maven-resources-plugin</artifactId>
+		<version>3.0.2</version>
+		<executions>
+		    <execution>
+                       <id>properties-to-resources</id>
+                       <phase>generate-resources</phase>
+                       <goals>
+			   <goal>copy-resources</goal>
+                       </goals>
+                       <configuration>
+			   <outputDirectory>${project.build.directory}</outputDirectory>
+			   <resources>
+                               <resource>
+				  <directory>${project.basedir}</directory>
+				  <includes>
+				      <include>descriptor.xml</include>
+				  </includes>
+				  <filtering>true</filtering>
+                               </resource>
+			   </resources>
+                       </configuration>
+		    </execution>
+		</executions>
+            </plugin>
+
 	    <plugin>
 		<groupId>org.codehaus.mojo</groupId>
 		<artifactId>xml-maven-plugin</artifactId>
@@ -117,14 +169,6 @@
 		</executions>
 		<configuration>
 		    <transformationSets>
-			<!-- make a package descriptor using information from this pom.xml -->
-			<transformationSet>
-			    <dir>${project.basedir}</dir>
-			    <includes>
-				<include>pom.xml</include>
-			    </includes>
-			    <stylesheet>descriptor.xsl</stylesheet>
-			</transformationSet>
 			<transformationSet>
 			    <!-- sel.language -->
 			    <dir>${framework.dir}/oxbytei_externalAuthorActions</dir>
