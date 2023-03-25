@@ -25,19 +25,6 @@
 	   <artifactId>oxbytei-core</artifactId>
 	   <version>${revision}</version>
 	</dependency>
-	<!-- https://mvnrepository.com/artifact/com.googlecode.maven-download-plugin/download-maven-plugin -->
-	<dependency>
-	    <groupId>com.googlecode.maven-download-plugin</groupId>
-	    <artifactId>download-maven-plugin</artifactId>
-	    <version>1.6.7</version>
-	</dependency>
-	<dependency>
-	    <groupId>org.bbaw.telota.ediarum</groupId>
-	    <artifactId>ediarum</artifactId>
-	    <version>3.1.0</version>
-	    <scope>system</scope>
-	    <systemPath>${project.build.directory}/lib/ediarum-${ediarum.version}.jar</systemPath>
-	</dependency>
     </dependencies>
 
     <build>
@@ -61,28 +48,6 @@
                 <artifactId>maven-failsafe-plugin</artifactId>
                 <version>2.22.2</version>
             </plugin>
-
-	    <!-- download ediarum.jar -->
-	    <plugin>
-		<groupId>com.googlecode.maven-download-plugin</groupId>
-		<artifactId>download-maven-plugin</artifactId>
-		<version>1.6.7</version>
-		<executions>
-		    <execution>
-			<id>install-ediarum.jar</id>
-			<phase>generate-sources</phase>
-			<goals>
-			    <goal>wget</goal>
-			</goals>
-			<configuration>
-			    <url>https://github.com/ediarum/ediarum.JAR/blob/master/dist/ediarum-${ediarum.version}.jar?raw=true</url>
-			    <outputDirectory>${project.build.directory}/lib</outputDirectory>
-			    <outputFileName>ediarum-${ediarum.version}.jar</outputFileName>
-			</configuration>
-		    </execution>
-		</executions>
-	    </plugin>
-
 
 	    <!-- run XSpec regression tests -->
 	    <plugin>

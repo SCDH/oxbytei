@@ -54,7 +54,6 @@
 	<saxon.version>10.2</saxon.version>
 	<!-- take care: after changing the following you have to update the exf-file! -->
         <slf4j.version>1.7.32</slf4j.version>
-	<ediarum.version>3.1.0</ediarum.version>
     </properties>
 
     <repositories>
@@ -83,20 +82,9 @@
             <scope>runtime</scope>
         </dependency>
 	<dependency>
-	    <groupId>com.oxygenxml</groupId>
-	    <artifactId>oxygen</artifactId>
-	    <version>${oxygen.sdk.version}</version>
-	</dependency>
-	<dependency>
 	    <groupId>net.sf.saxon</groupId>
 	    <artifactId>Saxon-HE</artifactId>
 	    <version>${saxon.version}</version>
-	</dependency>
-	<!-- https://mvnrepository.com/artifact/com.googlecode.maven-download-plugin/download-maven-plugin -->
-	<dependency>
-	    <groupId>com.googlecode.maven-download-plugin</groupId>
-	    <artifactId>download-maven-plugin</artifactId>
-	    <version>1.6.7</version>
 	</dependency>
 	<dependency>
             <groupId>org.junit.jupiter</groupId>

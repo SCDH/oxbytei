@@ -17,7 +17,6 @@ from the contextual menu.
   <classpath>
     <addEntry path="${framework(oXbytei)}/oxbytei-core.jar"/>
     <addEntry path="${framework(oXbytei)}/teilsp.jar"/>
-    <addEntry path="${framework(oXbytei)}/ediarum-3.1.0.jar"/>
     <addEntry path="${framework(oXbytei)}/slf4j-api.jar"/>
     <addEntry path="${framework(oXbytei)}/slf4j-log4j12.jar"/>
     <addEntry path="${framework(oXbytei)}/glazedlists.jar"/>
