@@ -41,6 +41,10 @@ public class OxbyteiConstants {
 
     public static final String XPATH_QUOTED = "\"(" + XPATH_RE + ")\"|("+ XPATH_RE.replaceAll(",", "") + ")";
 
+    public static final String XPATH_EXTENSION_PREFIX = "obt";
+
+    public static final String XPATH_EXTENSION_NAMESPACE = "http://scdh.wwu.de/oxbytei";
+
     /**
      * URL of the default plugin configuration
      */
