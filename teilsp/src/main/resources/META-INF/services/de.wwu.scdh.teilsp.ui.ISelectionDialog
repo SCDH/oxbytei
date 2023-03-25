@@ -3,5 +3,3 @@ de.wwu.scdh.teilsp.ui.ComboBoxSelectDialog
 de.wwu.scdh.teilsp.ui.EditableComboBoxSelectDialog
 de.wwu.scdh.teilsp.ui.ListSelectDialog
 de.wwu.scdh.teilsp.ui.FilteringListSelectDialog
-de.wwu.scdh.oxbytei.commons.OxygenSelectionDialog
-de.wwu.scdh.oxbytei.commons.EdiarumSelectionDialog
