@@ -1,7 +1,14 @@
 # Change log #
 
-## next
+## 0.15.0
 
+- new XPath extension function `obt:current-element`
+  - `obt:current-element(url as xs:string) as node()*`
+  - takes URL of a document and returns the node where the caret
+    is located if the document is currently edited
+  - works in text mode as well as in author mode
+  - handy to transform only the part (paragraph, section, page, etc.)
+    which is currently being edited
 - schema attribute editor
   - added to contextual menu
   - added info about the current element to the editor dialog
