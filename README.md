@@ -210,15 +210,15 @@ mvn generate-sources
 mvn package
 ```
 
-- 4) Create symbolic links for the jar files from the folder
+- 4) Create symbolic links for *all* the jar files from the folder
 `target/lib` to the folder `frameworks/oxbytei`:
 
 ```{shell}
 cd frameworks/oxbytei
-ln -s ../../target/oxbytei.jar .
-ln -s ../../target/lib/ediarum-3.1.0.jar .
-ln -s ../../target/lib/slf4j-log4j12-1.7.32.jar .
-ln -s ../../target/lib/slf4j-api-1.7.32.jar .
+ln -s ../../target/lib/teilsp.jar .
+ln -s ../../target/lib/oxbytei-core.jar .
+ln -s ../../target/lib/slf4j-api.jar .
+...
 ```
 
 - 5) In your project's root folder (aka `${pd}`, see above), create a
