@@ -26,9 +26,9 @@
 
     <licenses>
 	<license>
-	    <name>GNU General Public License, version 3</name>
-	    <url>https://gplv3.fsf.org/</url>
-	</license>
+            <name>MIT License</name>
+            <url>https://opensource.org/licenses/mit-license.php</url>
+ 	</license>
     </licenses>
 
     <scm>
