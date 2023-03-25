@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+       <groupId>de.wwu.scdh.oxbytei</groupId>
+       <artifactId>oxbytei-platform</artifactId>
+       <version>${revision}</version>
+    </parent>
+
+    <artifactId>oxbytei-core</artifactId>
+
+    <name>oXbytei Core</name>
+    <url>https://github.com/scdh/oxbytei</url>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven.compiler.source>11</maven.compiler.source>
+        <maven.compiler.target>11</maven.compiler.target>
+	<maven.compiler.source>1.8</maven.compiler.source>
+	<maven.compiler.target>1.8</maven.compiler.target>
+	<framework.dir>${project.basedir}/frameworks/oxbytei</framework.dir>
+	<test.dir>${project.basedir}/test/xspec</test.dir>
+	<testing.xsl.dir>${project.build.directory}/generated-resources/xml/xslt/</testing.xsl.dir>
+	<oxygen.sdk.version>23.1.0.4</oxygen.sdk.version>
+	<saxon.version>10.2</saxon.version>
+	<!-- take care: after changing the following you have to update the exf-file! -->
+        <slf4j.version>1.7.32</slf4j.version>
+	<ediarum.version>3.1.0</ediarum.version>
+    </properties>
+
+    <repositories>
+	<repository>
+	    <id>oxygen-repository</id>
+	    <url>https://www.oxygenxml.com/maven/</url>
+	</repository>
+    </repositories>
+
+    <dependencies>
+        <dependency>
+	   <groupId>${project.groupId}</groupId>
+	   <artifactId>teilsp</artifactId>
+	   <version>${revision}</version>
+	</dependency>
+	<dependency>
+	    <groupId>com.oxygenxml</groupId>
+	    <artifactId>oxygen</artifactId>
+	    <version>${oxygen.sdk.version}</version>
+	</dependency>
+	<!-- https://mvnrepository.com/artifact/com.googlecode.maven-download-plugin/download-maven-plugin -->
+	<dependency>
+	    <groupId>com.googlecode.maven-download-plugin</groupId>
+	    <artifactId>download-maven-plugin</artifactId>
+	    <version>1.6.7</version>
+	</dependency>
+	<dependency>
+	    <groupId>org.bbaw.telota.ediarum</groupId>
+	    <artifactId>ediarum</artifactId>
+	    <version>3.1.0</version>
+	    <scope>system</scope>
+	    <systemPath>${project.build.directory}/lib/ediarum-${ediarum.version}.jar</systemPath>
+	</dependency>
+    </dependencies>
+
+    <build>
+
+	<!-- We want a jar file without version number, because that's
+	     easier to pack into the framework zip. -->
+	<finalName>${project.artifactId}</finalName>
+
+	<plugins>
+
+	    <!-- configure test reporter for JUnit 5 -->
+            <plugin>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>2.22.2</version>
+		<configuration>
+		    <!-- set to false for debugging! -->
+		    <trimStackTrace>true</trimStackTrace>
+		</configuration>
+            </plugin>
+            <plugin>
+                <artifactId>maven-failsafe-plugin</artifactId>
+                <version>2.22.2</version>
+            </plugin>
+
+	    <!-- download ediarum.jar -->
+	    <plugin>
+		<groupId>com.googlecode.maven-download-plugin</groupId>
+		<artifactId>download-maven-plugin</artifactId>
+		<version>1.6.7</version>
+		<executions>
+		    <execution>
+			<id>install-ediarum.jar</id>
+			<phase>generate-sources</phase>
+			<goals>
+			    <goal>wget</goal>
+			</goals>
+			<configuration>
+			    <url>https://github.com/ediarum/ediarum.JAR/blob/master/dist/ediarum-${ediarum.version}.jar?raw=true</url>
+			    <outputDirectory>${project.build.directory}/lib</outputDirectory>
+			    <outputFileName>ediarum-${ediarum.version}.jar</outputFileName>
+			</configuration>
+		    </execution>
+		</executions>
+	    </plugin>
+	    
+	</plugins>
+    </build>
+
+</project>

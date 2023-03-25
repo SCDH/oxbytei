@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+       <groupId>de.wwu.scdh.oxbytei</groupId>
+       <artifactId>oxbytei-platform</artifactId>
+       <version>${revision}</version>
+    </parent>
+
+    <artifactId>teilsp</artifactId>
+    
+    <name>TEI LSP components</name>
+    <url>https://github.com/scdh/oxbytei</url>
+
+    <build>
+
+	<!-- We want a jar file without version number, because that's
+	     easier to pack into the framework zip. -->
+	<finalName>${project.artifactId}</finalName>
+
+	<plugins>
+
+	    <!-- configure test reporter for JUnit 5 -->
+            <plugin>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>2.22.2</version>
+		<configuration>
+		    <!-- set to false for debugging! -->
+		    <trimStackTrace>true</trimStackTrace>
+		</configuration>
+            </plugin>
+            <plugin>
+                <artifactId>maven-failsafe-plugin</artifactId>
+                <version>2.22.2</version>
+            </plugin>
+	    
+	</plugins>
+    </build>
+
+</project>
