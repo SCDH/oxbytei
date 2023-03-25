@@ -125,6 +125,7 @@
     <modules>
        <module>teilsp</module>
        <module>core</module>
+       <module>framework</module>
     </modules>
 
 </project>

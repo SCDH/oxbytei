@@ -15,12 +15,13 @@ from the contextual menu.
   <priority>Normal</priority>
 
   <classpath>
-    <addEntry path="${framework(oXbytei)}/oxbytei.jar"/>
+    <addEntry path="${framework(oXbytei)}/oxbytei-core.jar"/>
+    <addEntry path="${framework(oXbytei)}/teilsp.jar"/>
     <addEntry path="${framework(oXbytei)}/ediarum-3.1.0.jar"/>
-    <addEntry path="${framework(oXbytei)}/slf4j-api-1.7.32.jar"/>
-    <addEntry path="${framework(oXbytei)}/slf4j-log4j12-1.7.32.jar"/>
-    <addEntry path="${framework(oXbytei)}/glazedlists-1.11.0.jar"/>
-    <addEntry path="${framework(oXbytei)}/commons-csv-1.9.0.jar"/>
+    <addEntry path="${framework(oXbytei)}/slf4j-api.jar"/>
+    <addEntry path="${framework(oXbytei)}/slf4j-log4j12.jar"/>
+    <addEntry path="${framework(oXbytei)}/glazedlists.jar"/>
+    <addEntry path="${framework(oXbytei)}/commons-csv.jar"/>
   </classpath>
 
   <extensionPoints>
