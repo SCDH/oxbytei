@@ -29,10 +29,7 @@ jobs:
         run: mkdir -p public
 
       - name: copy descriptor file
-        run: cp target/generated-resources/xml/xslt/pom.xml public/descriptor.xml
-
-      - name: copy index.html
-        run: cp pages/index.html public/index.html
+        run: cp framework/target/generated-resources/xml/xslt/descriptor.xml public/descriptor.xml
 
       - name: Deploy descriptor file on Github pages
         uses: peaceiris/actions-gh-pages@v3

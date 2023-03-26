@@ -19,9 +19,6 @@ jobs:
           distribution: 'adopt'
           cache: maven
 
-      - name: run maven to get ediarum
-        run: mvn --batch-mode --update-snapshots generate-sources
-
       - name: run maven
         run: mvn --batch-mode --update-snapshots package
 
@@ -37,12 +34,42 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: upload framework package to release
+
+      - name: build for oxygen 23
+        run: mvn -Doxygen.version=23 --batch-mode --update-snapshots clean package
+
+      - name: upload framework package for oxygen 23 to release
         uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: target/oxbytei-${{ github.ref_name }}-package.zip
-          asset_name: oxbytei-${{ github.ref_name }}-package.zip
+          asset_path: framework/target/oxbytei-oxygen23-${{ github.ref_name }}-framework.zip
+          asset_name: oxbytei-oxygen23-${{ github.ref_name }}-framework.zip
+          asset_content_type: application/zip
+
+      - name: build for oxygen 24
+        run: mvn -Doxygen.version=24 --batch-mode --update-snapshots clean package
+
+      - name: upload framework package for oxygen 24 to release
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: framework/target/oxbytei-oxygen24-${{ github.ref_name }}-framework.zip
+          asset_name: oxbytei-oxygen24-${{ github.ref_name }}-framework.zip
+          asset_content_type: application/zip
+
+      - name: build for oxygen 25
+        run: mvn -Doxygen.version=25 --batch-mode --update-snapshots clean package
+
+      - name: upload framework package for oxygen 25 to release
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: framework/target/oxbytei-oxygen25-${{ github.ref_name }}-framework.zip
+          asset_name: oxbytei-oxygen25-${{ github.ref_name }}-framework.zip
           asset_content_type: application/zip
