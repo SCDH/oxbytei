@@ -1,5 +1,17 @@
 # Change log #
 
+## dev
+
+- compatiblity with Oxygen 25
+- deliver framework compiled for different versions of Oxygen
+- do not use XML catalog from the editor in the `LabelledEntriesXSLT`
+  and `LabelledEntriesXSLTWithContext` providers
+  - This was required due to API changes in Saxon 11, which ships with
+	Oxygen 25. We gain compatiblity with Oxygen 25.
+- restructured code base into a multi modules project
+- removed dependency on `ediarum.jar`
+- changed license to MIT
+
 ## 0.15.0
 
 - new XPath extension function `obt:current-element`

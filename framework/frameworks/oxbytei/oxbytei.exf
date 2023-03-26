@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 
+
+The file must be saved inside a framework directory, the same place where a *.framework file should sit.
+
+To generate a *.framework file out of the script, you need to use the "Compile Framework Extension script" action 
+from the contextual menu.
+-->
+<script xmlns="http://www.oxygenxml.com/ns/framework/extend"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.oxygenxml.com/ns/framework/extend http://www.oxygenxml.com/ns/framework/extend/frameworkExtensionScript.xsd"
+  base="TEI P5">
+  <name>oXbytei</name>
+  <description>This framework for editing TEI is configured by the TEI header.</description>
+  <priority>Normal</priority>
+
+  <classpath>
+    <addEntry path="${framework(oXbytei)}/oxbytei-core.jar"/>
+    <addEntry path="${framework(oXbytei)}/teilsp.jar"/>
+    <addEntry path="${framework(oXbytei)}/slf4j-api.jar"/>
+    <addEntry path="${framework(oXbytei)}/slf4j-log4j12.jar"/>
+    <addEntry path="${framework(oXbytei)}/glazedlists.jar"/>
+    <addEntry path="${framework(oXbytei)}/commons-csv.jar"/>
+  </classpath>
+
+  <extensionPoints>
+    <extension name="schemaManagerFilterExtension"
+      value="de.wwu.scdh.oxbytei.OxbyteiSchemaManagerFilter"/>
+    <extension name="authorExtensionStateListener" value="de.wwu.scdh.oxbytei.OxbyteiStateListener"
+    />
+  </extensionPoints>
+
+  <transformationScenarios>
+    <!-- FIXME: add ${framework(oXbytei)}/ after oXygen bug-fix -->
+    <addScenarios href="transformation.scenarios"/>
+  </transformationScenarios>
+
+  <author>
+    <!-- 
+      Author Actions are loaded from these directories:
+      {framework_directory}/externalAuthorActions
+      {framework_directory}/{framework_file_name}_externalAuthorActions
+      
+      https://www.oxygenxml.com/doc/versions/22.1/ug-editor/topics/dg-create-custom-actions.html#dg-create-custom-actions__section_2
+    -->
+    <toolbars>
+      <toolbar name="TEI">
+        <separator/>
+        <addAction id="add.variant"/>
+        <addAction id="sel.wit"/>
+        <separator/>
+        <addAction id="goto.refering"/>
+        <addAction id="highlight.referenced"/>
+        <separator/>
+        <addAction id="oxbytei.schema.attribute.editor"/>
+        <separator/>
+        <addAction id="oxbytei.generate.ids"/>
+        <addAction id="select.language"/>
+        <addAction id="link.person"/>
+        <addAction id="link.place"/>
+        <addAction id="link.bibref"/>
+        <addAction id="annotate"/>
+        <addAction id="oxbytei.xinclude"/>
+      </toolbar>
+    </toolbars>
+
+    <menu>
+      <separator anchor="insert image"/>
+      <addAction anchor="insert image" id="add.variant"/>
+      <addAction anchor="insert image" id="sel.wit"/>
+      <separator anchor="insert image"/>
+      <addAction anchor="insert image" id="goto.refering"/>
+      <addAction anchor="insert image" id="highlight.referenced"/>
+      <separator anchor="insert image"/>
+      <addAction anchor="insert image" id="select.language"/>
+      <addAction anchor="insert image" id="link.person"/>
+      <addAction anchor="insert image" id="link.place"/>
+      <addAction anchor="insert image" id="link.bibref"/>
+      <addAction anchor="insert image" id="annotate"/>
+      <separator anchor="insert image"/>
+      <addAction anchor="insert image" id="oxbytei.xinclude"/>
+    </menu>
+
+    <contextualMenu>
+      <addAction id="oxbytei.schema.attribute.editor"/>
+      <submenu name="TEI">
+        <addAction id="add.variant"/>
+        <addAction id="sel.wit"/>
+        <separator/>
+        <addAction id="goto.refering"/>
+        <addAction id="highlight.referenced"/>
+        <separator/>
+        <addAction id="oxbytei.schema.attribute.editor"/>
+        <separator/>
+        <addAction id="select.language"/>
+        <addAction id="link.person"/>
+        <addAction id="link.place"/>
+        <addAction id="link.bibref"/>
+        <addAction id="annotate"/>
+        <separator/>
+        <addAction id="oxbytei.xinclude"/>
+      </submenu>
+    </contextualMenu>
+
+    <contentCompletion>
+      <authorActions>
+        <addAction id="add.variant" inElementsView="true" inCCWindow="true"/>
+        <addAction id="sel.wit" inElementsView="true" inCCWindow="true"/>
+        <addAction id="select.language" inElementsView="true" inCCWindow="true"/>
+        <addAction id="link.person" inElementsView="true" inCCWindow="true"/>
+        <addAction id="link.place" inElementsView="true" inCCWindow="true"/>
+        <addAction id="link.bibref" inElementsView="true" inCCWindow="true"/>
+        <addAction id="annotate" inElementsView="true" inCCWindow="true"/>
+        <addAction id="oxbytei.xinclude" inElementsView="true" inCCWindow="true"/>
+      </authorActions>
+    </contentCompletion>
+
+  </author>
+
+
+</script>

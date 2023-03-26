@@ -9,7 +9,7 @@ images/*.xcf
 .factorypath
 
 # symlink to jar file for development
-frameworks/oxbytei/*.jar
+framework/frameworks/oxbytei/*.jar
 
 # property files for log4j etc.
 /*.properties
@@ -19,6 +19,6 @@ frameworks/oxbytei/*.jar
 
 # ignore build artifacts
 target
-test/xspec/xspec
-test/xspec/*.html
+framework/test/xspec/xspec
+framework/test/xspec/*.html
 /log4j2.properties

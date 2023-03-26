@@ -1,0 +1,242 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+       <groupId>de.wwu.scdh.oxbytei</groupId>
+       <artifactId>oxbytei-platform</artifactId>
+       <version>${revision}</version>
+    </parent>
+
+    <artifactId>oxbytei</artifactId>
+
+    <name>oXbytei framework</name>
+    <url>https://github.com/scdh/oxbytei</url>
+
+    <properties>
+	<framework.dir>${project.basedir}/frameworks/oxbytei</framework.dir>
+	<test.dir>${project.basedir}/test/xspec</test.dir>
+	<testing.xsl.dir>${project.build.directory}/generated-resources/xml/xslt/</testing.xsl.dir>
+	<framework.url>https://github.com/SCDH/oxbytei/releases/download/${project.version}/</framework.url>
+    </properties>
+
+    <dependencies>
+        <dependency>
+	   <groupId>${project.groupId}</groupId>
+	   <artifactId>teilsp</artifactId>
+	   <version>${revision}</version>
+	</dependency>
+        <dependency>
+	   <groupId>${project.groupId}</groupId>
+	   <artifactId>oxbytei-core</artifactId>
+	   <version>${revision}</version>
+	</dependency>
+    </dependencies>
+
+    <build>
+
+	<plugins>
+
+	    <!-- configure test reporter for JUnit 5 -->
+            <plugin>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>2.22.2</version>
+		<configuration>
+		    <!-- set to false for debugging! -->
+		    <trimStackTrace>true</trimStackTrace>
+		</configuration>
+            </plugin>
+            <plugin>
+                <artifactId>maven-failsafe-plugin</artifactId>
+                <version>2.22.2</version>
+            </plugin>
+
+	    <plugin>
+               <artifactId>maven-antrun-plugin</artifactId>
+               <version>3.1.0</version>
+               <executions>
+		  <execution>
+		     <phase>generate-sources</phase>
+		     <goals>
+			<goal>run</goal>
+		     </goals>
+		     <configuration>
+			<target>
+			   <loadfile property="license" srcFile="../LICENSE"/>
+			</target>
+			<exportAntProperties>true</exportAntProperties>
+		     </configuration>
+		  </execution>
+               </executions>
+	    </plugin>
+
+	    <!-- run XSpec regression tests -->
+	    <plugin>
+		<groupId>io.xspec.maven</groupId>
+		<artifactId>xspec-maven-plugin</artifactId>
+		<version>2.0.0</version>
+		<configuration>
+                    <!--coverage>true</coverage-->
+		    <generateSurefireReport>true</generateSurefireReport>
+		    <testDir>test/xspec</testDir>
+		    <catalogFile>${project.basedir}/catalog.xml</catalogFile>
+		</configuration>
+		<executions>
+                    <execution>
+			<phase>test</phase>
+			<goals>
+                            <goal>run-xspec</goal>
+			</goals>
+                    </execution>
+		</executions>
+		<dependencies>
+		    <dependency>
+			<groupId>net.sf.saxon</groupId>
+			<artifactId>Saxon-HE</artifactId>
+			<version>${saxon4xspec.version}</version>
+		    </dependency>
+		    <dependency>
+			<groupId>io.xspec</groupId>
+			<artifactId>xspec</artifactId>
+			<version>1.6.0</version>
+		    </dependency>
+		</dependencies>
+            </plugin>
+
+	    <!-- make framework package -->
+	    <plugin>
+		<artifactId>maven-assembly-plugin</artifactId>
+		<version>2.4</version>
+		<executions>
+		    <execution>
+			<id>make-assembly</id>
+			<phase>package</phase>
+			<goals>
+			    <goal>single</goal>
+			</goals>
+			<configuration>
+			    <finalName>${project.artifactId}-oxygen${oxygen.version}-${project.version}</finalName>
+			    <archiveBaseDirectory>${project.basedir}</archiveBaseDirectory>
+			    <descriptors>
+				<descriptor>assembly.xml</descriptor>
+			    </descriptors>
+			</configuration>
+		    </execution>
+		</executions>
+	    </plugin>
+
+            <plugin>
+                <artifactId>maven-resources-plugin</artifactId>
+		<version>3.0.2</version>
+		<executions>
+		    <execution>
+                       <id>properties-to-resources</id>
+                       <phase>generate-resources</phase>
+                       <goals>
+			   <goal>copy-resources</goal>
+                       </goals>
+                       <configuration>
+			   <outputDirectory>${project.build.directory}</outputDirectory>
+			   <resources>
+                               <resource>
+				  <directory>${project.basedir}</directory>
+				  <includes>
+				      <include>descriptor.xml</include>
+				  </includes>
+				  <filtering>true</filtering>
+                               </resource>
+			   </resources>
+                       </configuration>
+		    </execution>
+		</executions>
+            </plugin>
+
+	    <plugin>
+		<groupId>org.codehaus.mojo</groupId>
+		<artifactId>xml-maven-plugin</artifactId>
+		<version>1.0.2</version>
+		<executions>
+		    <execution>
+			<goals>
+			    <goal>transform</goal>
+			</goals>
+		    </execution>
+		</executions>
+		<configuration>
+		    <transformationSets>
+			<transformationSet>
+			    <!-- sel.language -->
+			    <dir>${framework.dir}/oxbytei_externalAuthorActions</dir>
+			    <includes>
+				<include>sel-language.xml</include>
+			    </includes>
+			    <stylesheet>${test.dir}/extractXpath.xsl</stylesheet>
+			    <fileMappers>
+				<fileMapper
+				    implementation="org.codehaus.plexus.components.io.filemappers.FileExtensionMapper">
+				    <targetExtension>.test.xsl</targetExtension>
+				</fileMapper>
+			    </fileMappers>
+			</transformationSet>
+			<transformationSet>
+			    <!-- copy test cases to the same folder -->
+			    <dir>${framework.dir}/samples</dir>
+			    <includes>
+				<include>personography.xml</include>
+				<include>fatherandson.xml</include>
+				<include>empty.xml</include>
+			    </includes>
+			    <stylesheet>${test.dir}/id.xsl</stylesheet>
+			</transformationSet>
+			<transformationSet>
+			   <dir>${project.build.directory}</dir>
+			   <includes>
+                              <include>descriptor.xml</include>
+			   </includes>
+			   <stylesheet>../multiversion.xsl</stylesheet>
+			   <parameters>
+                              <parameter>
+				 <name>oxygen-versions</name>
+				 <value>${oxygen.versions}</value>
+                              </parameter>
+                              <parameter>
+				 <name>artifact</name>
+				 <value>${project.artifactId}-oxygen</value>
+                              </parameter>
+			   </parameters>
+			</transformationSet>
+		    </transformationSets>
+		</configuration>
+		<dependencies>
+		    <dependency>
+			<groupId>net.sf.saxon</groupId>
+			<artifactId>Saxon-HE</artifactId>
+			<version>${saxon.version}</version>
+		    </dependency>
+		</dependencies>
+	    </plugin>
+
+	    <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <version>3.1.1</version>
+                <executions>
+		    <execution>
+			<phase>prepare-package</phase>
+			<goals>
+			    <goal>copy-dependencies</goal>
+			</goals>
+			<configuration>
+			    <outputDirectory>${project.build.directory}/lib</outputDirectory>
+			    <includeArtifactIds>teilsp,oxbytei-core,slf4j-log4j12,slf4j-api,glazedlists,commons-csv</includeArtifactIds>
+			    <stripVersion>true</stripVersion>
+			</configuration>
+		    </execution>
+                </executions>
+            </plugin>
+
+	</plugins>
+    </build>
+
+</project>

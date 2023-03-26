@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xt:extensions
+    xmlns:xt="http://www.oxygenxml.com/ns/extension"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.oxygenxml.com/ns/extension http://www.oxygenxml.com/ns/extension/extensions.xsd">
+   <xt:extension id="${project.artifactId}">
+      <xt:location
+	  href="${framework.url}${project.artifactId}-oxygen${oxygen.version}-${project.version}-framework.zip"/>
+      <xt:version>${project.version}</xt:version>
+      <xt:oxy_version>23.1+</xt:oxy_version>
+      <xt:type>framework</xt:type>
+      <xt:author>Christian Lück</xt:author>
+      <xt:name>oXbytei</xt:name>
+      <xt:description xmlns="http://www.w3.org/1999/xhtml">
+	 <html>
+	    <head>
+	       <title>oXbytei framework</title>
+	    </head>
+	    <body>
+	       <div>
+		  <p>oXbytei is an &lt;oXygen/&gt; framework extending TEI P5,
+		  developed at SCDH, Westfälische Wilhelms-Universität Münster. It
+		  is configured by the document's header and offers high level
+		  functions.</p>
+		  <p>Visit the <a
+		  href="https://github.com/SCDH/oxbytei/releases/tag/${project.version}"
+		  >release page</a> to see what's new.</p>
+	       </div>
+
+	       <div>
+		  <head>Included Software and other Material</head>
+
+		  <p>The included languageicon icon was desigend by Onur Mustak
+		  Cobanli an is distributed on <a href="http://languageicon.org"
+		  >http://languageicon.org</a> by under a CC licence with
+		  Relax-Attribution term.</p>
+
+	       </div>
+	    </body>
+	 </html>
+      </xt:description>
+        <xt:license><![CDATA[
+${license}
+]]></xt:license>
+   </xt:extension>
+</xt:extensions>

@@ -4,10 +4,12 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>de.wwu.scdh.oxbytei</groupId>
-    <artifactId>oxbytei</artifactId>
-    <version>0.15.0</version>
+    <artifactId>oxbytei-platform</artifactId>
+    <version>${revision}</version>
 
-    <name>oXbytei</name>
+    <packaging>pom</packaging>
+
+    <name>oXbytei Platform</name>
     <url>https://github.com/scdh/oxbytei</url>
 
     <developers>
@@ -24,9 +26,9 @@
 
     <licenses>
 	<license>
-	    <name>GNU General Public License, version 3</name>
-	    <url>https://gplv3.fsf.org/</url>
-	</license>
+            <name>MIT License</name>
+            <url>https://opensource.org/licenses/mit-license.php</url>
+ 	</license>
     </licenses>
 
     <scm>
@@ -37,19 +39,20 @@
     </scm>
 
     <properties>
+
+        <revision>0.16.0</revision><!-- version -->
+
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>11</maven.compiler.source>
         <maven.compiler.target>11</maven.compiler.target>
 	<maven.compiler.source>1.8</maven.compiler.source>
 	<maven.compiler.target>1.8</maven.compiler.target>
-	<framework.dir>${project.basedir}/frameworks/oxbytei</framework.dir>
-	<test.dir>${project.basedir}/test/xspec</test.dir>
-	<testing.xsl.dir>${project.build.directory}/generated-resources/xml/xslt/</testing.xsl.dir>
-	<oxygen.sdk.version>23.1.0.4</oxygen.sdk.version>
-	<saxon.version>10.2</saxon.version>
-	<!-- take care: after changing the following you have to update the exf-file! -->
         <slf4j.version>1.7.32</slf4j.version>
-	<ediarum.version>3.1.0</ediarum.version>
+	<saxon.version>10.6</saxon.version>
+	<saxon4xspec.version>10.6</saxon4xspec.version>
+	<oxygen.versions>23:23.0,23.1,23.2|24:24.0,24.1,24.2|25:25.0+</oxygen.versions>
+	<oxygen.version>24</oxygen.version>
+	<oxygen.sdk.version>24.1.0.0</oxygen.sdk.version>
     </properties>
 
     <repositories>
@@ -78,27 +81,9 @@
             <scope>runtime</scope>
         </dependency>
 	<dependency>
-	    <groupId>com.oxygenxml</groupId>
-	    <artifactId>oxygen</artifactId>
-	    <version>${oxygen.sdk.version}</version>
-	</dependency>
-	<dependency>
 	    <groupId>net.sf.saxon</groupId>
 	    <artifactId>Saxon-HE</artifactId>
 	    <version>${saxon.version}</version>
-	</dependency>
-	<!-- https://mvnrepository.com/artifact/com.googlecode.maven-download-plugin/download-maven-plugin -->
-	<dependency>
-	    <groupId>com.googlecode.maven-download-plugin</groupId>
-	    <artifactId>download-maven-plugin</artifactId>
-	    <version>1.6.7</version>
-	</dependency>
-	<dependency>
-	    <groupId>org.bbaw.telota.ediarum</groupId>
-	    <artifactId>ediarum</artifactId>
-	    <version>3.1.0</version>
-	    <scope>system</scope>
-	    <systemPath>${project.build.directory}/lib/ediarum-${ediarum.version}.jar</systemPath>
 	</dependency>
 	<dependency>
             <groupId>org.junit.jupiter</groupId>
@@ -124,180 +109,57 @@
 	</dependency>
     </dependencies>
 
-    <build>
+    <modules>
+       <module>teilsp</module>
+       <module>core</module>
+       <module>framework</module>
+    </modules>
 
-	<!-- We want a jar file without version number, because that's
-	     easier to pack into the framework zip. -->
-	<finalName>${project.artifactId}</finalName>
-
-	<plugins>
-
-	    <!-- configure test reporter for JUnit 5 -->
-            <plugin>
-                <artifactId>maven-surefire-plugin</artifactId>
-                <version>2.22.2</version>
-		<configuration>
-		    <!-- set to false for debugging! -->
-		    <trimStackTrace>true</trimStackTrace>
-		</configuration>
-            </plugin>
-            <plugin>
-                <artifactId>maven-failsafe-plugin</artifactId>
-                <version>2.22.2</version>
-            </plugin>
-
-	    <!-- download ediarum.jar -->
-	    <plugin>
-		<groupId>com.googlecode.maven-download-plugin</groupId>
-		<artifactId>download-maven-plugin</artifactId>
-		<version>1.6.7</version>
-		<executions>
-		    <execution>
-			<id>install-ediarum.jar</id>
-			<phase>generate-sources</phase>
-			<goals>
-			    <goal>wget</goal>
-			</goals>
-			<configuration>
-			    <url>https://github.com/ediarum/ediarum.JAR/blob/master/dist/ediarum-${ediarum.version}.jar?raw=true</url>
-			    <outputDirectory>${project.build.directory}/lib</outputDirectory>
-			    <outputFileName>ediarum-${ediarum.version}.jar</outputFileName>
-			</configuration>
-		    </execution>
-		</executions>
-	    </plugin>
-
-
-	    <!-- run XSpec regression tests -->
-	    <plugin>
-		<groupId>io.xspec.maven</groupId>
-		<artifactId>xspec-maven-plugin</artifactId>
-		<version>2.0.0</version>
-		<configuration>
-                    <!--coverage>true</coverage-->
-		    <generateSurefireReport>true</generateSurefireReport>
-		    <testDir>test/xspec</testDir>
-		    <catalogFile>${project.basedir}/catalog.xml</catalogFile>
-		</configuration>
-		<executions>
-                    <execution>
-			<phase>test</phase>
-			<goals>
-                            <goal>run-xspec</goal>
-			</goals>
-                    </execution>
-		</executions>
-		<dependencies>
-		    <dependency>
-			<groupId>net.sf.saxon</groupId>
-			<artifactId>Saxon-HE</artifactId>
-			<version>${saxon.version}</version>
-		    </dependency>
-		    <dependency>
-			<groupId>io.xspec</groupId>
-			<artifactId>xspec</artifactId>
-			<version>1.6.0</version>
-		    </dependency>
-		</dependencies>
-            </plugin>
-
-	    <!-- make framework package -->
-	    <plugin>
-		<artifactId>maven-assembly-plugin</artifactId>
-		<version>2.4</version>
-		<executions>
-		    <execution>
-			<id>make-assembly</id>
-			<phase>package</phase>
-			<goals>
-			    <goal>single</goal>
-			</goals>
-			<configuration>
-			    <finalName>${project.artifactId}-${project.version}</finalName>
-			    <archiveBaseDirectory>${project.basedir}</archiveBaseDirectory>
-			    <descriptors>
-				<descriptor>assembly.xml</descriptor>
-			    </descriptors>
-			</configuration>
-		    </execution>
-		</executions>
-	    </plugin>
-
-	    <plugin>
-		<groupId>org.codehaus.mojo</groupId>
-		<artifactId>xml-maven-plugin</artifactId>
-		<version>1.0.2</version>
-		<executions>
-		    <execution>
-			<goals>
-			    <goal>transform</goal>
-			</goals>
-		    </execution>
-		</executions>
-		<configuration>
-		    <transformationSets>
-			<!-- make a package descriptor using information from this pom.xml -->
-			<transformationSet>
-			    <dir>${project.basedir}</dir>
-			    <includes>
-				<include>pom.xml</include>
-			    </includes>
-			    <stylesheet>pages/descriptor.xsl</stylesheet>
-			</transformationSet>
-			<transformationSet>
-			    <!-- sel.language -->
-			    <dir>${framework.dir}/oxbytei_externalAuthorActions</dir>
-			    <includes>
-				<include>sel-language.xml</include>
-			    </includes>
-			    <stylesheet>${test.dir}/extractXpath.xsl</stylesheet>
-			    <fileMappers>
-				<fileMapper
-				    implementation="org.codehaus.plexus.components.io.filemappers.FileExtensionMapper">
-				    <targetExtension>.test.xsl</targetExtension>
-				</fileMapper>
-			    </fileMappers>
-			</transformationSet>
-			<transformationSet>
-			    <!-- copy test cases to the same folder -->
-			    <dir>${framework.dir}/samples</dir>
-			    <includes>
-				<include>personography.xml</include>
-				<include>fatherandson.xml</include>
-				<include>empty.xml</include>
-			    </includes>
-			    <stylesheet>${test.dir}/id.xsl</stylesheet>
-			</transformationSet>
-		    </transformationSets>
-		</configuration>
-		<dependencies>
-		    <dependency>
-			<groupId>net.sf.saxon</groupId>
-			<artifactId>Saxon-HE</artifactId>
-			<version>${saxon.version}</version>
-		    </dependency>
-		</dependencies>
-	    </plugin>
-
-	    <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-dependency-plugin</artifactId>
-                <version>3.1.1</version>
-                <executions>
-		    <execution>
-			<phase>prepare-package</phase>
-			<goals>
-			    <goal>copy-dependencies</goal>
-			</goals>
-			<configuration>
-			    <outputDirectory>${project.build.directory}/lib</outputDirectory>
-			    <includeArtifactIds>slf4j-log4j12,slf4j-api,glazedlists,commons-csv</includeArtifactIds>
-			</configuration>
-		    </execution>
-                </executions>
-            </plugin>
-	    
-	</plugins>
-    </build>
+    <profiles>
+      <!--
+           Profiles for building for different versions of
+           oxygenxml. Please add new versions to the property
+           oxygen.versions, too!
+      -->
+      <profile>
+         <id>oxygen23</id>
+         <activation>
+            <property>
+               <name>oxygen.version</name>
+               <value>23</value>
+            </property>
+         </activation>
+         <properties>
+            <saxon.version>9.9.1-7</saxon.version>
+            <oxygen.sdk.version>23.1.0.4</oxygen.sdk.version>
+         </properties>
+      </profile>
+      <profile>
+         <id>oxygen24</id>
+         <activation>
+            <property>
+               <name>oxygen.version</name>
+               <value>24</value>
+            </property>
+         </activation>
+         <properties>
+            <saxon.version>10.6</saxon.version>
+            <oxygen.sdk.version>24.1.0.0</oxygen.sdk.version>
+         </properties>
+      </profile>
+      <profile>
+         <id>oxygen25</id>
+         <activation>
+            <property>
+               <name>oxygen.version</name>
+               <value>25</value>
+            </property>
+         </activation>
+         <properties>
+            <saxon.version>11.2</saxon.version>
+            <oxygen.sdk.version>25.0.0.0</oxygen.sdk.version>
+         </properties>
+      </profile>
+    </profiles>
 
 </project>

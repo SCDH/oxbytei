@@ -210,15 +210,15 @@ mvn generate-sources
 mvn package
 ```
 
-- 4) Create symbolic links for the jar files from the folder
+- 4) Create symbolic links for *all* the jar files from the folder
 `target/lib` to the folder `frameworks/oxbytei`:
 
 ```{shell}
 cd frameworks/oxbytei
-ln -s ../../target/oxbytei.jar .
-ln -s ../../target/lib/ediarum-3.1.0.jar .
-ln -s ../../target/lib/slf4j-log4j12-1.7.32.jar .
-ln -s ../../target/lib/slf4j-api-1.7.32.jar .
+ln -s ../../target/lib/teilsp.jar .
+ln -s ../../target/lib/oxbytei-core.jar .
+ln -s ../../target/lib/slf4j-api.jar .
+...
 ```
 
 - 5) In your project's root folder (aka `${pd}`, see above), create a
@@ -382,22 +382,7 @@ specifically for an editing context.
 
 # License #
 
-Copyright (c) 2021 Christian Lück
-
-This program is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with this program.  If not, see
-[http://www.gnu.org/licenses/](http://www.gnu.org/licenses/).
-
+MIT
 
 ## Included Software and other Material ##
 
@@ -406,8 +391,3 @@ icon was desigend by Onur Mustak Cobanli an is distributed on
 [http://languageicon.org/](http://languageicon.org/) by under a CC
 licence with Relax-Attribution term.
 
-The framework packetized for installation ships with a copy of
-[ediarum.JAR](https://github.com/ediarum/ediarum.JAR), which is
-distributed under the terms of the GPL v3, written by Martin Fechner
-and copyrighted by the Berlin-Brandenburg Academy of Sciences and
-Humanities.
