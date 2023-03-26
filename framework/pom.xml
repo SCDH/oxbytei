@@ -202,7 +202,7 @@
                               </parameter>
                               <parameter>
 				 <name>artifact</name>
-				 <value>${project.artifactId}</value>
+				 <value>${project.artifactId}-oxygen</value>
                               </parameter>
 			   </parameters>
 			</transformationSet>
