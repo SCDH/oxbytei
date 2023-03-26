@@ -1,9 +1,13 @@
 # Change log #
 
-## dev
+## 0.16.1
+
+- fix CI pipeline
+
+## 0.16.0
 
 - compatiblity with Oxygen 25
-- deliver framework compiled for different versions of Oxygen
+- provide framework compiled for different versions of Oxygen
 - do not use XML catalog from the editor in the `LabelledEntriesXSLT`
   and `LabelledEntriesXSLTWithContext` providers
   - This was required due to API changes in Saxon 11, which ships with
