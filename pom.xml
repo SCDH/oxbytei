@@ -47,9 +47,12 @@
         <maven.compiler.target>11</maven.compiler.target>
 	<maven.compiler.source>1.8</maven.compiler.source>
 	<maven.compiler.target>1.8</maven.compiler.target>
-	<oxygen.sdk.version>23.1.0.4</oxygen.sdk.version>
-	<saxon.version>10.2</saxon.version>
         <slf4j.version>1.7.32</slf4j.version>
+	<saxon.version>10.6</saxon.version>
+	<saxon4xspec.version>10.6</saxon4xspec.version>
+	<oxygen.versions>23:23.0,23.1,23.2|24:24.0,24.1,24.2|25:25.0+</oxygen.versions>
+	<oxygen.version>24</oxygen.version>
+	<oxygen.sdk.version>24.1.0.0</oxygen.sdk.version>
     </properties>
 
     <repositories>
@@ -111,5 +114,52 @@
        <module>core</module>
        <module>framework</module>
     </modules>
+
+    <profiles>
+      <!--
+           Profiles for building for different versions of
+           oxygenxml. Please add new versions to the property
+           oxygen.versions, too!
+      -->
+      <profile>
+         <id>oxygen23</id>
+         <activation>
+            <property>
+               <name>oxygen.version</name>
+               <value>23</value>
+            </property>
+         </activation>
+         <properties>
+            <saxon.version>9.9.1-7</saxon.version>
+            <oxygen.sdk.version>23.1.0.4</oxygen.sdk.version>
+         </properties>
+      </profile>
+      <profile>
+         <id>oxygen24</id>
+         <activation>
+            <property>
+               <name>oxygen.version</name>
+               <value>24</value>
+            </property>
+         </activation>
+         <properties>
+            <saxon.version>10.6</saxon.version>
+            <oxygen.sdk.version>24.1.0.0</oxygen.sdk.version>
+         </properties>
+      </profile>
+      <profile>
+         <id>oxygen25</id>
+         <activation>
+            <property>
+               <name>oxygen.version</name>
+               <value>25</value>
+            </property>
+         </activation>
+         <properties>
+            <saxon.version>11.2</saxon.version>
+            <oxygen.sdk.version>25.0.0.0</oxygen.sdk.version>
+         </properties>
+      </profile>
+    </profiles>
 
 </project>

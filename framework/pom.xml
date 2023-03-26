@@ -36,10 +36,6 @@
 
     <build>
 
-	<!-- We want a jar file without version number, because that's
-	     easier to pack into the framework zip. -->
-	<finalName>${project.artifactId}</finalName>
-
 	<plugins>
 
 	    <!-- configure test reporter for JUnit 5 -->
@@ -98,7 +94,7 @@
 		    <dependency>
 			<groupId>net.sf.saxon</groupId>
 			<artifactId>Saxon-HE</artifactId>
-			<version>${saxon.version}</version>
+			<version>${saxon4xspec.version}</version>
 		    </dependency>
 		    <dependency>
 			<groupId>io.xspec</groupId>
@@ -120,7 +116,7 @@
 			    <goal>single</goal>
 			</goals>
 			<configuration>
-			    <finalName>${project.artifactId}-${project.version}</finalName>
+			    <finalName>${project.artifactId}-oxygen${oxygen.version}-${project.version}</finalName>
 			    <archiveBaseDirectory>${project.basedir}</archiveBaseDirectory>
 			    <descriptors>
 				<descriptor>assembly.xml</descriptor>
@@ -192,6 +188,23 @@
 				<include>empty.xml</include>
 			    </includes>
 			    <stylesheet>${test.dir}/id.xsl</stylesheet>
+			</transformationSet>
+			<transformationSet>
+			   <dir>${project.build.directory}</dir>
+			   <includes>
+                              <include>descriptor.xml</include>
+			   </includes>
+			   <stylesheet>../multiversion.xsl</stylesheet>
+			   <parameters>
+                              <parameter>
+				 <name>oxygen-versions</name>
+				 <value>${oxygen.versions}</value>
+                              </parameter>
+                              <parameter>
+				 <name>artifact</name>
+				 <value>${project.artifactId}</value>
+                              </parameter>
+			   </parameters>
 			</transformationSet>
 		    </transformationSets>
 		</configuration>

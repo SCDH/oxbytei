@@ -5,7 +5,7 @@
     xsi:schemaLocation="http://www.oxygenxml.com/ns/extension http://www.oxygenxml.com/ns/extension/extensions.xsd">
    <xt:extension id="${project.artifactId}">
       <xt:location
-	  href="${framework.url}${project.artifactId}-${project.version}-package.zip"/>
+	  href="${framework.url}${project.artifactId}-oxygen${oxygen.version}-${project.version}-framework.zip"/>
       <xt:version>${project.version}</xt:version>
       <xt:oxy_version>23.1+</xt:oxy_version>
       <xt:type>framework</xt:type>
