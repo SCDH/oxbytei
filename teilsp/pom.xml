@@ -14,15 +14,6 @@
     <name>TEI LSP components</name>
     <url>https://github.com/scdh/oxbytei</url>
 
-    <dependencies>
-        <!-- TODO: remove -->
-	<dependency>
-	    <groupId>com.oxygenxml</groupId>
-	    <artifactId>oxygen</artifactId>
-	    <version>${oxygen.sdk.version}</version>
-	</dependency>
-    </dependencies>
-
     <build>
 
 	<!-- We want a jar file without version number, because that's
