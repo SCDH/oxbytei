@@ -28,8 +28,8 @@ jobs:
       - name: run maven with build profile for oxygen 23
         run: mvn -Doxygen.version=23 --batch-mode --update-snapshots clean verify
 
-      - name: run maven with build profile for oxygen 23
+      - name: run maven with build profile for oxygen 24
         run: mvn -Doxygen.version=24 --batch-mode --update-snapshots clean verify
 
-      - name: run maven with build profile for oxygen 23
+      - name: run maven with build profile for oxygen 25
         run: mvn -Doxygen.version=25 --batch-mode --update-snapshots clean verify
