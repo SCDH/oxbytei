@@ -13,7 +13,9 @@ import org.xml.sax.EntityResolver;
 import org.w3c.dom.Document;
 
 import net.sf.saxon.s9api.*;
-import net.sf.saxon.Configuration;
+// import net.sf.saxon.lib.ResourceResolver; // since Saxon 11
+// import net.sf.saxon.lib.ResourceResolverWrappingURIResolver; // since Saxon 11
+// import net.sf.saxon.lib.Feature;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -94,7 +96,7 @@ public class LabelledEntriesXSLT
     protected Map<QName, XdmValue> xdmParameters = new HashMap<QName, XdmValue>();
     protected String templateLName, templatePrefix, templateNamespace;
     protected QName templateQName;
-    protected Configuration saxonConfig = new SaxonConfiguration();
+    protected Processor processor;
 
     public void init(Map<String, String> arguments)
 	throws ConfigurationException {
@@ -112,6 +114,9 @@ public class LabelledEntriesXSLT
 	for (String key : parameters.keySet()) {
 	    xdmParameters.put(new QName(key), new XdmAtomicValue(parameters.get(key)));
 	}
+
+	// we set up the saxon processor, i.e. the configuration
+	processor = new Processor(false);
     }
 
     public Map<String, String> getArguments() {
@@ -125,17 +130,29 @@ public class LabelledEntriesXSLT
 	 String systemId,
 	 String context)
 	throws ExtensionException {
-	// use the URI resolver from the editor
-	saxonConfig.setURIResolver(uriResolver);
+	// We do not use the URI resolver from the editor any more,
+	//since the Configuration.setURIResolver() has gone in Saxon
+	//11, and it is not possible to set an instance by the Feature
+	//approach. Also, the setURIResolver() methods on the compiler
+	//and on the transformer have changed in Saxon 11. Instead, we
+	//use the URIResolver defined in the configration
+	//(net.sf.saxon.lib.StandardURIResolver by default). An we
+	//will provide a catalog argument in the future. Generally,
+	//this way we distinguish between the two concepts of
+	//resolving and the feature of an OASIS catalog.
+
+	// // since Saxon 11
+	// if (uriResolver != null) {
+	//     ResourceResolver resourceResolver = new ResourceResolverWrappingURIResolver(uriResolver);
+	//     processor.setConfigurationProperty(Feature.RESOURCE_RESOLVER, resourceResolver);
+	// }
     }
 
     public List<LabelledEntry> getLabelledEntries(String userInput)
 	throws ExtensionException {
 
 	// setup the XSL transformer
-	Processor proc = new Processor(saxonConfig);
-	//saxonConfig = proc.getUnderlyingConfiguration();
-	XsltCompiler comp = proc.newXsltCompiler();
+	XsltCompiler comp = processor.newXsltCompiler();
 	XsltExecutable exec;
 	try {
 	    InputStream scriptStream = script.openStream();

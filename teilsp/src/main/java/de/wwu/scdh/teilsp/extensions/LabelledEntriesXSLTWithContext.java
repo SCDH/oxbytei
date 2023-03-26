@@ -53,7 +53,7 @@ public class LabelledEntriesXSLTWithContext
 
 	// wrap org.w3c document into saxon NodeInfo
 	// see https://www.saxonica.com/html/documentation11/sourcedocs/thirdparty.html
-	DocumentWrapper doc = new DocumentWrapper(document, systemId, saxonConfig);
+	DocumentWrapper doc = new DocumentWrapper(document, systemId, processor.getUnderlyingConfiguration());
 	NodeInfo rootNode = doc.getRootNode();
 	XdmNode docNode = new XdmNode(rootNode);
 
