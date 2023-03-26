@@ -5,7 +5,12 @@
 
 ## tl;dr ##
 
-Install from [https://scdh.github.io/oxbytei/descriptor.xml](https://scdh.github.io/oxbytei/descriptor.xml).
+Install from
+
+```
+https://scdh.github.io/oxbytei/descriptor.xml
+```
+
 
 STATE: development, experimental
 
