@@ -23,7 +23,16 @@ jobs:
           cache: maven
 
       - name: run maven to get ediarum
-        run: mvn --batch-mode --update-snapshots generate-sources
+        run: mvn --batch-mode --update-snapshots package
 
       - name: run maven
         run: mvn --batch-mode --update-snapshots verify
+
+      - name: run maven
+        run: mvn -Doxygen.version=23 --batch-mode --update-snapshots verify
+
+      - name: run maven
+        run: mvn -Doxygen.version=24 --batch-mode --update-snapshots verify
+
+      - name: run maven
+        run: mvn -Doxygen.version=25 --batch-mode --update-snapshots verify
