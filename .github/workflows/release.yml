@@ -20,7 +20,7 @@ jobs:
           cache: maven
 
       - name: run maven
-        run: mvn --batch-mode --update-snapshots package
+        run: mvn -Drevision=${{github.ref}} -Dchangelist="" --batch-mode --update-snapshots package
 
       - name: create release
         uses: actions/create-release@v1
@@ -36,7 +36,7 @@ jobs:
 
 
       - name: build for oxygen 23
-        run: mvn -Doxygen.version=23 --batch-mode --update-snapshots clean package
+        run: mvn -Doxygen.version=23 -Drevision=${{github.ref}} -Dchangelist="" --batch-mode --update-snapshots clean package
 
       - name: upload framework package for oxygen 23 to release
         uses: actions/upload-release-asset@v1
@@ -49,7 +49,7 @@ jobs:
           asset_content_type: application/zip
 
       - name: build for oxygen 24
-        run: mvn -Doxygen.version=24 --batch-mode --update-snapshots clean package
+        run: mvn -Doxygen.version=24 -Drevision=${{github.ref}} -Dchangelist="" --batch-mode --update-snapshots clean package
 
       - name: upload framework package for oxygen 24 to release
         uses: actions/upload-release-asset@v1
@@ -62,7 +62,7 @@ jobs:
           asset_content_type: application/zip
 
       - name: build for oxygen 25
-        run: mvn -Doxygen.version=25 --batch-mode --update-snapshots clean package
+        run: mvn -Doxygen.version=25 -Drevision=${{github.ref}} -Dchangelist="" --batch-mode --update-snapshots clean package
 
       - name: upload framework package for oxygen 25 to release
         uses: actions/upload-release-asset@v1
@@ -75,7 +75,7 @@ jobs:
           asset_content_type: application/zip
 
       - name: build for oxygen 26
-        run: mvn -Doxygen.version=26 --batch-mode --update-snapshots clean package
+        run: mvn -Doxygen.version=26 -Drevision=${{github.ref}} -Dchangelist="" --batch-mode --update-snapshots clean package
 
       - name: upload framework package for oxygen 26 to release
         uses: actions/upload-release-asset@v1
