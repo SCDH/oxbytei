@@ -1,5 +1,10 @@
 # Change log #
 
+## 0.16.3
+
+- support Oxygen 26 (see issue #8)
+- git release tags are now the single source of truth for version numbers
+
 ## 0.16.1
 
 - fix CI pipeline
