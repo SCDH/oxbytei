@@ -73,3 +73,16 @@ jobs:
           asset_path: framework/target/oxbytei-oxygen25-${{ github.ref_name }}-framework.zip
           asset_name: oxbytei-oxygen25-${{ github.ref_name }}-framework.zip
           asset_content_type: application/zip
+
+      - name: build for oxygen 26
+        run: mvn -Doxygen.version=26 --batch-mode --update-snapshots clean package
+
+      - name: upload framework package for oxygen 26 to release
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: framework/target/oxbytei-oxygen26-${{ github.ref_name }}-framework.zip
+          asset_name: oxbytei-oxygen26-${{ github.ref_name }}-framework.zip
+          asset_content_type: application/zip
