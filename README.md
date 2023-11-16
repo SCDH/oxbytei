@@ -296,9 +296,11 @@ This will produce a release on [releases/tag/<TAG_NAME>](releases/tag)
 and update the [descriptor
 file](https://scdh.github.io/oxbytei/descriptor.xml).
 
-NOTE: The tag name **must equal** the version in the
-[pom.xml](pom.xml) file for releases that update the descriptor file
-(i.e. releases that match the pattern `[0-9]+\.[0-9]+\.[0-9]+`)!
+NOTE: Git release tags are the single source of truth for release
+numbers and release triggers. There is no version information in the
+pom file. A default version number is contained in
+`.mvn/maven.config`, which should be kept up to date. However, it is
+overridden in the CI/CD pipelines by the release tag.
 
 ## Design principles ##
 
