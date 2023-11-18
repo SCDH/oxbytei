@@ -1,4 +1,8 @@
-# Change log #
+# Changes
+
+## 0.16.4
+
+- fix descriptor file (see issue #9)
 
 ## 0.16.3
 
