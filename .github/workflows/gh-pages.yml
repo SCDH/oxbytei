@@ -20,7 +20,7 @@ jobs:
           cache: maven
 
       - name: run maven
-        run: mvn --batch-mode --update-snapshots package
+        run: mvn -Drevision=${{github.ref_name}} -Dchangelist="" --batch-mode --update-snapshots package
 
       - name: create directory for github pages
         run: mkdir -p public
