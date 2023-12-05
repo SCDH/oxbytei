@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- This make an interpretative annotation on markup.annotation linke described in the guidelines:
+<!-- This makes an interpretative annotation on markup.annotation like described in the guidelines:
 https://www.tei-c.org/release/doc/tei-p5-doc/de/html/AI.html#AISP
 
 The caret will be on the inserted <span>.
@@ -35,9 +35,14 @@ The caret will be on the inserted <span>.
             </xsl:message>
         </xsl:if>
         <span from="#{$startId}">
-            <xsl:if test="$has-end-anchor">
-                <xsl:attribute name="to" select="concat('#', $endId)"/>
-            </xsl:if>
+            <xsl:choose>
+                <xsl:when test="$has-end-anchor">
+                    <xsl:attribute name="to" select="concat('#', $endId)"/>
+                </xsl:when>
+                <xsl:otherwise>
+                    <xsl:attribute name="xml:id" select="$endId"/>
+                </xsl:otherwise>
+            </xsl:choose>
             <xsl:choose>
                 <xsl:when test="$wrapper eq '' and $reproduce-text">
                     <xsl:variable name="extracted">
