@@ -12,7 +12,7 @@ https://scdh.github.io/oxbytei/descriptor.xml
 ```
 
 
-STATE: development, experimental
+STATE: in production
 
 ## An oXygen framework configured by TEI ##
 
