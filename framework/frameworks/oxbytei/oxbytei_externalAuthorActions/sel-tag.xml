@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- editing atom -->
+<a:authorAction xmlns:a="http://www.oxygenxml.com/ns/author/external-action"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.oxygenxml.com/ns/author/external-action http://www.oxygenxml.com/ns/author/external-action/authorAction.xsd"
+  id="sel.tag">
+  <a:name>Select tag</a:name>
+  <a:description>Select an analytical or interpretative tag.</a:description>
+  <a:largeIconPath href="${framework(oXbytei)}/images/tag-24.png"/>
+  <a:smallIconPath href="${framework(oXbytei)}/images/tag-16.png"/>
+  <a:operations>
+    <a:operation id="de.wwu.scdh.oxbytei.SelectAttributeValueOperation">
+      <a:xpathCondition>true()</a:xpathCondition>
+      <a:arguments>
+        <a:argument name="name">${teilspProp(oxbytei.action.sel.tag.attributeName)}</a:argument>
+        <a:argument name="elementLocation">self::*</a:argument>
+        <a:argument name="message">Choose</a:argument>
+        <a:argument name="rollbackOnCancel">true</a:argument>
+      </a:arguments>
+    </a:operation>
+  </a:operations>
+  <a:accessKey/>
+</a:authorAction>
