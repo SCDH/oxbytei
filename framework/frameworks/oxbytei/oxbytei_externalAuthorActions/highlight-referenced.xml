@@ -37,6 +37,20 @@
         <a:argument name="end">${xpath_eval(concat('//*[@xml:id eq ', "'", substring(ancestor-or-self::span/@to, 2), "']"))}</a:argument>
       </a:arguments>
     </a:operation>
+    <a:operation id="de.wwu.scdh.oxbytei.SelectReferencedOperation">
+      <a:xpathCondition>ancestor-or-self::span[@from and not(@to)]</a:xpathCondition>
+      <a:arguments>
+        <a:argument name="start">${xpath_eval(concat('//*[@xml:id eq ', "'", substring(ancestor-or-self::span/@from, 2), "']"))}</a:argument>
+        <a:argument name="end">ancestor-or-self::span</a:argument>
+      </a:arguments>
+    </a:operation>
+    <a:operation id="de.wwu.scdh.oxbytei.SelectReferencedOperation">
+      <a:xpathCondition>ancestor-or-self::span[not(@from) and exists(@to)]</a:xpathCondition>
+      <a:arguments>
+        <a:argument name="start">ancestor-or-self::span</a:argument>
+        <a:argument name="end">${xpath_eval(concat('//*[@xml:id eq ', "'", substring(ancestor-or-self::span/@to, 2), "']"))}</a:argument>
+      </a:arguments>
+    </a:operation>
   </a:operations>
   <a:accessKey/>
 </a:authorAction>
