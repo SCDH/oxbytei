@@ -1,5 +1,14 @@
 # Changes
 
+## 0.17.0
+
+- added `sel.tag` action for selecting analytical or interpretative
+  tags
+- improved markup generation for the annotation action: Keep the
+  `endID` for the `<span>`, if the end anchor is replaced with
+  it. This is generally wanted when the annotation is used in a way
+  similar to an internal double-end-point apparatus encoding.
+
 ## 0.16.4
 
 - fix descriptor file (see issue #9)
