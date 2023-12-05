@@ -8,6 +8,8 @@
         <!-- what to select for automatic IDs generation -->
         <property name="oxbytei.action.select.for.ids.xpathLocation">/*</property>
 
+        <!-- properties for select tag action -->
+        <property name="oxbytei.action.sel.tag.attributeName">ana</property>
 
         <!-- properties for annotation action -->
         <property name="oxbytei.action.annotate.startAnchor">anchor</property>
