@@ -1,5 +1,12 @@
 # Changes
 
+## 0.17.1
+
+- added editing atoms `move.caret.after.current` and
+  `move.caret.before.current` for moving the caret (point) outside the
+  current element. These editing atoms can be used by downstream
+  frameworks.
+
 ## 0.17.0
 
 - added `sel.tag` action for selecting analytical or interpretative
