@@ -127,6 +127,23 @@
         <property name="oxbytei.action.markup.bibref.externalParams">tag=bibl, style=aggregative</property>
         <property name="oxbytei.action.sel.bibref.name">corresp</property>
 
+        <!-- properties for rs linking action -->
+        <property name="oxbytei.action.anchors.rs.startAnchor">anchor</property>
+        <property name="oxbytei.action.anchors.rs.startAnchorNamespace"
+            >http://www.tei-c.org/ns/1.0</property>
+        <property name="oxbytei.action.anchors.rs.startId">'${id}'</property>
+        <property name="oxbytei.action.anchors.rs.endAnchor">anchor</property>
+        <property name="oxbytei.action.anchors.rs.startAnchorNamespace"
+            >http://www.tei-c.org/ns/1.0</property>
+        <property name="oxbytei.action.anchors.rs.endId">'${id}'</property>
+        <property name="oxbytei.action.anchors.rs.moveToEnd">false</property>
+        <property name="oxbytei.action.markup.rs.sourceLocation">/*</property>
+        <property name="oxbytei.action.markup.rs.targetLocation">${anchorsContainer}</property>
+        <property name="oxbytei.action.markup.rs.action">Replace</property>
+        <property name="oxbytei.action.markup.rs.externalParams">tag=rs,style=aggregative</property>
+        <property name="oxbytei.action.sel.rs.name">ref</property>
+        <property name="oxbytei.action.sel.rs-type.name">type</property>
+
 
         <!-- properties for inserting single anchors, used by several actions -->
         <property name="oxbytei.action.anchor.anchor">anchor</property>
@@ -277,7 +294,26 @@
                 </configuration>
             </configurations>
         </plugin>
-        
+        <plugin>
+            <class>de.wwu.scdh.teilsp.extensions.LabelledEntriesFromConfig</class>
+            <type>e.wwu.scdh.teilsp.services.extensions.ILabelledEntriesProvider</type>
+            <configurations>
+                <configuration>
+                    <conditions>
+                        <condition domain="context">self::*:rs</condition>
+                        <condition domain="priority">10</condition>
+                        <condition domain="nodeName">type</condition>
+                        <condition domain="nodeType">attributeValue</condition>
+                    </conditions>
+                    <arguments>
+                        <argument name="keys">person;place;org</argument>
+                        <argument name="labels">Person;Place;Organization</argument>
+                        <argument name="separator">;</argument>
+                    </arguments>
+                </configuration>
+            </configurations>
+        </plugin>
+
         <!-- UI -->
         <plugin>
             <class>de.wwu.scdh.teilsp.ui.CheckBoxSelectDialog</class>
@@ -321,7 +357,7 @@
             <configurations>
                 <configuration>
                     <conditions>
-                        <condition domain="context">self::*:persName</condition>
+                        <condition domain="context">self::*:persName | self::*:person | self::*:rs[@type eq 'person']</condition>
                         <condition domain="priority">10</condition>
                         <condition domain="nodeName">ref</condition>
                         <condition domain="nodeType">attributeValue</condition>
@@ -339,7 +375,7 @@
             <configurations>
                 <configuration>
                     <conditions>
-                        <condition domain="context">self::*:placeName</condition>
+                        <condition domain="context">self::*:placeName | self::*:place | self::*:rs[@type eq 'place']</condition>
                         <condition domain="priority">10</condition>
                         <condition domain="nodeName">ref</condition>
                         <condition domain="nodeType">attributeValue</condition>
@@ -347,6 +383,24 @@
                     <arguments>
                         <argument name="title">Select person</argument>
                         <argument name="icon">${framework(oXbytei)}/images/pin-24.png</argument>
+                    </arguments>
+                </configuration>
+            </configurations>
+        </plugin>
+        <plugin>
+            <class>de.wwu.scdh.teilsp.ui.ComboBoxSelectDialog</class>
+            <type>de.wwu.scdh.teilsp.ui.ISelectionDialog</type>
+            <configurations>
+                <configuration>
+                    <conditions>
+                        <condition domain="context">self::*:rs</condition>
+                        <condition domain="priority">10</condition>
+                        <condition domain="nodeName">type</condition>
+                        <condition domain="nodeType">attributeValue</condition>
+                    </conditions>
+                    <arguments>
+                        <argument name="title">Select type of entity (referring string)</argument>
+                        <argument name="icon">${framework(oXbytei)}/images/rs-24.png</argument>
                     </arguments>
                 </configuration>
             </configurations>
