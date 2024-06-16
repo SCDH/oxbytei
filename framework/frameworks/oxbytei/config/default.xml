@@ -129,20 +129,18 @@
 
         <!-- properties for rs linking action -->
         <property name="oxbytei.action.anchors.rs.startAnchor">anchor</property>
-        <property name="oxbytei.action.anchors.rs.startAnchorNamespace"
-            >http://www.tei-c.org/ns/1.0</property>
+        <property name="oxbytei.action.anchors.rs.startAnchorNamespace">http://www.tei-c.org/ns/1.0</property>
         <property name="oxbytei.action.anchors.rs.startId">'${id}'</property>
         <property name="oxbytei.action.anchors.rs.endAnchor">anchor</property>
-        <property name="oxbytei.action.anchors.rs.startAnchorNamespace"
-            >http://www.tei-c.org/ns/1.0</property>
+        <property name="oxbytei.action.anchors.rs.startAnchorNamespace">http://www.tei-c.org/ns/1.0</property>
         <property name="oxbytei.action.anchors.rs.endId">'${id}'</property>
         <property name="oxbytei.action.anchors.rs.moveToEnd">false</property>
         <property name="oxbytei.action.markup.rs.sourceLocation">/*</property>
         <property name="oxbytei.action.markup.rs.targetLocation">${anchorsContainer}</property>
         <property name="oxbytei.action.markup.rs.action">Replace</property>
-        <property name="oxbytei.action.markup.rs.externalParams">tag=rs,style=aggregative</property>
+        <property name="oxbytei.action.markup.rs.externalParams">tag=rs, style=aggregative</property>
         <property name="oxbytei.action.sel.rs.name">ref</property>
-        <property name="oxbytei.action.sel.rs-type.name">type</property>
+        <property name="oxbytei.action.sel.rs.type.name">type</property>
 
 
         <!-- properties for inserting single anchors, used by several actions -->
