@@ -12,7 +12,7 @@
     <a:operation id="ExecuteMultipleActionsOperation">
       <a:xpathCondition>self::*:rs</a:xpathCondition>
       <a:arguments>
-        <a:argument name="actionIDs">sel.rs</a:argument>
+        <a:argument name="actionIDs">sel.rs.type, sel.rs</a:argument>
       </a:arguments>
     </a:operation>
     <a:operation id="ExecuteMultipleActionsOperation">
