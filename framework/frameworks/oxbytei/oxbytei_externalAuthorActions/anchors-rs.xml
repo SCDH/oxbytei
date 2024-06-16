@@ -9,7 +9,7 @@
     <a:operation id="de.wwu.scdh.oxbytei.SurroundWithAnchorsOperation">
       <a:xpathCondition>true()</a:xpathCondition>
       <a:arguments>
-        <a:argument name="startAnchor">${teilspProp(oxbytei.action.rs.person.startAnchor)}</a:argument>
+        <a:argument name="startAnchor">${teilspProp(oxbytei.action.anchors.rs.startAnchor)}</a:argument>
         <a:argument name="startAnchorNamespace">${teilspProp(oxbytei.action.anchors.rs.startAnchorNamespace)}</a:argument>
         <a:argument name="startId">${teilspProp(oxbytei.action.anchors.rs.startId)}</a:argument>
         <a:argument name="endAnchor">${teilspProp(oxbytei.action.anchors.rs.endAnchor)}</a:argument>
