@@ -56,6 +56,7 @@ from the contextual menu.
         <separator/>
         <addAction id="oxbytei.generate.ids"/>
         <addAction id="select.language"/>
+        <addAction id="link.rs"/>
         <addAction id="link.person"/>
         <addAction id="link.place"/>
         <addAction id="link.bibref"/>
@@ -74,6 +75,7 @@ from the contextual menu.
       <addAction anchor="insert image" id="highlight.referenced"/>
       <separator anchor="insert image"/>
       <addAction anchor="insert image" id="select.language"/>
+      <addAction anchor="insert image" id="link.rs"/>
       <addAction anchor="insert image" id="link.person"/>
       <addAction anchor="insert image" id="link.place"/>
       <addAction anchor="insert image" id="link.bibref"/>
@@ -95,6 +97,7 @@ from the contextual menu.
         <addAction id="oxbytei.schema.attribute.editor"/>
         <separator/>
         <addAction id="select.language"/>
+        <addAction id="link.rs"/>
         <addAction id="link.person"/>
         <addAction id="link.place"/>
         <addAction id="link.bibref"/>
@@ -110,6 +113,7 @@ from the contextual menu.
         <addAction id="add.variant" inElementsView="true" inCCWindow="true"/>
         <addAction id="sel.wit" inElementsView="true" inCCWindow="true"/>
         <addAction id="select.language" inElementsView="true" inCCWindow="true"/>
+        <addAction id="link.rs" inElementsView="true" inCCWindow="true"/>
         <addAction id="link.person" inElementsView="true" inCCWindow="true"/>
         <addAction id="link.place" inElementsView="true" inCCWindow="true"/>
         <addAction id="link.bibref" inElementsView="true" inCCWindow="true"/>
