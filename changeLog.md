@@ -1,5 +1,10 @@
 # Changes
 
+## 0.18.0
+
+- transformation scenario for updating config file from default config
+  file: add required properties
+
 ## 0.17.1
 
 - added editing atoms `move.caret.after.current` and
