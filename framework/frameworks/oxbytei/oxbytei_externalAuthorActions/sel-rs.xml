@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- editing atom -->
+<a:authorAction xmlns:a="http://www.oxygenxml.com/ns/author/external-action"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.oxygenxml.com/ns/author/external-action http://www.oxygenxml.com/ns/author/external-action/authorAction.xsd"
+  id="sel.rs">
+  <a:name>Select Person</a:name>
+  <a:description>Select a person from suggestions.</a:description>
+  <a:operations>
+    <a:operation id="de.wwu.scdh.oxbytei.SelectAttributeValueOperation">
+      <a:xpathCondition>self::*:rs[@type eq 'person']</a:xpathCondition>
+      <a:arguments>
+        <a:argument name="name">${teilspProp(oxbytei.action.sel.rs.name)}</a:argument>
+        <a:argument name="elementLocation">self::*</a:argument>
+        <a:argument name="message">Choose a person (rs)</a:argument>
+        <a:argument name="rollbackOnCancel">true</a:argument>
+        <a:argument name="icon">${framework(oXbytei)}/images/person-24.png</a:argument>
+      </a:arguments>
+    </a:operation>
+    <a:operation id="de.wwu.scdh.oxbytei.SelectAttributeValueOperation">
+      <a:xpathCondition>self::*:rs[@type eq 'place']</a:xpathCondition>
+      <a:arguments>
+        <a:argument name="name">${teilspProp(oxbytei.action.sel.rs.name)}</a:argument>
+        <a:argument name="elementLocation">self::*</a:argument>
+        <a:argument name="message">Choose a place (rs)</a:argument>
+        <a:argument name="rollbackOnCancel">true</a:argument>
+        <a:argument name="icon">${framework(oXbytei)}/images/place-24.png</a:argument>
+      </a:arguments>
+    </a:operation>
+  </a:operations>
+  <a:accessKey/>
+</a:authorAction>

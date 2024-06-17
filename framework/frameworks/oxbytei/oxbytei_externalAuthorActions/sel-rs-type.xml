@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- editing atom -->
+<a:authorAction xmlns:a="http://www.oxygenxml.com/ns/author/external-action"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.oxygenxml.com/ns/author/external-action http://www.oxygenxml.com/ns/author/external-action/authorAction.xsd"
+  id="sel.rs.type">
+  <a:name>Select referring string type</a:name>
+  <a:description>Select a value for the type attribute of the referring string.</a:description>
+  <a:operations>
+    <a:operation id="de.wwu.scdh.oxbytei.SelectAttributeValueOperation">
+      <a:xpathCondition>true()</a:xpathCondition>
+      <a:arguments>
+        <a:argument name="name">${teilspProp(oxbytei.action.sel.rs.type.name)}</a:argument>
+        <a:argument name="elementLocation">self::*</a:argument>
+        <a:argument name="message">Choose the type of the referring string</a:argument>
+        <a:argument name="rollbackOnCancel">true</a:argument>
+        <a:argument name="icon">${framework(oXbytei)}/images/rs-24.png</a:argument>
+      </a:arguments>
+    </a:operation>
+  </a:operations>
+  <a:accessKey/>
+</a:authorAction>

@@ -16,6 +16,7 @@ framework/frameworks/oxbytei/*.jar
 
 # oXygen project files
 *.xpr
+/frameworks
 
 # ignore build artifacts
 target
