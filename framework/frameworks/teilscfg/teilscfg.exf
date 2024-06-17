@@ -16,4 +16,11 @@
     </defaultScenarios>
   </validationScenarios>
 
+  <transformationScenarios>
+    <addScenarios href="teilscfg.scenarios"/>
+    <defaultScenarios>
+      <name>update oXbytei config</name>
+    </defaultScenarios>
+  </transformationScenarios>
+
 </script>
