@@ -2,6 +2,10 @@
 
 ## 0.18.0
 
+- new editing action for `<rs>` (referring string)
+  - choose `@type`
+  - choose `@ref` (or `@key`) from a set of values (persons, places,
+    etc.) based on the `@type` value
 - transformation scenario for updating config file from default config
   file: add required properties
 
