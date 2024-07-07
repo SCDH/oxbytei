@@ -21,6 +21,24 @@ from the contextual menu.
     <addEntry path="${framework(oXbytei)}/slf4j-log4j12.jar"/>
     <addEntry path="${framework(oXbytei)}/glazedlists.jar"/>
     <addEntry path="${framework(oXbytei)}/commons-csv.jar"/>
+    <addEntry path="${framework(oXbytei)}/commons-lang3.jar"/>
+    <addEntry path="${framework(oXbytei)}/commons-collections4.jar"/>
+    <addEntry path="${framework(oXbytei)}/caffeine.jar"/>
+    <addEntry path="${framework(oXbytei)}/RoaringBitmap.jar"/>
+    <addEntry path="${framework(oXbytei)}/jena-iri.jar"/>
+    <addEntry path="${framework(oXbytei)}/jena-base.jar"/>
+    <addEntry path="${framework(oXbytei)}/protobuf-java.jar"/>
+    <addEntry path="${framework(oXbytei)}/jena-arq.jar"/>
+    <addEntry path="${framework(oXbytei)}/checker-qual.jar"/>
+    <addEntry path="${framework(oXbytei)}/jcl-over-slf4j.jar"/>
+    <addEntry path="${framework(oXbytei)}/commons-compress.jar"/>
+    <addEntry path="${framework(oXbytei)}/error_prone_annotations.jar"/>
+    <addEntry path="${framework(oXbytei)}/collection.jar"/>
+    <addEntry path="${framework(oXbytei)}/jena-core.jar"/>
+    <addEntry path="${framework(oXbytei)}/jakarta.json.jar"/>
+    <addEntry path="${framework(oXbytei)}/titanium-json-ld.jar"/>
+    <addEntry path="${framework(oXbytei)}/libthrift.jar"/>
+    <addEntry path="${framework(oXbytei)}/gson.jar"/>
   </classpath>
 
   <extensionPoints>

@@ -229,7 +229,8 @@
 			</goals>
 			<configuration>
 			    <outputDirectory>${project.build.directory}/lib</outputDirectory>
-			    <includeArtifactIds>teilsp,oxbytei-core,slf4j-log4j12,slf4j-api,glazedlists,commons-csv</includeArtifactIds>
+			    <!--includeArtifactIds>teilsp,oxbytei-core,slf4j-log4j12,slf4j-api,glazedlists,commons-csv,jena-arq,jena-core,jena-base,commons-compress,commons-collections4,caffeine,checker-qual</includeArtifactIds-->
+			    <excludeArtifactIds>oxygen,log4j,slf4j-simple,junit-jupiter-api,apiguardian-api,opentest4j,junit-platform-commons,junit-jupiter-engine,junit-platform-engine,commons-io,commons-codec,commons-cli,Saxon-HE</excludeArtifactIds>
 			    <stripVersion>true</stripVersion>
 			</configuration>
 		    </execution>
