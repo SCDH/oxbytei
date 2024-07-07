@@ -95,6 +95,7 @@ public class LabelledEntriesSparqlEndpoint extends LabelledEntriesSparql {
 	try {
 	    String endpt = ARGUMENT_ENDPOINT.getValue(this.arguments).toString();
 	    QueryExecution qexec = QueryExecution.service(endpt, query);
+	    // TODO: add authentification!
 	    ResultSet results = qexec.execSelect();
 
 	    List<LabelledEntry> entries = new ArrayList<LabelledEntry>();
