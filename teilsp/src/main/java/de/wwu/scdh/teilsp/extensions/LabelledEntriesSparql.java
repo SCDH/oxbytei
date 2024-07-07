@@ -50,13 +50,13 @@ public class LabelledEntriesSparql implements ILabelledEntriesProvider {
 
     private URL sparql;
 
-    private static final ArgumentDescriptor<URL> ARGUMENT_SPARQL =
+    public static final ArgumentDescriptor<URL> ARGUMENT_SPARQL =
 	new ArgumentDescriptorImpl<URL>(URL.class, "sparql", "The SPARQL query file URL.");
 
 
     private List<URL> datasets;
 
-    private static final ArgumentDescriptor<List<URL>> ARGUMENT_DATASETS =
+    public static final ArgumentDescriptor<List<URL>> ARGUMENT_DATASETS =
 	new ListArgumentDescriptor<URL>
 	(URL.class,
 	 "datasets",
@@ -71,7 +71,7 @@ public class LabelledEntriesSparql implements ILabelledEntriesProvider {
 
     String labelType;
 
-    private static final ArgumentDescriptor<String> ARGUMENT_LABEL_TYPE =
+    public static final ArgumentDescriptor<String> ARGUMENT_LABEL_TYPE =
 	new ArgumentDescriptorImpl<String>(String.class, "entryType", "The RDF type of the entry variable", RDF_TYPES, "literal");
 
     /**
@@ -105,15 +105,19 @@ public class LabelledEntriesSparql implements ILabelledEntriesProvider {
 	this.entryType = ARGUMENT_ENTRY_TYPE.getValue(arguments);
 	this.labelType = ARGUMENT_LABEL_TYPE.getValue(arguments);
 
-	// make a RDF dataset
-	List<String> namedGraphs = new ArrayList<String>();
-	for (int i = 1; i < datasets.size(); i++) {
-	    namedGraphs.add(datasets.get(i).toString());
-	}
-	dataset = DatasetFactory.create(datasets.get(0).toString(), namedGraphs);
+	try {
+	    // make a RDF dataset
+	    List<String> namedGraphs = new ArrayList<String>();
+	    for (int i = 1; i < datasets.size(); i++) {
+		namedGraphs.add(datasets.get(i).toString());
+	    }
+	    dataset = DatasetFactory.create(datasets.get(0).toString(), namedGraphs);
 
-	// parse the SPARQL query from the file
-	query = QueryFactory.read(sparql.toString());
+	    // parse the SPARQL query from the file
+	    query = QueryFactory.read(sparql.toString());
+	} catch (Exception e) {
+	    throw new ConfigurationException(e.getMessage());
+	}
     }
 
     /**
