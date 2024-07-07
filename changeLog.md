@@ -1,5 +1,13 @@
 # Changes
 
+## dev
+
+- new provider `de.wwu.scdh.teilsp.extensions.LabelledEntriesSparql`
+  for labelled entries from a SPARQL query over a graph from RDF files
+- new provider `de.wwu.scdh.teilsp.extensions.LabelledEntriesSparqlEndpoint`
+  for labelled entries from a SPARQL query over an endpoint
+
+
 ## 0.18.0
 
 - new editing action for `<rs>` (referring string)
