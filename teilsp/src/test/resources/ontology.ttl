@@ -1,0 +1,32 @@
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix it: <https://intertextuality.org/abstract#> .
+@prefix annot: <https://intertextuality.org/annotation#> .
+@prefix oa: <http://www.w3.org/ns/oa#> .
+@prefix : <https://scdh.zivgitlabpages.uni-muenster.de/schnocks-ijob/edition/ontology#> .
+
+<https://scdh.zivgitlabpages.uni-muenster.de/schnocks-ijob/edition/ontology#>
+    a owl:Ontology ;
+    owl:imports <https://intertextuality.org/abstract#> ;
+    rdfs:Label "Ontology für die Edition des Buches Ijob"@de .
+
+:Uebersetzung
+    rdfs:subClassOf it:IntertextualSpecification ;
+    rdfs:label "Übersetzungen"@de ;
+    rdfs:label "Translations"@en ;
+    rdfs:comment "Eine Übersetzung ist eine Art intertextueller Relation."@de ;
+    rdfs:comment "A translation is a subclass of intertextual relations."@en ;
+    annot:preferredCssColor "orange" ;
+    annot:colorPriority 5 .
+
+
+:EntstellendeUebersetzung
+    rdfs:subClassOf :Uebersetzung ;
+    rdfs:label "Entstellende Übersetzung"@de ;
+    rdfs:label "Deforming translation"@en ;
+    annot:preferredCssColor "orange" ;
+    annot:colorPriority 10 .
+
+it:IntertextualRelation
+    annot:preferredCssColor "whitesmoke" ;
+    annot:colorPriority 1 .

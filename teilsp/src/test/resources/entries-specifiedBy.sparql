@@ -1,0 +1,14 @@
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX it: <https://intertextuality.org/abstract#>
+
+SELECT DISTINCT ?entry ?label
+WHERE
+{
+  ?entry rdfs:subClassOf+ it:IntertextualSpecification .
+
+  OPTIONAL { ?entry rdfs:label ?labl . FILTER (lang(?labl) = 'de') }
+  OPTIONAL { ?entry rdfs:comment ?comment. FILTER (lang(?comment) = 'de') }
+
+  # TODO: Show ?entry, if there is no label.
+  BIND (concat(coalesce(?labl, ?entry, ""), ": ", coalesce(?comment, "")) AS ?label)
+}
