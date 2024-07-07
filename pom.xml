@@ -104,6 +104,11 @@
 	   <artifactId>commons-csv</artifactId>
 	   <version>1.9.0</version>
 	</dependency>
+	<dependency>
+	   <groupId>org.apache.jena</groupId>
+	   <artifactId>jena-arq</artifactId>
+	   <version>5.0.0</version>
+	</dependency>
     </dependencies>
 
     <modules>
