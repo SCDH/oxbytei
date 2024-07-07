@@ -66,7 +66,7 @@ public class LabelledEntriesSparql implements ILabelledEntriesProvider {
 
     String entryType;
 
-    private static final ArgumentDescriptor<String> ARGUMENT_ENTRY_TYPE =
+    public static final ArgumentDescriptor<String> ARGUMENT_ENTRY_TYPE =
 	new ArgumentDescriptorImpl<String>(String.class, "entryType", "The RDF type of the entry variable", RDF_TYPES, "resource");
 
     String labelType;
