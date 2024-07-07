@@ -5,3 +5,4 @@ de.wwu.scdh.teilsp.extensions.LabelledEntriesXQuery
 de.wwu.scdh.teilsp.extensions.LabelledEntriesXSLT
 de.wwu.scdh.teilsp.extensions.LabelledEntriesXSLTWithContext
 de.wwu.scdh.teilsp.extensions.LabelledEntriesCSV
+de.wwu.scdh.teilsp.extensions.LabelledEntriesSparql
