@@ -22,8 +22,10 @@ oXbytei [ɔx bʌtaj] (greco-english tongue and french ears) is a generic
 facilitate everyday work on TEI documents. Its name originates from
 the idea, to use as much information as we can from the TEI header to
 configure the framework's actions. But since the header's information
-is not sufficient for most editing actions, oXbytei also uses a
-configuration file.
+is not sufficient for most editing actions, oXbytei also introduces a
+configuration file to oXygen frameworks, which makes it the next
+generation framework. You can read more about the design principles in
+the [Wiki](https://github.com/SCDH/oxbytei/wiki).
 
 
 ## Features / Functions #
