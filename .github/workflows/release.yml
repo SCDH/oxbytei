@@ -23,7 +23,7 @@ jobs:
         run: mvn -Drevision=${{github.ref_name}} -Dchangelist="" --batch-mode --update-snapshots package
 
       - name: create release
-        uses: actions/create-release@v1.14.0
+        uses: actions/create-release@v1
         id: create_release
         with:
           draft: false
