@@ -1,6 +1,6 @@
 # Changes
 
-## dev
+## 0.19.0
 
 - new provider `de.wwu.scdh.teilsp.extensions.LabelledEntriesSparql`
   for labelled entries from a SPARQL query over a graph from RDF files
