@@ -44,9 +44,10 @@ the [Wiki](https://github.com/SCDH/oxbytei/wiki).
   of `<persName>`, `<placeName>` or `@corresp` of `<bibl>` by
   evaluating [prefix
   definitions](https://www.tei-c.org/release/doc/tei-p5-doc/de/html/ref-listPrefixDef.html)
-  in the document header.
-  The plugin system is flexible enough to add plugins for querying
-  RESTful webservices.
+  in the document header.  The plugin system is flexible enough to add
+  plugins for querying RESTful webservices. Available plugins range
+  from generating suggestions via XSLT, XQuery, XPath, from CSV, from
+  SPARQL over local files or a remote endpoint, etc.
 - **Configurable user dialogs**: Simply declare by configuration which
   type of dialog you want to have for a specific editing context,
   e.g. a multiple select dialog for `@wit` on `<rdg>`. Dialogs
