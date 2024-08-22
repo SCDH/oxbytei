@@ -39,7 +39,7 @@ jobs:
         run: mvn -Doxygen.version=23 -Drevision=${{github.ref_name}} -Dchangelist="" --batch-mode --update-snapshots clean package
 
       - name: upload framework package for oxygen 23 to release
-        uses: actions/upload-release-asset@v4
+        uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
@@ -52,7 +52,7 @@ jobs:
         run: mvn -Doxygen.version=24 -Drevision=${{github.ref_name}} -Dchangelist="" --batch-mode --update-snapshots clean package
 
       - name: upload framework package for oxygen 24 to release
-        uses: actions/upload-release-asset@v4
+        uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
@@ -65,7 +65,7 @@ jobs:
         run: mvn -Doxygen.version=25 -Drevision=${{github.ref_name}} -Dchangelist="" --batch-mode --update-snapshots clean package
 
       - name: upload framework package for oxygen 25 to release
-        uses: actions/upload-release-asset@v4
+        uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
@@ -78,7 +78,7 @@ jobs:
         run: mvn -Doxygen.version=26 -Drevision=${{github.ref_name}} -Dchangelist="" --batch-mode --update-snapshots clean package
 
       - name: upload framework package for oxygen 26 to release
-        uses: actions/upload-release-asset@v4
+        uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
