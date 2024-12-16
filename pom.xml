@@ -47,7 +47,7 @@
         <slf4j.version>1.7.32</slf4j.version>
 	<saxon.version>10.6</saxon.version>
 	<saxon4xspec.version>10.6</saxon4xspec.version>
-	<oxygen.versions>23:23.0,23.1,23.2|24:24.0,24.1,24.2|25:25.0,25.1|26:26.0+</oxygen.versions>
+	<oxygen.versions>23:23.0,23.1,23.2|24:24.0,24.1,24.2|25:25.0,25.1|26:26.0,26.1|27:27.0+</oxygen.versions>
 	<oxygen.version>24</oxygen.version>
 	<oxygen.sdk.version>24.1.0.0</oxygen.sdk.version>
     </properties>
@@ -172,9 +172,22 @@
          </activation>
          <properties>
             <saxon.version>12.3</saxon.version>
-            <oxygen.sdk.version>25.1.0.2</oxygen.sdk.version>
+            <oxygen.sdk.version>26.0.0.2</oxygen.sdk.version>
          </properties>
       </profile>
+       <profile>
+          <id>oxygen27</id>
+          <activation>
+             <property>
+                <name>oxygen.version</name>
+                <value>27</value>
+             </property>
+          </activation>
+          <properties>
+             <saxon.version>12.5</saxon.version>
+             <oxygen.sdk.version>26.1.0.2</oxygen.sdk.version>
+          </properties>
+       </profile>
     </profiles>
 
 </project>
