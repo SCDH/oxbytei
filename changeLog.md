@@ -1,5 +1,9 @@
 # Changes
 
+## 0.19.3
+
+- offer framework package for oXygen 27.0
+
 ## 0.19.0
 
 - new provider `de.wwu.scdh.teilsp.extensions.LabelledEntriesSparql`
