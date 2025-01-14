@@ -350,6 +350,45 @@
                         <argument name="separator">;</argument>
                     </arguments>
                 </configuration>
+                <configuration>
+                    <conditions>
+                        <condition domain="context">self::*:unclear</condition>
+                        <condition domain="priority">10</condition>
+                        <condition domain="nodeName">reason</condition>
+                        <condition domain="nodeType">attributeValue</condition>
+                    </conditions>
+                    <arguments>
+                        <argument name="keys">illegible;inaudible;faded;background_noise;eccentric_ductus</argument>
+                        <argument name="labels">illegible;inaudible;faded;background noise;eccentric ductus – indicates illegibility due to an unusual, awkward, or incompetent execution of a glyph or glyphs</argument>
+                        <argument name="separator">;</argument>
+                    </arguments>
+                </configuration>
+                <configuration>
+                    <conditions>
+                        <condition domain="context">self::*:gap</condition>
+                        <condition domain="priority">10</condition>
+                        <condition domain="nodeName">reason</condition>
+                        <condition domain="nodeType">attributeValue</condition>
+                    </conditions>
+                    <arguments>
+                        <argument name="keys">cancelled;deleted;editorial;illegible;inaudible;irrelevant;sampling</argument>
+                        <argument name="labels">cancelled;deleted;editorial – for features omitted from transcription due to editorial policy;illegible;inaudible;irrelevant;sampling</argument>
+                        <argument name="separator">;</argument>
+                    </arguments>
+                </configuration>
+                <configuration>
+                    <conditions>
+                        <condition domain="context">self::*:unclear | self::*:gap</condition>
+                        <condition domain="priority">10</condition>
+                        <condition domain="nodeName">agent</condition>
+                        <condition domain="nodeType">attributeValue</condition>
+                    </conditions>
+                    <arguments>
+                        <argument name="keys">rubbing;mildew;smoke</argument>
+                        <argument name="labels">rubbing – damage results from rubbing of the leaf edges;mildew – damage results from mildew on the leaf surface;smoke – damage results from smoke </argument>
+                        <argument name="separator">;</argument>
+                    </arguments>
+                </configuration>
             </configurations>
         </plugin>
 
@@ -380,6 +419,18 @@
                     <arguments>
                         <argument name="title">Specify where this item is placed</argument>
                         <argument name="icon">${framework(oXbytei)}/images/placement-24.png</argument>
+                    </arguments>
+                </configuration>
+                <configuration>
+                    <conditions>
+                        <condition domain="context">self::*:unclear | self::*:gap</condition>
+                        <condition domain="priority">10</condition>
+                        <condition domain="nodeName">reason</condition>
+                        <condition domain="nodeType">attributeValue</condition>
+                    </conditions>
+                    <arguments>
+                        <argument name="title">Give the reason</argument>
+                        <argument name="icon">${framework(oXbytei)}/images/ask-24.png</argument>
                     </arguments>
                 </configuration>
             </configurations>
@@ -456,6 +507,23 @@
                 </configuration>
             </configurations>
         </plugin>
-
+        <plugin>
+            <class>de.wwu.scdh.teilsp.ui.ComboBoxSelectDialog</class>
+            <type>de.wwu.scdh.teilsp.ui.ISelectionDialog</type>
+            <configurations>
+                <configuration>
+                    <conditions>
+                        <condition domain="context">self::*:unclear | self::*:gap</condition>
+                        <condition domain="priority">10</condition>
+                        <condition domain="nodeName">agent</condition>
+                        <condition domain="nodeType">attributeValue</condition>
+                    </conditions>
+                    <arguments>
+                        <argument name="title">Specify the cause of damage, if possible</argument>
+                        <argument name="icon">${framework(oXbytei)}/images/ask-24.png</argument>
+                    </arguments>
+                </configuration>
+            </configurations>
+        </plugin>
     </plugins>
 </teilspConfiguration>
