@@ -1,5 +1,16 @@
 # Changes
 
+## 0.20.0
+
+- new actions
+  - for editing `@place` with values from TEI reference
+  - for editing `@reason` and `@agent` for `<unclear>`, `<gap>` with values from TEI reference
+  - for editing `@reason` for `<surplus>` and `<supplied>`
+  - for editing `@type` and `@subtype` with editable combobox and
+    values from these attributes already supplied in the current file
+  - all of them accessible through element content completion
+- disabled attribute value suggestions from `SchemaAttributeValuesProvider` as a quickfix for #12 
+
 ## 0.19.3
 
 - offer framework package for oXygen 27.0
