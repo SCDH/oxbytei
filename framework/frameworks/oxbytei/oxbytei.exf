@@ -138,6 +138,11 @@ from the contextual menu.
         <addAction id="annotate" inElementsView="true" inCCWindow="true"/>
         <addAction id="sel.tag" inElementsView="true" inCCWindow="true"/>
         <addAction id="oxbytei.xinclude" inElementsView="true" inCCWindow="true"/>
+        <addAction id="sel.placement" inElementsView="true" inCCWindow="true"/>
+        <addAction id="sel.reason" inElementsView="true" inCCWindow="true"/>
+        <addAction id="sel.agent" inElementsView="true" inCCWindow="true"/>
+        <addAction id="sel.type" inElementsView="true" inCCWindow="true"/>
+        <addAction id="sel.subtype" inElementsView="true" inCCWindow="true"/>
       </authorActions>
     </contentCompletion>
 
