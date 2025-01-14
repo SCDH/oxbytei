@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- editing atom -->
+<a:authorAction xmlns:a="http://www.oxygenxml.com/ns/author/external-action"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.oxygenxml.com/ns/author/external-action http://www.oxygenxml.com/ns/author/external-action/authorAction.xsd"
+  id="sel.placement">
+  <a:name>@place</a:name>
+  <a:description>Specify where this item is placed.</a:description>
+  <a:smallIconPath href="${framework(oXbytei)}/images/placement-16.png"/>
+  <a:largeIconPath href="${framework(oXbytei)}/images/placement-24.png"/>
+  <a:operations>
+    <a:operation id="de.wwu.scdh.oxbytei.SelectAttributeValueOperation">
+      <a:xpathCondition>self::*:add | self::*:addSpan | self::*:figure | self::*:fw | self::*:head | self::*:label | self::*:metamark | self::*:notatedMusic | self::*:note | self::*:noteGrp | self::*:rt | self::*:stage | self::*:trailer | self::*:witDetail</a:xpathCondition>
+      <a:arguments>
+        <a:argument name="name">place</a:argument>
+        <a:argument name="elementLocation">self::*</a:argument>
+        <a:argument name="message">Specify where this item is placed</a:argument>
+        <a:argument name="rollbackOnCancel">true</a:argument>
+        <a:argument name="icon">${framework(oXbytei)}/images/placement-24.png</a:argument>
+      </a:arguments>
+    </a:operation>
+  </a:operations>
+  <a:accessKey/>
+</a:authorAction>

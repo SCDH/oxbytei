@@ -309,6 +309,19 @@
                         <argument name="separator">;</argument>
                     </arguments>
                 </configuration>
+                <configuration>
+                    <conditions>
+                        <condition domain="context">self::*</condition>
+                        <condition domain="priority">10</condition>
+                        <condition domain="nodeName">place</condition>
+                        <condition domain="nodeType">attributeValue</condition>
+                    </conditions>
+                    <arguments>
+                        <argument name="keys">top;bottom;margin;opposite;overleaf;above;right;below;left;end;inline;inspace</argument>
+                        <argument name="labels">top – at the top of the page;bottom – at the foot of the page;margin – in the margin (left, right, or both);opposite – on the opposite, i.e. facing, page;overleaf – on the other side of the leaf;above – above the line;right – to the right, e.g. to the right of a vertical line of text, or to the right of a figure;below – below the line;left – to the left, e.g. to the left of a vertical line of text, or to the left of a figure;end – at the end of e.g. chapter or volume;inline – within the body of the text ;inspace – in a predefined space, for example left by an earlier scribe</argument>
+                        <argument name="separator">;</argument>
+                    </arguments>
+                </configuration>
             </configurations>
         </plugin>
 
@@ -327,6 +340,18 @@
                     <arguments>
                         <argument name="title">Select witnesses</argument>
                         <argument name="icon">${framework(oXbytei)}/images/sheetsquestion-24.png</argument>
+                    </arguments>
+                </configuration>
+                <configuration>
+                    <conditions>
+                        <condition domain="context">self::*</condition>
+                        <condition domain="priority">10</condition>
+                        <condition domain="nodeName">place</condition>
+                        <condition domain="nodeType">attributeValue</condition>
+                    </conditions>
+                    <arguments>
+                        <argument name="title">Specify where this item is placed</argument>
+                        <argument name="icon">${framework(oXbytei)}/images/placement-24.png</argument>
                     </arguments>
                 </configuration>
             </configurations>
