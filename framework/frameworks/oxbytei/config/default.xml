@@ -290,6 +290,34 @@
                         <argument name="prefix">#</argument>
                     </arguments>
                 </configuration>
+                <configuration>
+                    <conditions>
+                        <condition domain="context">not(self::*:rs)</condition>
+                        <condition domain="priority">10</condition>
+                        <condition domain="nodeName">type</condition>
+                        <condition domain="nodeType">attributeValue</condition>
+                    </conditions>
+                    <arguments>
+                        <argument name="namespaces">t:http://www.tei-c.org/ns/1.0 xml:http://www.w3.org/XML/1998/namespace</argument>
+                        <argument name="selection">//*[@type]</argument>
+                        <argument name="key">normalize-space(@type)</argument>
+                        <argument name="label">normalize-space(@type)</argument>
+                    </arguments>
+                </configuration>
+                <configuration>
+                    <conditions>
+                        <condition domain="context">@type</condition>
+                        <condition domain="priority">10</condition>
+                        <condition domain="nodeName">subtype</condition>
+                        <condition domain="nodeType">attributeValue</condition>
+                    </conditions>
+                    <arguments>
+                        <argument name="namespaces">t:http://www.tei-c.org/ns/1.0 xml:http://www.w3.org/XML/1998/namespace</argument>
+                        <argument name="selection">//*[@subtype]</argument>
+                        <argument name="key">normalize-space(@subtype)</argument>
+                        <argument name="label">normalize-space(@subtype)</argument>
+                    </arguments>
+                </configuration>
             </configurations>
         </plugin>
         <plugin>
