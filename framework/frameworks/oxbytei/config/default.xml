@@ -185,7 +185,7 @@
 
     <plugins>
 
-        <plugin>
+        <!--plugin>
             <class>de.wwu.scdh.oxbytei.extensions.SchemaAttributeValuesProvider</class>
             <type>de.wwu.scdh.teilsp.services.extensions.ILabelledEntriesProvider</type>
             <configurations>
@@ -199,7 +199,7 @@
                     <arguments/>
                 </configuration>
             </configurations>
-        </plugin>
+        </plugin-->
 
         <plugin>
             <class>de.wwu.scdh.teilsp.extensions.LabelledEntriesFromXMLByPrefixDef</class>
