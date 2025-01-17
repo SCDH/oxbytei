@@ -4,7 +4,7 @@
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://www.oxygenxml.com/ns/author/external-action http://www.oxygenxml.com/ns/author/external-action/authorAction.xsd"
   id="link.place">
-  <a:name>Identify place</a:name>
+  <a:name>Link place</a:name>
   <a:description>Link place to norm file.</a:description>
   <a:largeIconPath href="${framework(oXbytei)}/images/pin-24.png"/>
   <a:smallIconPath href="${framework(oXbytei)}/images/pin-16.png"/>

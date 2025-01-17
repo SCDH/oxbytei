@@ -4,7 +4,7 @@
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://www.oxygenxml.com/ns/author/external-action http://www.oxygenxml.com/ns/author/external-action/authorAction.xsd"
   id="link.person">
-  <a:name>Identify Person</a:name>
+  <a:name>Link Person</a:name>
   <a:description>Link person to norm file.</a:description>
   <a:largeIconPath href="${framework(oXbytei)}/images/person-24.png"/>
   <a:smallIconPath href="${framework(oXbytei)}/images/person-16.png"/>
