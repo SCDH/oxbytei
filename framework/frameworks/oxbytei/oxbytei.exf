@@ -77,6 +77,8 @@ from the contextual menu.
         <addAction id="link.rs"/>
         <addAction id="link.person"/>
         <addAction id="link.place"/>
+        <addAction id="link.org"/>
+        <addAction id="link.event"/>
         <addAction id="link.idno"/>
         <addAction id="link.bibref"/>
         <addAction id="annotate"/>
@@ -97,6 +99,8 @@ from the contextual menu.
       <addAction anchor="insert image" id="link.rs"/>
       <addAction anchor="insert image" id="link.person"/>
       <addAction anchor="insert image" id="link.place"/>
+      <addAction anchor="insert image" id="link.org"/>
+      <addAction anchor="insert image" id="link.event"/>
       <addAction anchor="insert image" id="link.idno"/>
       <addAction anchor="insert image" id="link.bibref"/>
       <addAction anchor="insert image" id="annotate"/>
@@ -120,6 +124,8 @@ from the contextual menu.
         <addAction id="link.rs"/>
         <addAction id="link.person"/>
         <addAction id="link.place"/>
+        <addAction id="link.org"/>
+        <addAction id="link.event"/>
         <addAction id="link.idno"/>
         <addAction id="link.bibref"/>
         <addAction id="annotate"/>
@@ -137,6 +143,8 @@ from the contextual menu.
         <addAction id="link.rs" inElementsView="true" inCCWindow="true"/>
         <addAction id="link.person" inElementsView="true" inCCWindow="true"/>
         <addAction id="link.place" inElementsView="true" inCCWindow="true"/>
+        <addAction id="link.org" inElementsView="true" inCCWindow="true"/>
+        <addAction id="link.event" inElementsView="true" inCCWindow="true"/>
         <addAction id="link.idno" inElementsView="true" inCCWindow="true"/>
         <addAction id="link.bibref" inElementsView="true" inCCWindow="true"/>
         <addAction id="annotate" inElementsView="true" inCCWindow="true"/>
