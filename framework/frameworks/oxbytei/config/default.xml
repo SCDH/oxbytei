@@ -247,7 +247,7 @@
                         <argument name="namespaces">t:http://www.tei-c.org/ns/1.0 xml:http://www.w3.org/XML/1998/namespace</argument>
                         <argument name="selection">//t:text/descendant::t:person[@xml:id]</argument>
                         <argument name="key">@xml:id</argument>
-                        <argument name="label">normalize-space(concat(t:persName, ', *', t:birth))</argument>
+                        <argument name="label">(t:persName ) ! normalize-space(.) => string-join() || ', *' || t:birth ! normalize-space(.) => string-join()</argument>
                         <argument name="prefixDef">//t:teiHeader//t:prefixDef[matches(@ident, '(psn|prs|pers)')]</argument>
                         <argument name="prefixDefRef">tokenize(@replacementPattern, '#')[1]</argument>
                     </arguments>
