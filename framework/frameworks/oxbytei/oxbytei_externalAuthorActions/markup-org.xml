@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- editing atom -->
+<a:authorAction xmlns:a="http://www.oxygenxml.com/ns/author/external-action"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.oxygenxml.com/ns/author/external-action http://www.oxygenxml.com/ns/author/external-action/authorAction.xsd"
+  id="markup.org">
+  <a:name>Markup Organisation</a:name>
+  <a:description>&lt;orgName&gt; (organization name) contains an organizational name.</a:description>
+  <a:operations>
+    <a:operation id="de.wwu.scdh.oxbytei.ExpandingXSLTOperation">
+      <a:xpathCondition>true()</a:xpathCondition>
+      <a:arguments>
+        <a:argument name="script">${framework(oXbytei)}/xsl/insert-tag.xsl</a:argument>
+        <a:argument name="sourceLocation">${teilspProp(oxbytei.action.markup.org.sourceLocation)}</a:argument>
+        <a:argument name="targetLocation">${teilspProp(oxbytei.action.markup.org.targetLocation)}</a:argument>
+        <a:argument name="action">${teilspProp(oxbytei.action.markup.org.action)}</a:argument>
+        <a:argument name="externalParams">container=${anchorsContainer},startId=${startAnchorId},endId=${endAnchorId},${teilspProp(oxbytei.action.markup.org.externalParams)}</a:argument>
+      </a:arguments>
+    </a:operation>
+  </a:operations>
+  <a:accessKey/>
+</a:authorAction>

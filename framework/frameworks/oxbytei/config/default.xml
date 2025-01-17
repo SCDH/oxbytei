@@ -113,6 +113,34 @@
         <property name="oxbytei.action.markup.place.externalParams">tag=placeName, style=aggregative</property>
         <property name="oxbytei.action.sel.place.name">ref</property>
 
+        <!-- properties for org linking action -->
+        <property name="oxbytei.action.anchors.org.startAnchor">anchor</property>
+        <property name="oxbytei.action.anchors.org.startAnchorNamespace">http://www.tei-c.org/ns/1.0</property>
+        <property name="oxbytei.action.anchors.org.startId">'${id}'</property>
+        <property name="oxbytei.action.anchors.org.endAnchor">anchor</property>
+        <property name="oxbytei.action.anchors.org.startAnchorNamespace">http://www.tei-c.org/ns/1.0</property>
+        <property name="oxbytei.action.anchors.org.endId">'${id}'</property>
+        <property name="oxbytei.action.anchors.org.moveToEnd">false</property>
+        <property name="oxbytei.action.markup.org.sourceLocation">/*</property>
+        <property name="oxbytei.action.markup.org.targetLocation">${anchorsContainer}</property>
+        <property name="oxbytei.action.markup.org.action">Replace</property>
+        <property name="oxbytei.action.markup.org.externalParams">tag=orgName, style=aggregative</property>
+        <property name="oxbytei.action.sel.org.name">ref</property>
+        
+        <!-- properties for event linking action -->
+        <property name="oxbytei.action.anchors.event.startAnchor">anchor</property>
+        <property name="oxbytei.action.anchors.event.startAnchorNamespace">http://www.tei-c.org/ns/1.0</property>
+        <property name="oxbytei.action.anchors.event.startId">'${id}'</property>
+        <property name="oxbytei.action.anchors.event.endAnchor">anchor</property>
+        <property name="oxbytei.action.anchors.event.startAnchorNamespace">http://www.tei-c.org/ns/1.0</property>
+        <property name="oxbytei.action.anchors.event.endId">'${id}'</property>
+        <property name="oxbytei.action.anchors.event.moveToEnd">false</property>
+        <property name="oxbytei.action.markup.event.sourceLocation">/*</property>
+        <property name="oxbytei.action.markup.event.targetLocation">${anchorsContainer}</property>
+        <property name="oxbytei.action.markup.event.action">Replace</property>
+        <property name="oxbytei.action.markup.event.externalParams">tag=eventName, style=aggregative</property>
+        <property name="oxbytei.action.sel.event.name">ref</property>
+        
         <!-- properties for bibref linking action -->
         <property name="oxbytei.action.anchors.bibref.startAnchor">anchor</property>
         <property name="oxbytei.action.anchors.bibref.startAnchorNamespace">http://www.tei-c.org/ns/1.0</property>
