@@ -1,5 +1,16 @@
 # Changes
 
+## 0.21.0
+
+- new actions
+  - for linking organisations
+  - for linking events
+  - for making links to authority files with `<idno>`
+  - split toolbar into several sections:
+	- critical apparatus
+	- entity linking
+	- analysis and interpretation
+
 ## 0.20.0
 
 - new actions
@@ -9,7 +20,7 @@
   - for editing `@type` and `@subtype` with editable combobox and
     values from these attributes already supplied in the current file
   - all of them accessible through element content completion
-- disabled attribute value suggestions from `SchemaAttributeValuesProvider` as a quickfix for #12 
+- disabled attribute value suggestions from `SchemaAttributeValuesProvider` as a quickfix for #12
 
 ## 0.19.3
 
