@@ -64,9 +64,6 @@ from the contextual menu.
     <toolbars>
       <toolbar name="TEI">
         <separator/>
-        <addAction id="add.variant"/>
-        <addAction id="sel.wit"/>
-        <separator/>
         <addAction id="goto.refering"/>
         <addAction id="highlight.referenced"/>
         <separator/>
@@ -74,16 +71,29 @@ from the contextual menu.
         <separator/>
         <addAction id="oxbytei.generate.ids"/>
         <addAction id="select.language"/>
+        <addAction id="oxbytei.xinclude"/>
+      </toolbar>
+
+      <toolbar name="Critical Apparatus">
+        <addAction id="add.variant"/>
+        <addAction id="sel.wit"/>
+      </toolbar>
+
+      <toolbar name="Entity Linking">
         <addAction id="link.rs"/>
         <addAction id="link.person"/>
         <addAction id="link.place"/>
         <addAction id="link.org"/>
         <addAction id="link.event"/>
+        <separator/>
         <addAction id="link.idno"/>
+        <separator/>
         <addAction id="link.bibref"/>
+      </toolbar>
+
+      <toolbar name="Analysis and Interpretation">
         <addAction id="annotate"/>
         <addAction id="sel.tag"/>
-        <addAction id="oxbytei.xinclude"/>
       </toolbar>
     </toolbars>
 
