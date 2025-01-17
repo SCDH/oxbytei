@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- editing atom -->
+<a:authorAction xmlns:a="http://www.oxygenxml.com/ns/author/external-action"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.oxygenxml.com/ns/author/external-action http://www.oxygenxml.com/ns/author/external-action/authorAction.xsd"
+  id="sel.idno-xmlbase">
+  <a:name>idno/@xml:base</a:name>
+  <a:description>Enter the the Norm Authority File</a:description>
+  <a:smallIconPath href="${framework(oXbytei)}/images/normdata-16.png"/>
+  <a:largeIconPath href="${framework(oXbytei)}/images/normdata-24.png"/>
+  <a:operations>
+    <a:operation id="de.wwu.scdh.oxbytei.SelectAttributeValueOperation">
+      <a:xpathCondition>self::*[upper-case(@type) eq 'URI']</a:xpathCondition>
+      <a:arguments>
+        <a:argument name="name">${teilspProp(oxbytei.action.markup.idno.xmlbase)}</a:argument>
+        <a:argument name="elementLocation">self::*</a:argument>
+        <a:argument name="message">Select the of Norm Authority File (@xml:base).</a:argument>
+        <a:argument name="rollbackOnCancel">true</a:argument>
+        <a:argument name="icon">${framework(oXbytei)}/images/normdata-24.png</a:argument>
+      </a:arguments>
+    </a:operation>
+    <a:operation id="ChangeAttributeOperation">
+      <a:xpathCondition>self::*[@type eq 'LOCNAF']</a:xpathCondition>
+      <a:arguments>
+        <a:argument name="name">xml:base</a:argument>
+        <a:argument name="value">http://id.loc.gov/authorities/names/</a:argument>
+      </a:arguments>
+    </a:operation>
+    <a:operation id="ChangeAttributeOperation">
+      <a:xpathCondition>self::*[upper-case(@type) eq 'VIAF']</a:xpathCondition>
+      <a:arguments>
+        <a:argument name="name">xml:base</a:argument>
+        <a:argument name="value">https://viaf.org/viaf/</a:argument>
+      </a:arguments>
+    </a:operation>
+    <a:operation id="ChangeAttributeOperation">
+      <a:xpathCondition>self::*[upper-case(@type) eq 'OCLC']</a:xpathCondition>
+      <a:arguments>
+        <a:argument name="name">xml:base</a:argument>
+        <a:argument name="value">https://id.oclc.org/worldcat/entity/</a:argument>
+      </a:arguments>
+    </a:operation>
+    <a:operation id="ChangeAttributeOperation">
+      <a:xpathCondition>self::*[upper-case(@type) eq 'GND']</a:xpathCondition>
+      <a:arguments>
+        <a:argument name="name">xml:base</a:argument>
+        <a:argument name="value">http://d-nb.info/gnd/</a:argument>
+      </a:arguments>
+    </a:operation>
+    <a:operation id="ChangeAttributeOperation">
+      <a:xpathCondition>self::*[lower-case(@type) eq 'wikidata']</a:xpathCondition>
+      <a:arguments>
+        <a:argument name="name">xml:base</a:argument>
+        <a:argument name="value">https://www.wikidata.org/wiki/</a:argument>
+      </a:arguments>
+    </a:operation>
+    <a:operation id="de.wwu.scdh.oxbytei.NoOperation">
+      <a:xpathCondition>true()</a:xpathCondition>
+    </a:operation>
+  </a:operations>
+  <a:accessKey/>
+</a:authorAction>

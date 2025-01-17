@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- user action -->
+<a:authorAction xmlns:a="http://www.oxygenxml.com/ns/author/external-action"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.oxygenxml.com/ns/author/external-action http://www.oxygenxml.com/ns/author/external-action/authorAction.xsd"
+  id="link.idno">
+  <a:name>Link to Norm Authority File</a:name>
+  <a:description>Supply any form of identifier used to identify some object, such as a bibliographic item, a person, a title, an organization, etc. in a standardized way.</a:description>
+  <a:largeIconPath href="${framework(oXbytei)}/images/normdata-24.png"/>
+  <a:smallIconPath href="${framework(oXbytei)}/images/normdata-16.png"/>
+  <a:operations>
+    <a:operation id="ExecuteMultipleActionsOperation">
+      <a:xpathCondition>self::*:idno</a:xpathCondition>
+      <a:arguments>
+        <a:argument name="actionIDs">sel.type,sel.idno-xmlbase</a:argument>
+      </a:arguments>
+    </a:operation>
+    <a:operation id="ExecuteMultipleActionsOperation">
+      <a:xpathCondition>true()</a:xpathCondition>
+      <a:arguments>
+        <a:argument name="actionIDs">markup.idno,sel.type,sel.idno-xmlbase</a:argument>
+      </a:arguments>
+    </a:operation>
+  </a:operations>
+  <a:accessKey/>
+</a:authorAction>

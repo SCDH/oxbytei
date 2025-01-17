@@ -141,8 +141,11 @@
         <property name="oxbytei.action.markup.rs.externalParams">tag=rs, style=aggregative</property>
         <property name="oxbytei.action.sel.rs.name">ref</property>
         <property name="oxbytei.action.sel.rs.type.name">type</property>
-
-
+        
+        <!-- properties for standard linking with idno -->
+        <property name="oxbytei.action.markup.idno.fragment"><![CDATA[<idno xmlns="http://www.tei-c.org/ns/1.0">${caret}</idno>]]></property>
+        <property name="oxbytei.action.markup.idno.xmlbase">xml:base</property>
+        
         <!-- properties for inserting single anchors, used by several actions -->
         <property name="oxbytei.action.anchor.anchor">anchor</property>
         <property name="oxbytei.action.anchor.anchorNamespace">http://www.tei-c.org/ns/1.0</property>
@@ -292,7 +295,7 @@
                 </configuration>
                 <configuration>
                     <conditions>
-                        <condition domain="context">not(self::*:rs)</condition>
+                        <condition domain="context">not(self::*:rs | self::*:idno)</condition>
                         <condition domain="priority">10</condition>
                         <condition domain="nodeName">type</condition>
                         <condition domain="nodeType">attributeValue</condition>
@@ -386,6 +389,32 @@
                     <arguments>
                         <argument name="keys">rubbing;mildew;smoke</argument>
                         <argument name="labels">rubbing – damage results from rubbing of the leaf edges;mildew – damage results from mildew on the leaf surface;smoke – damage results from smoke </argument>
+                        <argument name="separator">;</argument>
+                    </arguments>
+                </configuration>
+                <configuration>
+                    <conditions>
+                        <condition domain="context">self::*:idno</condition>
+                        <condition domain="priority">100</condition>
+                        <condition domain="nodeName">type</condition>
+                        <condition domain="nodeType">attributeValue</condition>
+                    </conditions>
+                    <arguments>
+                        <argument name="keys">URI;DOI;ISBN;ISSN;VIAF;ESTC;OCLC</argument>
+                        <argument name="labels">URI – Uniform Resource Identifier: a string of characters to uniquely identify a resource, following the syntax of RFC 3986.;DOI – Digital Object Identifier: a unique string of letters and numbers assigned to an electronic document.;ISBN – International Standard Book Number: a 13- or (if assigned prior to 2007) 10-digit identifying number assigned by the publishing industry to a published book or similar item, registered with the International ISBN Agency.;ISSN – International Standard Serial Number: an eight-digit number to uniquely identify a serial publication.;DOI – Digital Object Identifier: a unique string of letters and numbers assigned to an electronic document.;VIAF – A data number in the Virtual Internet Authority File assigned to link different names in catalogs around the world for the same entity.;ESTC – English Short-Title Catalogue number: an identifying number assigned to a document in English printed in the British Isles or North America before 1801.;OCLC – OCLC control number (record number) for the union catalog record in WorldCat, a union catalog for member libraries in the Online Computer Library Center global cooperative.</argument>
+                        <argument name="separator">;</argument>
+                    </arguments>
+                </configuration>
+                <configuration>
+                    <conditions>
+                        <condition domain="context">self::*:idno[@type eq 'URI']</condition>
+                        <condition domain="priority">10</condition>
+                        <condition domain="nodeName">xml:base</condition>
+                        <condition domain="nodeType">attributeValue</condition>
+                    </conditions>
+                    <arguments>
+                        <argument name="keys">http://id.loc.gov/authorities/names/;http://d-nb.info/gnd/;https://en.wikipedia.org/wiki/;https://www.wikidata.org/wiki/;https://collections.yadvashem.org/en/names/;https://collections.arolsen-archives.org/en/search/person/</argument>
+                        <argument name="labels">LoC NAF – Library of Congress Name Authority File;GND – Gemeinsame Normdatei;Wikipedia EN;Wikidata;Yad Vashem – The Central Database of Shoah Victims' Names; Arolsen Archives</argument>
                         <argument name="separator">;</argument>
                     </arguments>
                 </configuration>
