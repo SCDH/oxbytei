@@ -519,7 +519,7 @@
             </configurations>
         </plugin>
         <plugin>
-            <class>de.wwu.scdh.teilsp.ui.ComboBoxSelectDialog</class>
+            <class>de.wwu.scdh.teilsp.ui.RadioButtonSelectDialog</class>
             <type>de.wwu.scdh.teilsp.ui.ISelectionDialog</type>
             <configurations>
                 <configuration>
