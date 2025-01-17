@@ -534,6 +534,30 @@
                         <argument name="icon">${framework(oXbytei)}/images/rs-24.png</argument>
                     </arguments>
                 </configuration>
+                <configuration>
+                    <conditions>
+                        <condition domain="context">self::*:idno</condition>
+                        <condition domain="priority">10</condition>
+                        <condition domain="nodeName">type</condition>
+                        <condition domain="nodeType">attributeValue</condition>
+                    </conditions>
+                    <arguments>
+                        <argument name="title">Select the type of standard linking.</argument>
+                        <argument name="icon">${framework(oXbytei)}/images/normdata-24.png</argument>
+                    </arguments>
+                </configuration>
+                <configuration>
+                    <conditions>
+                        <condition domain="context">self::*:idno[upper-case(@type) eq 'URI']</condition>
+                        <condition domain="priority">10</condition>
+                        <condition domain="nodeName">xml:base</condition>
+                        <condition domain="nodeType">attributeValue</condition>
+                    </conditions>
+                    <arguments>
+                        <argument name="title">Select the of Norm Authority File (@xml:base).</argument>
+                        <argument name="icon">${framework(oXbytei)}/images/normdata-24.png</argument>
+                    </arguments>
+                </configuration>
             </configurations>
         </plugin>
         <plugin>
