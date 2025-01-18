@@ -353,6 +353,12 @@
                         <argument name="prefix">#</argument>
                     </arguments>
                 </configuration>
+            </configurations>
+        </plugin>
+        <plugin>
+            <class>de.wwu.scdh.teilsp.extensions.LabelledEntriesXSLTWithContext</class>
+            <type>e.wwu.scdh.teilsp.services.extensions.ILabelledEntriesProvider</type>
+            <configurations>
                 <configuration>
                     <conditions>
                         <condition domain="context">not(self::*:rs | self::*:idno)</condition>
@@ -361,10 +367,8 @@
                         <condition domain="nodeType">attributeValue</condition>
                     </conditions>
                     <arguments>
-                        <argument name="namespaces">t:http://www.tei-c.org/ns/1.0 xml:http://www.w3.org/XML/1998/namespace</argument>
-                        <argument name="selection">//*[@type]</argument>
-                        <argument name="key">normalize-space(@type)</argument>
-                        <argument name="label">normalize-space(@type)</argument>
+                        <argument name="script">${framework(oXbytei)}/xsl/entries-xpath.xsl</argument>
+                        <argument name="parameters">values-xpath=//@type</argument>
                     </arguments>
                 </configuration>
                 <configuration>
@@ -375,10 +379,8 @@
                         <condition domain="nodeType">attributeValue</condition>
                     </conditions>
                     <arguments>
-                        <argument name="namespaces">t:http://www.tei-c.org/ns/1.0 xml:http://www.w3.org/XML/1998/namespace</argument>
-                        <argument name="selection">//*[@subtype]</argument>
-                        <argument name="key">normalize-space(@subtype)</argument>
-                        <argument name="label">normalize-space(@subtype)</argument>
+                        <argument name="script">${framework(oXbytei)}/xsl/entries-xpath.xsl</argument>
+                        <argument name="parameters">values-xpath=//@subtype</argument>
                     </arguments>
                 </configuration>
             </configurations>
