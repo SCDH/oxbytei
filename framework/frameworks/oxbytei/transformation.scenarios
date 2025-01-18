@@ -117,7 +117,7 @@
 						<String></String>
 					</field>
 					<field name="buildTarget">
-						<String>fix-xincludes</String>
+						<String>invalidate-xincludes</String>
 					</field>
 					<field name="buildFilePath">
 						<String>${frameworkDir(oXbytei)}/anttasks.xml</String>
@@ -197,7 +197,7 @@
 						<null/>
 					</field>
 					<field name="name">
-						<String>oXbytei :: fix xi:include</String>
+						<String>oXbytei :: report broken xi:include</String>
 					</field>
 					<field name="baseURL">
 						<null/>
@@ -277,7 +277,194 @@
 						</String-array>
 					</field>
 				</antScenario>
-			</scenario-array>
+				<antScenario>
+					<field name="additionalAntArgs">
+						<String></String>
+					</field>
+					<field name="buildTarget">
+						<String>fix-xincludes</String>
+					</field>
+					<field name="buildFilePath">
+						<String>${frameworkDir(oXbytei)}/anttasks.xml</String>
+					</field>
+					<field name="ditaParams">
+						<list>
+							<antParameter>
+								<field name="name">
+									<String>inputFile</String>
+								</field>
+								<field name="description">
+									<String></String>
+								</field>
+								<field name="value">
+									<String>${cf}</String>
+								</field>
+								<field name="defaultValue">
+									<null/>
+								</field>
+								<field name="type">
+									<Integer>5</Integer>
+								</field>
+								<field name="possibleValues">
+									<null/>
+								</field>
+								<field name="possibleValuesDescriptions">
+									<null/>
+								</field>
+							</antParameter>
+							<antParameter>
+								<field name="name">
+									<String>outputFile</String>
+								</field>
+								<field name="description">
+									<String></String>
+								</field>
+								<field name="value">
+									<String>${cf}</String>
+								</field>
+								<field name="defaultValue">
+									<null/>
+								</field>
+								<field name="type">
+									<Integer>5</Integer>
+								</field>
+								<field name="possibleValues">
+									<null/>
+								</field>
+								<field name="possibleValuesDescriptions">
+									<null/>
+								</field>
+							</antParameter>
+							<antParameter>
+								<field name="name">
+									<String>pdu</String>
+								</field>
+								<field name="description">
+									<String></String>
+								</field>
+								<field name="value">
+									<String>${pdu}</String>
+								</field>
+								<field name="defaultValue">
+									<null/>
+								</field>
+								<field name="type">
+									<Integer>5</Integer>
+								</field>
+								<field name="possibleValues">
+									<null/>
+								</field>
+								<field name="possibleValuesDescriptions">
+									<null/>
+								</field>
+							</antParameter>
+						</list>
+					</field>
+					<field name="jvmArgs">
+						<String>-Xmx256m</String>
+					</field>
+					<field name="useCustomJavaHome">
+						<Boolean>false</Boolean>
+					</field>
+					<field name="customJavaHomeDir">
+						<String></String>
+					</field>
+					<field name="useCustomANTHome">
+						<Boolean>false</Boolean>
+					</field>
+					<field name="customANTHomeDir">
+						<String></String>
+					</field>
+					<field name="workingDir">
+						<String>${cfd}</String>
+					</field>
+					<field name="showConsoleAlways">
+						<Boolean>false</Boolean>
+					</field>
+					<field name="advancedOptionsMap">
+						<null/>
+					</field>
+					<field name="name">
+						<String>oXbytei :: fix xi:include of files in project root</String>
+					</field>
+					<field name="baseURL">
+						<null/>
+					</field>
+					<field name="footerURL">
+						<null/>
+					</field>
+					<field name="fOPMethod">
+						<null/>
+					</field>
+					<field name="fOProcessorName">
+						<null/>
+					</field>
+					<field name="headerURL">
+						<null/>
+					</field>
+					<field name="inputXSLURL">
+						<null/>
+					</field>
+					<field name="inputXMLURL">
+						<null/>
+					</field>
+					<field name="defaultScenario">
+						<Boolean>false</Boolean>
+					</field>
+					<field name="isFOPPerforming">
+						<Boolean>false</Boolean>
+					</field>
+					<field name="type">
+						<String>ANT</String>
+					</field>
+					<field name="saveAs">
+						<Boolean>true</Boolean>
+					</field>
+					<field name="openInBrowser">
+						<Boolean>false</Boolean>
+					</field>
+					<field name="outputResource">
+						<null/>
+					</field>
+					<field name="openOtherLocationInBrowser">
+						<Boolean>true</Boolean>
+					</field>
+					<field name="locationToOpenInBrowserURL">
+						<String></String>
+					</field>
+					<field name="openInEditor">
+						<Boolean>true</Boolean>
+					</field>
+					<field name="showInHTMLPane">
+						<Boolean>false</Boolean>
+					</field>
+					<field name="showInXMLPane">
+						<Boolean>false</Boolean>
+					</field>
+					<field name="showInSVGPane">
+						<Boolean>false</Boolean>
+					</field>
+					<field name="showInResultSetPane">
+						<Boolean>true</Boolean>
+					</field>
+					<field name="useXSLTInput">
+						<Boolean>false</Boolean>
+					</field>
+					<field name="xsltParams">
+						<list/>
+					</field>
+					<field name="cascadingStylesheets">
+						<String-array/>
+					</field>
+					<field name="xslTransformer">
+						<String>ANT</String>
+					</field>
+					<field name="extensionURLs">
+						<String-array>
+							<String>${oxygenHome}/lib/*.jar</String>
+						</String-array>
+					</field>
+				</antScenario>			</scenario-array>
 		</entry>
 		<entry>
 			<String>scenarios.load.from.project</String>
