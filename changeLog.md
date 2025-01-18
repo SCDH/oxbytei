@@ -10,6 +10,12 @@
 	- critical apparatus
 	- entity linking
 	- analysis and interpretation
+  - new transformation scenarion `oxbytei :: fix xi:include of files in
+    project root`
+	- if a file was moved into an subfolder or up the folder
+      hierarchy, relative links to central files in the project folder
+      are broken. This scenario fixes relative links to files in
+      `${pdu}`, i.e., project directory URL.
 
 ## 0.20.0
 
