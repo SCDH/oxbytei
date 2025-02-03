@@ -165,6 +165,8 @@ from the contextual menu.
         <addAction id="sel.agent" inElementsView="true" inCCWindow="true"/>
         <addAction id="sel.type" inElementsView="true" inCCWindow="true"/>
         <addAction id="sel.subtype" inElementsView="true" inCCWindow="true"/>
+        <addAction id="sel.gender" inElementsView="true" inCCWindow="true"/>
+        <addAction id="sel.sex" inElementsView="true" inCCWindow="true"/>
       </authorActions>
     </contentCompletion>
 
