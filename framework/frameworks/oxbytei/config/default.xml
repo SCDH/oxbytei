@@ -383,6 +383,30 @@
                         <argument name="parameters">values-xpath=//@subtype</argument>
                     </arguments>
                 </configuration>
+                <configuration>
+                    <conditions>
+                        <condition domain="context">self::*:person</condition>
+                        <condition domain="priority">10</condition>
+                        <condition domain="nodeName">gender</condition>
+                        <condition domain="nodeType">attributeValue</condition>
+                    </conditions>
+                    <arguments>
+                        <argument name="script">${framework(oXbytei)}/xsl/entries-xpath.xsl</argument>
+                        <argument name="parameters">values-xpath=//@gender</argument>
+                    </arguments>
+                </configuration>
+                <configuration>
+                    <conditions>
+                        <condition domain="context">self::*:person</condition>
+                        <condition domain="priority">10</condition>
+                        <condition domain="nodeName">sex</condition>
+                        <condition domain="nodeType">attributeValue</condition>
+                    </conditions>
+                    <arguments>
+                        <argument name="script">${framework(oXbytei)}/xsl/entries-xpath.xsl</argument>
+                        <argument name="parameters">values-xpath=//@sex</argument>
+                    </arguments>
+                </configuration>
             </configurations>
         </plugin>
         <plugin>
