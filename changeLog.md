@@ -1,5 +1,10 @@
 # Changes
 
+## 0.21.1
+
+- new actions
+  - for `person/@gender` and `person/@sex`
+
 ## 0.21.0
 
 - new actions
