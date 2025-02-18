@@ -1,5 +1,11 @@
 # Changes
 
+## 0.21.2
+
+- improved default config:
+  - support prefix definitions with ident starting with `an` in `span/@ana`
+  - checkbox dialog for `span/@ana` if prefix definition is present
+
 ## 0.21.1
 
 - new actions
