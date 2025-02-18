@@ -1,6 +1,6 @@
 # Changes
 
-## 0.21.2
+## 0.21.2/3
 
 - improved default config:
   - support prefix definitions with ident starting with `an` in `span/@ana`
