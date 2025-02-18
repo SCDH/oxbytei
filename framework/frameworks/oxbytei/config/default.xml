@@ -302,6 +302,22 @@
                 </configuration>
                 <configuration>
                     <conditions>
+                        <condition domain="context">self::*:span and //*:teiHeader//*:prefixDef[matches(@ident, '^an')]</condition>
+                        <condition domain="priority">10</condition>
+                        <condition domain="nodeType">attributeValue</condition>
+                        <condition domain="nodeName">ana</condition>
+                    </conditions>
+                    <arguments>
+                        <argument name="namespaces">t:http://www.tei-c.org/ns/1.0 xml:http://www.w3.org/XML/1998/namespace</argument>
+                        <argument name="selection">//t:teiHeader/t:encodingDesc/t:classDecl/descendant::t:category[@xml:id]</argument>
+                        <argument name="key">@xml:id</argument>
+                        <argument name="label">normalize-space(.)</argument>
+                        <argument name="prefixDef">//t:teiHeader//t:prefixDef[matches(@ident, '^an')]</argument>
+                        <argument name="prefixDefRef">tokenize(@replacementPattern, '#')[1]</argument>
+                    </arguments>
+                </configuration>
+                <configuration>
+                    <conditions>
                         <condition domain="context">self::*:bibl and //*:teiHeader//*:prefixDef[matches(@ident, '^(b$|bib$|biblio)')]</condition>
                         <condition domain="priority">10</condition>
                         <condition domain="nodeType">attributeValue</condition>
@@ -548,6 +564,19 @@
                         <argument name="icon">${framework(oXbytei)}/images/ask-24.png</argument>
                     </arguments>
                 </configuration>
+                <configuration>
+                    <conditions>
+                        <condition domain="context">self::*:span and (//*:teiHeader//*:prefixDef[matches(@ident, '^an')] or //*:interpGrp/*:interp)</condition>
+                        <condition domain="priority">10</condition>
+                        <condition domain="nodeName">ana</condition>
+                        <condition domain="nodeType">attributeValue</condition>
+                    </conditions>
+                    <arguments>
+                        <argument name="title">Select one or more analytical or interpretative categories or labels</argument>
+                        <argument name="icon">${framework(oXbytei)}/images/ask-24.png</argument>
+                    </arguments>
+                </configuration>
+                
             </configurations>
         </plugin>
         <plugin>
