@@ -42,6 +42,28 @@
         <a:argument name="icon">${framework(oXbytei)}/images/sheetsquestion-24.png</a:argument>
       </a:arguments>
     </a:operation>
+    <a:operation id="de.wwu.scdh.oxbytei.SelectAttributeValueOperation">
+      <a:xpathCondition>self::*:cb | self::*:gb | self::*:lb | self::*:milestone | self::*:pb | self::*:refState</a:xpathCondition>
+      <a:arguments>
+        <a:argument name="name">edRef</a:argument>
+        <a:argument name="elementLocation">self::*</a:argument>
+        <a:argument name="message">Select source resp. witness</a:argument>
+        <a:argument name="rollbackOnCancel">true</a:argument>
+        <a:argument name="dialog">de.wwu.scdh.teilsp.ui.CheckBoxSelectDialog</a:argument>
+        <a:argument name="icon">${framework(oXbytei)}/images/sheetsquestion-24.png</a:argument>
+      </a:arguments>
+    </a:operation>
+    <a:operation id="de.wwu.scdh.oxbytei.SelectAttributeValueOperation">
+      <a:xpathCondition>self::*:seg | self::*:supplied</a:xpathCondition>
+      <a:arguments>
+        <a:argument name="name">source</a:argument>
+        <a:argument name="elementLocation">self::*</a:argument>
+        <a:argument name="message">Select source resp. witness</a:argument>
+        <a:argument name="rollbackOnCancel">true</a:argument>
+        <a:argument name="dialog">de.wwu.scdh.teilsp.ui.CheckBoxSelectDialog</a:argument>
+        <a:argument name="icon">${framework(oXbytei)}/images/sheetsquestion-24.png</a:argument>
+      </a:arguments>
+    </a:operation>
   </a:operations>
   <a:accessKey/>
 </a:authorAction>
