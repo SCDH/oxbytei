@@ -369,6 +369,38 @@
                         <argument name="prefix">#</argument>
                     </arguments>
                 </configuration>
+                <configuration>
+                    <!-- for pb/@edRef same as for rdg/@wit -->
+                    <conditions>
+                        <condition domain="context">self::*:cb | self::*:gb | self::*:lb | self::*:milestone | self::*:pb | self::*:refState</condition>
+                        <condition domain="priority">10</condition>
+                        <condition domain="nodeName">edRef</condition>
+                        <condition domain="nodeType">attributeValue</condition>
+                    </conditions>
+                    <arguments>
+                        <argument name="namespaces">t:http://www.tei-c.org/ns/1.0 xml:http://www.w3.org/XML/1998/namespace</argument>
+                        <argument name="selection">//t:teiHeader//t:sourceDesc/t:listWit//t:witness</argument>
+                        <argument name="key">@xml:id</argument>
+                        <argument name="label">normalize-space(concat(@xml:id, ':', .))</argument>
+                        <argument name="prefix">#</argument>
+                    </arguments>
+                </configuration>
+                <configuration>
+                    <!-- for seg/@source etc. same as for rdg/@wit -->
+                    <conditions>
+                        <condition domain="context">self::*[@source] | self::*:seg | self::*:supplied | self::*:surplus | self::*:l | self::*:p | self::*:ab | self::*:div</condition>
+                        <condition domain="priority">10</condition>
+                        <condition domain="nodeName">source</condition>
+                        <condition domain="nodeType">attributeValue</condition>
+                    </conditions>
+                    <arguments>
+                        <argument name="namespaces">t:http://www.tei-c.org/ns/1.0 xml:http://www.w3.org/XML/1998/namespace</argument>
+                        <argument name="selection">//t:teiHeader//t:sourceDesc/t:listWit//t:witness</argument>
+                        <argument name="key">@xml:id</argument>
+                        <argument name="label">normalize-space(concat(@xml:id, ':', .))</argument>
+                        <argument name="prefix">#</argument>
+                    </arguments>
+                </configuration>
             </configurations>
         </plugin>
         <plugin>
@@ -533,6 +565,30 @@
                         <condition domain="context">self::*:lem | self::*:rdg | self::*:witDetail</condition>
                         <condition domain="priority">10</condition>
                         <condition domain="nodeName">wit</condition>
+                        <condition domain="nodeType">attributeValue</condition>
+                    </conditions>
+                    <arguments>
+                        <argument name="title">Select witnesses</argument>
+                        <argument name="icon">${framework(oXbytei)}/images/sheetsquestion-24.png</argument>
+                    </arguments>
+                </configuration>
+                <configuration>
+                    <conditions>
+                        <condition domain="context">self::*:cb | self::*:gb | self::*:lb | self::*:milestone | self::*:pb | self::*:refState</condition>
+                        <condition domain="priority">10</condition>
+                        <condition domain="nodeName">edRef</condition>
+                        <condition domain="nodeType">attributeValue</condition>
+                    </conditions>
+                    <arguments>
+                        <argument name="title">Select witnesses</argument>
+                        <argument name="icon">${framework(oXbytei)}/images/sheetsquestion-24.png</argument>
+                    </arguments>
+                </configuration>
+                <configuration>
+                    <conditions>
+                        <condition domain="context">self::*[@source] | self::*:seg | self::*:supplied | self::*:surplus | self::*:l | self::*:p | self::*:ab | self::*:div</condition>
+                        <condition domain="priority">10</condition>
+                        <condition domain="nodeName">source</condition>
                         <condition domain="nodeType">attributeValue</condition>
                     </conditions>
                     <arguments>
