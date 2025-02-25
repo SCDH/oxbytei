@@ -1,5 +1,12 @@
 # Changes
 
+## 0.22.0
+
+- use `sel.wit` action for more attributes
+  - `witDetail/@wit`
+  - `pb/@edRef` etc.
+  - `choice/seg/@source` etc.
+
 ## 0.21.2/3
 
 - improved default config:
