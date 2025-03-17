@@ -388,7 +388,7 @@
                 <configuration>
                     <!-- for seg/@source etc. same as for rdg/@wit -->
                     <conditions>
-                        <condition domain="context">self::*[@source] | self::*:seg | self::*:supplied | self::*:surplus | self::*:l | self::*:p | self::*:ab | self::*:div</condition>
+                        <condition domain="context">self::*[@source] | self::*:seg | self::*:supplied | self::*:surplus | self::*:l | self::*:p | self::*:ab | self::*:div | self::*:sic | self::*:orig | self::*:abbr</condition>
                         <condition domain="priority">10</condition>
                         <condition domain="nodeName">source</condition>
                         <condition domain="nodeType">attributeValue</condition>
@@ -586,7 +586,7 @@
                 </configuration>
                 <configuration>
                     <conditions>
-                        <condition domain="context">self::*[@source] | self::*:seg | self::*:supplied | self::*:surplus | self::*:l | self::*:p | self::*:ab | self::*:div</condition>
+                        <condition domain="context">self::*[@source] | self::*:seg | self::*:supplied | self::*:surplus | self::*:l | self::*:p | self::*:ab | self::*:div | self::*:sic | self::*:orig | self::*:abbr</condition>
                         <condition domain="priority">10</condition>
                         <condition domain="nodeName">source</condition>
                         <condition domain="nodeType">attributeValue</condition>
