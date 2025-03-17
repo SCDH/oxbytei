@@ -1,5 +1,9 @@
 # Changes
 
+## 0.22.1
+
+- use `sel.wit` action for `sic/@source`, `orig/@source` etc.
+
 ## 0.22.0
 
 - use `sel.wit` action for more attributes
