@@ -54,7 +54,7 @@
       </a:arguments>
     </a:operation>
     <a:operation id="de.wwu.scdh.oxbytei.SelectAttributeValueOperation">
-      <a:xpathCondition>self::*:seg | self::*:supplied</a:xpathCondition>
+      <a:xpathCondition>self::*[@source] | self::*:seg | self::*:supplied | self::*:surplus | self::*:l | self::*:p | self::*:ab  | self::*:sic | self::*:orig | self::*:abbr</a:xpathCondition>
       <a:arguments>
         <a:argument name="name">source</a:argument>
         <a:argument name="elementLocation">self::*</a:argument>
