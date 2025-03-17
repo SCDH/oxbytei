@@ -3,8 +3,8 @@
                xmlns:xt="http://www.oxygenxml.com/ns/extension"
                xsi:schemaLocation="http://www.oxygenxml.com/ns/extension http://www.oxygenxml.com/ns/extension/extensions.xsd">
    <xt:extension id="oxbytei23.0">
-      <xt:location href="https://github.com/SCDH/oxbytei/releases/download/0.22.0/oxbytei-oxygen23-0.22.0-framework.zip"/>
-      <xt:version>0.22.0</xt:version>
+      <xt:location href="https://github.com/SCDH/oxbytei/releases/download/0.22.1/oxbytei-oxygen23-0.22.1-framework.zip"/>
+      <xt:version>0.22.1</xt:version>
       <xt:oxy_version>23.0</xt:oxy_version>
       <xt:type>framework</xt:type>
       <xt:author>Christian Lück</xt:author>
@@ -20,7 +20,7 @@
 		  developed at SCDH, Westfälische Wilhelms-Universität Münster. It
 		  is configured by the document's header and offers high level
 		  functions.</p>
-                  <p>Visit the <a href="https://github.com/SCDH/oxbytei/releases/tag/0.22.0">release page</a> to see what's new.</p>
+                  <p>Visit the <a href="https://github.com/SCDH/oxbytei/releases/tag/0.22.1">release page</a> to see what's new.</p>
                </div>
                <div>
                   <head>Included Software and other Material</head>
@@ -57,8 +57,8 @@ SOFTWARE.
 </xt:license>
    </xt:extension>
    <xt:extension id="oxbytei23.1">
-      <xt:location href="https://github.com/SCDH/oxbytei/releases/download/0.22.0/oxbytei-oxygen23-0.22.0-framework.zip"/>
-      <xt:version>0.22.0</xt:version>
+      <xt:location href="https://github.com/SCDH/oxbytei/releases/download/0.22.1/oxbytei-oxygen23-0.22.1-framework.zip"/>
+      <xt:version>0.22.1</xt:version>
       <xt:oxy_version>23.1</xt:oxy_version>
       <xt:type>framework</xt:type>
       <xt:author>Christian Lück</xt:author>
@@ -74,7 +74,7 @@ SOFTWARE.
 		  developed at SCDH, Westfälische Wilhelms-Universität Münster. It
 		  is configured by the document's header and offers high level
 		  functions.</p>
-                  <p>Visit the <a href="https://github.com/SCDH/oxbytei/releases/tag/0.22.0">release page</a> to see what's new.</p>
+                  <p>Visit the <a href="https://github.com/SCDH/oxbytei/releases/tag/0.22.1">release page</a> to see what's new.</p>
                </div>
                <div>
                   <head>Included Software and other Material</head>
@@ -111,8 +111,8 @@ SOFTWARE.
 </xt:license>
    </xt:extension>
    <xt:extension id="oxbytei23.2">
-      <xt:location href="https://github.com/SCDH/oxbytei/releases/download/0.22.0/oxbytei-oxygen23-0.22.0-framework.zip"/>
-      <xt:version>0.22.0</xt:version>
+      <xt:location href="https://github.com/SCDH/oxbytei/releases/download/0.22.1/oxbytei-oxygen23-0.22.1-framework.zip"/>
+      <xt:version>0.22.1</xt:version>
       <xt:oxy_version>23.2</xt:oxy_version>
       <xt:type>framework</xt:type>
       <xt:author>Christian Lück</xt:author>
@@ -128,7 +128,7 @@ SOFTWARE.
 		  developed at SCDH, Westfälische Wilhelms-Universität Münster. It
 		  is configured by the document's header and offers high level
 		  functions.</p>
-                  <p>Visit the <a href="https://github.com/SCDH/oxbytei/releases/tag/0.22.0">release page</a> to see what's new.</p>
+                  <p>Visit the <a href="https://github.com/SCDH/oxbytei/releases/tag/0.22.1">release page</a> to see what's new.</p>
                </div>
                <div>
                   <head>Included Software and other Material</head>
@@ -165,8 +165,8 @@ SOFTWARE.
 </xt:license>
    </xt:extension>
    <xt:extension id="oxbytei24.0">
-      <xt:location href="https://github.com/SCDH/oxbytei/releases/download/0.22.0/oxbytei-oxygen24-0.22.0-framework.zip"/>
-      <xt:version>0.22.0</xt:version>
+      <xt:location href="https://github.com/SCDH/oxbytei/releases/download/0.22.1/oxbytei-oxygen24-0.22.1-framework.zip"/>
+      <xt:version>0.22.1</xt:version>
       <xt:oxy_version>24.0</xt:oxy_version>
       <xt:type>framework</xt:type>
       <xt:author>Christian Lück</xt:author>
@@ -182,7 +182,7 @@ SOFTWARE.
 		  developed at SCDH, Westfälische Wilhelms-Universität Münster. It
 		  is configured by the document's header and offers high level
 		  functions.</p>
-                  <p>Visit the <a href="https://github.com/SCDH/oxbytei/releases/tag/0.22.0">release page</a> to see what's new.</p>
+                  <p>Visit the <a href="https://github.com/SCDH/oxbytei/releases/tag/0.22.1">release page</a> to see what's new.</p>
                </div>
                <div>
                   <head>Included Software and other Material</head>
@@ -219,8 +219,8 @@ SOFTWARE.
 </xt:license>
    </xt:extension>
    <xt:extension id="oxbytei24.1">
-      <xt:location href="https://github.com/SCDH/oxbytei/releases/download/0.22.0/oxbytei-oxygen24-0.22.0-framework.zip"/>
-      <xt:version>0.22.0</xt:version>
+      <xt:location href="https://github.com/SCDH/oxbytei/releases/download/0.22.1/oxbytei-oxygen24-0.22.1-framework.zip"/>
+      <xt:version>0.22.1</xt:version>
       <xt:oxy_version>24.1</xt:oxy_version>
       <xt:type>framework</xt:type>
       <xt:author>Christian Lück</xt:author>
@@ -236,7 +236,7 @@ SOFTWARE.
 		  developed at SCDH, Westfälische Wilhelms-Universität Münster. It
 		  is configured by the document's header and offers high level
 		  functions.</p>
-                  <p>Visit the <a href="https://github.com/SCDH/oxbytei/releases/tag/0.22.0">release page</a> to see what's new.</p>
+                  <p>Visit the <a href="https://github.com/SCDH/oxbytei/releases/tag/0.22.1">release page</a> to see what's new.</p>
                </div>
                <div>
                   <head>Included Software and other Material</head>
@@ -273,8 +273,8 @@ SOFTWARE.
 </xt:license>
    </xt:extension>
    <xt:extension id="oxbytei24.2">
-      <xt:location href="https://github.com/SCDH/oxbytei/releases/download/0.22.0/oxbytei-oxygen24-0.22.0-framework.zip"/>
-      <xt:version>0.22.0</xt:version>
+      <xt:location href="https://github.com/SCDH/oxbytei/releases/download/0.22.1/oxbytei-oxygen24-0.22.1-framework.zip"/>
+      <xt:version>0.22.1</xt:version>
       <xt:oxy_version>24.2</xt:oxy_version>
       <xt:type>framework</xt:type>
       <xt:author>Christian Lück</xt:author>
@@ -290,7 +290,7 @@ SOFTWARE.
 		  developed at SCDH, Westfälische Wilhelms-Universität Münster. It
 		  is configured by the document's header and offers high level
 		  functions.</p>
-                  <p>Visit the <a href="https://github.com/SCDH/oxbytei/releases/tag/0.22.0">release page</a> to see what's new.</p>
+                  <p>Visit the <a href="https://github.com/SCDH/oxbytei/releases/tag/0.22.1">release page</a> to see what's new.</p>
                </div>
                <div>
                   <head>Included Software and other Material</head>
@@ -327,8 +327,8 @@ SOFTWARE.
 </xt:license>
    </xt:extension>
    <xt:extension id="oxbytei25.0">
-      <xt:location href="https://github.com/SCDH/oxbytei/releases/download/0.22.0/oxbytei-oxygen25-0.22.0-framework.zip"/>
-      <xt:version>0.22.0</xt:version>
+      <xt:location href="https://github.com/SCDH/oxbytei/releases/download/0.22.1/oxbytei-oxygen25-0.22.1-framework.zip"/>
+      <xt:version>0.22.1</xt:version>
       <xt:oxy_version>25.0</xt:oxy_version>
       <xt:type>framework</xt:type>
       <xt:author>Christian Lück</xt:author>
@@ -344,7 +344,7 @@ SOFTWARE.
 		  developed at SCDH, Westfälische Wilhelms-Universität Münster. It
 		  is configured by the document's header and offers high level
 		  functions.</p>
-                  <p>Visit the <a href="https://github.com/SCDH/oxbytei/releases/tag/0.22.0">release page</a> to see what's new.</p>
+                  <p>Visit the <a href="https://github.com/SCDH/oxbytei/releases/tag/0.22.1">release page</a> to see what's new.</p>
                </div>
                <div>
                   <head>Included Software and other Material</head>
@@ -381,8 +381,8 @@ SOFTWARE.
 </xt:license>
    </xt:extension>
    <xt:extension id="oxbytei25.1">
-      <xt:location href="https://github.com/SCDH/oxbytei/releases/download/0.22.0/oxbytei-oxygen25-0.22.0-framework.zip"/>
-      <xt:version>0.22.0</xt:version>
+      <xt:location href="https://github.com/SCDH/oxbytei/releases/download/0.22.1/oxbytei-oxygen25-0.22.1-framework.zip"/>
+      <xt:version>0.22.1</xt:version>
       <xt:oxy_version>25.1</xt:oxy_version>
       <xt:type>framework</xt:type>
       <xt:author>Christian Lück</xt:author>
@@ -398,7 +398,7 @@ SOFTWARE.
 		  developed at SCDH, Westfälische Wilhelms-Universität Münster. It
 		  is configured by the document's header and offers high level
 		  functions.</p>
-                  <p>Visit the <a href="https://github.com/SCDH/oxbytei/releases/tag/0.22.0">release page</a> to see what's new.</p>
+                  <p>Visit the <a href="https://github.com/SCDH/oxbytei/releases/tag/0.22.1">release page</a> to see what's new.</p>
                </div>
                <div>
                   <head>Included Software and other Material</head>
@@ -435,8 +435,8 @@ SOFTWARE.
 </xt:license>
    </xt:extension>
    <xt:extension id="oxbytei26.0">
-      <xt:location href="https://github.com/SCDH/oxbytei/releases/download/0.22.0/oxbytei-oxygen26-0.22.0-framework.zip"/>
-      <xt:version>0.22.0</xt:version>
+      <xt:location href="https://github.com/SCDH/oxbytei/releases/download/0.22.1/oxbytei-oxygen26-0.22.1-framework.zip"/>
+      <xt:version>0.22.1</xt:version>
       <xt:oxy_version>26.0</xt:oxy_version>
       <xt:type>framework</xt:type>
       <xt:author>Christian Lück</xt:author>
@@ -452,7 +452,7 @@ SOFTWARE.
 		  developed at SCDH, Westfälische Wilhelms-Universität Münster. It
 		  is configured by the document's header and offers high level
 		  functions.</p>
-                  <p>Visit the <a href="https://github.com/SCDH/oxbytei/releases/tag/0.22.0">release page</a> to see what's new.</p>
+                  <p>Visit the <a href="https://github.com/SCDH/oxbytei/releases/tag/0.22.1">release page</a> to see what's new.</p>
                </div>
                <div>
                   <head>Included Software and other Material</head>
@@ -489,8 +489,8 @@ SOFTWARE.
 </xt:license>
    </xt:extension>
    <xt:extension id="oxbytei26.1">
-      <xt:location href="https://github.com/SCDH/oxbytei/releases/download/0.22.0/oxbytei-oxygen26-0.22.0-framework.zip"/>
-      <xt:version>0.22.0</xt:version>
+      <xt:location href="https://github.com/SCDH/oxbytei/releases/download/0.22.1/oxbytei-oxygen26-0.22.1-framework.zip"/>
+      <xt:version>0.22.1</xt:version>
       <xt:oxy_version>26.1</xt:oxy_version>
       <xt:type>framework</xt:type>
       <xt:author>Christian Lück</xt:author>
@@ -506,7 +506,7 @@ SOFTWARE.
 		  developed at SCDH, Westfälische Wilhelms-Universität Münster. It
 		  is configured by the document's header and offers high level
 		  functions.</p>
-                  <p>Visit the <a href="https://github.com/SCDH/oxbytei/releases/tag/0.22.0">release page</a> to see what's new.</p>
+                  <p>Visit the <a href="https://github.com/SCDH/oxbytei/releases/tag/0.22.1">release page</a> to see what's new.</p>
                </div>
                <div>
                   <head>Included Software and other Material</head>
@@ -543,8 +543,8 @@ SOFTWARE.
 </xt:license>
    </xt:extension>
    <xt:extension id="oxbytei27.0+">
-      <xt:location href="https://github.com/SCDH/oxbytei/releases/download/0.22.0/oxbytei-oxygen27-0.22.0-framework.zip"/>
-      <xt:version>0.22.0</xt:version>
+      <xt:location href="https://github.com/SCDH/oxbytei/releases/download/0.22.1/oxbytei-oxygen27-0.22.1-framework.zip"/>
+      <xt:version>0.22.1</xt:version>
       <xt:oxy_version>27.0+</xt:oxy_version>
       <xt:type>framework</xt:type>
       <xt:author>Christian Lück</xt:author>
@@ -560,7 +560,7 @@ SOFTWARE.
 		  developed at SCDH, Westfälische Wilhelms-Universität Münster. It
 		  is configured by the document's header and offers high level
 		  functions.</p>
-                  <p>Visit the <a href="https://github.com/SCDH/oxbytei/releases/tag/0.22.0">release page</a> to see what's new.</p>
+                  <p>Visit the <a href="https://github.com/SCDH/oxbytei/releases/tag/0.22.1">release page</a> to see what's new.</p>
                </div>
                <div>
                   <head>Included Software and other Material</head>
