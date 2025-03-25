@@ -24,6 +24,8 @@
         <property name="oxbytei.action.annotate.externalParams">reproduce-text=${ask('Reproduce selected text in the annotation?', combobox, ('true':'yes';'false':'no'), 'no')}</property>
         <property name="oxbytei.action.annotate.attribute">ana</property>
 
+        <property name="oxbytei.action.pick.id.name">xml:id</property>
+        <property name="oxbytei.action.pick.id.idXpath">'${id}'</property>
 
 
         <!-- common properties for apparatus actions -->
