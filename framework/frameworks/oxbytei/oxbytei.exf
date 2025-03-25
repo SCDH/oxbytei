@@ -70,6 +70,7 @@ from the contextual menu.
         <addAction id="oxbytei.schema.attribute.editor"/>
         <separator/>
         <addAction id="oxbytei.generate.ids"/>
+        <addAction id="pick.id"/>
         <addAction id="select.language"/>
         <addAction id="oxbytei.xinclude"/>
       </toolbar>
