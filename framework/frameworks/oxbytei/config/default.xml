@@ -302,7 +302,7 @@
                 </configuration>
                 <configuration>
                     <conditions>
-                        <condition domain="context">self::*:span and //*:teiHeader//*:prefixDef[matches(@ident, '^an')]</condition>
+                        <condition domain="context">self::* and //*:teiHeader//*:prefixDef[matches(@ident, '^an')]</condition>
                         <condition domain="priority">10</condition>
                         <condition domain="nodeType">attributeValue</condition>
                         <condition domain="nodeName">ana</condition>
@@ -341,7 +341,7 @@
             <configurations>
                 <configuration>
                     <conditions>
-                        <condition domain="context">self::*:span and //*:interpGrp/*:interp</condition>
+                        <condition domain="context">self::* and //*:interpGrp/*:interp</condition>
                         <condition domain="priority">10</condition>
                         <condition domain="nodeName">ana</condition>
                         <condition domain="nodeType">attributeValue</condition>
@@ -622,7 +622,7 @@
                 </configuration>
                 <configuration>
                     <conditions>
-                        <condition domain="context">self::*:span and (//*:teiHeader//*:prefixDef[matches(@ident, '^an')] or //*:interpGrp/*:interp)</condition>
+                        <condition domain="context">self::* and (//*:teiHeader//*:prefixDef[matches(@ident, '^an')] or //*:interpGrp/*:interp)</condition>
                         <condition domain="priority">10</condition>
                         <condition domain="nodeName">ana</condition>
                         <condition domain="nodeType">attributeValue</condition>
