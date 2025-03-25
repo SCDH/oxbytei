@@ -1,5 +1,10 @@
 # Changes
 
+## 0.22.2
+
+- `@ana` is supported everywhere, not only on `<span>`
+- fix labels for choosing `bibl/@corresp`
+
 ## 0.22.1
 
 - use `sel.wit` action for `sic/@source`, `orig/@source` etc.
