@@ -16,7 +16,7 @@ import de.wwu.scdh.oxbytei.commons.OperationArgumentValidator;
 
 
 /**
- * {@link InsertAnchorOperation} insert a single anchor add the
+ * {@link InsertAnchorOperation} inserts a single anchor at the
  * current caret position. The anchors ID is then present on the
  * {@code ${anchorId}} editor variable.
  *
