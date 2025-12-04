@@ -1,5 +1,9 @@
 # Changes
 
+## 0.22.3
+
+- fixes linking places (issue #14)
+
 ## 0.22.2
 
 - `@ana` is supported everywhere, not only on `<span>`

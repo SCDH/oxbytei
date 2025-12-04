@@ -265,7 +265,7 @@
                         <argument name="namespaces">t:http://www.tei-c.org/ns/1.0 xml:http://www.w3.org/XML/1998/namespace</argument>
                         <argument name="selection">//t:text/descendant::t:place[@xml:id]</argument>
                         <argument name="key">@xml:id</argument>
-                        <argument name="label">normalize-space(t:placeName)</argument>
+                        <argument name="label">normalize-space(t:placeName[1])</argument>
                         <argument name="prefixDef">//t:teiHeader//t:prefixDef[matches(@ident, '^(pl|plc|place)')]</argument>
                         <argument name="prefixDefRef">tokenize(@replacementPattern, '#')[1]</argument>
                     </arguments>
@@ -281,7 +281,7 @@
                         <argument name="namespaces">t:http://www.tei-c.org/ns/1.0 xml:http://www.w3.org/XML/1998/namespace</argument>
                         <argument name="selection">//t:text/descendant::t:org[@xml:id]</argument>
                         <argument name="key">@xml:id</argument>
-                        <argument name="label">normalize-space(t:orgName)</argument>
+                        <argument name="label">normalize-space(t:orgName[1])</argument>
                         <argument name="prefixDef">//t:teiHeader//t:prefixDef[matches(@ident, '^(org)')]</argument>
                         <argument name="prefixDefRef">tokenize(@replacementPattern, '#')[1]</argument>
                     </arguments>
@@ -297,7 +297,7 @@
                         <argument name="namespaces">t:http://www.tei-c.org/ns/1.0 xml:http://www.w3.org/XML/1998/namespace</argument>
                         <argument name="selection">//t:text/descendant::t:event[@xml:id]</argument>
                         <argument name="key">@xml:id</argument>
-                        <argument name="label">normalize-space(t:eventName)</argument>
+                        <argument name="label">normalize-space(t:eventName[1])</argument>
                         <argument name="prefixDef">//t:teiHeader//t:prefixDef[matches(@ident, '(ev|evn|evt|event)')]</argument>
                         <argument name="prefixDefRef">tokenize(@replacementPattern, '#')[1]</argument>
                     </arguments>
