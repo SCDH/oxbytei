@@ -33,7 +33,23 @@
 			<artifactId>oxbytei-core</artifactId>
 			<version>${revision}${changelist}</version>
 		</dependency>
+		<dependency>
+			<groupId>de.uni-ms.scdh.tei</groupId>
+			<artifactId>x2tei-transformations</artifactId>
+			<version>0.9.0</version>
+			<type>pom</type>
+		</dependency>
 	</dependencies>
+
+	<repositories>
+		<repository>
+			<id>github-scdh-x2tei-transformations</id>
+			<url>https://maven.pkg.github.com/SCDH/x2tei-transformations</url>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+		</repository>
+	</repositories>
 
 	<build>
 
