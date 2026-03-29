@@ -14,7 +14,7 @@
       </configuration>
     </server>
     <server>
-      <id>gitlab-scdh-x2tei-transformations</id>
+      <id>github-scdh-x2tei-transformations</id>
       <username>${env.USERNAME}</username>
       <password>${env.GITHUB_TOKEN}</password>
     </server>
