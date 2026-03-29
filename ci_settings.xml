@@ -15,14 +15,8 @@
     </server>
     <server>
       <id>gitlab-scdh-x2tei-transformations</id>
-      <configuration>
-        <httpHeaders>
-          <property>
-            <name>x-access-token</name>
-            <value>${env.GITHUB_TOKEN}</value>
-          </property>
-        </httpHeaders>
-      </configuration>
+      <username>${env.USERNAME}</username>
+      <password>${env.GITHUB_TOKEN}</password>
     </server>
   </servers>
 </settings>
