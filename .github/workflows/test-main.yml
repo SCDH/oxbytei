@@ -25,36 +25,30 @@ jobs:
 
       - name: run maven with default build profile
         env:
-          USERNAME: ${{ github.actor }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: mvn --batch-mode --update-snapshots verify
 
       - name: run maven with build profile for oxygen 23
         env:
-          USERNAME: ${{ github.actor }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: mvn -Doxygen.version=23 --batch-mode --update-snapshots clean verify
 
       - name: run maven with build profile for oxygen 24
         env:
-          USERNAME: ${{ github.actor }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: mvn -Doxygen.version=24 --batch-mode --update-snapshots clean verify
 
       - name: run maven with build profile for oxygen 25
         env:
-          USERNAME: ${{ github.actor }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: mvn -Doxygen.version=25 --batch-mode --update-snapshots clean verify
 
       - name: run maven with build profile for oxygen 26
         env:
-          USERNAME: ${{ github.actor }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: mvn -Doxygen.version=26 --batch-mode --update-snapshots clean verify
 
       - name: run maven with build profile for oxygen 27
         env:
-          USERNAME: ${{ github.actor }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: mvn -Doxygen.version=27 --batch-mode --update-snapshots clean verify

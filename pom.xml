@@ -58,6 +58,10 @@
          <id>oxygen-repository</id>
          <url>https://www.oxygenxml.com/maven/</url>
       </repository>
+      <repository>
+         <id>github</id>
+         <url>https://maven.pkg.github.com/SCDH/</url>
+      </repository>
    </repositories>
 
    <dependencies>
