@@ -59,8 +59,8 @@
          <url>https://www.oxygenxml.com/maven/</url>
       </repository>
       <repository>
-         <id>github</id>
-         <url>https://maven.pkg.github.com/SCDH/</url>
+         <id>github-scdh-x2tei-transformations</id>
+         <url>https://maven.pkg.github.com/SCDH/x2tei-transformations</url>
       </repository>
    </repositories>
 

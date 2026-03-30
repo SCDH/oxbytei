@@ -3,22 +3,16 @@
   xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.1.0 http://maven.apache.org/xsd/settings-1.1.0.xsd">
   <servers>
     <server>
-      <id>gitlab-maven</id>
-      <configuration>
-        <httpHeaders>
-          <property>
-            <name>Job-Token</name>
-            <value>${env.CI_JOB_TOKEN}</value>
-          </property>
-        </httpHeaders>
-      </configuration>
+      <id>github</id>
+      <username>${env.GITHUB_ACTOR}</username>
+      <password>${env.GITHUB_TOKEN}</password>
     </server>
     <server>
       <id>github-scdh-x2tei-transformations</id>
       <configuration>
         <httpHeaders>
           <property>
-            <name>authorization</name>
+            <name>Authorization</name>
             <value>Bearer ${env.GITHUB_TOKEN}</value>
           </property>
         </httpHeaders>
