@@ -22,4 +22,5 @@ framework/frameworks/oxbytei/*.jar
 target
 framework/test/xspec/xspec
 framework/test/xspec/*.html
+framework/frameworks/oxbytei/x2tei-transformations
 /log4j2.properties

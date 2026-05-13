@@ -20,6 +20,7 @@
 		<test.dir>${project.basedir}/test/xspec</test.dir>
 		<testing.xsl.dir>${project.build.directory}/generated-resources/xml/xslt/</testing.xsl.dir>
 		<framework.url>https://github.com/SCDH/oxbytei/releases/download/${project.version}/</framework.url>
+		<x2tei-transformations.version>0.9.1</x2tei-transformations.version>
 	</properties>
 
 	<dependencies>
@@ -71,6 +72,27 @@
 					</execution>
 				</executions>
 			</plugin>
+
+			<plugin>
+                                <groupId>io.github.download-maven-plugin</groupId>
+                                <artifactId>download-maven-plugin</artifactId>
+                                <version>2.0.0</version>
+                                <executions>
+                                        <!-- download x2TEI Transformations -->
+                                        <execution>
+                                                <id>get-x2tei-transformations</id>
+                                                <phase>generate-resources</phase>
+                                                <goals>
+                                                        <goal>wget</goal>
+                                                </goals>
+                                                <configuration>
+                                                        <url>https://github.com/SCDH/x2tei-transformations/releases/download/${x2tei-transformations.version}/x2tei-transformations-${x2tei-transformations.version}-package.zip</url>
+                                                        <unpack>true</unpack>
+                                                        <outputDirectory>frameworks/oxbytei</outputDirectory>
+                                                </configuration>
+                                        </execution>
+                                </executions>
+                        </plugin>
 
 			<!-- run XSpec regression tests -->
 			<plugin>
