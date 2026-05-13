@@ -1,5 +1,18 @@
 # Changes
 
+## 0.23.0
+
+- new author mode actions for getting and merging data from VIAF to registry files
+  - add for adding a new entry based on VIAF data
+  - merge for merging VIAF data into an existing entry
+  - both above actions merge data with a template, if present
+  - cleanup for removing everything in the current entry that
+    deep-equals the corresponding property in a template
+
+Installation of
+[`http-client-oxygen-plugin`](https://github.com/SCDH/http-client-oxygen-plugin)
+is required to make fetchging data from the VIAF.org API work.
+
 ## 0.22.3
 
 - fixes linking places (issue #14)
