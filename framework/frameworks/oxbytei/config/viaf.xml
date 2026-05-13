@@ -15,11 +15,13 @@
         <scheme>http://viaf.org/authorityScheme/UAE</scheme>
         <scheme>http://viaf.org/authorityScheme/J9U</scheme>
     </prefLabel>
-    <prefLabel xml:lang="ar-Latn" type="dmg">
-        <scheme>http://viaf.org/authorityScheme/DNB</scheme>
+    <prefLabel xml:lang="fr">
         <scheme>http://viaf.org/authorityScheme/BNF</scheme>
     </prefLabel>
-    <prefLabel xml:lang="ar-Latn" type="loc">
+    <prefLabel xml:lang="de">
+        <scheme>http://viaf.org/authorityScheme/DNB</scheme>
+    </prefLabel>
+    <prefLabel xml:lang="en">
         <scheme>http://viaf.org/authorityScheme/LC</scheme>
     </prefLabel>
 </config>
