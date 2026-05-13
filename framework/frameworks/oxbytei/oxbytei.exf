@@ -96,6 +96,13 @@ from the contextual menu.
         <addAction id="annotate"/>
         <addAction id="sel.tag"/>
       </toolbar>
+
+      <toolbar name="NAF">
+        <addAction id="add.from.viaf"/>
+        <addAction id="merge.with.viaf"/>
+        <addAction id="cleanup"/>
+      </toolbar>
+
     </toolbars>
 
     <menu>

@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- editing action -->
+<a:authorAction xmlns:a="http://www.oxygenxml.com/ns/author/external-action"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.oxygenxml.com/ns/author/external-action http://www.oxygenxml.com/ns/author/external-action/authorAction.xsd"
+  id="merge.with.viaf">
+  <a:name>Merge VIAF</a:name>
+  <a:description>Merges data from VIAF based on a VIAF ID into the current entry.</a:description>
+  <a:smallIconPath href="${framework}/images/viaf-merge-16.png"/>
+  <a:largeIconPath href="${framework}/images/viaf-merge-24.png"/>
+  <a:operations>
+    <a:operation id="XSLTOperation">
+      <a:xpathCondition>ancestor-or-self::*:person[@xml:id]</a:xpathCondition>
+      <a:arguments>
+        <a:argument name="script">${framework}/xsl/viaf.xsl</a:argument>
+        <a:argument name="sourceLocation">ancestor-or-self::*:TEI</a:argument>
+        <a:argument name="targetLocation">ancestor-or-self::*:person</a:argument>
+        <a:argument name="action">Replace</a:argument>
+        <a:argument name="caretPosition">Before</a:argument>
+        <!-- ${xpath_eval(concat("'", ancestor-or-self::*:person/idno[@xml:base eq 'http://viaf.org/viaf/'], "'"))} -->
+        <a:argument name="externalParams">id=${ask('VIAF Identifier', generic, '')},template-id=${xpath_eval(ancestor-or-self::*:person/@xml:id)},id-from-template=true,config-url=${teilspProp(oxbytei.viaf.config)}</a:argument>
+      </a:arguments>
+    </a:operation>
+    <a:operation id="XSLTOperation">
+      <a:xpathCondition>ancestor-or-self::*:place[@xml:id]</a:xpathCondition>
+      <a:arguments>
+        <a:argument name="script">${framework}/xsl/viaf.xsl</a:argument>
+        <a:argument name="sourceLocation">ancestor-or-self::*:TEI</a:argument>
+        <a:argument name="targetLocation">ancestor-or-self::*:place</a:argument>
+        <a:argument name="action">Replace</a:argument>
+        <a:argument name="caretPosition">Before</a:argument>
+        <a:argument name="externalParams">id=${ask('VIAF Identifier', generic, '')},template-id=${xpath_eval(ancestor-or-self::*:place/@xml:id)},id-from-template=true,config-url=${teilspProp(oxbytei.viaf.config)}</a:argument>
+      </a:arguments>
+    </a:operation>
+    <a:operation id="XSLTOperation">
+      <a:xpathCondition>ancestor-or-self::*:org[@xml:id]</a:xpathCondition>
+      <a:arguments>
+        <a:argument name="script">${framework}/xsl/viaf.xsl</a:argument>
+        <a:argument name="sourceLocation">ancestor-or-self::*:TEI</a:argument>
+        <a:argument name="targetLocation">ancestor-or-self::*:org</a:argument>
+        <a:argument name="action">Replace</a:argument>
+        <a:argument name="caretPosition">Before</a:argument>
+        <a:argument name="externalParams">id=${ask('VIAF Identifier', generic, '')},template-id=${xpath_eval(ancestor-or-self::*:org/@xml:id)},id-from-template=true,config-url=${teilspProp(oxbytei.viaf.config)}</a:argument>
+      </a:arguments>
+    </a:operation>
+    <a:operation id="XSLTOperation">
+      <a:xpathCondition>ancestor-or-self::*:event[@xml:id]</a:xpathCondition>
+      <a:arguments>
+        <a:argument name="script">${framework}/xsl/viaf.xsl</a:argument>
+        <a:argument name="sourceLocation">ancestor-or-self::*:TEI</a:argument>
+        <a:argument name="targetLocation">ancestor-or-self::*:event</a:argument>
+        <a:argument name="action">Replace</a:argument>
+        <a:argument name="caretPosition">Before</a:argument>
+        <a:argument name="externalParams">id=${ask('VIAF Identifier', generic, '')},template-id=${xpath_eval(ancestor-or-self::*:event/@xml:id)},id-from-template=true,config-url=${teilspProp(oxbytei.viaf.config)}</a:argument>
+      </a:arguments>
+    </a:operation>
+    <a:operation id="XSLTOperation">
+      <a:xpathCondition>ancestor-or-self::*:bibl[@xml:id]</a:xpathCondition>
+      <a:arguments>
+        <a:argument name="script">${framework}/xsl/viaf.xsl</a:argument>
+        <a:argument name="sourceLocation">ancestor-or-self::*:TEI</a:argument>
+        <a:argument name="targetLocation">ancestor-or-self::*:bibl</a:argument>
+        <a:argument name="action">Replace</a:argument>
+        <a:argument name="caretPosition">Before</a:argument>
+        <a:argument name="externalParams">id=${ask('VIAF Identifier', generic, '')},template-id=${xpath_eval(ancestor-or-self::*:bibl/@xml:id)},id-from-template=true,config-url=${teilspProp(oxbytei.viaf.config)}</a:argument>
+      </a:arguments>
+    </a:operation>
+  </a:operations>
+  <a:accessKey/>
+</a:authorAction>

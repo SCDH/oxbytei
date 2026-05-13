@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- a configuration suitable for arabic studies -->
+<config>
+    <files>
+        <file match="(^http://data.bnf.fr/ark:)(.*)" base="$1" id="$2"/>
+        <file match="(^http://d-nb.info/gnd/)(.*)" base="$1" id="$2"/>
+        <file match="(^http://isni.org/isni/)(.*)" base="$1" id="$2"/>
+        <file match="(^http://id.loc.gov/authorities/names/)(.*)" base="$1" id="$2"/>
+        <file match="(^http://www.idref.fr/)(([^/]*)(/id)$)" base="$1" id="$2"/>
+        <file match="(^http://www.wikidata.org/entity/)(.*)" base="$1" id="$2"/>
+    </files>
+    <prefLabel xml:lang="ar">
+        <scheme>http://viaf.org/authorityScheme/LNL</scheme>
+        <scheme>http://viaf.org/authorityScheme/EGAXA</scheme>
+        <scheme>http://viaf.org/authorityScheme/UAE</scheme>
+        <scheme>http://viaf.org/authorityScheme/J9U</scheme>
+    </prefLabel>
+    <prefLabel xml:lang="ar-Latn" type="dmg">
+        <scheme>http://viaf.org/authorityScheme/DNB</scheme>
+        <scheme>http://viaf.org/authorityScheme/BNF</scheme>
+    </prefLabel>
+    <prefLabel xml:lang="ar-Latn" type="loc">
+        <scheme>http://viaf.org/authorityScheme/LC</scheme>
+    </prefLabel>
+</config>

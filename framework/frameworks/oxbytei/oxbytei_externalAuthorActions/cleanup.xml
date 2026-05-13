@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  editing action
+-->
+<a:authorAction xmlns:a="http://www.oxygenxml.com/ns/author/external-action"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.oxygenxml.com/ns/author/external-action http://www.oxygenxml.com/ns/author/external-action/authorAction.xsd"
+  id="cleanup">
+  <a:name>Cleanup</a:name>
+  <a:description>cleanup the current entry</a:description>
+  <a:smallIconPath href="${framework}/images/sponge-16.png"/>
+  <a:largeIconPath href="${framework}/images/sponge-24.png"/>
+  <a:operations>
+    <a:operation id="XSLTOperation">
+      <a:xpathCondition>ancestor-or-self::*:person</a:xpathCondition>
+      <a:arguments>
+        <a:argument name="script">${framework}/xsl/cleanup.xsl</a:argument>
+        <a:argument name="action">Replace</a:argument>
+        <a:argument name="targetLocation">ancestor-or-self::*:person</a:argument>
+        <a:argument name="sourceLocation">ancestor::*:TEI</a:argument>
+        <a:argument name="externalParams">entry-id=${xpath_eval(ancestor-or-self::*:person/@xml:id)}</a:argument>
+      </a:arguments>
+    </a:operation>
+    <a:operation id="XSLTOperation">
+      <a:xpathCondition>ancestor-or-self::*:place</a:xpathCondition>
+      <a:arguments>
+        <a:argument name="script">${framework}/xsl/cleanup.xsl</a:argument>
+        <a:argument name="action">Replace</a:argument>
+        <a:argument name="targetLocation">ancestor-or-self::*:place</a:argument>
+        <a:argument name="sourceLocation">ancestor::*:TEI</a:argument>
+        <a:argument name="externalParams">entry-id=${xpath_eval(ancestor-or-self::*:place/@xml:id)}</a:argument>
+      </a:arguments>
+    </a:operation>
+    <a:operation id="XSLTOperation">
+      <a:xpathCondition>ancestor-or-self::*:event</a:xpathCondition>
+      <a:arguments>
+        <a:argument name="script">${framework}/xsl/cleanup.xsl</a:argument>
+        <a:argument name="action">Replace</a:argument>
+        <a:argument name="targetLocation">ancestor-or-self::*:event</a:argument>
+        <a:argument name="sourceLocation">ancestor::*:TEI</a:argument>
+        <a:argument name="externalParams">entry-id=${xpath_eval(ancestor-or-self::*:event/@xml:id)}</a:argument>
+      </a:arguments>
+    </a:operation>
+    <a:operation id="XSLTOperation">
+      <a:xpathCondition>ancestor-or-self::*:org</a:xpathCondition>
+      <a:arguments>
+        <a:argument name="script">${framework}/xsl/cleanup.xsl</a:argument>
+        <a:argument name="action">Replace</a:argument>
+        <a:argument name="targetLocation">ancestor-or-self::*:org</a:argument>
+        <a:argument name="sourceLocation">ancestor::*:TEI</a:argument>
+        <a:argument name="externalParams">entry-id=${xpath_eval(ancestor-or-self::*:org/@xml:id)}</a:argument>
+      </a:arguments>
+    </a:operation>
+  </a:operations>
+  <a:accessKey/>
+</a:authorAction>

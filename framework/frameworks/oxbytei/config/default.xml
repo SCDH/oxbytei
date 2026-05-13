@@ -200,6 +200,8 @@
         <property name="oxbytei.style.note.external.targetLocation">following::*:noteGrp[1]</property>
         <property name="oxbytei.style.note.external.externalParams">style=external</property>
 
+	<property name="oxbytei.viaf.config">${framework(oXbytei)}/config/viaf.xml</property>
+	<property name="oxbytei.viaf.template.id">TEMPLATE</property>
 
         <!-- Properties for the navigation actions -->
         <property name="oxbytei.action.goto.refering.referers">

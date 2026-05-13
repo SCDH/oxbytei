@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- editing action -->
+<a:authorAction xmlns:a="http://www.oxygenxml.com/ns/author/external-action"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.oxygenxml.com/ns/author/external-action http://www.oxygenxml.com/ns/author/external-action/authorAction.xsd"
+  id="add.from.viaf">
+  <a:name>Add from VIAF</a:name>
+  <a:description>Inserts an entry based on a VIAF ID. Data is merged with template if a template is present.</a:description>
+  <a:smallIconPath href="${framework}/images/viaf-16.png"/>
+  <a:largeIconPath href="${framework}/images/viaf-24.png"/>
+  <a:operations>
+    <a:operation id="XSLTOperation">
+      <a:xpathCondition>ancestor-or-self::*:person | ancestor-or-self::*:place | ancestor-or-self::*:bibl</a:xpathCondition>
+      <a:arguments>
+        <a:argument name="script">${framework}/xsl/viaf.xsl</a:argument>
+        <a:argument name="sourceLocation">ancestor-or-self::*:TEI</a:argument>
+        <a:argument name="targetLocation">ancestor-or-self::*:person | ancestor-or-self::*:place | ancestor-or-self::*:bibl</a:argument>
+        <a:argument name="action">After</a:argument>
+        <a:argument name="caretPosition">Before</a:argument>
+        <a:argument name="externalParams">id=${ask('VIAF Identifier', generic, '')},template-id=${teilspProp(oxbytei.viaf.template.id)},config-url=${teilspProp(oxbytei.viaf.config)}</a:argument>
+      </a:arguments>
+    </a:operation>
+  </a:operations>
+  <a:accessKey/>
+</a:authorAction>
